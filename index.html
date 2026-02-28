@@ -637,6 +637,26 @@ function setAsset(sym) {
   wrap.querySelectorAll('.preset-btn:not(.add-btn)').forEach(btn => {
     btn.classList.toggle('active', btn.textContent.trim().startsWith(sym));
   });
+  // Set rounding based on asset
+  const roundSelect = document.getElementById('inp-round');
+  if (sym === 'ETH') {
+    roundSelect.value = '50';
+    roundSelect.disabled = true;
+    roundSelect.style.opacity = '0.5';
+    roundSelect.style.cursor = 'not-allowed';
+  } else if (sym === 'SOL') {
+    roundSelect.value = '1';
+    roundSelect.disabled = true;
+    roundSelect.style.opacity = '0.5';
+    roundSelect.style.cursor = 'not-allowed';
+  } else {
+    if (sym === 'BTC') roundSelect.value = '1000';
+    roundSelect.disabled = false;
+    roundSelect.style.opacity = '';
+    roundSelect.style.cursor = '';
+  }
+  liveCalc();
+
   // Show/hide autofill button
   const autofillBtn = document.getElementById('autofill-btn');
   autofillBtn.style.display = DERIBIT_ASSETS.includes(sym) ? 'flex' : 'none';
