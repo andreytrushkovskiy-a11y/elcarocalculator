@@ -17,7 +17,7 @@
   --text:   #f0f0f0;
   --text2:  #555;
   --orange: #ff6a00;
-  --orange2:#ff8c00;
+  --orange2:#ff6a00;
   --green:  #00c896;
   --red:    #ff3b5c;
   --purple: #8b5cf6;
@@ -244,14 +244,14 @@ body {
   content:''; position:absolute; left:0; top:0; bottom:0;
   border-radius:8px 0 0 8px; width:4px;
 }
-.v3-zone.z-outer { background:rgba(255,59,92,.08); }
-.v3-zone.z-outer::before { background:var(--red); }
-.v3-zone.z-mid   { background:rgba(255,106,0,.1); }
-.v3-zone.z-mid::before   { background:var(--orange); }
-.v3-zone.z-inner { background:rgba(0,200,150,.1); }
-.v3-zone.z-inner::before { background:var(--green); }
-.v3-zone.z-spot  { background:rgba(240,240,240,.06); }
-.v3-zone.z-spot::before  { background:var(--text); }
+.v3-zone.z-outer { background:rgba(224,59,59,.07); }
+.v3-zone.z-outer::before { background:#e03b3b; }
+.v3-zone.z-mid   { background:rgba(255,106,0,.08); }
+.v3-zone.z-mid::before   { background:#ff6a00; }
+.v3-zone.z-inner { background:rgba(230,201,74,.07); }
+.v3-zone.z-inner::before { background:#f5c800; }
+.v3-zone.z-spot  { background:rgba(240,240,240,.05); }
+.v3-zone.z-spot::before  { background:rgba(240,240,240,0.5); }
 .v3-sigma-badge {
   font-size:9px; font-weight:800; letter-spacing:.5px;
   padding:2px 7px; border-radius:4px; flex-shrink:0;
@@ -297,21 +297,51 @@ body {
 .copy-btn svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 
 /* ── SIGMA CARDS ── */
-.sigma-card {
-  background:var(--bg3); border:1px solid var(--border2);
-  border-radius:10px; padding:14px 16px; text-align:center;
+/* Zone colors — design spec v2 */
+:root {
+  --zone1-color: #f5c800; /* yellow — LOW PROB AREA */
+  --zone2-color: #ff6a00; /* orange — EXTREMELY LOW PROB */
+  --zone3-color: #e03b3b; /* red — IMPOSSIBLE */
+  --zone4-color: #ff1a1a; /* bright red — ABSOLUTELY IMPOSSIBLE */
 }
-.sigma-card.s1 { border-top:2px solid var(--green); }
-.sigma-card.s2 { border-top:2px solid var(--orange); }
-.sigma-card.s3 { border-top:2px solid var(--red); }
-.sigma-card.s4 { border-top:2px solid var(--purple); }
-.sc-label { font-size:9px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:3px; }
-.sc-prob  { font-size:20px; font-weight:900; margin-bottom:5px; }
-.sc-desc  { font-size:10px; color:var(--text2); margin-bottom:6px; font-style:italic; }
-.sc-range { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; }
-.sc-range .lo { color:var(--red); }
-.sc-range .hi { color:var(--green); }
-.sc-mult  { font-size:9px; color:var(--text2); margin-top:3px; }
+.sigma-card {
+  border-radius:12px; padding:16px; text-align:center;
+  position:relative; overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
+}
+/* Gradient top accent bar per zone */
+.sigma-card.s1 { background:linear-gradient(180deg,rgba(245,200,0,0.13) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone1-color); }
+.sigma-card.s2 { background:linear-gradient(180deg,rgba(255,106,0,0.12) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone2-color); }
+.sigma-card.s3 { background:linear-gradient(180deg,rgba(224,59,59,0.12) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone3-color); }
+.sigma-card.s4 { background:linear-gradient(180deg,rgba(255,26,26,0.18) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone4-color); }
+.sc-zone-tag {
+  display:inline-block; font-size:7px; font-weight:700; letter-spacing:1px;
+  padding:2px 7px; border-radius:3px; margin-bottom:4px; text-transform:uppercase;
+  opacity:0.75;
+}
+.s1 .sc-zone-tag { background:rgba(245,200,0,0.16); color:var(--zone1-color); }
+.s2 .sc-zone-tag { background:rgba(255,106,0,0.15); color:var(--zone2-color); }
+.s3 .sc-zone-tag { background:rgba(224,59,59,0.15); color:var(--zone3-color); }
+.s4 .sc-zone-tag { background:rgba(255,26,26,0.18); color:var(--zone4-color); }
+.sc-label { font-size:8px; font-weight:600; letter-spacing:0.5px; color:#444; margin-bottom:2px; }
+.sc-prob  { font-size:26px; font-weight:900; margin:4px 0 2px; line-height:1; }
+.s1 .sc-prob { color:var(--zone1-color); }
+.s2 .sc-prob { color:var(--zone2-color); }
+.s3 .sc-prob { color:var(--zone3-color); }
+.s4 .sc-prob { color:var(--zone4-color); }
+.sc-state {
+  font-size:10px; font-weight:700; letter-spacing:0.3px;
+  margin-bottom:8px; padding:3px 0;
+}
+.s1 .sc-state { color:#ffffff; }
+.s2 .sc-state { color:#ffffff; }
+.s3 .sc-state { color:#ffffff; }
+.s4 .sc-state { color:#ffffff; }
+.sc-divider { height:1px; background:rgba(255,255,255,0.05); margin:8px 0; }
+.sc-range { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; line-height:1.25; margin:10px 0 0; }
+.sc-range .lo { color:#22c55e; display:block; }
+.sc-range .hi { color:#ef4444; display:block; }
+.sc-desc  { font-size:8px; color:#3a3a3a; margin-top:3px; }
 
 /* ── HISTORY ── */
 .hist-item {
@@ -521,7 +551,10 @@ body {
       <!-- VISUALIZATION CARD -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);">σ SIGMA LEVELS — WHERE PRICE WON'T BE</div>
+          <div style="font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--text);display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--orange);font-size:13px;">σ</span>
+            SIGMA LEVELS <span style="color:var(--orange)">—</span> WHERE PRICE WON'T BE
+          </div>
           <div class="viz-tabs">
             <button class="viz-tab active" onclick="setViz(1)" id="viz-tab-1">BAR</button>
             <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
@@ -813,8 +846,8 @@ function renderViz1() {
   const barY = 52, barH = 10;
   const toX = v => PAD + ((v - minV) / range) * barW;
 
-  const cMap  = {1:'#00c896',2:'#ff6a00',3:'#ff3b5c',4:'#8b5cf6'};
-  const cRgb  = {1:'0,200,150',2:'255,106,0',3:'255,59,92',4:'139,92,246'};
+  const cMap  = {1:'#f5c800',2:'#ff6a00',3:'#e03b3b',4:'#ff1a1a'};
+  const cRgb  = {1:'230,201,74',2:'255,140,0',3:'224,59,59',4:'255,26,26'};
 
   // Calculate total SVG height based on sigma count
   const n = vis.length;
@@ -873,78 +906,104 @@ function renderViz1() {
   `;
 }
 
-// ── VIZ 2: GAUGE ARCS (dynamic radii, no overlap) ──
+// ── VIZ 2: GAUGE ARCS — σ1 innermost, σ4 outermost ──
 function renderViz2() {
   const { spot, levels } = lastResult;
   const vis = levels.filter(l => l.show);
   if (!vis.length) return;
 
-  // Dynamic radii based on how many sigmas are visible
   const n = vis.length;
-  const rMax = 105, rMin = 38, gap = n > 1 ? (rMax - rMin) / (n - 1) : 0;
-  const radii = vis.map((l, i) => rMax - i * gap);
-  const arcW  = n === 1 ? 22 : Math.min(22, gap * 0.75);
+  // σ1 = smallest radius (innermost), σ4 = largest (outermost)
+  // Price sits in the empty center below all arcs
+  const rInner = 48;  // inner gap — clear zone for price text
+  const arcW   = 16;
+  const arcGap = 6;
+  const rMax   = rInner + n * (arcW + arcGap);
 
-  const cx = 160, cy = 150;
-  const svgW = 320, svgH = 165;
+  const cx = 170, cy = 175;
+  const svgW = 340;
+  const svgH = cy + 140;
 
-  const colorsMap = {1:'#00c896',2:'#ff6a00',3:'#ff3b5c',4:'#8b5cf6'};
-  const probVals  = {1:0.6827,2:0.9545,3:0.9973,4:0.99994};
+  const colorsMap = {1:'#f5c800', 2:'#ff6a00', 3:'#e03b3b', 4:'#ff1a1a'};
+  const probVals  = {1:0.6827, 2:0.9545, 3:0.9973, 4:0.99994};
 
   let svg = `<svg viewBox="0 0 ${svgW} ${svgH}" width="100%" style="display:block;">`;
 
+  // Draw arcs: σ1 first (innermost radius), σ4 last (outermost)
   vis.forEach((l, i) => {
-    const r = radii[i];
+    const r   = rInner + (i + 1) * (arcW + arcGap) - arcGap/2;
     const prob = probVals[l.k];
-    const col = colorsMap[l.k];
+    const col  = colorsMap[l.k];
     const circ = Math.PI * r;
 
-    // Background arc (full half)
-    svg += `<path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}" fill="none" stroke="${col}" stroke-width="${arcW}" stroke-opacity="0.09" stroke-linecap="butt"/>`;
+    // Dim background (full half-arc)
+    svg += `<path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}"
+      fill="none" stroke="${col}" stroke-width="${arcW}"
+      stroke-opacity="0.08" stroke-linecap="butt"/>`;
 
-    // Filled arc (probability portion centered)
+    // Probability fill (centered)
     const dashLen = prob * circ;
-    const dashOff = (1 - prob) * circ / 2;
-    svg += `<path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}" fill="none" stroke="${col}" stroke-width="${arcW}" stroke-opacity="0.6" stroke-linecap="butt" stroke-dasharray="${dashLen} ${circ}" stroke-dashoffset="${-dashOff}"/>`;
+    const dashOff = -(1 - prob) * circ / 2;
+    svg += `<path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}"
+      fill="none" stroke="${col}" stroke-width="${arcW}"
+      stroke-opacity="0.7" stroke-linecap="round"
+      stroke-dasharray="${dashLen} ${circ}" stroke-dashoffset="${dashOff}"/>`;
 
-    // Tip dot at center top of each arc
-    const tipX = cx, tipY = cy - r;
-    svg += `<circle cx="${tipX}" cy="${tipY}" r="3" fill="${col}" opacity="0.8"/>`;
+    // σ label at arc tip
+    const tipY = cy - r - arcW/2 - 4;
+    svg += `<text x="${cx}" y="${tipY}" text-anchor="middle"
+      fill="${col}" font-size="8" font-family="Outfit" font-weight="800"
+      opacity="0.8">${l.k}\u03c3</text>`;
   });
 
   // Baseline
-  svg += `<line x1="${cx - rMax - 12}" y1="${cy}" x2="${cx + rMax + 12}" y2="${cy}" stroke="#2a2a2a" stroke-width="1"/>`;
+  svg += `<line x1="${cx - rMax - 12}" y1="${cy}" x2="${cx + rMax + 12}" y2="${cy}"
+    stroke="#222" stroke-width="1"/>`;
 
-  // Center: SPOT label + price (well above baseline)
-  svg += `<text x="${cx}" y="${cy - 22}" text-anchor="middle" fill="#555" font-size="10" font-family="Outfit" font-weight="700" letter-spacing="1">SPOT PRICE</text>`;
-  svg += `<text x="${cx}" y="${cy - 7}" text-anchor="middle" fill="#f0f0f0" font-size="15" font-family="JetBrains Mono" font-weight="700">${fmtPrice(spot)}</text>`;
+  // Price — large, centered, in clean space below arcs
+  svg += `<text x="${cx}" y="${cy - 14}" text-anchor="middle"
+    fill="#f0f0f0" font-size="22" font-family="JetBrains Mono" font-weight="900"
+    letter-spacing="-0.5">${fmtPrice(spot)}</text>`;
+
+  // Pills row below baseline
+  const pillW = 72, pillH = 46, pillGap = 7;
+  const totalPillW = n * pillW + (n - 1) * pillGap;
+  const pillStartX = cx - totalPillW / 2;
+  const pillY = cy + 14;
+
+  vis.forEach((l, i) => {
+    const px  = pillStartX + i * (pillW + pillGap);
+    const col = colorsMap[l.k];
+    svg += `<rect x="${px}" y="${pillY}" width="${pillW}" height="${pillH}"
+      rx="7" fill="rgba(255,255,255,0.02)" stroke="${col}"
+      stroke-width="1" stroke-opacity="0.35"/>`;
+    svg += `<text x="${px + pillW/2}" y="${pillY + 13}" text-anchor="middle"
+      fill="${col}" font-size="8" font-family="Outfit" font-weight="700"
+      opacity="0.65">${l.k}\u03c3 \u00b7 ${l.prob}</text>`;
+    svg += `<text x="${px + pillW/2}" y="${pillY + 27}" text-anchor="middle"
+      fill="#22c55e" font-size="10" font-family="JetBrains Mono" font-weight="800">${fmtPrice(l.lo)}</text>`;
+    svg += `<text x="${px + pillW/2}" y="${pillY + 40}" text-anchor="middle"
+      fill="#ef4444" font-size="10" font-family="JetBrains Mono" font-weight="800">${fmtPrice(l.hi)}</text>`;
+  });
 
   svg += `</svg>`;
 
-  document.getElementById('v2-svg').innerHTML = svg;
-  // Resize svg element
-  document.getElementById('v2-svg').setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
-  document.getElementById('v2-svg').style.width = '100%';
-  document.getElementById('v2-svg').style.maxWidth = svgW + 'px';
-
-  // Sigma pills below
-  document.getElementById('v2-sigma-row').innerHTML = vis.map(l => `
-    <div class="v2-sigma-pill" style="border-color:${colorsMap[l.k]};color:${colorsMap[l.k]};">
-      <div style="font-size:8px;opacity:.7;">${l.k}\u03c3 \u00b7 ${l.prob}</div>
-      <div>${fmtPrice(l.lo)}</div>
-      <div style="font-size:8px;color:#555;">\u2014</div>
-      <div>${fmtPrice(l.hi)}</div>
-    </div>
-  `).join('');
+  const svgEl = document.getElementById('v2-svg');
+  svgEl.innerHTML = svg;
+  svgEl.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svgEl.style.width  = '100%';
+  svgEl.style.maxWidth = svgW + 'px';
+  document.getElementById('v2-sigma-row').innerHTML = '';
 }
 
 // ── VIZ 3: PRICE LADDER ──
 function renderViz3() {
   const { spot, be_lo, be_hi, levels } = lastResult;
   const vis = levels.filter(l => l.show);
-  const colorsMap = {1:'var(--green)',2:'var(--orange)',3:'var(--red)',4:'var(--purple)'};
-  const zoneClass = {1:'z-inner',2:'z-mid',3:'z-outer',4:'z-outer'};
+  const colorsMap = {1:'#f5c800',2:'#ff6a00',3:'#e03b3b',4:'#ff1a1a'};
+  const zoneClass = {1:'z-inner',2:'z-mid',3:'z-outer',4:'z-outer'}; // 1=teal normal, 2=grey extreme, 3/4=red low prob
 
+  const zoneName  = {1:'LOW PROB',2:'VERY LOW',3:'IMPOSSIBLE',4:'IMPOSSIBLE'};
   // Build ladder from outermost to innermost, with spot in center
   let rows = [];
 
@@ -970,7 +1029,7 @@ function renderViz3() {
     if (row.type === 'hi') {
       const l = row.l;
       return `<div class="v3-zone ${zoneClass[l.k]}">
-        <span class="v3-sigma-badge" style="background:rgba(255,255,255,.04);color:${colorsMap[l.k]};font-size:8px;">↑ ${l.k}σ</span>
+        <span class="v3-sigma-badge" style="background:rgba(255,255,255,.04);color:${colorsMap[l.k]};font-size:7px;">${zoneName[l.k]}</span>
         <span class="v3-prices"><span class="hi">${fmtPrice(l.hi)}</span></span>
         <span class="v3-prob" style="color:${colorsMap[l.k]}">${l.prob}</span>
       </div>`;
@@ -978,7 +1037,7 @@ function renderViz3() {
     if (row.type === 'lo') {
       const l = row.l;
       return `<div class="v3-zone ${zoneClass[l.k]}">
-        <span class="v3-sigma-badge" style="background:rgba(255,255,255,.04);color:${colorsMap[l.k]};font-size:8px;">↓ ${l.k}σ</span>
+        <span class="v3-sigma-badge" style="background:rgba(255,255,255,.04);color:${colorsMap[l.k]};font-size:7px;">${zoneName[l.k]}</span>
         <span class="v3-prices"><span class="lo">${fmtPrice(l.lo)}</span></span>
         <span class="v3-prob" style="color:${colorsMap[l.k]}">${l.prob}</span>
       </div>`;
@@ -993,25 +1052,32 @@ function renderSigmaCards(levels) {
   const vis = levels.filter(l => l.show);
   const grid = document.getElementById('sigma-grid');
   const colCls = {1:'s1',2:'s2',3:'s3',4:'s4'};
-  const colors = {1:'var(--green)',2:'var(--orange)',3:'var(--red)',4:'var(--purple)'};
-  const desc = {
-    1:'Price will NOT exceed this zone — 68% of the time',
-    2:'Price will NOT exceed this zone — 95% of the time',
-    3:'Price will NOT exceed this zone — 99.7% of the time',
-    4:'Price will NOT exceed this zone — 99.99% of the time',
+
+  const zoneName = {
+    1: 'LOW PROBABILITY PRICE AREA',
+    2: 'EXTREMELY LOW PROBABILITY PRICE AREA',
+    3: 'IMPOSSIBLE PRICE ZONE',
+    4: 'ABSOLUTELY IMPOSSIBLE PRICE ZONE',
   };
+  const stateMsg = {
+    1: '68% chance price stays inside this range',
+    2: '95% chance price stays inside this range',
+    3: 'Statistically impossible — near zero chance',
+    4: 'Virtually impossible — ignore this zone',
+  };
+  const probLabel = {1:'≈68%',2:'≈95%',3:'≈99.7%',4:'≈99.99%'};
+
   grid.style.gridTemplateColumns = `repeat(${vis.length},1fr)`;
   grid.innerHTML = vis.map(l => `
     <div class="sigma-card ${colCls[l.k]}">
-      <div class="sc-label">${l.k}σ SIGMA</div>
-      <div class="sc-prob" style="color:${colors[l.k]}">${l.prob}</div>
-      <div class="sc-desc">${desc[l.k]}</div>
+      <div class="sc-zone-tag">${zoneName[l.k]}</div>
+      <div class="sc-prob">${probLabel[l.k]}</div>
+      <div class="sc-state">${stateMsg[l.k]}</div>
+      <div class="sc-divider"></div>
       <div class="sc-range">
-        <span class="lo">${fmtPrice(l.lo)}</span>
-        <span style="color:var(--text2)"> &amp; </span>
-        <span class="hi">${fmtPrice(l.hi)}</span>
+        <div class="hi">${fmtPrice(l.hi)}</div>
+        <div class="lo">${fmtPrice(l.lo)}</div>
       </div>
-      <div class="sc-mult">× ${l.mult} straddle</div>
     </div>
   `).join('');
 }
@@ -1025,7 +1091,7 @@ function addHistory(entry) {
   const card = document.getElementById('hist-card');
   card.style.display = 'block';
 
-  const sigmaColors = {1:'var(--green)',2:'var(--orange)',3:'var(--red)',4:'var(--purple)'};
+  const sigmaColors = {1:'#f5c800',2:'#ff6a00',3:'#e03b3b',4:'#ff1a1a'};
 
   document.getElementById('history-list').innerHTML = calcHistory.map((h, i) => {
     const vis = (h.levels || []).filter(l => l.show);
