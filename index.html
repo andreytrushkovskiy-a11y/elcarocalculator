@@ -48,6 +48,29 @@ body {
 }
 .mode-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,.04); }
 
+/* ── POSITION TOGGLE ── */
+.pos-toggle {
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border-radius:10px; overflow:hidden;
+  border:1px solid var(--border2); margin-bottom:16px;
+}
+.pos-btn {
+  padding:13px; border:none; font-family:'Outfit',sans-serif;
+  font-size:13px; font-weight:900; letter-spacing:.6px;
+  cursor:pointer; transition:all .18s; background:var(--bg3);
+  color:var(--text2); display:flex; align-items:center; justify-content:center; gap:7px;
+}
+.pos-btn.long.active  { background:rgba(34,197,94,0.15);  color:#22c55e;  border-bottom:2px solid #22c55e; }
+.pos-btn.short.active { background:rgba(239,68,68,0.15);  color:#ef4444;  border-bottom:2px solid #ef4444; }
+.pos-btn:hover:not(.active) { background:rgba(255,255,255,0.04); color:var(--text); }
+.pos-indicator {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:9px; font-weight:800; letter-spacing:1px;
+  padding:2px 8px; border-radius:3px;
+}
+.pos-indicator.long  { background:rgba(34,197,94,0.12);  color:#22c55e; }
+.pos-indicator.short { background:rgba(239,68,68,0.12);  color:#ef4444; }
+
 /* ── AVG CALCULATOR ── */
 .avg-layout {
   display:grid; grid-template-columns:340px 1fr;
@@ -768,15 +791,28 @@ body {
     <div>
       <div class="card">
 
+        <!-- Position direction toggle -->
+        <div class="pos-toggle">
+          <button class="pos-btn long active" id="pos-btn-long" onclick="avgSetPosition('long')">
+            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="18 15 12 9 6 15"/></svg>
+            LONG
+          </button>
+          <button class="pos-btn short" id="pos-btn-short" onclick="avgSetPosition('short')">
+            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="6 9 12 15 18 9"/></svg>
+            SHORT
+          </button>
+        </div>
+
         <!-- Entry 1 (fixed) -->
         <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
-          <span style="display:inline-block;width:3px;height:14px;background:var(--orange);border-radius:2px;"></span>
+          <span id="avg-entry-accent" style="display:inline-block;width:3px;height:14px;background:#22c55e;border-radius:2px;"></span>
           ENTRY #1
+          <span class="pos-indicator long" id="avg-pos-badge">LONG</span>
         </div>
 
         <div class="avg-input-group">
           <div class="avg-label">ENTRY PRICE</div>
-          <input class="avg-input" id="avg-price-1" type="number" placeholder="66,000" oninput="avgLiveCalc()">
+          <input class="avg-input" id="avg-price-1" type="number" placeholder="66,000" oninput="avgLiveCalc(); avgValidateLiq()">
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -788,6 +824,18 @@ body {
             <div class="avg-label">VOLUME $</div>
             <input class="avg-input" id="avg-vol-1" type="number" placeholder="6,600" step="any" oninput="avgSyncQtyVol(1,'vol'); avgLiveCalc()">
           </div>
+        </div>
+
+        <div class="avg-input-group" style="margin-top:2px;">
+          <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
+            LIQUIDATION PRICE
+            <span style="background:rgba(239,68,68,0.12);color:#ef4444;font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;letter-spacing:.8px;">OPTIONAL</span>
+          </div>
+          <input class="avg-input" id="avg-liq-1" type="number" placeholder="e.g. 52,000" step="any"
+            style="border-color:rgba(239,68,68,0.2);"
+            oninput="avgLiveCalc(); avgValidateLiq()"
+            onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,0.2)'">
+          <div id="avg-liq-hint" style="font-size:8px;color:#555;margin-top:4px;">LONG: liq below entry price</div>
         </div>
 
         <div style="height:1px;background:var(--border);margin:14px 0;"></div>
@@ -842,6 +890,29 @@ body {
               <div class="avg-stat-val" id="avg-r-tobr">—</div>
               <div class="avg-stat-sub" id="avg-r-tobr-pct"></div>
             </div>
+          </div>
+
+          <!-- Liquidation card -->
+          <div id="avg-liq-result-card" style="display:none;background:linear-gradient(135deg,rgba(239,68,68,0.08) 0%,rgba(22,22,22,0) 70%);border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:16px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#ef4444;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:#ef4444;">LIQUIDATION ANALYSIS</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="text-align:center;">
+                <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">ORIGINAL LIQ. PRICE</div>
+                <div id="avg-liq-original" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">NEW LIQ. PRICE</div>
+                <div id="avg-liq-new" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+              </div>
+            </div>
+            <div id="avg-liq-change-bar" style="margin-top:12px;padding:8px 12px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:9px;color:#666;">LIQ. DISTANCE IMPROVED</span>
+              <span id="avg-liq-improvement" style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:900;color:#22c55e;">—</span>
+            </div>
+            <div id="avg-liq-warn" style="display:none;margin-top:8px;padding:6px 10px;background:rgba(239,68,68,0.1);border-radius:6px;font-size:9px;color:#ef4444;font-weight:700;text-align:center;"></div>
           </div>
 
           <!-- Breakeven bar -->
@@ -1676,6 +1747,55 @@ document.getElementById('logo-img').src = 'data:image/png;base64,/9j/4AAQSkZJRgA
 // ═══════════════════════════════════════════════
 
 let avgLegs = [];   // [{price, qty, vol, mult}]
+let avgPosition = 'long';  // 'long' | 'short'
+
+function avgSetPosition(dir) {
+  avgPosition = dir;
+  const isLong = dir === 'long';
+
+  // Toggle buttons
+  document.getElementById('pos-btn-long').classList.toggle('active', isLong);
+  document.getElementById('pos-btn-short').classList.toggle('active', !isLong);
+
+  // Update badge
+  const badge = document.getElementById('avg-pos-badge');
+  badge.textContent = isLong ? 'LONG' : 'SHORT';
+  badge.className = 'pos-indicator ' + dir;
+
+  // Update entry accent color
+  document.getElementById('avg-entry-accent').style.background = isLong ? '#22c55e' : '#ef4444';
+
+  // Update liq hint
+  const hint = document.getElementById('avg-liq-hint');
+  if (hint) hint.textContent = isLong
+    ? 'LONG: liq below entry price'
+    : 'SHORT: liq above entry price';
+
+  // Update liq placeholder
+  const liqInput = document.getElementById('avg-liq-1');
+  if (liqInput) liqInput.placeholder = isLong ? 'e.g. 52,000 (below entry)' : 'e.g. 80,000 (above entry)';
+
+  // Validate liq direction if already filled
+  avgValidateLiq();
+}
+
+function avgValidateLiq() {
+  const price1 = parseFloat(document.getElementById('avg-price-1').value) || 0;
+  const liq    = parseFloat(document.getElementById('avg-liq-1').value)   || 0;
+  const hint   = document.getElementById('avg-liq-hint');
+  if (!price1 || !liq || !hint) return;
+  const isLong = avgPosition === 'long';
+  const valid  = isLong ? liq < price1 : liq > price1;
+  if (!valid) {
+    hint.textContent = '⚠ ' + (isLong
+      ? 'LONG: liq must be BELOW entry price'
+      : 'SHORT: liq must be ABOVE entry price');
+    hint.style.color = '#ef4444';
+  } else {
+    hint.textContent = isLong ? 'LONG: liq below entry price ✓' : 'SHORT: liq above entry price ✓';
+    hint.style.color = '#22c55e';
+  }
+}
 let avgLegCount = 0;
 let avgLastResult = null;
 
@@ -1756,8 +1876,8 @@ function avgAddLeg() {
       <button onclick="avgRemoveLeg(${idx})" style="background:none;border:none;color:#555;cursor:pointer;font-size:14px;padding:2px 6px;" title="Remove">×</button>
     </div>
     <div class="avg-input-group">
-      <div class="avg-label">AVERAGING PRICE</div>
-      <input class="avg-input" id="avg-leg-price-${idx}" type="number" placeholder="60,000" oninput="avgSyncLegQtyVol(${idx},'price'); avgLiveCalc()">
+      <div class="avg-label" style="display:flex;align-items:center;gap:6px;">AVERAGING PRICE <span class="pos-indicator ${avgPosition}" style="font-size:7px;padding:1px 5px;">${avgPosition.toUpperCase()}</span></div>
+      <input class="avg-input" id="avg-leg-price-${idx}" type="number" placeholder="${avgPosition==='long'?'e.g. 58,000 (lower)':'e.g. 72,000 (higher)'}" oninput="avgSyncLegQtyVol(${idx},'price'); avgLiveCalc()">
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
       <div class="avg-input-group">
@@ -1768,6 +1888,16 @@ function avgAddLeg() {
         <div class="avg-label">VOLUME $</div>
         <input class="avg-input" id="avg-leg-vol-${idx}" type="number" placeholder="auto" step="any" oninput="avgSyncLegQtyVol(${idx},'vol')">
       </div>
+    </div>
+    <div class="avg-input-group" style="margin-bottom:10px;">
+      <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
+        ADDED MARGIN $
+        <span style="background:rgba(255,106,0,0.12);color:var(--orange);font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;letter-spacing:.8px;">OPTIONAL</span>
+      </div>
+      <input class="avg-input" id="avg-leg-margin-${idx}" type="number" placeholder="e.g. 1,000" step="any"
+        oninput="avgLiveCalc()"
+        style="font-size:13px;">
+      <div style="font-size:8px;color:#555;margin-top:3px;" id="avg-leg-margin-hint-${idx}">Extra collateral added at this entry</div>
     </div>
     <div class="avg-label" style="margin-bottom:6px;">VOLUME MULTIPLIER</div>
     <div class="mult-row">
@@ -1825,7 +1955,27 @@ function avgCalculate() {
   const totalVol = legs.reduce((s, l) => s + l.vol, 0);
   const avgPrice = totalVol / totalQty;
 
-  avgLastResult = { legs, totalQty, totalVol, avgPrice };
+  // ── Liquidation calculation ──
+  const origLiq = parseFloat(document.getElementById('avg-liq-1').value) || 0;
+  let totalAddedMargin = 0;
+  document.querySelectorAll('[id^="avg-leg-margin-"]').forEach(el => {
+    totalAddedMargin += parseFloat(el.value) || 0;
+  });
+
+  let newLiq = null;
+  if (origLiq && price1) {
+    // Distance from entry to liq as a fraction
+    const origLiqDist = Math.abs(origLiq - price1);   // $ distance from entry1 to original liq
+    const origMargin  = origLiqDist * resolvedQty1;    // implied margin at entry1
+    const newTotalMargin = origMargin + totalAddedMargin;
+    // New liq distance = newTotalMargin / totalQty
+    const newLiqDist = newTotalMargin / totalQty;
+    // Liq direction: if liq < entry => long (liq below avg), if liq > entry => short
+    const isLong = avgPosition === 'long';
+    newLiq = isLong ? avgPrice - newLiqDist : avgPrice + newLiqDist;
+  }
+
+  avgLastResult = { legs, totalQty, totalVol, avgPrice, origLiq, newLiq, totalAddedMargin, position: avgPosition };
 
   // Show results
   document.getElementById('avg-empty-state').style.display = 'none';
@@ -1840,7 +1990,7 @@ function avgCalculate() {
     `Avg change: ${direction} ${Math.abs(pctChange)}% from entry #1 ($${fmtAvgPrice(firstPrice)})`;
 
   document.getElementById('avg-r-totalvol').textContent = '$' + totalVol.toLocaleString('en', {maximumFractionDigits:2});
-  document.getElementById('avg-r-totalqty').textContent = totalQty.toLocaleString('en', {maximumFractionDigits:6}) + ' ед.';
+  document.getElementById('avg-r-totalqty').textContent = totalQty.toLocaleString('en', {maximumFractionDigits:6}) + ' units';
   document.getElementById('avg-r-legs').textContent = legs.length;
 
   // Legs table
@@ -1861,6 +2011,43 @@ function avgCalculate() {
 
   // Update P&L if current price already set
   avgUpdatePnl();
+  // ── Render liquidation result ──
+  const liqCard = document.getElementById('avg-liq-result-card');
+  if (avgLastResult.origLiq && avgLastResult.newLiq !== null) {
+    liqCard.style.display = 'block';
+    const oL = avgLastResult.origLiq;
+    const nL = avgLastResult.newLiq;
+    const isLong = avgPosition === 'long';
+    document.getElementById('avg-liq-original').textContent = fmtAvgPrice(oL);
+    document.getElementById('avg-liq-new').textContent = fmtAvgPrice(nL);
+
+    // Improvement = how much further liq moved from avg price
+    const origDistFromAvg = Math.abs(oL - avgLastResult.legs[0].price);
+    const newDistFromAvg  = Math.abs(nL - avgLastResult.avgPrice);
+    const improvement = newDistFromAvg - origDistFromAvg;
+    const improvPct   = (improvement / origDistFromAvg * 100).toFixed(1);
+    const improved    = improvement > 0;
+
+    const impEl = document.getElementById('avg-liq-improvement');
+    impEl.textContent = (improved ? '▲ +' : '▼ ') + fmtAvgPrice(Math.abs(improvement)) + ' (' + (improved ? '+' : '-') + Math.abs(improvPct) + '%)';
+    impEl.style.color = improved ? '#22c55e' : '#ef4444';
+
+    document.getElementById('avg-liq-change-bar').querySelector('span:first-child').textContent =
+      improved ? (isLong ? 'LIQ. MOVED FURTHER FROM PRICE ✓' : 'LIQ. MOVED FURTHER FROM PRICE ✓') : 'LIQ. MOVED CLOSER TO PRICE ⚠';
+
+    // Warning if new liq too close to avg
+    const warn = document.getElementById('avg-liq-warn');
+    const liqToAvgPct = Math.abs(nL - avgLastResult.avgPrice) / avgLastResult.avgPrice * 100;
+    if (liqToAvgPct < 5) {
+      warn.style.display = 'block';
+      warn.textContent = '⚠ WARNING: Liquidation is within 5% of your new average — high risk!';
+    } else {
+      warn.style.display = 'none';
+    }
+  } else {
+    liqCard.style.display = 'none';
+  }
+
   showToast('✓ Average calculated');
 }
 
