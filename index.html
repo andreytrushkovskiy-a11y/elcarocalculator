@@ -6363,81 +6363,48 @@ function agentRenderPlan(plan) {
 // ════════════════════════════════════════
 // FEAR & GREED INDEX
 // ════════════════════════════════════════
-let fgiCurrentTab = 'crypto';
-let fgiLoaded = { crypto: false, stock: false };
+// fgi crypto only
 
-function fgiSetTab(tab) {
-  fgiCurrentTab = tab;
-  ['crypto','stock'].forEach(t => {
-    const btn = document.getElementById('fgi-tab-' + t);
-    if (!btn) return;
-    const active = t === tab;
-    btn.style.borderColor  = active ? 'var(--orange)' : 'var(--border2)';
-    btn.style.background   = active ? 'rgba(255,106,0,.1)' : 'var(--bg3)';
-    btn.style.color        = active ? 'var(--orange)' : 'var(--text2)';
-  });
-  fgiLoad();
-}
+
 
 async function fgiLoad() {
-  const isCrypto = fgiCurrentTab === 'crypto';
-  const valEl    = document.getElementById('fgi-value');
-  const lblEl    = document.getElementById('fgi-label');
-  const histEl   = document.getElementById('fgi-history');
-  const srcEl    = document.getElementById('fgi-source');
+  const valEl  = document.getElementById('fgi-value');
+  const lblEl  = document.getElementById('fgi-label');
+  const histEl = document.getElementById('fgi-history');
+  const srcEl  = document.getElementById('fgi-source');
   if (!valEl) return;
 
   valEl.textContent = '…';
   lblEl.textContent = 'Loading…';
   histEl.innerHTML  = '';
 
-  if (isCrypto) {
-    // alternative.me public API — no CORS issues
-    try {
-      const res  = await fetch('https://api.alternative.me/fng/?limit=4&format=json');
-      const data = await res.json();
-      const arr  = data.data; // newest first
-      const cur  = arr[0];
-      const val  = parseInt(cur.value);
-      const lbl  = cur.value_classification;
+  try {
+    const res  = await fetch('https://api.alternative.me/fng/?limit=4&format=json');
+    const data = await res.json();
+    const arr  = data.data;
+    const cur  = arr[0];
+    const val  = parseInt(cur.value);
+    const lbl  = cur.value_classification;
 
-      fgiRenderGauge(val);
-      valEl.textContent = val;
-      lblEl.textContent = lbl;
-      lblEl.style.color = fgiColor(val);
+    fgiRenderGauge(val);
+    valEl.textContent = val;
+    lblEl.textContent = lbl;
+    lblEl.style.color = fgiColor(val);
 
-      // History: yesterday, last week, last month (arr[1], arr[2], arr[3])
-      const labels = ['Yesterday','Last Week','Last Month'];
-      histEl.innerHTML = [1,2,3].map((i,idx) => {
-        if (!arr[i]) return '';
-        const v = parseInt(arr[i].value);
-        return `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
-          <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:600;margin-bottom:5px;">${labels[idx].toUpperCase()}</div>
-          <div style="font-size:22px;font-weight:700;color:${fgiColor(v)};">${v}</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px;">${arr[i].value_classification}</div>
-        </div>`;
-      }).join('');
-      if (srcEl) srcEl.textContent = 'Source: alternative.me · Crypto Fear & Greed Index';
-    } catch(e) {
-      valEl.textContent = '?';
-      lblEl.textContent = 'Failed to load';
-    }
-  } else {
-    // CNN Fear & Greed — use a CORS proxy approach or fall back to informational
-    // CNN doesn't have a public API; we show a static-style card with link
-    fgiRenderGauge(null);
-    valEl.textContent = '—';
-    lblEl.textContent = 'See CNN Market';
-    histEl.innerHTML = `
-      <div style="grid-column:1/-1;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:10px;padding:16px;text-align:center;">
-        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:10px;">CNN Fear & Greed doesn't offer a public API.</div>
-        <a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank"
-          style="display:inline-block;padding:9px 20px;background:var(--orange);color:#000;font-weight:700;font-size:12px;border-radius:8px;text-decoration:none;font-family:'DM Sans',Outfit,sans-serif;">
-          Open CNN Fear & Greed →
-        </a>
-        <div style="font-size:9px;color:#333;margin-top:10px;">Tracks: momentum, strength, breadth, put/call ratio, junk bond demand, market volatility, safe haven demand</div>
+    const labels = ['Yesterday','Last Week','Last Month'];
+    histEl.innerHTML = [1,2,3].map((i,idx) => {
+      if (!arr[i]) return '';
+      const v = parseInt(arr[i].value);
+      return `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:600;margin-bottom:5px;">${labels[idx].toUpperCase()}</div>
+        <div style="font-size:22px;font-weight:700;color:${fgiColor(v)};">${v}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px;">${arr[i].value_classification}</div>
       </div>`;
-    if (srcEl) srcEl.textContent = '';
+    }).join('');
+    if (srcEl) srcEl.textContent = 'Source: alternative.me · Crypto Fear & Greed Index';
+  } catch(e) {
+    valEl.textContent = '?';
+    lblEl.textContent = 'Failed to load';
   }
 }
 
@@ -6508,17 +6475,7 @@ function fgiRenderGauge(val) {
       FEAR &amp; GREED INDEX
     </div>
 
-    <!-- Tab switcher -->
-    <div style="display:flex;gap:6px;margin-bottom:20px;">
-      <button id="fgi-tab-crypto" onclick="fgiSetTab('crypto')"
-        style="flex:1;padding:8px;border-radius:9px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--orange);cursor:pointer;">
-        ₿ CRYPTO
-      </button>
-      <button id="fgi-tab-stock" onclick="fgiSetTab('stock')"
-        style="flex:1;padding:8px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;">
-        📈 STOCK MARKET
-      </button>
-    </div>
+
 
     <!-- Gauge display -->
     <div id="fgi-gauge-wrap" style="display:flex;flex-direction:column;align-items:center;padding:10px 0 6px;">
