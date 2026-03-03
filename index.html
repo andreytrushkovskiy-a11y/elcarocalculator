@@ -5,24 +5,7 @@
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-// Force dark theme — prevent Telegram WebApp from overriding our CSS
-(function() {
-  const tg = window.Telegram?.WebApp;
-  if (tg) {
-    try { tg.setBackgroundColor('#080808'); } catch(e) {}
-    try { tg.setHeaderColor('#080808'); } catch(e) {}
-    try { tg.expand(); } catch(e) {}
-  }
-  // Override any CSS variables Telegram might inject
-  document.documentElement.style.setProperty('--tg-theme-bg-color',         '#080808');
-  document.documentElement.style.setProperty('--tg-theme-secondary-bg-color','#111111');
-  document.documentElement.style.setProperty('--tg-theme-text-color',        '#ffffff');
-  document.documentElement.style.setProperty('--tg-theme-hint-color',        'rgba(255,255,255,0.4)');
-  document.documentElement.style.setProperty('color-scheme', 'dark');
-})();
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
 <title>ELCARO · Calculator</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,900&display=swap');
@@ -43,9 +26,8 @@
 –purple: #8b5cf6;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
-html { color-scheme: dark; background:#080808; }
 body {
-background:#080808 !important; color:var(–text);
+background:var(–bg); color:var(–text);
 font-family:‘Outfit’,sans-serif;
 min-height:100vh; padding:20px 16px 60px;
 }
