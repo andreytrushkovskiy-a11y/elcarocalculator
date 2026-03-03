@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ELCARO · Calculator</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,900&display=swap');
 
 :root {
   --bg:     #080808;
@@ -231,6 +231,137 @@ body {
 .sizer-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
 
 /* ── PORTFOLIO ── */
+/* ═══════════════════════════════════════
+   PORTFOLIO — Robinhood-inspired redesign
+   ═══════════════════════════════════════ */
+.pf-section { max-width:900px; margin:0 auto; font-family:'DM Sans',Outfit,sans-serif; }
+
+/* Hero total */
+.pf-hero {
+  padding: 28px 0 24px;
+  margin-bottom: 0;
+}
+.pf-hero-label { font-size:11px; font-weight:500; color:rgba(255,255,255,.35); letter-spacing:.5px; margin-bottom:6px; }
+.pf-hero-value { font-family:'DM Sans',monospace; font-size:48px; font-weight:700; color:#fff; line-height:1; letter-spacing:-2px; }
+.pf-hero-pnl { display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:14px; font-weight:600; padding:4px 10px; border-radius:20px; }
+.pf-hero-pnl.pos { background:rgba(34,197,94,.12); color:#22c55e; }
+.pf-hero-pnl.neg { background:rgba(239,68,68,.1); color:#ef4444; }
+
+/* Mini sparkline bar */
+.pf-hero-bar { height:3px; background:rgba(255,255,255,.06); border-radius:2px; margin:16px 0 20px; overflow:hidden; }
+.pf-hero-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg, var(--orange), #f5c800); transition:width 1s cubic-bezier(.4,0,.2,1); }
+
+/* Stats row */
+.pf-stats-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.06); border-radius:14px; overflow:hidden; margin-bottom:20px; }
+@media(max-width:600px){ .pf-stats-strip{ grid-template-columns:repeat(2,1fr); } }
+.pf-stat { background:var(--bg2); padding:16px 14px; }
+.pf-stat-label { font-size:9px; font-weight:600; letter-spacing:.8px; color:rgba(255,255,255,.3); margin-bottom:6px; text-transform:uppercase; }
+.pf-stat-val { font-family:'DM Sans',monospace; font-size:20px; font-weight:700; color:#fff; line-height:1; }
+.pf-stat-sub { font-size:9px; color:rgba(255,255,255,.2); margin-top:3px; font-weight:500; }
+
+/* Donut — now smaller, inline */
+.pf-top { display:grid; grid-template-columns:180px 1fr; gap:20px; margin-bottom:20px; align-items:start; }
+@media(max-width:700px){ .pf-top{ grid-template-columns:1fr; } }
+.pf-chart-wrap { position:relative; }
+.pf-donut-container { position:relative; width:160px; height:160px; }
+.pf-donut-center {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center; pointer-events:none;
+}
+.pf-donut-total { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:#fff; }
+.pf-donut-label { font-size:8px; font-weight:500; letter-spacing:.6px; color:rgba(255,255,255,.3); margin-top:1px; text-transform:uppercase; }
+.pf-donut-pnl { font-size:10px; font-weight:700; margin-top:3px; }
+.pf-legend { margin-top:10px; display:flex; flex-direction:column; gap:5px; }
+.pf-legend-item { display:flex; align-items:center; justify-content:space-between; font-size:10px; }
+.pf-legend-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-right:7px; }
+.pf-legend-name { flex:1; font-weight:600; color:rgba(255,255,255,.7); font-size:10px; }
+.pf-legend-pct { font-weight:700; color:rgba(255,255,255,.4); }
+
+/* Type bars */
+#pf-type-bars { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:16px; }
+
+/* Asset cards — Robinhood style rows */
+.pf-table-wrap { border-radius:14px; overflow:hidden; margin-bottom:16px; background:var(--bg2); border:1px solid rgba(255,255,255,.05); }
+.pf-table-header { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:10px 16px; background:rgba(0,0,0,.2); border-bottom:1px solid rgba(255,255,255,.04); }
+.pf-table-header span { font-size:8px; font-weight:600; letter-spacing:.8px; color:rgba(255,255,255,.25); text-transform:uppercase; }
+.pf-asset-row { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; cursor:default; }
+.pf-asset-row:last-child { border-bottom:none; }
+.pf-asset-row:hover { background:rgba(255,255,255,.02); }
+.pf-asset-type-badge { font-size:7px; font-weight:700; padding:2px 6px; border-radius:4px; letter-spacing:.5px; display:inline-block; margin-top:2px; }
+.pf-asset-type-badge.crypto { background:rgba(255,106,0,.15); color:var(--orange); }
+.pf-asset-type-badge.stock  { background:rgba(34,197,94,.1);  color:#22c55e; }
+.pf-asset-type-badge.etf    { background:rgba(100,149,237,.1); color:#6495ed; }
+.pf-asset-type-badge.commodity { background:rgba(245,200,0,.1); color:#f5c800; }
+.pf-asset-type-badge.other  { background:rgba(255,255,255,.05); color:#666; }
+.pf-pnl-pos { color:#22c55e; font-weight:700; }
+.pf-pnl-neg { color:#ef4444; font-weight:700; }
+.pf-bar-mini { height:2px; border-radius:1px; margin-top:3px; }
+
+/* Asset icon badge */
+.pf-asset-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:baseline; justify-content:center; padding-bottom:2px; flex-shrink:0; }
+
+/* Add card */
+.pf-add-card { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:18px; margin-bottom:16px; }
+.pf-add-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; gap:8px; align-items:end; }
+@media(max-width:800px){ .pf-add-grid{ grid-template-columns:1fr 1fr; } }
+.pf-add-input {
+  width:100%; background:var(--bg3); border:1px solid rgba(255,255,255,.07);
+  border-radius:9px; padding:9px 12px; color:var(--text); font-family:'DM Sans',Outfit,sans-serif;
+  font-size:13px; font-weight:500; outline:none; box-sizing:border-box; transition:border .15s;
+}
+.pf-add-input:focus { border-color:var(--orange); }
+
+/* Alert rows */
+.pf-alert-row { display:grid; grid-template-columns:70px 90px 70px 1fr auto; gap:8px; align-items:center; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.03); font-size:11px; font-family:'DM Sans',sans-serif; }
+.pf-alert-row:last-child { border-bottom:none; }
+.pf-alert-action { font-size:9px; font-weight:700; padding:3px 8px; border-radius:5px; }
+.pf-alert-action.buy  { background:rgba(34,197,94,.12); color:#22c55e; }
+.pf-alert-action.sell { background:rgba(239,68,68,.12); color:#ef4444; }
+.pf-alert-tf { font-size:8px; color:rgba(255,255,255,.25); font-weight:600; letter-spacing:.5px; }
+
+/* Sim card */
+.pf-sim-card { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:18px; }
+.pf-mult-btn { padding:7px 14px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:transparent; font-family:'DM Sans',Outfit,sans-serif; font-size:11px; font-weight:700; color:rgba(255,255,255,.4); cursor:pointer; transition:all .15s; }
+.pf-mult-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+
+/* Add/fetch btns */
+.pf-add-btn { width:100%; padding:10px; border-radius:9px; border:none; background:var(--orange); font-family:'DM Sans',Outfit,sans-serif; font-size:13px; font-weight:700; color:#000; cursor:pointer; transition:opacity .15s; }
+.pf-add-btn:hover { opacity:.85; }
+.pf-fetch-price-btn { padding:9px 12px; border-radius:9px; border:1px solid rgba(255,255,255,.08); background:var(--bg3); color:var(--text2); cursor:pointer; font-size:13px; transition:border .15s; }
+.pf-fetch-price-btn:hover { border-color:var(--orange); }
+
+/* Projection grid */
+.pf-proj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px; }
+
+/* ── POSITION SIZER ── */
+.sizer-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
+@media(max-width:800px){ .sizer-layout{ grid-template-columns:1fr; } }
+.sizer-result-hero {
+  background:var(--bg3); border:1px solid var(--border2); border-radius:14px;
+  padding:22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden;
+}
+.sizer-result-hero::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,106,0,.07) 0%,transparent 60%);
+}
+.sizer-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text2); margin-bottom:6px; }
+.sizer-hero-val   { font-size:40px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--orange); line-height:1; margin-bottom:2px; }
+.sizer-hero-sub   { font-size:11px; color:var(--text2); }
+.sizer-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.sizer-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
+.sizer-stat-val   { font-size:16px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--text); }
+.sizer-stat-sub   { font-size:9px; color:#555; margin-top:2px; }
+.risk-bar-wrap { height:8px; background:#1a1a1a; border-radius:4px; margin:10px 0 4px; overflow:hidden; }
+.risk-bar-fill { height:100%; border-radius:4px; transition:width .4s; }
+.sizer-calc-btn {
+  width:100%; padding:14px; border-radius:10px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .18s; letter-spacing:.3px; margin-top:8px;
+}
+.sizer-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
+
+/* ── PORTFOLIO ── */
 .pf-section { max-width:1100px; margin:0 auto; }
 .pf-top { display:grid; grid-template-columns:320px 1fr; gap:14px; margin-bottom:14px; }
 @media(max-width:900px){ .pf-top{ grid-template-columns:1fr; } }
@@ -264,9 +395,9 @@ body {
 
 /* Asset table */
 .pf-table-wrap { background:var(--bg3); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
-.pf-table-header { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:8px 14px; background:rgba(0,0,0,.25); border-bottom:1px solid var(--border); }
+.pf-table-header { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:8px 14px; background:rgba(0,0,0,.25); border-bottom:1px solid var(--border); }
 .pf-table-header span { font-size:8px; font-weight:700; letter-spacing:.8px; color:var(--text2); }
-.pf-asset-row { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:11px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; }
+.pf-asset-row { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:11px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; }
 .pf-asset-row:last-child { border-bottom:none; }
 .pf-asset-row:hover { background:rgba(255,255,255,.02); }
 .pf-asset-type-badge { font-size:7px; font-weight:800; padding:2px 6px; border-radius:3px; letter-spacing:.6px; }
@@ -1038,12 +1169,19 @@ body {
       AGENT
       <span style="position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
     </button>
-    <!-- POSITION TOOLS — dropdown trigger -->
+    <!-- MARKET DATA button in main nav -->
+    <button class="mode-btn" id="mode-market-group" onclick="setMode('chart')"
+      title="Market Data"
+      style="position:relative;flex:0 0 auto;padding:9px 11px;">
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <svg viewBox="0 0 24 24" style="width:8px;height:8px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:1px;" id="market-group-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <!-- POSITION TOOLS — icon only -->
     <button class="mode-btn" id="mode-position-group" onclick="setMode('avg')"
-      style="position:relative;white-space:nowrap;min-width:0;flex-shrink:1;">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-      <span style="overflow:hidden;text-overflow:ellipsis;">TOOLS</span>
-      <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:2px;flex-shrink:0;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+      title="Position Tools"
+      style="position:relative;flex:0 0 auto;padding:9px 11px;">
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <svg viewBox="0 0 24 24" style="width:8px;height:8px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:1px;flex-shrink:0;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
   </div>
 
@@ -1065,6 +1203,32 @@ body {
       style="flex:1;padding:7px 12px;font-size:11px;">
       <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       FUNDING RATE
+    </button>
+  </div>
+
+  <!-- Row 3: market sub-tabs -->
+  <div id="market-subtabs"
+    style="display:none;background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.15);border-radius:8px;padding:6px;gap:4px;flex-wrap:wrap;">
+    <div style="font-size:8px;font-weight:700;color:rgba(100,149,237,.5);letter-spacing:1px;padding:0 8px;align-self:center;white-space:nowrap;">MARKET DATA</div>
+    <button class="mode-btn" id="mode-chart" onclick="setMode('chart')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="3 3 3 21 21 21"/><polyline points="7 16 11 10 15 14 19 7"/></svg>
+      CHART
+    </button>
+    <button class="mode-btn" id="mode-heatmap-stock" onclick="setMode('heatmap-stock')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      STOCK MAP
+    </button>
+    <button class="mode-btn" id="mode-heatmap-crypto" onclick="setMode('heatmap-crypto')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      CRYPTO MAP
+    </button>
+    <button class="mode-btn" id="mode-calendar" onclick="setMode('calendar')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      CALENDAR
+    </button>
+    <button class="mode-btn" id="mode-news" onclick="setMode('news')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+      NEWS
     </button>
   </div>
 
@@ -1229,6 +1393,7 @@ body {
             <button class="viz-tab active" onclick="setViz(1)" id="viz-tab-1">BAR</button>
             <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
             <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
+            <button class="viz-tab" onclick="setViz(4)" id="viz-tab-4">TIMELINE</button>
           </div>
         </div>
 
@@ -1255,6 +1420,14 @@ body {
         <!-- VIZ 3: Price Ladder -->
         <div id="viz-3" style="display:none;">
           <div class="v3-ladder" id="v3-ladder"></div>
+        </div>
+
+        <!-- VIZ 4: Timeline — sigma corridor across 5 expiry dates -->
+        <div id="viz-4" style="display:none;">
+          <div style="font-size:9px;color:rgba(255,255,255,.3);margin-bottom:12px;font-weight:500;">
+            σ corridor across next 5 expiry dates · Y-axis = breakeven price · shaded area = where price WON'T be
+          </div>
+          <div id="v4-wrap" style="position:relative;"></div>
         </div>
       </div>
 
@@ -1744,6 +1917,100 @@ body {
   </div>
 </div>
 
+<!-- ══ CHART ══ -->
+<div id="chart-section" style="display:none;padding:0;">
+  <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);">TRADINGVIEW CHART</div>
+    <div style="font-size:9px;color:#444;">Powered by TradingView</div>
+  </div>
+  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+    <div class="tradingview-widget-container" style="height:100%;width:100%">
+      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Charts by TradingView</span></a></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "allow_symbol_change": true,
+        "calendar": false,
+        "details": false,
+        "hide_side_toolbar": false,
+        "hide_top_toolbar": false,
+        "hide_legend": false,
+        "hide_volume": true,
+        "hotlist": false,
+        "interval": "240",
+        "locale": "en",
+        "save_image": true,
+        "style": "1",
+        "symbol": "CRYPTO:BTCUSD",
+        "theme": "dark",
+        "timezone": "Etc/UTC",
+        "backgroundColor": "#0F0F0F",
+        "gridColor": "rgba(242, 242, 242, 0.06)",
+        "watchlist": [],
+        "withdateranges": true,
+        "compareSymbols": [],
+        "studies": [],
+        "autosize": true
+      }
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HEATMAP STOCK ══ -->
+<div id="heatmap-stock-section" style="display:none;padding:0;">
+  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+    <div class="tradingview-widget-container" style="height:100%;width:100%">
+      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/stock/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Stock Heatmap by TradingView</span></a></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+      {"dataSource":"SPX500","blockSize":"Value.Traded","blockColor":"change","grouping":"no_group","locale":"en","symbolUrl":"","colorTheme":"dark","exchanges":["NASDAQ"],"hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":true,"hasSymbolTooltip":true,"isMonoSize":false,"width":"100%","height":"100%"}
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HEATMAP CRYPTO ══ -->
+<div id="heatmap-crypto-section" style="display:none;padding:0;">
+  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+    <div class="tradingview-widget-container" style="height:100%;width:100%">
+      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/crypto/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Crypto Heatmap by TradingView</span></a></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js" async>
+      {"dataSource":"Crypto","blockSize":"market_cap_calc","blockColor":"24h_close_change|5","locale":"en","symbolUrl":"","colorTheme":"dark","hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":true,"hasSymbolTooltip":true,"isMonoSize":false,"width":"100%","height":"100%"}
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ECONOMIC CALENDAR ══ -->
+<div id="calendar-section" style="display:none;padding:0;">
+  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+    <div class="tradingview-widget-container" style="height:100%;width:100%">
+      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/economic-calendar/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Economic Calendar by TradingView</span></a></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+      {"colorTheme":"dark","isTransparent":false,"locale":"en","countryFilter":"us","importanceFilter":"0,1","width":"100%","height":"100%"}
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NEWS ══ -->
+<div id="news-section" style="display:none;padding:0;">
+  <!-- News sub-tabs -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;" id="news-subtabs">
+    <button class="mode-btn active" id="news-tab-top"      onclick="setNewsTab('top')"        style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">TOP</button>
+    <button class="mode-btn"        id="news-tab-crypto"   onclick="setNewsTab('crypto')"     style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">CRYPTO</button>
+    <button class="mode-btn"        id="news-tab-forex"    onclick="setNewsTab('forex')"      style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">CURRENCIES</button>
+    <button class="mode-btn"        id="news-tab-stock"    onclick="setNewsTab('stock')"      style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">STOCKS</button>
+    <button class="mode-btn"        id="news-tab-indices"  onclick="setNewsTab('indices')"    style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">INDICES</button>
+    <button class="mode-btn"        id="news-tab-futures"  onclick="setNewsTab('futures')"    style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">FUTURES</button>
+    <button class="mode-btn"        id="news-tab-bonds"    onclick="setNewsTab('bonds')"      style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">BONDS</button>
+  </div>
+  <div id="news-widget-wrap" style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;"></div>
+</div>
+
 <!-- ══ FUNDING RATE CALCULATOR ══ -->
 <div id="funding-section" style="display:none;max-width:900px;margin:0 auto;">
   <div class="funding-layout">
@@ -1864,50 +2131,52 @@ body {
 <div id="portfolio-section" style="display:none;">
 <div class="pf-section">
 
-  <!-- TOP: Chart + Stats -->
-  <div class="pf-top">
+  <!-- HERO: Big total number Robinhood-style -->
+  <div class="pf-hero">
+    <div class="pf-hero-label">PORTFOLIO VALUE</div>
+    <div class="pf-hero-value" id="pf-total-val">$0</div>
+    <div id="pf-total-pnl"></div>
+    <div class="pf-hero-bar"><div class="pf-hero-bar-fill" id="pf-hero-bar-fill" style="width:0%"></div></div>
+  </div>
 
-    <!-- Donut chart -->
+  <!-- STATS ROW -->
+  <div class="pf-stats-strip" style="margin-bottom:20px;">
+    <div class="pf-stat">
+      <div class="pf-stat-label">INVESTED</div>
+      <div class="pf-stat-val" id="pf-invested">$0</div>
+      <div class="pf-stat-sub">cost basis</div>
+    </div>
+    <div class="pf-stat">
+      <div class="pf-stat-label">CURRENT</div>
+      <div class="pf-stat-val" id="pf-cur-val">$0</div>
+      <div class="pf-stat-sub" id="pf-cur-sub">live</div>
+    </div>
+    <div class="pf-stat">
+      <div class="pf-stat-label">P&amp;L</div>
+      <div class="pf-stat-val" id="pf-pnl-usd">$0</div>
+      <div class="pf-stat-sub" id="pf-pnl-pct"></div>
+    </div>
+    <div class="pf-stat">
+      <div class="pf-stat-label">ASSETS</div>
+      <div class="pf-stat-val" id="pf-asset-count">0</div>
+      <div class="pf-stat-sub" id="pf-type-breakdown"></div>
+    </div>
+  </div>
+
+  <!-- DONUT + TYPE BARS -->
+  <div class="pf-top">
     <div class="pf-chart-wrap">
-      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:4px;">PORTFOLIO ALLOCATION</div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:.8px;color:rgba(255,255,255,.3);margin-bottom:10px;text-transform:uppercase;">Allocation</div>
       <div class="pf-donut-container">
-        <svg id="pf-donut-svg" width="200" height="200" viewBox="0 0 200 200"></svg>
+        <svg id="pf-donut-svg" width="160" height="160" viewBox="0 0 160 160"></svg>
         <div class="pf-donut-center">
-          <div class="pf-donut-total" id="pf-total-val">$0</div>
-          <div class="pf-donut-label">TOTAL VALUE</div>
-          <div class="pf-donut-pnl" id="pf-total-pnl"></div>
+          <div class="pf-donut-total" id="pf-donut-count">—</div>
+          <div class="pf-donut-label">assets</div>
         </div>
       </div>
       <div class="pf-legend" id="pf-legend"></div>
     </div>
-
-    <!-- Stats + type breakdown -->
-    <div>
-      <div class="pf-stats-strip" style="margin-bottom:12px;">
-        <div class="pf-stat">
-          <div class="pf-stat-label">INVESTED</div>
-          <div class="pf-stat-val" id="pf-invested">$0</div>
-          <div class="pf-stat-sub">cost basis</div>
-        </div>
-        <div class="pf-stat">
-          <div class="pf-stat-label">CURRENT VALUE</div>
-          <div class="pf-stat-val" id="pf-cur-val">$0</div>
-          <div class="pf-stat-sub" id="pf-cur-sub">live prices</div>
-        </div>
-        <div class="pf-stat">
-          <div class="pf-stat-label">TOTAL P&L</div>
-          <div class="pf-stat-val" id="pf-pnl-usd">$0</div>
-          <div class="pf-stat-sub" id="pf-pnl-pct"></div>
-        </div>
-        <div class="pf-stat">
-          <div class="pf-stat-label">ASSETS</div>
-          <div class="pf-stat-val" id="pf-asset-count">0</div>
-          <div class="pf-stat-sub" id="pf-type-breakdown"></div>
-        </div>
-      </div>
-      <!-- Type allocation mini bars -->
-      <div id="pf-type-bars" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;"></div>
-    </div>
+    <div id="pf-type-bars"></div>
   </div>
 
   <!-- ADD ASSET FORM -->
@@ -1954,8 +2223,7 @@ body {
   <!-- ASSETS TABLE -->
   <div class="pf-table-wrap" id="pf-table-wrap" style="display:none;">
     <div class="pf-table-header">
-      <span>#</span><span>ASSET</span><span>TYPE</span>
-      <span>AVG PRICE</span><span>CURRENT</span><span>VALUE</span><span>P&L</span><span>SHARE</span>
+      <span></span><span>ASSET</span><span>VALUE</span><span>P&amp;L</span><span>SHARE</span>
     </div>
     <div id="pf-asset-rows"></div>
   </div>
@@ -2169,7 +2437,7 @@ body {
       </div>
     </div>
     <div id="agent-signal-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
-    <button class="agent-action-btn" onclick="agentGoStep(3); agentGeneratePlan();">▣ GENERATE DEPLOYMENT PLAN →</button>
+    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast('🔔 '+n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();">▣ GENERATE DEPLOYMENT PLAN →</button>
   </div>
 
   <!-- ── STEP 3: PLAN ── -->
@@ -2381,9 +2649,168 @@ function calculate() {
 }
 
 // ═══════════════════ VIZ SWITCHING ═══════════════════
+// ── VIZ 4: TIMELINE — sigma corridor across 5 expiry dates ──
+function renderViz4() {
+  const wrap = document.getElementById('v4-wrap');
+  if (!wrap || !lastResult) return;
+  const { spot, levels, straddle: straddleCost } = lastResult;
+
+  // Generate 5 future expiry dates from current expiry
+  const currentExpiry = document.getElementById('r-date')?.textContent?.trim() || '';
+  const expiryDates = generateFutureExpiries(5);
+
+  // For each date, scale straddle cost by sqrt(t) — t = days to expiry / 30
+  const today = new Date();
+  const dataPoints = expiryDates.map(d => {
+    const daysOut = Math.max(1, Math.round((d.date - today) / 86400000));
+    const tScale  = Math.sqrt(daysOut / 30);
+    const scaledCost = straddleCost * tScale;
+    const vis = levels.filter(l => l.show);
+    return {
+      label: d.label,
+      date: d.date,
+      daysOut,
+      breakEvenHi: spot + scaledCost,
+      breakEvenLo: spot - scaledCost,
+      sigmas: vis.map(lv => ({
+        n: lv.n,
+        hi: spot + (lv.hi - spot) * tScale,
+        lo: spot - (spot - lv.lo) * tScale,
+        color: lv.color
+      }))
+    };
+  });
+
+  // ── Draw SVG ──
+  const W = Math.min(wrap.offsetWidth || 600, 700);
+  const H = 320;
+  const PAD = { top: 30, right: 20, bottom: 60, left: 70 };
+  const plotW = W - PAD.left - PAD.right;
+  const plotH = H - PAD.top - PAD.bottom;
+  const N = dataPoints.length;
+
+  // Y range: use outermost sigma
+  const allHi = dataPoints.map(p => p.sigmas[p.sigmas.length-1]?.hi || p.breakEvenHi);
+  const allLo = dataPoints.map(p => p.sigmas[p.sigmas.length-1]?.lo || p.breakEvenLo);
+  const yMax = Math.max(...allHi) * 1.03;
+  const yMin = Math.min(...allLo) * 0.97;
+  const yRange = yMax - yMin;
+
+  const xOf = i => PAD.left + (i / (N-1)) * plotW;
+  const yOf = v => PAD.top + plotH - ((v - yMin) / yRange) * plotH;
+
+  const fmtPrice = v => {
+    if (v >= 1000) return '$' + (v/1000).toFixed(1) + 'k';
+    return '$' + v.toFixed(0);
+  };
+
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="width:100%;font-family:'DM Sans',Outfit,sans-serif;">`;
+
+  // Background
+  svg += `<rect width="${W}" height="${H}" fill="transparent"/>`;
+
+  // Grid lines Y
+  const yTicks = 5;
+  for (let i = 0; i <= yTicks; i++) {
+    const v = yMin + (i/yTicks)*yRange;
+    const y = yOf(v);
+    svg += `<line x1="${PAD.left}" y1="${y}" x2="${W-PAD.right}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+    svg += `<text x="${PAD.left-6}" y="${y+4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.25)">${fmtPrice(v)}</text>`;
+  }
+
+  // Sigma corridor bands (outermost to innermost, translucent fills)
+  const sigmaColors = { 1:'245,200,0', 2:'255,106,0', 3:'224,59,59', 4:'255,26,26' };
+  const sigLevels = dataPoints[0].sigmas.length;
+
+  for (let si = sigLevels-1; si >= 0; si--) {
+    const hiPts = dataPoints.map((p,i) => `${xOf(i)},${yOf(p.sigmas[si].hi)}`).join(' ');
+    const loPts = [...dataPoints].reverse().map((p,i) => `${xOf(N-1-i)},${yOf(p.sigmas[si].lo)}`).join(' ');
+    const rgb = sigmaColors[dataPoints[0].sigmas[si].n] || '255,106,0';
+    const alpha = 0.06 + si * 0.02;
+    svg += `<polygon points="${hiPts} ${loPts}" fill="rgba(${rgb},${alpha})" stroke="none"/>`;
+
+    // Upper boundary line
+    const hiPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${xOf(i)},${yOf(p.sigmas[si].hi)}`).join(' ');
+    const loPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${xOf(i)},${yOf(p.sigmas[si].lo)}`).join(' ');
+    svg += `<path d="${hiPath}" fill="none" stroke="rgba(${rgb},.5)" stroke-width="1.5" stroke-dasharray="${si===0?'none':'4,3'}"/>`;
+    svg += `<path d="${loPath}" fill="none" stroke="rgba(${rgb},.5)" stroke-width="1.5" stroke-dasharray="${si===0?'none':'4,3'}"/>`;
+  }
+
+  // Breakeven corridor (solid lines, orange)
+  const beHiPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${xOf(i)},${yOf(p.breakEvenHi)}`).join(' ');
+  const beLoPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${xOf(i)},${yOf(p.breakEvenLo)}`).join(' ');
+  svg += `<path d="${beHiPath}" fill="none" stroke="#ff6a00" stroke-width="2.5"/>`;
+  svg += `<path d="${beLoPath}" fill="none" stroke="#ff6a00" stroke-width="2.5"/>`;
+
+  // Spot price horizontal reference
+  const spotY = yOf(spot);
+  svg += `<line x1="${PAD.left}" y1="${spotY}" x2="${W-PAD.right}" y2="${spotY}" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="6,4"/>`;
+  svg += `<text x="${PAD.left-6}" y="${spotY+4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${fmtPrice(spot)}</text>`;
+
+  // Breakeven dots + labels at each date
+  dataPoints.forEach((p, i) => {
+    const x = xOf(i);
+    const yHi = yOf(p.breakEvenHi);
+    const yLo = yOf(p.breakEvenLo);
+    svg += `<circle cx="${x}" cy="${yHi}" r="4" fill="#ff6a00" stroke="#0f0f0f" stroke-width="2"/>`;
+    svg += `<circle cx="${x}" cy="${yLo}" r="4" fill="#ff6a00" stroke="#0f0f0f" stroke-width="2"/>`;
+    if (i > 0) {
+      svg += `<text x="${x}" y="${yHi-10}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.5)">${fmtPrice(p.breakEvenHi)}</text>`;
+      svg += `<text x="${x}" y="${yLo+18}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.5)">${fmtPrice(p.breakEvenLo)}</text>`;
+    }
+    // X axis labels
+    svg += `<text x="${x}" y="${H-PAD.bottom+18}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${p.label}</text>`;
+    svg += `<text x="${x}" y="${H-PAD.bottom+30}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.2)">${p.daysOut}d</text>`;
+    // Tick
+    svg += `<line x1="${x}" y1="${H-PAD.bottom}" x2="${x}" y2="${H-PAD.bottom+6}" stroke="rgba(255,255,255,.15)" stroke-width="1"/>`;
+  });
+
+  // Axis lines
+  svg += `<line x1="${PAD.left}" y1="${PAD.top}" x2="${PAD.left}" y2="${H-PAD.bottom}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;
+  svg += `<line x1="${PAD.left}" y1="${H-PAD.bottom}" x2="${W-PAD.right}" y2="${H-PAD.bottom}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;
+
+  // Legend
+  const legY = H - 10;
+  svg += `<circle cx="${PAD.left}" cy="${legY}" r="4" fill="#ff6a00"/>`;
+  svg += `<text x="${PAD.left+8}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.5)">BREAKEVEN</text>`;
+  svg += `<line x1="${PAD.left+90}" y1="${legY}" x2="${PAD.left+110}" y2="${legY}" stroke="rgba(245,200,0,.6)" stroke-width="1.5"/>`;
+  svg += `<text x="${PAD.left+114}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.5)">σ1</text>`;
+  svg += `<line x1="${PAD.left+130}" y1="${legY}" x2="${PAD.left+150}" y2="${legY}" stroke="rgba(255,106,0,.6)" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  svg += `<text x="${PAD.left+154}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.5)">σ2+</text>`;
+
+  svg += '</svg>';
+  wrap.innerHTML = svg;
+}
+
+// Generate 5 future monthly expiry dates (3rd Friday of each month)
+function generateFutureExpiries(n) {
+  const result = [];
+  const now = new Date();
+  let year = now.getFullYear();
+  let month = now.getMonth();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  while (result.length < n) {
+    // 3rd Friday
+    const d = new Date(year, month, 1);
+    let fridays = 0;
+    while (fridays < 3) {
+      if (d.getDay() === 5) fridays++;
+      if (fridays < 3) d.setDate(d.getDate() + 1);
+    }
+    if (d > now) {
+      result.push({ date: new Date(d), label: months[month] + ' ' + d.getDate() });
+    }
+    month++;
+    if (month > 11) { month = 0; year++; }
+  }
+  return result;
+}
+
+
 function setViz(n) {
   currentViz = n;
-  [1,2,3].forEach(i => {
+  [1,2,3,4].forEach(i => {
     document.getElementById('viz-' + i).style.display = i === n ? 'block' : 'none';
     document.getElementById('viz-tab-' + i).classList.toggle('active', i === n);
   });
@@ -2395,6 +2822,7 @@ function renderAllViz() {
   renderViz1();
   renderViz2();
   renderViz3();
+  renderViz4();
 }
 
 // ── VIZ 1: RANGE BAR (SVG, no overflow) ──
@@ -3183,12 +3611,37 @@ function setMode(mode) {
   if (chev) chev.style.transform = isPositionMode ? 'rotate(180deg)' : '';
 
   // Sections
-  document.querySelector('.layout').style.display           = mode === 'straddle'  ? 'grid'  : 'none';
-  document.getElementById('avg-section').style.display      = mode === 'avg'       ? 'block' : 'none';
-  document.getElementById('sizer-section').style.display    = mode === 'sizer'     ? 'block' : 'none';
-  document.getElementById('funding-section').style.display  = mode === 'funding'   ? 'block' : 'none';
-  document.getElementById('portfolio-section').style.display= mode === 'portfolio' ? 'block' : 'none';
-  document.getElementById('agent-section').style.display    = mode === 'agent'     ? 'block' : 'none';
+  const marketModes = ['chart','heatmap-stock','heatmap-crypto','calendar','news'];
+  const isMarketMode = marketModes.includes(mode);
+
+  document.querySelector('.layout').style.display                   = mode === 'straddle'      ? 'grid'  : 'none';
+  document.getElementById('avg-section').style.display             = mode === 'avg'            ? 'block' : 'none';
+  document.getElementById('sizer-section').style.display           = mode === 'sizer'          ? 'block' : 'none';
+  document.getElementById('funding-section').style.display         = mode === 'funding'        ? 'block' : 'none';
+  document.getElementById('portfolio-section').style.display       = mode === 'portfolio'      ? 'block' : 'none';
+  document.getElementById('agent-section').style.display           = mode === 'agent'          ? 'block' : 'none';
+  document.getElementById('chart-section').style.display           = mode === 'chart'          ? 'block' : 'none';
+  document.getElementById('heatmap-stock-section').style.display   = mode === 'heatmap-stock'  ? 'block' : 'none';
+  document.getElementById('heatmap-crypto-section').style.display  = mode === 'heatmap-crypto' ? 'block' : 'none';
+  document.getElementById('calendar-section').style.display        = mode === 'calendar'       ? 'block' : 'none';
+  document.getElementById('news-section').style.display            = mode === 'news'           ? 'block' : 'none';
+
+  // Market group button
+  const mgBtn = document.getElementById('mode-market-group');
+  if (mgBtn) {
+    mgBtn.classList.toggle('active', isMarketMode);
+  }
+  // Market sub-tabs
+  const mst = document.getElementById('market-subtabs');
+  if (mst) mst.style.display = isMarketMode ? 'flex' : 'none';
+  const mchev = document.getElementById('market-group-chevron');
+  if (mchev) mchev.style.transform = isMarketMode ? 'rotate(180deg)' : '';
+  // Active market sub-tab
+  marketModes.forEach(m => {
+    document.getElementById('mode-'+m)?.classList.toggle('active', m === mode);
+  });
+  // News sub-tabs default
+  if (mode === 'news' && !window._newsTabSet) { setNewsTab('top'); window._newsTabSet = true; }
   if (mode === 'portfolio') pfRenderAll();
   if (mode === 'agent') {
     agentInitialized = false; // force re-sync each visit
@@ -4265,10 +4718,27 @@ function pfRenderAll() {
   })));
 
   // Donut center
-  document.getElementById('pf-total-val').textContent = '$' + totalCurrent.toLocaleString('en',{maximumFractionDigits:0});
+  const formattedTotal = '$' + totalCurrent.toLocaleString('en',{maximumFractionDigits:0});
+  document.getElementById('pf-total-val').textContent = formattedTotal;
+  // Update donut asset count
+  const dcEl = document.getElementById('pf-donut-count');
+  if (dcEl) dcEl.textContent = pfAssets.length;
+  // Hero bar = % gain vs invested (capped 0-100 visual)
+  const barFill = document.getElementById('pf-hero-bar-fill');
+  if (barFill && totalInvested > 0) {
+    const pct = Math.min(Math.max((totalCurrent / totalInvested) * 60, 5), 100);
+    barFill.style.width = pct + '%';
+    barFill.style.background = totalCurrent >= totalInvested
+      ? 'linear-gradient(90deg,var(--orange),#22c55e)'
+      : 'linear-gradient(90deg,#ef4444,var(--orange))';
+  }
   const dpnl = document.getElementById('pf-total-pnl');
-  dpnl.textContent = (totalPnl>=0?'+':'') + totalPnlPct.toFixed(1) + '% P&L';
-  dpnl.style.color = totalPnl >= 0 ? '#22c55e' : '#ef4444';
+  if (dpnl) {
+    const sign = totalPnl >= 0;
+    const arrow = sign ? '▲' : '▼';
+    const cls = sign ? 'pf-hero-pnl pos' : 'pf-hero-pnl neg';
+    dpnl.innerHTML = `<div class="${cls}">${arrow} $${Math.abs(totalPnl).toLocaleString('en',{maximumFractionDigits:0})} (${sign?'+':''}${totalPnlPct.toFixed(2)}%)</div>`;
+  }
 
   // Table
   pfRenderTable(totalCurrent);
@@ -4290,9 +4760,9 @@ function pfRenderDonut(items) {
   const svg  = document.getElementById('pf-donut-svg');
   const leg  = document.getElementById('pf-legend');
   const total = items.reduce((s,i) => s+i.val, 0);
-  if (!total) { svg.innerHTML = `<circle cx="100" cy="100" r="70" fill="none" stroke="#1a1a1a" stroke-width="28"/>`; leg.innerHTML=''; return; }
+  if (!total) { svg.innerHTML = `<circle cx="80" cy="80" r="58" fill="none" stroke="#1a1a1a" stroke-width="20"/>`; leg.innerHTML=''; return; }
 
-  const cx=100, cy=100, r=70, strokeW=28;
+  const cx=80, cy=80, r=58, strokeW=20;
   let startAngle = -Math.PI/2;
   let paths = '';
 
@@ -4312,7 +4782,7 @@ function pfRenderDonut(items) {
     startAngle += angle;
   });
 
-  svg.innerHTML = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#111" stroke-width="${strokeW}"/>` + paths;
+  svg.innerHTML = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="${strokeW}"/>` + paths;
 
   // Legend
   leg.innerHTML = items.slice(0,8).map((item,i) => {
@@ -4873,6 +5343,44 @@ function agentSyncFromPortfolio() {
   document.getElementById('agent-assets-display').textContent = agentSelected.length;
   return true;
 }
+
+// ── News sub-tabs ──
+const NEWS_CONFIGS = {
+  top:     { feedMode:'all_symbols' },
+  crypto:  { feedMode:'market', market:'crypto' },
+  forex:   { feedMode:'market', market:'forex' },
+  stock:   { feedMode:'market', market:'stock' },
+  indices: { feedMode:'market', market:'stock' },
+  futures: { feedMode:'market', market:'futures' },
+  bonds:   { feedMode:'market', market:'cfd' },
+};
+
+function setNewsTab(tab) {
+  // Update tab buttons
+  Object.keys(NEWS_CONFIGS).forEach(t => {
+    document.getElementById('news-tab-'+t)?.classList.toggle('active', t === tab);
+  });
+  // Rebuild widget
+  const wrap = document.getElementById('news-widget-wrap');
+  if (!wrap) return;
+  const cfg = NEWS_CONFIGS[tab] || NEWS_CONFIGS.top;
+  const payload = Object.assign({
+    displayMode: 'regular',
+    colorTheme: 'dark',
+    isTransparent: false,
+    locale: 'en',
+    width: '100%',
+    height: '100%'
+  }, cfg);
+  wrap.innerHTML = `
+    <div class="tradingview-widget-container" style="height:100%;width:100%">
+      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+      ${JSON.stringify(payload)}
+      <\/script>
+    </div>`;
+}
+
 
 // Periodic-table style badge: first letter big, second small
 function agentElementBadge(ticker, color, size=30) {
@@ -5478,7 +5986,7 @@ function agentSetTimeframe(tf) {
 function agentInitSignals() {
   agentEntryData = {};
   agentSelected.forEach(a => {
-    agentEntryData[a.ticker] = { buyZone:'', sellZone:'', bottom:'', top:'', confidence:7 };
+    agentEntryData[a.ticker] = { buyZone:'', sellZone:'', bottomDate:'', topDate:'', confidence:7, alertBottom:false, alertTop:false };
   });
   agentRenderSignals();
   const nav2 = document.getElementById('agent-nav-2');
@@ -5487,21 +5995,29 @@ function agentInitSignals() {
 
 function agentRenderSignals() {
   const wrap = document.getElementById('agent-signal-rows');
+  const todayStr = new Date().toISOString().slice(0,10);
   wrap.innerHTML = agentSelected.map(a => {
-    const alloc = agentAllocations[a.ticker]||0;
-    const valUsd = agentFmt((agentBudget*alloc)/100);
-    return `<div class="card">
+    const alloc   = agentAllocations[a.ticker]||0;
+    const valUsd  = agentFmt((agentBudget*alloc)/100);
+    const ed      = agentEntryData[a.ticker] || {};
+    const conf    = ed.confidence||7;
+    const confCol = conf>=7?'#22c55e':conf>=4?'var(--orange)':'#ef4444';
+    const tg      = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+    const tgNote  = tg ? '🔔 Notify me' : '';
+    return `<div class="card" style="margin-bottom:12px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
         ${agentElementBadge(a.ticker, a.color, 28)}
         <span style="font-size:15px;font-weight:800;color:var(--text);">${a.ticker}</span>
         <span style="font-size:11px;color:var(--text2);">${a.name}</span>
         <span style="margin-left:auto;font-size:12px;font-weight:800;color:var(--orange);">${alloc.toFixed(1)}% · ${valUsd}</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+
+      <!-- Row 1: BUY / SELL price zones -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
         <div>
           <div style="font-size:8px;font-weight:700;color:#22c55e;letter-spacing:.8px;margin-bottom:4px;">BUY ZONE $</div>
           <input class="agent-signal-input" type="number" placeholder="0.00"
-            value="${agentEntryData[a.ticker]?.buyZone||''}"
+            value="${ed.buyZone||''}"
             oninput="agentEntryData['${a.ticker}'].buyZone=this.value"
             style="border-color:rgba(34,197,94,.2);"
             onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(34,197,94,.2)'">
@@ -5509,37 +6025,70 @@ function agentRenderSignals() {
         <div>
           <div style="font-size:8px;font-weight:700;color:#ef4444;letter-spacing:.8px;margin-bottom:4px;">SELL ZONE $</div>
           <input class="agent-signal-input" type="number" placeholder="0.00"
-            value="${agentEntryData[a.ticker]?.sellZone||''}"
+            value="${ed.sellZone||''}"
             oninput="agentEntryData['${a.ticker}'].sellZone=this.value"
             style="border-color:rgba(239,68,68,.2);"
             onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,.2)'">
         </div>
-        <div>
-          <div style="font-size:8px;font-weight:700;color:#6495ed;letter-spacing:.8px;margin-bottom:4px;">BOTTOM (FORECAST) $</div>
-          <input class="agent-signal-input" type="number" placeholder="0.00"
-            value="${agentEntryData[a.ticker]?.bottom||''}"
-            oninput="agentEntryData['${a.ticker}'].bottom=this.value"
-            style="border-color:rgba(100,149,237,.2);"
-            onfocus="this.style.borderColor='#6495ed'" onblur="this.style.borderColor='rgba(100,149,237,.2)'">
+      </div>
+
+      <!-- Row 2: BOTTOM date + alert / TOP date + alert -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.12);border-radius:8px;padding:10px;">
+          <div style="font-size:8px;font-weight:700;color:#6495ed;letter-spacing:.8px;margin-bottom:6px;">📅 BOTTOM DATE (FORECAST)</div>
+          <input class="agent-signal-input" type="date"
+            value="${ed.bottomDate||''}" min="${todayStr}"
+            oninput="agentEntryData['${a.ticker}'].bottomDate=this.value"
+            style="border-color:rgba(100,149,237,.3);font-family:JetBrains Mono,monospace;font-size:11px;width:100%;">
+          ${tg ? `<label style="display:flex;align-items:center;gap:6px;margin-top:8px;cursor:pointer;font-size:10px;color:#6495ed;font-weight:700;">
+            <input type="checkbox" ${ed.alertBottom?'checked':''} onchange="agentEntryData['${a.ticker}'].alertBottom=this.checked"
+              style="accent-color:#6495ed;width:13px;height:13px;">
+            🔔 Notify me on this date
+          </label>` : ''}
         </div>
-        <div>
-          <div style="font-size:8px;font-weight:700;color:var(--orange);letter-spacing:.8px;margin-bottom:4px;">TOP (FORECAST) $</div>
-          <input class="agent-signal-input" type="number" placeholder="0.00"
-            value="${agentEntryData[a.ticker]?.top||''}"
-            oninput="agentEntryData['${a.ticker}'].top=this.value"
-            style="border-color:rgba(255,106,0,.2);"
-            onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,106,0,.2)'">
+        <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:8px;padding:10px;">
+          <div style="font-size:8px;font-weight:700;color:var(--orange);letter-spacing:.8px;margin-bottom:6px;">📅 TOP DATE (FORECAST)</div>
+          <input class="agent-signal-input" type="date"
+            value="${ed.topDate||''}" min="${todayStr}"
+            oninput="agentEntryData['${a.ticker}'].topDate=this.value"
+            style="border-color:rgba(255,106,0,.3);font-family:JetBrains Mono,monospace;font-size:11px;width:100%;">
+          ${tg ? `<label style="display:flex;align-items:center;gap:6px;margin-top:8px;cursor:pointer;font-size:10px;color:var(--orange);font-weight:700;">
+            <input type="checkbox" ${ed.alertTop?'checked':''} onchange="agentEntryData['${a.ticker}'].alertTop=this.checked"
+              style="accent-color:var(--orange);width:13px;height:13px;">
+            🔔 Notify me on this date
+          </label>` : ''}
         </div>
       </div>
+
+      <!-- Confidence -->
       <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-size:9px;font-weight:700;color:var(--text2);">SIGNAL CONFIDENCE</span>
-        <input type="range" min="1" max="10" value="${agentEntryData[a.ticker]?.confidence||7}"
-          style="flex:1;accent-color:var(--orange);"
+        <span style="font-size:9px;font-weight:700;color:var(--text2);white-space:nowrap;">SIGNAL CONFIDENCE</span>
+        <input type="range" min="1" max="10" value="${conf}"
+          style="flex:1;accent-color:${confCol};"
           oninput="agentEntryData['${a.ticker}'].confidence=parseInt(this.value); this.nextElementSibling.textContent=this.value+'/10'; this.nextElementSibling.style.color=this.value>=7?'#22c55e':this.value>=4?'var(--orange)':'#ef4444';">
-        <span style="font-size:16px;font-weight:900;color:${(agentEntryData[a.ticker]?.confidence||7)>=7?'#22c55e':(agentEntryData[a.ticker]?.confidence||7)>=4?'var(--orange)':'#ef4444'};">${agentEntryData[a.ticker]?.confidence||7}/10</span>
+        <span style="font-size:16px;font-weight:900;min-width:36px;text-align:right;color:${confCol};">${conf}/10</span>
       </div>
     </div>`;
   }).join('');
+}
+
+// Register agent signal alerts to Telegram server
+async function agentRegisterSignalAlerts() {
+  const chat_id = getTgChatId ? getTgChatId() : null;
+  if (!chat_id) return 0;
+  let count = 0;
+  for (const a of agentSelected) {
+    const ed = agentEntryData[a.ticker]||{};
+    if (ed.alertBottom && ed.bottomDate) {
+      await registerAlertTelegram(a.ticker, ed.bottomDate, 'BUY', agentTimeframe, '📉 Expected BOTTOM — consider buying');
+      count++;
+    }
+    if (ed.alertTop && ed.topDate) {
+      await registerAlertTelegram(a.ticker, ed.topDate, 'SELL', agentTimeframe, '📈 Expected TOP — consider taking profit');
+      count++;
+    }
+  }
+  return count;
 }
 
 // ── Generate plan ──
@@ -5549,7 +6098,7 @@ async function agentGeneratePlan() {
 
   const entriesDesc = agentSelected.map(a => {
     const ed = agentEntryData[a.ticker]||{};
-    return `${a.ticker}: Buy=$${ed.buyZone||'N/A'}, Sell=$${ed.sellZone||'N/A'}, Bottom=$${ed.bottom||'N/A'}, Top=$${ed.top||'N/A'}, Confidence=${ed.confidence||7}/10, Alloc=${agentAllocations[a.ticker]||0}%`;
+    return `${a.ticker}: Buy=$${ed.buyZone||'N/A'}, Sell=$${ed.sellZone||'N/A'}, BottomDate=${ed.bottomDate||'N/A'}, TopDate=${ed.topDate||'N/A'}, Confidence=${ed.confidence||7}/10, Alloc=${agentAllocations[a.ticker]||0}%`;
   }).join('\n');
 
   const tf = agentTimeframe==='monthly' ? '4H candles, weekly DCA entries, 4-week plan'
