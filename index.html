@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -9,221 +8,221 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-–bg:     #080808;
-–bg2:    #0f0f0f;
-–bg3:    #161616;
-–bg4:    #1e1e1e;
-–border: #1c1c1c;
-–border2:#2a2a2a;
-–text:   #f0f0f0;
-–text2:  #555;
-–orange: #ff6a00;
-–orange2:#ff6a00;
-–green:  #00c896;
-–red:    #ff3b5c;
-–purple: #8b5cf6;
+  --bg:     #080808;
+  --bg2:    #0f0f0f;
+  --bg3:    #161616;
+  --bg4:    #1e1e1e;
+  --border: #1c1c1c;
+  --border2:#2a2a2a;
+  --text:   #f0f0f0;
+  --text2:  #555;
+  --orange: #ff6a00;
+  --orange2:#ff6a00;
+  --green:  #00c896;
+  --red:    #ff3b5c;
+  --purple: #8b5cf6;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
 body {
-background:var(–bg); color:var(–text);
-font-family:‘Outfit’,sans-serif;
-min-height:100vh; padding:20px 16px 60px;
+  background:var(--bg); color:var(--text);
+  font-family:'Outfit',sans-serif;
+  min-height:100vh; padding:20px 16px 60px;
 }
 
 /* ── MODE SWITCHER ── */
 .mode-switcher {
-display:flex; gap:6px; margin-bottom:20px;
-background:var(–bg2); border:1px solid var(–border);
-border-radius:11px; padding:4px; max-width:420px;
+  display:flex; gap:6px; margin-bottom:20px;
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:11px; padding:4px; max-width:420px;
 }
 .mode-btn {
-flex:1; padding:9px 12px; border-radius:8px; border:none;
-background:transparent; font-family:‘Outfit’,sans-serif;
-font-size:12px; font-weight:700; letter-spacing:.4px;
-color:var(–text2); cursor:pointer; transition:all .18s;
-display:flex; align-items:center; justify-content:center; gap:6px;
+  flex:1; padding:9px 12px; border-radius:8px; border:none;
+  background:transparent; font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:700; letter-spacing:.4px;
+  color:var(--text2); cursor:pointer; transition:all .18s;
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
 .mode-btn.active {
-background:var(–orange); color:#000;
-box-shadow:0 2px 12px rgba(255,106,0,0.3);
+  background:var(--orange); color:#000;
+  box-shadow:0 2px 12px rgba(255,106,0,0.3);
 }
-.mode-btn:hover:not(.active) { color:var(–text); background:rgba(255,255,255,.04); }
+.mode-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,.04); }
 
 /* ── AVG ASSET SELECTOR ── */
 .avg-asset-bar {
-display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap;
+  display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap;
 }
 .avg-asset-chip {
-padding:7px 13px; border-radius:8px; border:1px solid var(–border2);
-background:var(–bg3); font-family:‘Outfit’,sans-serif;
-font-size:12px; font-weight:800; color:var(–text2);
-cursor:pointer; transition:all .15s; letter-spacing:.3px;
+  padding:7px 13px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:800; color:var(--text2);
+  cursor:pointer; transition:all .15s; letter-spacing:.3px;
 }
-.avg-asset-chip.active { border-color:var(–orange); color:var(–orange); background:rgba(255,106,0,.08); }
-.avg-asset-chip:hover:not(.active) { border-color:var(–border2); color:var(–text); }
+.avg-asset-chip.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.avg-asset-chip:hover:not(.active) { border-color:var(--border2); color:var(--text); }
 .avg-asset-custom {
-flex:1; min-width:80px; padding:7px 10px; border-radius:8px;
-border:1px dashed var(–border2); background:transparent;
-font-family:‘JetBrains Mono’,monospace; font-size:12px; font-weight:700;
-color:var(–text); outline:none; transition:border-color .15s;
-text-transform:uppercase;
+  flex:1; min-width:80px; padding:7px 10px; border-radius:8px;
+  border:1px dashed var(--border2); background:transparent;
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
+  text-transform:uppercase;
 }
-.avg-asset-custom:focus { border-color:var(–orange); }
+.avg-asset-custom:focus { border-color:var(--orange); }
 .avg-asset-custom::placeholder { color:#333; }
 .avg-fetch-btn {
-padding:7px 14px; border-radius:8px;
-border:1px solid var(–border2); background:var(–bg3);
-font-family:‘Outfit’,sans-serif; font-size:11px; font-weight:800;
-color:var(–text2); cursor:pointer; transition:all .15s;
-display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0;
+  padding:7px 14px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-family:'Outfit',sans-serif; font-size:11px; font-weight:800;
+  color:var(--text2); cursor:pointer; transition:all .15s;
+  display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0;
 }
-.avg-fetch-btn:hover { border-color:var(–orange); color:var(–orange); }
+.avg-fetch-btn:hover { border-color:var(--orange); color:var(--orange); }
 .avg-fetch-btn.loading { opacity:.6; cursor:wait; }
 .avg-fetch-btn.success { border-color:#22c55e; color:#22c55e; }
 .avg-price-badge {
-display:none; align-items:center; gap:6px;
-padding:5px 10px; border-radius:7px;
-background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2);
-font-family:‘JetBrains Mono’,monospace; font-size:12px; font-weight:800;
-color:#22c55e;
+  display:none; align-items:center; gap:6px;
+  padding:5px 10px; border-radius:7px;
+  background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2);
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:800;
+  color:#22c55e;
 }
-.avg-price-badge .badge-label { font-size:8px; color:#22c55e; opacity:.7; font-family:‘Outfit’,sans-serif; font-weight:700; letter-spacing:.5px; }
+.avg-price-badge .badge-label { font-size:8px; color:#22c55e; opacity:.7; font-family:'Outfit',sans-serif; font-weight:700; letter-spacing:.5px; }
 
 /* ── POSITION TOGGLE ── */
 .pos-toggle {
-display:grid; grid-template-columns:1fr 1fr; gap:0;
-border-radius:10px; overflow:hidden;
-border:1px solid var(–border2); margin-bottom:16px;
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border-radius:10px; overflow:hidden;
+  border:1px solid var(--border2); margin-bottom:16px;
 }
 .pos-btn {
-padding:13px; border:none; font-family:‘Outfit’,sans-serif;
-font-size:13px; font-weight:900; letter-spacing:.6px;
-cursor:pointer; transition:all .18s; background:var(–bg3);
-color:var(–text2); display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:13px; border:none; font-family:'Outfit',sans-serif;
+  font-size:13px; font-weight:900; letter-spacing:.6px;
+  cursor:pointer; transition:all .18s; background:var(--bg3);
+  color:var(--text2); display:flex; align-items:center; justify-content:center; gap:7px;
 }
 .pos-btn.long.active  { background:rgba(34,197,94,0.15);  color:#22c55e;  border-bottom:2px solid #22c55e; }
 .pos-btn.short.active { background:rgba(239,68,68,0.15);  color:#ef4444;  border-bottom:2px solid #ef4444; }
-.pos-btn:hover:not(.active) { background:rgba(255,255,255,0.04); color:var(–text); }
+.pos-btn:hover:not(.active) { background:rgba(255,255,255,0.04); color:var(--text); }
 .pos-indicator {
-display:inline-flex; align-items:center; gap:5px;
-font-size:9px; font-weight:800; letter-spacing:1px;
-padding:2px 8px; border-radius:3px;
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:9px; font-weight:800; letter-spacing:1px;
+  padding:2px 8px; border-radius:3px;
 }
 .pos-indicator.long  { background:rgba(34,197,94,0.12);  color:#22c55e; }
 .pos-indicator.short { background:rgba(239,68,68,0.12);  color:#ef4444; }
 
 /* ── AVG CALCULATOR ── */
 .avg-layout {
-display:grid; grid-template-columns:340px 1fr;
-gap:16px; max-width:900px; margin:0 auto;
+  display:grid; grid-template-columns:340px 1fr;
+  gap:16px; max-width:900px; margin:0 auto;
 }
 @media(max-width:800px){ .avg-layout{ grid-template-columns:1fr; } }
 
 .avg-input-group { margin-bottom:14px; }
 .avg-label {
-font-size:9px; font-weight:700; letter-spacing:1.2px;
-color:var(–text2); margin-bottom:6px; text-transform:uppercase;
+  font-size:9px; font-weight:700; letter-spacing:1.2px;
+  color:var(--text2); margin-bottom:6px; text-transform:uppercase;
 }
 .avg-input {
-width:100%; padding:12px 14px; border-radius:9px;
-border:1px solid var(–border2); background:var(–bg3);
-font-family:‘JetBrains Mono’,monospace; font-size:15px; font-weight:700;
-color:var(–text); outline:none; transition:border-color .15s;
+  width:100%; padding:12px 14px; border-radius:9px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
 }
-.avg-input:focus { border-color:var(–orange); }
+.avg-input:focus { border-color:var(--orange); }
 .avg-input::placeholder { color:#333; font-weight:400; }
 
 .mult-row { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
 .mult-btn {
-padding:11px; border-radius:9px; border:1px solid var(–border2);
-background:var(–bg3); font-family:‘Outfit’,sans-serif;
-font-size:14px; font-weight:800; color:var(–text2);
-cursor:pointer; transition:all .15s; text-align:center;
+  padding:11px; border-radius:9px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:800; color:var(--text2);
+  cursor:pointer; transition:all .15s; text-align:center;
 }
 .mult-btn.active {
-border-color:var(–orange); color:var(–orange);
-background:rgba(255,106,0,0.08);
+  border-color:var(--orange); color:var(--orange);
+  background:rgba(255,106,0,0.08);
 }
-.mult-btn:hover:not(.active) { border-color:var(–border2); color:var(–text); background:rgba(255,255,255,.04); }
+.mult-btn:hover:not(.active) { border-color:var(--border2); color:var(--text); background:rgba(255,255,255,.04); }
 
 .avg-add-btn {
-width:100%; padding:11px; border-radius:9px; margin-top:6px;
-border:1px dashed var(–border2); background:transparent;
-font-family:‘Outfit’,sans-serif; font-size:12px; font-weight:700;
-color:var(–text2); cursor:pointer; transition:all .15s;
-display:flex; align-items:center; justify-content:center; gap:6px;
+  width:100%; padding:11px; border-radius:9px; margin-top:6px;
+  border:1px dashed var(--border2); background:transparent;
+  font-family:'Outfit',sans-serif; font-size:12px; font-weight:700;
+  color:var(--text2); cursor:pointer; transition:all .15s;
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.avg-add-btn:hover { border-color:var(–orange); color:var(–orange); }
+.avg-add-btn:hover { border-color:var(--orange); color:var(--orange); }
 
 .avg-calc-btn {
-width:100%; padding:14px; border-radius:10px; border:none;
-background:var(–orange); font-family:‘Outfit’,sans-serif;
-font-size:14px; font-weight:900; color:#000; cursor:pointer;
-transition:all .18s; letter-spacing:.3px; margin-top:8px;
+  width:100%; padding:14px; border-radius:10px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .18s; letter-spacing:.3px; margin-top:8px;
 }
-.avg-calc-btn:hover { background:var(–orange2); transform:translateY(-1px); }
+.avg-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
 
 /* ── AVG RESULTS ── */
 
 /* ── WHAT-IF SCENARIOS ── */
 .scenarios-grid {
-display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px;
 }
 .scenario-card {
-border-radius:12px; padding:14px 12px; text-align:center;
-border:1px solid var(–border); background:var(–bg3);
-position:relative; overflow:hidden; transition:border-color .18s;
+  border-radius:12px; padding:14px 12px; text-align:center;
+  border:1px solid var(--border); background:var(--bg3);
+  position:relative; overflow:hidden; transition:border-color .18s;
 }
 .scenario-card.conservative { border-top:2px solid #22c55e; }
-.scenario-card.aggressive   { border-top:2px solid var(–orange); }
+.scenario-card.aggressive   { border-top:2px solid var(--orange); }
 .scenario-card.maximum      { border-top:2px solid #ef4444; }
 .scenario-card::before {
-content:’’; position:absolute; inset:0; opacity:0.06;
-transition:opacity .18s;
+  content:''; position:absolute; inset:0; opacity:0.06;
+  transition:opacity .18s;
 }
 .scenario-card.conservative::before { background:linear-gradient(180deg,#22c55e,transparent 60%); }
 .scenario-card.aggressive::before   { background:linear-gradient(180deg,#ff6a00,transparent 60%); }
 .scenario-card.maximum::before      { background:linear-gradient(180deg,#ef4444,transparent 60%); }
 .sc-tag   { font-size:7px; font-weight:800; letter-spacing:1.2px; margin-bottom:5px; padding:2px 7px; border-radius:3px; display:inline-block; }
 .sc-tag.conservative { background:rgba(34,197,94,.12);  color:#22c55e; }
-.sc-tag.aggressive   { background:rgba(255,106,0,.12);  color:var(–orange); }
+.sc-tag.aggressive   { background:rgba(255,106,0,.12);  color:var(--orange); }
 .sc-tag.maximum      { background:rgba(239,68,68,.12);  color:#ef4444; }
-.sc-mult-badge { font-size:10px; font-weight:800; color:var(–text2); margin-bottom:6px; }
-.sc-avg  { font-family:‘JetBrains Mono’,monospace; font-size:18px; font-weight:900; margin-bottom:3px; }
+.sc-mult-badge { font-size:10px; font-weight:800; color:var(--text2); margin-bottom:6px; }
+.sc-avg  { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; margin-bottom:3px; }
 .sc-avg.conservative { color:#22c55e; }
-.sc-avg.aggressive   { color:var(–orange); }
+.sc-avg.aggressive   { color:var(--orange); }
 .sc-avg.maximum      { color:#ef4444; }
 .sc-vol  { font-size:9px; color:#555; margin-bottom:4px; }
-.sc-liq  { font-family:‘JetBrains Mono’,monospace; font-size:10px; font-weight:700; }
+.sc-liq  { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; }
 .sc-delta { font-size:9px; font-weight:700; margin-top:4px; }
 
 /* ── POSITION SIZER ── */
 .sizer-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
 @media(max-width:800px){ .sizer-layout{ grid-template-columns:1fr; } }
 .sizer-result-hero {
-background:var(–bg3); border:1px solid var(–border2); border-radius:14px;
-padding:22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden;
+  background:var(--bg3); border:1px solid var(--border2); border-radius:14px;
+  padding:22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden;
 }
 .sizer-result-hero::before {
-content:’’; position:absolute; inset:0;
-background:linear-gradient(135deg,rgba(255,106,0,.07) 0%,transparent 60%);
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,106,0,.07) 0%,transparent 60%);
 }
-.sizer-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(–text2); margin-bottom:6px; }
-.sizer-hero-val   { font-size:40px; font-weight:900; font-family:‘JetBrains Mono’,monospace; color:var(–orange); line-height:1; margin-bottom:2px; }
-.sizer-hero-sub   { font-size:11px; color:var(–text2); }
-.sizer-stat { background:var(–bg3); border:1px solid var(–border); border-radius:10px; padding:12px 14px; }
-.sizer-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(–text2); margin-bottom:4px; }
-.sizer-stat-val   { font-size:16px; font-weight:900; font-family:‘JetBrains Mono’,monospace; color:var(–text); }
+.sizer-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text2); margin-bottom:6px; }
+.sizer-hero-val   { font-size:40px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--orange); line-height:1; margin-bottom:2px; }
+.sizer-hero-sub   { font-size:11px; color:var(--text2); }
+.sizer-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.sizer-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
+.sizer-stat-val   { font-size:16px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--text); }
 .sizer-stat-sub   { font-size:9px; color:#555; margin-top:2px; }
 .risk-bar-wrap { height:8px; background:#1a1a1a; border-radius:4px; margin:10px 0 4px; overflow:hidden; }
 .risk-bar-fill { height:100%; border-radius:4px; transition:width .4s; }
 .sizer-calc-btn {
-width:100%; padding:14px; border-radius:10px; border:none;
-background:var(–orange); font-family:‘Outfit’,sans-serif;
-font-size:14px; font-weight:900; color:#000; cursor:pointer;
-transition:all .18s; letter-spacing:.3px; margin-top:8px;
+  width:100%; padding:14px; border-radius:10px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .18s; letter-spacing:.3px; margin-top:8px;
 }
-.sizer-calc-btn:hover { background:var(–orange2); transform:translateY(-1px); }
+.sizer-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
 
 /* ── PORTFOLIO ── */
 .pf-section { max-width:1100px; margin:0 auto; }
@@ -232,40 +231,40 @@ transition:all .18s; letter-spacing:.3px; margin-top:8px;
 
 /* Donut chart */
 .pf-chart-wrap {
-background:var(–bg3); border:1px solid var(–border); border-radius:14px;
-padding:18px; display:flex; flex-direction:column; align-items:center;
+  background:var(--bg3); border:1px solid var(--border); border-radius:14px;
+  padding:18px; display:flex; flex-direction:column; align-items:center;
 }
 .pf-donut-container { position:relative; width:200px; height:200px; margin:8px 0; }
 .pf-donut-center {
-position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-text-align:center; pointer-events:none;
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center; pointer-events:none;
 }
-.pf-donut-total { font-family:‘JetBrains Mono’,monospace; font-size:20px; font-weight:900; color:var(–text); }
-.pf-donut-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(–text2); margin-top:2px; }
+.pf-donut-total { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; color:var(--text); }
+.pf-donut-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-top:2px; }
 .pf-donut-pnl   { font-size:11px; font-weight:800; margin-top:3px; }
 .pf-legend { width:100%; margin-top:10px; display:flex; flex-direction:column; gap:5px; }
 .pf-legend-item { display:flex; align-items:center; justify-content:space-between; font-size:10px; }
 .pf-legend-dot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-right:6px; }
-.pf-legend-name { flex:1; font-weight:700; color:var(–text); }
-.pf-legend-pct  { font-weight:800; color:var(–text2); margin-left:6px; }
+.pf-legend-name { flex:1; font-weight:700; color:var(--text); }
+.pf-legend-pct  { font-weight:800; color:var(--text2); margin-left:6px; }
 
 /* Summary stats strip */
 .pf-stats-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
 @media(max-width:700px){ .pf-stats-strip{ grid-template-columns:repeat(2,1fr); } }
-.pf-stat { background:var(–bg3); border:1px solid var(–border); border-radius:10px; padding:12px 14px; }
-.pf-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(–text2); margin-bottom:4px; }
-.pf-stat-val   { font-family:‘JetBrains Mono’,monospace; font-size:18px; font-weight:900; color:var(–text); }
+.pf-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.pf-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
+.pf-stat-val   { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; color:var(--text); }
 .pf-stat-sub   { font-size:9px; color:#555; margin-top:2px; }
 
 /* Asset table */
-.pf-table-wrap { background:var(–bg3); border:1px solid var(–border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
-.pf-table-header { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:8px 14px; background:rgba(0,0,0,.25); border-bottom:1px solid var(–border); }
-.pf-table-header span { font-size:8px; font-weight:700; letter-spacing:.8px; color:var(–text2); }
+.pf-table-wrap { background:var(--bg3); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
+.pf-table-header { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:8px 14px; background:rgba(0,0,0,.25); border-bottom:1px solid var(--border); }
+.pf-table-header span { font-size:8px; font-weight:700; letter-spacing:.8px; color:var(--text2); }
 .pf-asset-row { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:11px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; }
 .pf-asset-row:last-child { border-bottom:none; }
 .pf-asset-row:hover { background:rgba(255,255,255,.02); }
 .pf-asset-type-badge { font-size:7px; font-weight:800; padding:2px 6px; border-radius:3px; letter-spacing:.6px; }
-.pf-asset-type-badge.crypto { background:rgba(255,106,0,.12); color:var(–orange); }
+.pf-asset-type-badge.crypto { background:rgba(255,106,0,.12); color:var(--orange); }
 .pf-asset-type-badge.stock  { background:rgba(34,197,94,.1);  color:#22c55e; }
 .pf-asset-type-badge.etf    { background:rgba(100,149,237,.1); color:#6495ed; }
 .pf-asset-type-badge.commodity { background:rgba(245,200,0,.1); color:#f5c800; }
@@ -275,52 +274,52 @@ text-align:center; pointer-events:none;
 .pf-bar-mini { height:3px; border-radius:2px; margin-top:3px; }
 
 /* Add asset form */
-.pf-add-card { background:var(–bg3); border:1px solid var(–border); border-radius:12px; padding:16px; margin-bottom:14px; }
+.pf-add-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:14px; }
 .pf-add-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; gap:8px; align-items:end; }
 @media(max-width:800px){ .pf-add-grid{ grid-template-columns:1fr 1fr; } }
 .pf-add-input {
-width:100%; padding:10px 12px; border-radius:8px;
-border:1px solid var(–border2); background:var(–bg);
-font-family:‘JetBrains Mono’,monospace; font-size:13px; font-weight:700;
-color:var(–text); outline:none; transition:border-color .15s;
+  width:100%; padding:10px 12px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--bg);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
 }
-.pf-add-input:focus { border-color:var(–orange); }
+.pf-add-input:focus { border-color:var(--orange); }
 .pf-add-input::placeholder { color:#2a2a2a; font-weight:400; }
 .pf-add-btn {
-padding:10px 18px; border-radius:8px; border:none;
-background:var(–orange); font-family:‘Outfit’,sans-serif;
-font-size:12px; font-weight:900; color:#000; cursor:pointer;
-transition:all .15s; white-space:nowrap;
+  padding:10px 18px; border-radius:8px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .15s; white-space:nowrap;
 }
-.pf-add-btn:hover { background:var(–orange2); }
+.pf-add-btn:hover { background:var(--orange2); }
 .pf-fetch-price-btn {
-padding:9px 12px; border-radius:8px; border:1px solid var(–border2);
-background:var(–bg); font-family:‘Outfit’,sans-serif; font-size:11px;
-font-weight:700; color:var(–text2); cursor:pointer; transition:all .15s;
+  padding:9px 12px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg); font-family:'Outfit',sans-serif; font-size:11px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
 }
-.pf-fetch-price-btn:hover { border-color:var(–orange); color:var(–orange); }
+.pf-fetch-price-btn:hover { border-color:var(--orange); color:var(--orange); }
 
 /* Scenario projections */
 .pf-proj-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:8px; }
 @media(max-width:700px){ .pf-proj-grid{ grid-template-columns:repeat(3,1fr); } }
-.pf-proj-card { background:var(–bg3); border:1px solid var(–border); border-radius:10px; padding:12px; text-align:center; }
+.pf-proj-card { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px; text-align:center; }
 .pf-proj-pct  { font-size:8px; font-weight:800; color:#22c55e; letter-spacing:.8px; margin-bottom:4px; }
-.pf-proj-val  { font-family:‘JetBrains Mono’,monospace; font-size:14px; font-weight:900; color:var(–text); margin-bottom:2px; }
+.pf-proj-val  { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--text); margin-bottom:2px; }
 .pf-proj-gain { font-size:10px; font-weight:700; color:#22c55e; }
 
 /* Simulation */
-.pf-sim-card { background:var(–bg3); border:1px solid var(–border); border-radius:12px; padding:16px; margin-bottom:14px; }
+.pf-sim-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:14px; }
 .pf-sim-asset-row { display:grid; grid-template-columns:80px 1fr 80px 80px; gap:8px; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.03); }
 .pf-sim-asset-row:last-child { border-bottom:none; }
 .pf-sim-bar-wrap { height:6px; background:#1a1a1a; border-radius:3px; overflow:hidden; }
 .pf-sim-bar      { height:100%; border-radius:3px; transition:width .6s cubic-bezier(.34,1.56,.64,1); }
 .pf-mult-btn {
-padding:7px 14px; border-radius:8px; border:1px solid var(–border2);
-background:var(–bg); font-family:‘Outfit’,sans-serif; font-size:11px;
-font-weight:800; color:var(–text2); cursor:pointer; transition:all .15s;
+  padding:7px 14px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg); font-family:'Outfit',sans-serif; font-size:11px;
+  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s;
 }
 .pf-mult-btn.active { border-color:#22c55e; color:#22c55e; background:rgba(34,197,94,.08); }
-.pf-mult-btn:hover:not(.active) { border-color:var(–orange); color:var(–orange); }
+.pf-mult-btn:hover:not(.active) { border-color:var(--orange); color:var(--orange); }
 
 /* Alerts */
 .pf-alert-row { display:grid; grid-template-columns:80px 100px 80px 1fr auto; gap:8px; align-items:center; padding:10px 14px; border-bottom:1px solid rgba(255,255,255,.03); font-size:11px; }
@@ -334,508 +333,508 @@ font-weight:800; color:var(–text2); cursor:pointer; transition:all .15s;
 .agent-section { max-width:1060px; margin:0 auto; }
 .agent-steps-nav { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
 .agent-step-btn {
-display:flex; align-items:center; gap:7px;
-padding:9px 18px; border-radius:8px;
-border:1px solid var(–border); background:transparent;
-font-family:‘Outfit’,sans-serif; font-size:12px; font-weight:600;
-color:var(–text2); cursor:pointer; transition:all .18s;
+  display:flex; align-items:center; gap:7px;
+  padding:9px 18px; border-radius:8px;
+  border:1px solid var(--border); background:transparent;
+  font-family:'Outfit',sans-serif; font-size:12px; font-weight:600;
+  color:var(--text2); cursor:pointer; transition:all .18s;
 }
 .agent-step-btn.active {
-border-color:var(–orange); background:rgba(255,106,0,.08); color:var(–orange);
+  border-color:var(--orange); background:rgba(255,106,0,.08); color:var(--orange);
 }
 .agent-step-btn.done { border-color:#22c55e30; color:#22c55e; }
 .agent-step-btn:disabled { opacity:.3; cursor:not-allowed; }
 
 /* Budget presets */
 .agent-budget-preset {
-padding:8px 14px; border-radius:8px; border:1px solid var(–border2);
-background:var(–bg3); font-family:‘Outfit’,sans-serif; font-size:12px;
-font-weight:700; color:var(–text2); cursor:pointer; transition:all .15s;
+  padding:8px 14px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:12px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
 }
-.agent-budget-preset.active { border-color:var(–orange); color:var(–orange); background:rgba(255,106,0,.08); }
-.agent-budget-preset:hover:not(.active) { border-color:var(–border2); color:var(–text); }
+.agent-budget-preset.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.agent-budget-preset:hover:not(.active) { border-color:var(--border2); color:var(--text); }
 
 /* Category tabs */
 .agent-cat-btn {
-flex:1; padding:12px; border-radius:10px; border:1px solid var(–border);
-background:var(–bg3); font-family:‘Outfit’,sans-serif; font-size:13px;
-font-weight:700; color:var(–text2); cursor:pointer; transition:all .15s;
-display:flex; align-items:center; justify-content:center; gap:7px;
+  flex:1; padding:12px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:13px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
+  display:flex; align-items:center; justify-content:center; gap:7px;
 }
-.agent-cat-btn.active { border-color:var(–orange); color:var(–orange); background:rgba(255,106,0,.07); }
+.agent-cat-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.07); }
 
 /* Asset cards */
 .agent-asset-card {
-padding:14px; border-radius:10px; border:1px solid var(–border);
-background:var(–bg3); cursor:pointer; text-align:left;
-transition:all .18s; position:relative; overflow:hidden;
-font-family:‘Outfit’,sans-serif;
+  padding:14px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); cursor:pointer; text-align:left;
+  transition:all .18s; position:relative; overflow:hidden;
+  font-family:'Outfit',sans-serif;
 }
-.agent-asset-card:hover { border-color:var(–border2); }
-.agent-asset-card.selected { border-color:var(–orange); background:rgba(255,106,0,.05); }
+.agent-asset-card:hover { border-color:var(--border2); }
+.agent-asset-card.selected { border-color:var(--orange); background:rgba(255,106,0,.05); }
 .agent-asset-check {
-position:absolute; top:8px; right:8px; width:16px; height:16px;
-border-radius:50%; background:var(–orange);
-display:flex; align-items:center; justify-content:center;
-font-size:9px; color:#000; font-weight:900;
+  position:absolute; top:8px; right:8px; width:16px; height:16px;
+  border-radius:50%; background:var(--orange);
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; color:#000; font-weight:900;
 }
 
 /* Allocation row */
 .agent-alloc-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
 .agent-alloc-name { width:52px; font-size:12px; font-weight:800; }
-.agent-alloc-bar-wrap { flex:1; height:4px; background:var(–border); border-radius:2px; overflow:hidden; }
+.agent-alloc-bar-wrap { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
 .agent-alloc-bar { height:100%; border-radius:2px; transition:width .4s; }
 
 /* Score ring */
 .agent-score-card {
-background:var(–bg3); border:1px solid var(–border); border-radius:12px;
-padding:20px; display:flex; flex-direction:column; align-items:center; gap:8px;
+  background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+  padding:20px; display:flex; flex-direction:column; align-items:center; gap:8px;
 }
 
 /* Signal inputs */
 .agent-signal-input {
-width:100%; padding:9px 11px; border-radius:7px;
-border:1px solid var(–border2); background:var(–bg);
-font-family:‘JetBrains Mono’,monospace; font-size:13px; font-weight:700;
-color:var(–text); outline:none; transition:border-color .15s;
+  width:100%; padding:9px 11px; border-radius:7px;
+  border:1px solid var(--border2); background:var(--bg);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
 }
-.agent-signal-input:focus { border-color:var(–orange); }
+.agent-signal-input:focus { border-color:var(--orange); }
 .agent-signal-input::placeholder { color:#2a2a2a; font-weight:400; }
 
 /* Plan cards */
 .agent-tranche-row {
-display:grid; grid-template-columns:36px 1fr 70px 90px 1fr 80px;
-gap:8px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.03);
-align-items:center; font-size:11px;
+  display:grid; grid-template-columns:36px 1fr 70px 90px 1fr 80px;
+  gap:8px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.03);
+  align-items:center; font-size:11px;
 }
 .agent-tranche-num {
-width:22px; height:22px; border-radius:50%; display:flex;
-align-items:center; justify-content:center; font-size:11px; font-weight:800;
+  width:22px; height:22px; border-radius:50%; display:flex;
+  align-items:center; justify-content:center; font-size:11px; font-weight:800;
 }
 .agent-plan-hero {
-border-radius:14px; padding:22px;
-background:linear-gradient(135deg,rgba(255,106,0,.07),rgba(255,255,255,.02));
-border:1px solid rgba(255,106,0,.2);
+  border-radius:14px; padding:22px;
+  background:linear-gradient(135deg,rgba(255,106,0,.07),rgba(255,255,255,.02));
+  border:1px solid rgba(255,106,0,.2);
 }
 
 /* Spinner */
 @keyframes agentSpin { to { transform:rotate(360deg); } }
 .agent-spinner {
-width:44px; height:44px; border:3px solid rgba(255,106,0,.15);
-border-top-color:var(–orange); border-radius:50%;
-animation:agentSpin 1s linear infinite; margin:0 auto 16px;
+  width:44px; height:44px; border:3px solid rgba(255,106,0,.15);
+  border-top-color:var(--orange); border-radius:50%;
+  animation:agentSpin 1s linear infinite; margin:0 auto 16px;
 }
 
 /* TF selector */
 .agent-tf-btn {
-flex:1; padding:16px 12px; border-radius:10px; border:1px solid var(–border);
-background:var(–bg3); cursor:pointer; text-align:center;
-font-family:‘Outfit’,sans-serif; transition:all .15s;
+  flex:1; padding:16px 12px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); cursor:pointer; text-align:center;
+  font-family:'Outfit',sans-serif; transition:all .15s;
 }
-.agent-tf-btn.active { border-color:var(–orange); background:rgba(255,106,0,.07); }
+.agent-tf-btn.active { border-color:var(--orange); background:rgba(255,106,0,.07); }
 .agent-action-btn {
-width:100%; padding:14px; border-radius:10px; border:none;
-background:var(–orange); font-family:‘Outfit’,sans-serif;
-font-size:14px; font-weight:900; color:#000; cursor:pointer;
-transition:all .18s; letter-spacing:.3px; margin-top:8px;
+  width:100%; padding:14px; border-radius:10px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .18s; letter-spacing:.3px; margin-top:8px;
 }
-.agent-action-btn:hover { background:var(–orange2); transform:translateY(-1px); }
+.agent-action-btn:hover { background:var(--orange2); transform:translateY(-1px); }
 .agent-action-btn.secondary {
-background:var(–bg3); border:1px solid var(–border2); color:var(–text2);
-font-weight:700;
+  background:var(--bg3); border:1px solid var(--border2); color:var(--text2);
+  font-weight:700;
 }
-.agent-action-btn.secondary:hover { border-color:var(–orange); color:var(–orange); transform:none; }
+.agent-action-btn.secondary:hover { border-color:var(--orange); color:var(--orange); transform:none; }
 
 /* ── FUNDING RATE ── */
 .funding-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
 @media(max-width:800px){ .funding-layout{ grid-template-columns:1fr; } }
 .funding-asset-btn {
-padding:8px 14px; border-radius:8px; border:1px solid var(–border2);
-background:var(–bg3); font-family:‘Outfit’,sans-serif; font-size:12px;
-font-weight:800; color:var(–text2); cursor:pointer; transition:all .15s;
+  padding:8px 14px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:12px;
+  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s;
 }
-.funding-asset-btn.active { border-color:var(–orange); color:var(–orange); background:rgba(255,106,0,.08); }
-.funding-asset-btn:hover:not(.active) { color:var(–text); }
+.funding-asset-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.funding-asset-btn:hover:not(.active) { color:var(--text); }
 .funding-period-card {
-background:var(–bg3); border:1px solid var(–border); border-radius:12px;
-padding:16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+  background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+  padding:16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
 }
-.funding-period-label { font-size:10px; font-weight:700; color:var(–text2); }
-.funding-period-val   { font-family:‘JetBrains Mono’,monospace; font-size:20px; font-weight:900; }
+.funding-period-label { font-size:10px; font-weight:700; color:var(--text2); }
+.funding-period-val   { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; }
 .funding-period-sub   { font-size:9px; color:#555; margin-top:2px; text-align:right; }
 .funding-periods { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
 .funding-direction-bar {
-height:6px; border-radius:3px; margin:12px 0 6px; overflow:hidden;
-background:linear-gradient(90deg, #ef4444 0%, #1a1a1a 50%, #22c55e 100%);
-position:relative;
+  height:6px; border-radius:3px; margin:12px 0 6px; overflow:hidden;
+  background:linear-gradient(90deg, #ef4444 0%, #1a1a1a 50%, #22c55e 100%);
+  position:relative;
 }
 .funding-direction-needle {
-position:absolute; top:-4px; width:3px; height:14px;
-background:#f0f0f0; border-radius:2px; transform:translateX(-50%);
-transition:left .4s;
+  position:absolute; top:-4px; width:3px; height:14px;
+  background:#f0f0f0; border-radius:2px; transform:translateX(-50%);
+  transition:left .4s;
 }
 
 /* ── TAKE PROFIT ── */
 .tp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:6px; }
 .tp-card {
-background:var(–bg3); border:1px solid var(–border);
-border-radius:10px; padding:12px 10px; text-align:center;
-cursor:pointer; transition:all .18s; position:relative; overflow:hidden;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; padding:12px 10px; text-align:center;
+  cursor:pointer; transition:all .18s; position:relative; overflow:hidden;
 }
 .tp-card::before {
-content:’’; position:absolute; inset:0;
-background:linear-gradient(180deg,rgba(34,197,94,0.06) 0%,transparent 70%);
-opacity:0; transition:opacity .18s;
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(34,197,94,0.06) 0%,transparent 70%);
+  opacity:0; transition:opacity .18s;
 }
 .tp-card:hover::before { opacity:1; }
 .tp-card:hover { border-color:rgba(34,197,94,0.3); }
 .tp-pct   { font-size:8px; font-weight:800; letter-spacing:1px; color:#22c55e; margin-bottom:4px; }
-.tp-price { font-family:‘JetBrains Mono’,monospace; font-size:14px; font-weight:900; color:var(–text); margin-bottom:3px; }
+.tp-price { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--text); margin-bottom:3px; }
 .tp-pnl   { font-size:10px; font-weight:700; color:#22c55e; }
 .tp-custom-row {
-display:flex; gap:6px; align-items:center; margin-top:6px;
+  display:flex; gap:6px; align-items:center; margin-top:6px;
 }
 .tp-custom-input {
-flex:1; padding:8px 10px; border-radius:8px;
-border:1px solid var(–border2); background:var(–bg3);
-font-family:‘JetBrains Mono’,monospace; font-size:13px; font-weight:700;
-color:var(–text); outline:none; transition:border-color .15s;
+  flex:1; padding:8px 10px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
 }
 .tp-custom-input:focus { border-color:#22c55e; }
 .tp-custom-input::placeholder { color:#333; }
 .tp-custom-btn {
-padding:8px 12px; border-radius:8px; border:1px solid var(–border2);
-background:var(–bg3); font-family:‘Outfit’,sans-serif; font-size:11px;
-font-weight:800; color:var(–text2); cursor:pointer; transition:all .15s; white-space:nowrap;
+  padding:8px 12px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:11px;
+  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s; white-space:nowrap;
 }
 .tp-custom-btn:hover { border-color:#22c55e; color:#22c55e; }
 
 /* ── RISK/REWARD ── */
 .rr-bar-wrap {
-position:relative; height:10px; border-radius:5px;
-background:#1a1a1a; margin:14px 0 24px; overflow:visible;
+  position:relative; height:10px; border-radius:5px;
+  background:#1a1a1a; margin:14px 0 24px; overflow:visible;
 }
 .rr-bar-risk {
-position:absolute; left:0; top:0; height:100%;
-background:linear-gradient(90deg,#ef4444,#ff6b6b);
-border-radius:5px 0 0 5px; transition:width .4s;
+  position:absolute; left:0; top:0; height:100%;
+  background:linear-gradient(90deg,#ef4444,#ff6b6b);
+  border-radius:5px 0 0 5px; transition:width .4s;
 }
 .rr-bar-reward {
-position:absolute; top:0; height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-border-radius:0 5px 5px 0; transition:width .4s left .4s;
+  position:absolute; top:0; height:100%;
+  background:linear-gradient(90deg,#22c55e,#4ade80);
+  border-radius:0 5px 5px 0; transition:width .4s left .4s;
 }
 .rr-bar-center {
-position:absolute; top:-4px; width:3px; height:18px;
-background:#f0f0f0; border-radius:2px; transform:translateX(-50%);
-transition:left .4s;
+  position:absolute; top:-4px; width:3px; height:18px;
+  background:#f0f0f0; border-radius:2px; transform:translateX(-50%);
+  transition:left .4s;
 }
 .rr-label {
-position:absolute; bottom:-18px; font-size:8px;
-transform:translateX(-50%); white-space:nowrap; font-weight:700;
+  position:absolute; bottom:-18px; font-size:8px;
+  transform:translateX(-50%); white-space:nowrap; font-weight:700;
 }
 .rr-stats { display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:center; text-align:center; }
-.rr-val   { font-family:‘JetBrains Mono’,monospace; font-size:18px; font-weight:900; }
+.rr-val   { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; }
 .rr-sep   { font-size:11px; color:#444; font-weight:700; }
 .rr-ratio {
-display:inline-block; padding:4px 12px; border-radius:6px;
-font-family:‘JetBrains Mono’,monospace; font-size:13px; font-weight:900;
-margin-top:8px;
+  display:inline-block; padding:4px 12px; border-radius:6px;
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:900;
+  margin-top:8px;
 }
 .rr-ratio.good { background:rgba(34,197,94,0.12); color:#22c55e; border:1px solid rgba(34,197,94,0.25); }
 .rr-ratio.bad  { background:rgba(239,68,68,0.12);  color:#ef4444;  border:1px solid rgba(239,68,68,0.25); }
-.rr-ratio.neutral { background:rgba(255,255,255,0.05); color:#888; border:1px solid var(–border); }
+.rr-ratio.neutral { background:rgba(255,255,255,0.05); color:#888; border:1px solid var(--border); }
 
 /* ── AVG HISTORY ── */
 .avg-hist-item {
-padding:10px 12px; border-radius:9px;
-border:1px solid var(–border); background:var(–bg3);
-cursor:pointer; transition:border-color .15s;
-display:grid; grid-template-columns:auto 1fr auto;
-gap:10px; align-items:center;
+  padding:10px 12px; border-radius:9px;
+  border:1px solid var(--border); background:var(--bg3);
+  cursor:pointer; transition:border-color .15s;
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:10px; align-items:center;
 }
-.avg-hist-item:hover { border-color:var(–orange); }
+.avg-hist-item:hover { border-color:var(--orange); }
 .avg-hist-item.latest { border-color:rgba(255,106,0,0.4); }
 .avg-hist-num { font-size:9px; font-weight:800; color:#444; }
 .avg-hist-main { }
-.avg-hist-asset { font-size:8px; font-weight:800; letter-spacing:1px; color:var(–text2); margin-bottom:3px; }
-.avg-hist-price { font-family:‘JetBrains Mono’,monospace; font-size:14px; font-weight:900; color:var(–orange); }
+.avg-hist-asset { font-size:8px; font-weight:800; letter-spacing:1px; color:var(--text2); margin-bottom:3px; }
+.avg-hist-price { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--orange); }
 .avg-hist-meta  { font-size:9px; color:#555; margin-top:2px; }
 .avg-hist-dir { font-size:9px; font-weight:800; padding:2px 7px; border-radius:4px; }
 .avg-hist-dir.long  { background:rgba(34,197,94,0.1);  color:#22c55e; }
 .avg-hist-dir.short { background:rgba(239,68,68,0.1);  color:#ef4444; }
 .avg-empty {
-display:flex; flex-direction:column; align-items:center; justify-content:center;
-min-height:280px; gap:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:280px; gap:12px;
 }
-.avg-empty svg { width:48px; height:48px; stroke:var(–text2); fill:none; stroke-width:1.2; opacity:.2; }
-.avg-empty p { font-size:13px; color:var(–text2); }
+.avg-empty svg { width:48px; height:48px; stroke:var(--text2); fill:none; stroke-width:1.2; opacity:.2; }
+.avg-empty p { font-size:13px; color:var(--text2); }
 
 .avg-result-hero {
-background:var(–bg3); border:1px solid var(–border2);
-border-radius:14px; padding:22px; text-align:center; margin-bottom:14px;
-position:relative; overflow:hidden;
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:14px; padding:22px; text-align:center; margin-bottom:14px;
+  position:relative; overflow:hidden;
 }
 .avg-result-hero::before {
-content:’’; position:absolute; inset:0;
-background:linear-gradient(135deg,rgba(255,106,0,0.06) 0%,transparent 60%);
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,106,0,0.06) 0%,transparent 60%);
 }
-.avg-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(–text2); margin-bottom:6px; }
-.avg-hero-price { font-size:42px; font-weight:900; font-family:‘JetBrains Mono’,monospace; color:var(–orange); line-height:1; margin-bottom:4px; }
-.avg-hero-sub { font-size:11px; color:var(–text2); }
+.avg-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text2); margin-bottom:6px; }
+.avg-hero-price { font-size:42px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--orange); line-height:1; margin-bottom:4px; }
+.avg-hero-sub { font-size:11px; color:var(--text2); }
 
 .avg-summary-grid {
-display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;
+  display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;
 }
 .avg-stat {
-background:var(–bg3); border:1px solid var(–border);
-border-radius:10px; padding:12px 14px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; padding:12px 14px;
 }
-.avg-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(–text2); margin-bottom:4px; }
-.avg-stat-val { font-size:16px; font-weight:900; font-family:‘JetBrains Mono’,monospace; color:var(–text); }
-.avg-stat-sub { font-size:9px; color:var(–text2); margin-top:2px; }
+.avg-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
+.avg-stat-val { font-size:16px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--text); }
+.avg-stat-sub { font-size:9px; color:var(--text2); margin-top:2px; }
 
 .avg-legs-card {
-background:var(–bg3); border:1px solid var(–border);
-border-radius:12px; overflow:hidden;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:12px; overflow:hidden;
 }
 .avg-legs-header {
-display:flex; justify-content:space-between; align-items:center;
-padding:10px 14px; border-bottom:1px solid var(–border);
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 14px; border-bottom:1px solid var(--border);
 }
-.avg-legs-header span { font-size:9px; font-weight:700; letter-spacing:1px; color:var(–text2); }
+.avg-legs-header span { font-size:9px; font-weight:700; letter-spacing:1px; color:var(--text2); }
 .avg-leg-row {
-display:grid; grid-template-columns:28px 1fr 1fr 1fr 90px;
-align-items:center; padding:10px 14px; gap:8px;
-border-bottom:1px solid rgba(255,255,255,.03);
-font-family:‘JetBrains Mono’,monospace; font-size:12px;
+  display:grid; grid-template-columns:28px 1fr 1fr 1fr 90px;
+  align-items:center; padding:10px 14px; gap:8px;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  font-family:'JetBrains Mono',monospace; font-size:12px;
 }
 .avg-leg-row:last-child { border-bottom:none; }
-.avg-leg-row.header-row { font-family:‘Outfit’,sans-serif; font-size:8px; font-weight:700; letter-spacing:.8px; color:var(–text2); padding:6px 14px; background:rgba(0,0,0,.2); }
+.avg-leg-row.header-row { font-family:'Outfit',sans-serif; font-size:8px; font-weight:700; letter-spacing:.8px; color:var(--text2); padding:6px 14px; background:rgba(0,0,0,.2); }
 .avg-leg-num { font-size:9px; font-weight:800; }
 .avg-leg-pnl-pos { color:#22c55e; font-weight:800; }
 .avg-leg-pnl-neg { color:#ef4444; font-weight:800; }
 
 .avg-be-bar {
-background:var(–bg3); border:1px solid var(–border);
-border-radius:12px; padding:16px; margin-bottom:14px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:12px; padding:16px; margin-bottom:14px;
 }
-.avg-be-label { font-size:9px; font-weight:700; letter-spacing:1px; color:var(–text2); margin-bottom:12px; }
+.avg-be-label { font-size:9px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:12px; }
 
 /* ── HEADER ── */
 .header { display:flex; align-items:center; gap:10px; margin-bottom:24px; }
 .brand-main { font-size:18px; font-weight:900; letter-spacing:-0.3px; }
-.brand-sub  { font-size:9px; color:var(–text2); letter-spacing:2px; font-weight:600; }
-.brand-sub span { color:var(–orange); }
+.brand-sub  { font-size:9px; color:var(--text2); letter-spacing:2px; font-weight:600; }
+.brand-sub span { color:var(--orange); }
 
 /* ── LAYOUT ── */
 .layout {
-display:grid; grid-template-columns:360px 1fr;
-gap:16px; max-width:1060px; margin:0 auto;
+  display:grid; grid-template-columns:360px 1fr;
+  gap:16px; max-width:1060px; margin:0 auto;
 }
 @media(max-width:800px){ .layout{ grid-template-columns:1fr; } }
 
 /* ── CARD ── */
 .card {
-background:var(–bg2); border:1px solid var(–border);
-border-radius:14px; padding:18px;
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:14px; padding:18px;
 }
 
 /* ── ASSET TABS ── */
 .asset-tabs { display:flex; gap:4px; margin-bottom:16px; flex-wrap:wrap; }
 .asset-tab {
-padding:6px 14px; border-radius:7px;
-border:1px solid var(–border2); background:var(–bg3);
-font-size:11px; font-weight:700; color:var(–text2);
-cursor:pointer; transition:all .15s; font-family:‘Outfit’,sans-serif;
-display:flex; align-items:center; gap:5px;
+  padding:6px 14px; border-radius:7px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-size:11px; font-weight:700; color:var(--text2);
+  cursor:pointer; transition:all .15s; font-family:'Outfit',sans-serif;
+  display:flex; align-items:center; gap:5px;
 }
-.asset-tab:hover { border-color:var(–orange); color:var(–orange); }
-.asset-tab.active { border-color:var(–orange); color:var(–orange); background:rgba(255,106,0,.08); }
-.asset-tab .dot { width:5px; height:5px; border-radius:50%; background:var(–orange); flex-shrink:0; }
+.asset-tab:hover { border-color:var(--orange); color:var(--orange); }
+.asset-tab.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.asset-tab .dot { width:5px; height:5px; border-radius:50%; background:var(--orange); flex-shrink:0; }
 .asset-add {
-padding:6px 11px; border-radius:7px;
-border:1px dashed var(–border2); background:transparent;
-font-size:11px; font-weight:700; color:var(–text2);
-cursor:pointer; font-family:‘Outfit’,sans-serif; transition:all .15s;
+  padding:6px 11px; border-radius:7px;
+  border:1px dashed var(--border2); background:transparent;
+  font-size:11px; font-weight:700; color:var(--text2);
+  cursor:pointer; font-family:'Outfit',sans-serif; transition:all .15s;
 }
-.asset-add:hover { border-color:var(–orange); color:var(–orange); }
+.asset-add:hover { border-color:var(--orange); color:var(--orange); }
 
 /* ── DATE PICKER ── */
 .date-picker-wrap { position:relative; width:100%; margin-bottom:14px; }
 .date-trigger {
-display:flex; align-items:center; justify-content:space-between;
-background:var(–bg3); border:1px solid var(–border2);
-border-radius:9px; padding:11px 13px; cursor:pointer;
-font-size:13px; color:var(–text); font-family:‘JetBrains Mono’,monospace;
-font-weight:600; transition:border-color .15s;
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:9px; padding:11px 13px; cursor:pointer;
+  font-size:13px; color:var(--text); font-family:'JetBrains Mono',monospace;
+  font-weight:600; transition:border-color .15s;
 }
-.date-trigger:hover,.date-trigger.open { border-color:var(–orange); }
+.date-trigger:hover,.date-trigger.open { border-color:var(--orange); }
 .date-dropdown {
-position:absolute; top:calc(100% + 5px); left:0; right:0; z-index:200;
-background:var(–bg2); border:1px solid var(–border2);
-border-radius:11px; overflow:hidden;
-box-shadow:0 12px 40px rgba(0,0,0,.7);
-max-height:260px; overflow-y:auto;
+  position:absolute; top:calc(100% + 5px); left:0; right:0; z-index:200;
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:11px; overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,.7);
+  max-height:260px; overflow-y:auto;
 }
 .date-dropdown::-webkit-scrollbar { width:3px; }
-.date-dropdown::-webkit-scrollbar-thumb { background:var(–border2); border-radius:2px; }
+.date-dropdown::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 .date-option {
-display:flex; align-items:center; justify-content:space-between;
-padding:9px 14px; cursor:pointer; font-size:12px;
-font-family:‘JetBrains Mono’,monospace; transition:background .1s;
-border-bottom:1px solid var(–border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:9px 14px; cursor:pointer; font-size:12px;
+  font-family:'JetBrains Mono',monospace; transition:background .1s;
+  border-bottom:1px solid var(--border);
 }
 .date-option:last-child { border-bottom:none; }
 .date-option:hover { background:rgba(255,106,0,.07); }
-.date-option.selected { color:var(–orange); background:rgba(255,106,0,.1); }
-.date-option .date-days { font-size:10px; color:var(–text2); }
-.date-option.selected .date-days { color:var(–orange); opacity:.6; }
-.date-loading { padding:14px; text-align:center; color:var(–text2); font-size:11px; }
+.date-option.selected { color:var(--orange); background:rgba(255,106,0,.1); }
+.date-option .date-days { font-size:10px; color:var(--text2); }
+.date-option.selected .date-days { color:var(--orange); opacity:.6; }
+.date-loading { padding:14px; text-align:center; color:var(--text2); font-size:11px; }
 
 /* ── ACTION BUTTONS ── */
 .btn-autofill {
-width:100%; padding:12px; border-radius:9px; margin-top:4px; margin-bottom:8px;
-border:1px solid var(–orange); background:rgba(255,106,0,0.08);
-font-family:‘Outfit’,sans-serif; font-size:13px; font-weight:800;
-color:var(–orange); cursor:pointer; transition:all .18s;
-display:flex; align-items:center; justify-content:center; gap:7px;
-letter-spacing:.3px;
+  width:100%; padding:12px; border-radius:9px; margin-top:4px; margin-bottom:8px;
+  border:1px solid var(--orange); background:rgba(255,106,0,0.08);
+  font-family:'Outfit',sans-serif; font-size:13px; font-weight:800;
+  color:var(--orange); cursor:pointer; transition:all .18s;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  letter-spacing:.3px;
 }
 .btn-autofill:hover { background:rgba(255,106,0,0.16); transform:translateY(-1px); box-shadow:0 4px 16px rgba(255,106,0,0.15); }
 .btn-autofill:active { transform:translateY(0); }
 .btn-autofill.loading { opacity:.7; cursor:wait; }
-.btn-autofill.success { border-color:var(–green); background:rgba(0,200,150,.08); color:var(–green); }
+.btn-autofill.success { border-color:var(--green); background:rgba(0,200,150,.08); color:var(--green); }
 .btn-calc {
-padding:13px; border-radius:9px; border:none;
-background:var(–orange); color:#000;
-font-family:‘Outfit’,sans-serif; font-size:14px; font-weight:900;
-cursor:pointer; letter-spacing:.3px; transition:all .18s;
-width:100%; margin-top:10px;
+  padding:13px; border-radius:9px; border:none;
+  background:var(--orange); color:#000;
+  font-family:'Outfit',sans-serif; font-size:14px; font-weight:900;
+  cursor:pointer; letter-spacing:.3px; transition:all .18s;
+  width:100%; margin-top:10px;
 }
-.btn-calc:hover { background:var(–orange2); transform:translateY(-1px); }
+.btn-calc:hover { background:var(--orange2); transform:translateY(-1px); }
 
 /* ── EDIT PANEL ── */
 .edit-toggle {
-display:flex; align-items:center; gap:5px;
-font-size:10px; font-weight:700; color:var(–text2);
-letter-spacing:.8px; cursor:pointer; margin-bottom:10px;
-padding:7px 10px; border-radius:7px; border:1px solid var(–border);
-background:transparent; font-family:‘Outfit’,sans-serif;
-transition:all .15s; width:fit-content;
+  display:flex; align-items:center; gap:5px;
+  font-size:10px; font-weight:700; color:var(--text2);
+  letter-spacing:.8px; cursor:pointer; margin-bottom:10px;
+  padding:7px 10px; border-radius:7px; border:1px solid var(--border);
+  background:transparent; font-family:'Outfit',sans-serif;
+  transition:all .15s; width:fit-content;
 }
-.edit-toggle:hover { border-color:var(–border2); color:var(–text); }
-.edit-toggle.active { border-color:var(–orange); color:var(–orange); }
+.edit-toggle:hover { border-color:var(--border2); color:var(--text); }
+.edit-toggle.active { border-color:var(--orange); color:var(--orange); }
 
 .edit-panel {
-display:none;
-background:var(–bg3); border:1px solid var(–border2);
-border-radius:10px; padding:14px; margin-bottom:12px;
+  display:none;
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:10px; padding:14px; margin-bottom:12px;
 }
 .edit-panel.open { display:block; }
 .edit-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:8px; }
 .edit-field { display:flex; flex-direction:column; gap:4px; }
-.edit-label { font-size:9px; font-weight:700; letter-spacing:.8px; color:var(–text2); }
+.edit-label { font-size:9px; font-weight:700; letter-spacing:.8px; color:var(--text2); }
 .edit-input {
-background:var(–bg2); border:1px solid var(–border2);
-border-radius:7px; padding:7px 9px;
-font-family:‘JetBrains Mono’,monospace; font-size:12px;
-font-weight:600; color:var(–text); width:100%;
-outline:none; transition:border-color .15s;
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:7px; padding:7px 9px;
+  font-family:'JetBrains Mono',monospace; font-size:12px;
+  font-weight:600; color:var(--text); width:100%;
+  outline:none; transition:border-color .15s;
 }
-.edit-input:focus { border-color:var(–orange); }
-.edit-input::placeholder { color:var(–text2); font-weight:400; }
+.edit-input:focus { border-color:var(--orange); }
+.edit-input::placeholder { color:var(--text2); font-weight:400; }
 
 /* straddle live preview (in edit panel) */
 .straddle-preview {
-display:flex; align-items:center; justify-content:space-between;
-background:var(–bg2); border-radius:7px; padding:8px 11px;
-margin-top:4px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--bg2); border-radius:7px; padding:8px 11px;
+  margin-top:4px;
 }
-.straddle-preview .lbl { font-size:9px; color:var(–text2); letter-spacing:.8px; font-weight:700; }
-.straddle-preview .val { font-family:‘JetBrains Mono’,monospace; font-weight:800; color:var(–orange); font-size:14px; }
+.straddle-preview .lbl { font-size:9px; color:var(--text2); letter-spacing:.8px; font-weight:700; }
+.straddle-preview .val { font-family:'JetBrains Mono',monospace; font-weight:800; color:var(--orange); font-size:14px; }
 
 /* ── DIVIDER ── */
-.divider { height:1px; background:var(–border); margin:14px 0; }
+.divider { height:1px; background:var(--border); margin:14px 0; }
 
 /* ── SIGMA OPTIONS (checkboxes) ── */
 .sigma-options {
-display:flex; gap:10px; flex-wrap:wrap;
-margin-bottom:14px; margin-top:2px;
+  display:flex; gap:10px; flex-wrap:wrap;
+  margin-bottom:14px; margin-top:2px;
 }
-.sigma-opt { display:flex; align-items:center; gap:5px; cursor:pointer; font-size:11px; color:var(–text2); }
-.sigma-opt input[type=checkbox] { accent-color:var(–orange); }
+.sigma-opt { display:flex; align-items:center; gap:5px; cursor:pointer; font-size:11px; color:var(--text2); }
+.sigma-opt input[type=checkbox] { accent-color:var(--orange); }
 
 /* ═══════════════════════════════
-RESULTS RIGHT PANEL
+   RESULTS RIGHT PANEL
 ═══════════════════════════════ */
 .results-panel { display:flex; flex-direction:column; gap:14px; }
 
 .empty-state {
-display:flex; flex-direction:column;
-align-items:center; justify-content:center;
-gap:12px; color:var(–text2);
-text-align:center; padding:60px 20px;
-border:1px solid var(–border); border-radius:14px;
-background:var(–bg2);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:12px; color:var(--text2);
+  text-align:center; padding:60px 20px;
+  border:1px solid var(--border); border-radius:14px;
+  background:var(--bg2);
 }
-.empty-state svg { width:44px; height:44px; stroke:var(–text2); fill:none; stroke-width:1.2; opacity:.3; }
+.empty-state svg { width:44px; height:44px; stroke:var(--text2); fill:none; stroke-width:1.2; opacity:.3; }
 .empty-state p { font-size:13px; }
 
 /* ── VIZ TABS ── */
 .viz-tabs { display:flex; gap:4px; margin-bottom:14px; }
 .viz-tab {
-padding:5px 12px; border-radius:6px; font-size:10px; font-weight:700;
-border:1px solid var(–border2); color:var(–text2); cursor:pointer;
-font-family:‘Outfit’,sans-serif; transition:all .15s; letter-spacing:.5px;
+  padding:5px 12px; border-radius:6px; font-size:10px; font-weight:700;
+  border:1px solid var(--border2); color:var(--text2); cursor:pointer;
+  font-family:'Outfit',sans-serif; transition:all .15s; letter-spacing:.5px;
 }
-.viz-tab.active { border-color:var(–orange); color:var(–orange); background:rgba(255,106,0,.07); }
-.viz-tab:hover:not(.active) { border-color:var(–border2); color:var(–text); }
+.viz-tab.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.07); }
+.viz-tab:hover:not(.active) { border-color:var(--border2); color:var(--text); }
 
 /* ── VIZ 1: RANGE BAR ── */
 .v1-wrap { position:relative; padding:30px 0 32px; }
 .v1-track {
-position:relative; height:8px; background:var(–bg4);
-border-radius:4px; margin:0 20px;
+  position:relative; height:8px; background:var(--bg4);
+  border-radius:4px; margin:0 20px;
 }
 .v1-zone {
-position:absolute; top:50%; transform:translateY(-50%);
-border-radius:3px;
+  position:absolute; top:50%; transform:translateY(-50%);
+  border-radius:3px;
 }
 .v1-line {
-position:absolute; top:-20px; bottom:-24px;
-width:2px; transform:translateX(-50%);
-display:flex; flex-direction:column; align-items:center;
+  position:absolute; top:-20px; bottom:-24px;
+  width:2px; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center;
 }
 .v1-label-top { position:absolute; top:0; font-size:9px; font-weight:700; white-space:nowrap; transform:translateX(-50%); }
 .v1-label-bot { position:absolute; bottom:0; font-size:9px; font-weight:700; white-space:nowrap; transform:translateX(-50%); }
 .v1-legend { display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
-.v1-legend-item { display:flex; align-items:center; gap:4px; font-size:10px; color:var(–text2); }
+.v1-legend-item { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--text2); }
 .v1-legend-swatch { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
 
 /* ── VIZ 2: GAUGE / SPEEDOMETER ── */
 .v2-wrap { display:flex; flex-direction:column; align-items:center; padding:10px 0; }
 .v2-gauge { width:100%; max-width:320px; }
 .v2-labels { display:flex; justify-content:space-between; width:240px; margin-top:-8px; }
-.v2-label { font-size:9px; font-weight:700; font-family:‘JetBrains Mono’,monospace; }
+.v2-label { font-size:9px; font-weight:700; font-family:'JetBrains Mono',monospace; }
 .v2-sigma-row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px; }
 .v2-sigma-pill {
-padding:5px 12px; border-radius:20px; font-size:10px; font-weight:700;
-font-family:‘JetBrains Mono’,monospace; border:1px solid;
-text-align:center; min-width:80px;
+  padding:5px 12px; border-radius:20px; font-size:10px; font-weight:700;
+  font-family:'JetBrains Mono',monospace; border:1px solid;
+  text-align:center; min-width:80px;
 }
 
 /* ── VIZ 3: CANDLE / PRICE LADDER ── */
 .v3-wrap { display:flex; gap:0; align-items:stretch; }
 .v3-ladder { flex:1; display:flex; flex-direction:column; gap:3px; padding:4px; }
 .v3-zone {
-display:flex; align-items:center; gap:10px;
-padding:8px 12px; border-radius:8px; position:relative;
-overflow:hidden; cursor:default;
+  display:flex; align-items:center; gap:10px;
+  padding:8px 12px; border-radius:8px; position:relative;
+  overflow:hidden; cursor:default;
 }
 .v3-zone::before {
-content:’’; position:absolute; left:0; top:0; bottom:0;
-border-radius:8px 0 0 8px; width:4px;
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  border-radius:8px 0 0 8px; width:4px;
 }
 .v3-zone.z-outer { background:rgba(224,59,59,.07); }
 .v3-zone.z-outer::before { background:#e03b3b; }
@@ -846,133 +845,133 @@ border-radius:8px 0 0 8px; width:4px;
 .v3-zone.z-spot  { background:rgba(240,240,240,.05); }
 .v3-zone.z-spot::before  { background:rgba(240,240,240,0.5); }
 .v3-sigma-badge {
-font-size:9px; font-weight:800; letter-spacing:.5px;
-padding:2px 7px; border-radius:4px; flex-shrink:0;
+  font-size:9px; font-weight:800; letter-spacing:.5px;
+  padding:2px 7px; border-radius:4px; flex-shrink:0;
 }
-.v3-prices { font-family:‘JetBrains Mono’,monospace; font-size:11px; font-weight:700; flex:1; }
-.v3-prices .lo { color:var(–red); }
-.v3-prices .hi { color:var(–green); }
-.v3-prob { font-size:10px; color:var(–text2); font-weight:600; margin-left:auto; flex-shrink:0; }
+.v3-prices { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; flex:1; }
+.v3-prices .lo { color:var(--red); }
+.v3-prices .hi { color:var(--green); }
+.v3-prob { font-size:10px; color:var(--text2); font-weight:600; margin-left:auto; flex-shrink:0; }
 
 /* ── RESULT SUMMARY ── */
 .result-header {
-display:flex; justify-content:space-between; align-items:flex-start;
-gap:10px; flex-wrap:wrap;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  gap:10px; flex-wrap:wrap;
 }
 .result-title { font-size:22px; font-weight:900; }
-.result-title span { color:var(–orange); }
-.result-meta { font-size:11px; color:var(–text2); margin-top:2px; }
-.result-meta b { color:var(–text); }
+.result-title span { color:var(--orange); }
+.result-meta { font-size:11px; color:var(--text2); margin-top:2px; }
+.result-meta b { color:var(--text); }
 
 .be-row {
-display:flex; align-items:center; gap:8px; margin-top:12px;
-padding:11px 14px; background:var(–bg3); border-radius:9px;
+  display:flex; align-items:center; gap:8px; margin-top:12px;
+  padding:11px 14px; background:var(--bg3); border-radius:9px;
 }
 .be-item { flex:1; text-align:center; }
-.be-lbl { font-size:8px; letter-spacing:.8px; font-weight:700; color:var(–text2); margin-bottom:2px; }
-.be-val { font-family:‘JetBrains Mono’,monospace; font-size:18px; font-weight:900; }
-.be-val.lo { color:var(–red); }
-.be-val.hi { color:var(–green); }
+.be-lbl { font-size:8px; letter-spacing:.8px; font-weight:700; color:var(--text2); margin-bottom:2px; }
+.be-val { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; }
+.be-val.lo { color:var(--red); }
+.be-val.hi { color:var(--green); }
 .be-mid { text-align:center; flex-shrink:0; padding:0 8px; }
-.be-mid .straddle-val { font-family:‘JetBrains Mono’,monospace; font-size:12px; font-weight:800; color:var(–orange); }
-.be-mid .straddle-lbl { font-size:8px; color:var(–text2); letter-spacing:.5px; }
+.be-mid .straddle-val { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:800; color:var(--orange); }
+.be-mid .straddle-lbl { font-size:8px; color:var(--text2); letter-spacing:.5px; }
 
 /* ── COPY OUTPUT ── */
 .copy-btn {
-padding:6px 13px; border-radius:7px;
-border:1px solid var(–border2); background:var(–bg3);
-font-size:10px; font-weight:700; color:var(–text2);
-cursor:pointer; transition:all .15s; font-family:‘Outfit’,sans-serif;
-display:flex; align-items:center; gap:4px;
+  padding:6px 13px; border-radius:7px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-size:10px; font-weight:700; color:var(--text2);
+  cursor:pointer; transition:all .15s; font-family:'Outfit',sans-serif;
+  display:flex; align-items:center; gap:4px;
 }
-.copy-btn:hover { border-color:var(–orange); color:var(–orange); }
-.copy-btn.copied { border-color:var(–green); color:var(–green); }
+.copy-btn:hover { border-color:var(--orange); color:var(--orange); }
+.copy-btn.copied { border-color:var(--green); color:var(--green); }
 .copy-btn svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 
 /* ── SIGMA CARDS ── */
 /* Zone colors — design spec v2 */
 :root {
-–zone1-color: #f5c800; /* yellow — LOW PROB AREA */
-–zone2-color: #ff6a00; /* orange — EXTREMELY LOW PROB */
-–zone3-color: #e03b3b; /* red — IMPOSSIBLE */
-–zone4-color: #ff1a1a; /* bright red — ABSOLUTELY IMPOSSIBLE */
+  --zone1-color: #f5c800; /* yellow — LOW PROB AREA */
+  --zone2-color: #ff6a00; /* orange — EXTREMELY LOW PROB */
+  --zone3-color: #e03b3b; /* red — IMPOSSIBLE */
+  --zone4-color: #ff1a1a; /* bright red — ABSOLUTELY IMPOSSIBLE */
 }
 .sigma-card {
-border-radius:12px; padding:16px; text-align:center;
-position:relative; overflow:hidden;
-border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px; padding:16px; text-align:center;
+  position:relative; overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
 }
 /* Gradient top accent bar per zone */
-.sigma-card.s1 { background:linear-gradient(180deg,rgba(245,200,0,0.13) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(–zone1-color); }
-.sigma-card.s2 { background:linear-gradient(180deg,rgba(255,106,0,0.12) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(–zone2-color); }
-.sigma-card.s3 { background:linear-gradient(180deg,rgba(224,59,59,0.12) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(–zone3-color); }
-.sigma-card.s4 { background:linear-gradient(180deg,rgba(255,26,26,0.18) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(–zone4-color); }
+.sigma-card.s1 { background:linear-gradient(180deg,rgba(245,200,0,0.13) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone1-color); }
+.sigma-card.s2 { background:linear-gradient(180deg,rgba(255,106,0,0.12) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone2-color); }
+.sigma-card.s3 { background:linear-gradient(180deg,rgba(224,59,59,0.12) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone3-color); }
+.sigma-card.s4 { background:linear-gradient(180deg,rgba(255,26,26,0.18) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone4-color); }
 .sc-zone-tag {
-display:inline-block; font-size:7px; font-weight:700; letter-spacing:1px;
-padding:2px 7px; border-radius:3px; margin-bottom:4px; text-transform:uppercase;
-opacity:0.75;
+  display:inline-block; font-size:7px; font-weight:700; letter-spacing:1px;
+  padding:2px 7px; border-radius:3px; margin-bottom:4px; text-transform:uppercase;
+  opacity:0.75;
 }
-.s1 .sc-zone-tag { background:rgba(245,200,0,0.16); color:var(–zone1-color); }
-.s2 .sc-zone-tag { background:rgba(255,106,0,0.15); color:var(–zone2-color); }
-.s3 .sc-zone-tag { background:rgba(224,59,59,0.15); color:var(–zone3-color); }
-.s4 .sc-zone-tag { background:rgba(255,26,26,0.18); color:var(–zone4-color); }
+.s1 .sc-zone-tag { background:rgba(245,200,0,0.16); color:var(--zone1-color); }
+.s2 .sc-zone-tag { background:rgba(255,106,0,0.15); color:var(--zone2-color); }
+.s3 .sc-zone-tag { background:rgba(224,59,59,0.15); color:var(--zone3-color); }
+.s4 .sc-zone-tag { background:rgba(255,26,26,0.18); color:var(--zone4-color); }
 .sc-label { font-size:8px; font-weight:600; letter-spacing:0.5px; color:#444; margin-bottom:2px; }
 .sc-prob  { font-size:26px; font-weight:900; margin:4px 0 2px; line-height:1; }
-.s1 .sc-prob { color:var(–zone1-color); }
-.s2 .sc-prob { color:var(–zone2-color); }
-.s3 .sc-prob { color:var(–zone3-color); }
-.s4 .sc-prob { color:var(–zone4-color); }
+.s1 .sc-prob { color:var(--zone1-color); }
+.s2 .sc-prob { color:var(--zone2-color); }
+.s3 .sc-prob { color:var(--zone3-color); }
+.s4 .sc-prob { color:var(--zone4-color); }
 .sc-state {
-font-size:10px; font-weight:700; letter-spacing:0.3px;
-margin-bottom:8px; padding:3px 0;
+  font-size:10px; font-weight:700; letter-spacing:0.3px;
+  margin-bottom:8px; padding:3px 0;
 }
 .s1 .sc-state { color:#ffffff; }
 .s2 .sc-state { color:#ffffff; }
 .s3 .sc-state { color:#ffffff; }
 .s4 .sc-state { color:#ffffff; }
 .sc-divider { height:1px; background:rgba(255,255,255,0.05); margin:8px 0; }
-.sc-range { font-family:‘JetBrains Mono’,monospace; font-size:20px; font-weight:900; line-height:1.25; margin:10px 0 0; }
+.sc-range { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; line-height:1.25; margin:10px 0 0; }
 .sc-range .lo { color:#22c55e; display:block; }
 .sc-range .hi { color:#ef4444; display:block; }
 .sc-desc  { font-size:8px; color:#3a3a3a; margin-top:3px; }
 
 /* ── HISTORY ── */
 .hist-item {
-background:var(–bg3); border:1px solid var(–border);
-border-radius:10px; padding:12px 14px; cursor:pointer;
-transition:border-color .15s;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; padding:12px 14px; cursor:pointer;
+  transition:border-color .15s;
 }
-.hist-item:hover { border-color:var(–border2); }
-.hist-item.latest { border-color:var(–orange); }
+.hist-item:hover { border-color:var(--border2); }
+.hist-item.latest { border-color:var(--orange); }
 .hist-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-.hist-sym  { font-weight:900; color:var(–orange); font-size:14px; }
-.hist-date { color:var(–text2); font-size:11px; }
-.hist-straddle { color:var(–text2); font-size:11px; font-family:‘JetBrains Mono’,monospace; }
-.hist-straddle span { color:var(–orange); font-weight:700; }
+.hist-sym  { font-weight:900; color:var(--orange); font-size:14px; }
+.hist-date { color:var(--text2); font-size:11px; }
+.hist-straddle { color:var(--text2); font-size:11px; font-family:'JetBrains Mono',monospace; }
+.hist-straddle span { color:var(--orange); font-weight:700; }
 .hist-rows { display:flex; flex-direction:column; gap:3px; }
-.hist-row  { display:flex; align-items:center; gap:8px; font-family:‘JetBrains Mono’,monospace; font-size:11px; }
+.hist-row  { display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; }
 .hist-row-lbl { font-size:9px; font-weight:700; letter-spacing:.5px; width:22px; flex-shrink:0; }
 .hist-row-range { flex:1; }
-.hist-row-prob { font-size:10px; color:var(–text2); flex-shrink:0; }
+.hist-row-prob { font-size:10px; color:var(--text2); flex-shrink:0; }
 
 /* ── OUTPUT BOX ── */
 .output-box {
-background:var(–bg3); border:1px solid var(–border2);
-border-radius:10px; padding:14px 16px;
-font-family:‘JetBrains Mono’,monospace; font-size:12px;
-line-height:1.8; white-space:pre-wrap;
-border-left:3px solid var(–orange);
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:10px; padding:14px 16px;
+  font-family:'JetBrains Mono',monospace; font-size:12px;
+  line-height:1.8; white-space:pre-wrap;
+  border-left:3px solid var(--orange);
 }
 
 /* ── TOAST ── */
 .toast {
-position:fixed; bottom:20px; right:20px; z-index:999;
-background:var(–bg3); border:1px solid var(–border2);
-border-left:3px solid var(–green);
-border-radius:8px; padding:9px 13px;
-font-size:12px; font-weight:700;
-transform:translateX(140%); transition:transform .3s;
-box-shadow:0 8px 28px rgba(0,0,0,.6);
+  position:fixed; bottom:20px; right:20px; z-index:999;
+  background:var(--bg3); border:1px solid var(--border2);
+  border-left:3px solid var(--green);
+  border-radius:8px; padding:9px 13px;
+  font-size:12px; font-weight:700;
+  transform:translateX(140%); transition:transform .3s;
+  box-shadow:0 8px 28px rgba(0,0,0,.6);
 }
 .toast.show { transform:translateX(0); }
 
@@ -981,12 +980,10 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
 .expiry-loading { animation:pulse 1.2s ease-in-out infinite; }
 @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 </style>
-
 </head>
 <body>
 
 <!-- HEADER -->
-
 <div class="header">
   <div><img id="logo-img" style="width:40px;height:40px;object-fit:contain;"></div>
   <div>
@@ -996,11 +993,9 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
 </div>
 
 <!-- ══ MODE SWITCHER ══ -->
-
 <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
 
   <!-- Row 1: main tools -->
-
   <div class="mode-switcher" style="max-width:100%;margin-bottom:0;">
     <button class="mode-btn active" id="mode-straddle" onclick="setMode('straddle')">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -1025,7 +1020,6 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- Row 2: sub-tabs (visible when any position tool is active) -->
-
   <div id="pos-tools-subtabs"
     style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:8px;padding:6px;display:flex;gap:4px;">
     <div style="font-size:8px;font-weight:700;color:rgba(255,106,0,.5);letter-spacing:1px;padding:0 8px;align-self:center;white-space:nowrap;">POSITION TOOLS</div>
@@ -1051,527 +1045,515 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
 <div class="layout">
 
   <!-- ══ LEFT: INPUT ══ -->
-
   <div>
     <div class="card">
 
-```
-  <!-- Asset tabs -->
-  <div class="asset-tabs" id="asset-tabs">
-    <button class="asset-tab active" onclick="setAsset('BTC')" id="tab-BTC">BTC <span class="dot"></span></button>
-    <button class="asset-tab" onclick="setAsset('ETH')" id="tab-ETH">ETH <span class="dot"></span></button>
-    <button class="asset-tab" onclick="setAsset('SOL')" id="tab-SOL">SOL <span class="dot"></span></button>
-    <button class="asset-add" id="add-tab-btn" onclick="showAddAsset()">+ ADD</button>
-  </div>
-
-  <!-- Add asset input (hidden) -->
-  <div id="add-asset-wrap" style="display:none;margin-bottom:10px;">
-    <div style="display:flex;gap:6px;align-items:center;">
-      <input type="text" id="inp-new-asset" placeholder="AVAX" maxlength="10"
-        class="edit-input" style="text-transform:uppercase;flex:1;"
-        onkeydown="if(event.key==='Enter')confirmAddAsset()">
-      <button onclick="confirmAddAsset()" style="padding:8px 14px;border-radius:7px;background:var(--orange);border:none;color:#000;font-weight:800;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">ADD</button>
-      <button onclick="cancelAddAsset()" style="padding:8px 10px;border-radius:7px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-weight:700;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✕</button>
-    </div>
-  </div>
-
-  <!-- Date picker -->
-  <div style="font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--text2);margin-bottom:5px;display:flex;justify-content:space-between;">
-    EXPIRATION DATE
-    <span id="expiry-status" style="font-weight:400;letter-spacing:0;"></span>
-  </div>
-  <input type="hidden" id="inp-date">
-  <div class="date-picker-wrap">
-    <div class="date-trigger" id="date-trigger" onclick="toggleDatePicker()">
-      <span id="date-display">Loading dates...</span>
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--text2);fill:none;stroke-width:2.5;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="date-dropdown" id="date-dropdown" style="display:none;">
-      <div id="date-list"></div>
-    </div>
-  </div>
-
-  <!-- EDIT TOGGLE (per asset) -->
-  <button class="edit-toggle" id="edit-toggle-btn" onclick="toggleEdit()">
-    <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-    EDIT MANUALLY
-  </button>
-
-  <!-- Edit panel (hidden by default) -->
-  <div class="edit-panel" id="edit-panel">
-    <div class="edit-row">
-      <div class="edit-field">
-        <div class="edit-label">SPOT PRICE</div>
-        <input type="number" class="edit-input" id="inp-spot" placeholder="66752" step="1" oninput="liveCalc()">
+      <!-- Asset tabs -->
+      <div class="asset-tabs" id="asset-tabs">
+        <button class="asset-tab active" onclick="setAsset('BTC')" id="tab-BTC">BTC <span class="dot"></span></button>
+        <button class="asset-tab" onclick="setAsset('ETH')" id="tab-ETH">ETH <span class="dot"></span></button>
+        <button class="asset-tab" onclick="setAsset('SOL')" id="tab-SOL">SOL <span class="dot"></span></button>
+        <button class="asset-add" id="add-tab-btn" onclick="showAddAsset()">+ ADD</button>
       </div>
-      <div class="edit-field">
-        <div class="edit-label">CALL PRICE</div>
-        <input type="number" class="edit-input" id="inp-call" placeholder="3133" step="1" oninput="liveCalc()">
+
+      <!-- Add asset input (hidden) -->
+      <div id="add-asset-wrap" style="display:none;margin-bottom:10px;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="text" id="inp-new-asset" placeholder="AVAX" maxlength="10"
+            class="edit-input" style="text-transform:uppercase;flex:1;"
+            onkeydown="if(event.key==='Enter')confirmAddAsset()">
+          <button onclick="confirmAddAsset()" style="padding:8px 14px;border-radius:7px;background:var(--orange);border:none;color:#000;font-weight:800;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">ADD</button>
+          <button onclick="cancelAddAsset()" style="padding:8px 10px;border-radius:7px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-weight:700;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✕</button>
+        </div>
       </div>
-      <div class="edit-field">
-        <div class="edit-label">PUT PRICE</div>
-        <input type="number" class="edit-input" id="inp-put" placeholder="2885" step="1" oninput="liveCalc()">
+
+      <!-- Date picker -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--text2);margin-bottom:5px;display:flex;justify-content:space-between;">
+        EXPIRATION DATE
+        <span id="expiry-status" style="font-weight:400;letter-spacing:0;"></span>
       </div>
+      <input type="hidden" id="inp-date">
+      <div class="date-picker-wrap">
+        <div class="date-trigger" id="date-trigger" onclick="toggleDatePicker()">
+          <span id="date-display">Loading dates...</span>
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--text2);fill:none;stroke-width:2.5;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="date-dropdown" id="date-dropdown" style="display:none;">
+          <div id="date-list"></div>
+        </div>
+      </div>
+
+      <!-- EDIT TOGGLE (per asset) -->
+      <button class="edit-toggle" id="edit-toggle-btn" onclick="toggleEdit()">
+        <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        EDIT MANUALLY
+      </button>
+
+      <!-- Edit panel (hidden by default) -->
+      <div class="edit-panel" id="edit-panel">
+        <div class="edit-row">
+          <div class="edit-field">
+            <div class="edit-label">SPOT PRICE</div>
+            <input type="number" class="edit-input" id="inp-spot" placeholder="66752" step="1" oninput="liveCalc()">
+          </div>
+          <div class="edit-field">
+            <div class="edit-label">CALL PRICE</div>
+            <input type="number" class="edit-input" id="inp-call" placeholder="3133" step="1" oninput="liveCalc()">
+          </div>
+          <div class="edit-field">
+            <div class="edit-label">PUT PRICE</div>
+            <input type="number" class="edit-input" id="inp-put" placeholder="2885" step="1" oninput="liveCalc()">
+          </div>
+        </div>
+        <div id="straddle-preview" style="display:none;" class="straddle-preview">
+          <span class="lbl">STRADDLE</span>
+          <span class="val" id="straddle-preview-val">—</span>
+        </div>
+
+        <div style="margin-top:10px;">
+          <div class="edit-label" style="margin-bottom:5px;">ROUND TO</div>
+          <select id="inp-round" class="edit-input">
+            <option value="1000">1,000 (BTC default)</option>
+            <option value="500">500</option>
+            <option value="100">100</option>
+            <option value="50">50 (ETH default)</option>
+            <option value="1">No rounding</option>
+          </select>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="edit-label" style="margin-bottom:8px;">SHOW SIGMA LEVELS</div>
+        <div class="sigma-options">
+          <label class="sigma-opt"><input type="checkbox" id="chk-s1" checked> 1σ <span style="color:var(--green)">68%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s2" checked> 2σ <span style="color:var(--orange)">95%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s3"> 3σ <span style="color:var(--red)">99.7%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s4"> 4σ <span style="color:var(--purple)">99.99%</span></label>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <button class="btn-autofill" id="autofill-btn" onclick="autoFillFromDeribit()">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        AUTO-FILL
+      </button>
+      <button class="btn-calc" onclick="calculate()">⚡ CALCULATE</button>
+
     </div>
-    <div id="straddle-preview" style="display:none;" class="straddle-preview">
-      <span class="lbl">STRADDLE</span>
-      <span class="val" id="straddle-preview-val">—</span>
-    </div>
-
-    <div style="margin-top:10px;">
-      <div class="edit-label" style="margin-bottom:5px;">ROUND TO</div>
-      <select id="inp-round" class="edit-input">
-        <option value="1000">1,000 (BTC default)</option>
-        <option value="500">500</option>
-        <option value="100">100</option>
-        <option value="50">50 (ETH default)</option>
-        <option value="1">No rounding</option>
-      </select>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="edit-label" style="margin-bottom:8px;">SHOW SIGMA LEVELS</div>
-    <div class="sigma-options">
-      <label class="sigma-opt"><input type="checkbox" id="chk-s1" checked> 1σ <span style="color:var(--green)">68%</span></label>
-      <label class="sigma-opt"><input type="checkbox" id="chk-s2" checked> 2σ <span style="color:var(--orange)">95%</span></label>
-      <label class="sigma-opt"><input type="checkbox" id="chk-s3"> 3σ <span style="color:var(--red)">99.7%</span></label>
-      <label class="sigma-opt"><input type="checkbox" id="chk-s4"> 4σ <span style="color:var(--purple)">99.99%</span></label>
-    </div>
-  </div>
-
-  <!-- Action buttons -->
-  <button class="btn-autofill" id="autofill-btn" onclick="autoFillFromDeribit()">
-    <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-    AUTO-FILL
-  </button>
-  <button class="btn-calc" onclick="calculate()">⚡ CALCULATE</button>
-
-</div>
-```
-
   </div>
 
   <!-- ══ RIGHT: RESULTS ══ -->
-
   <div class="results-panel">
 
-```
-<!-- Empty -->
-<div class="empty-state" id="empty-state">
-  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-  <p>Select date → Fill → Calculate</p>
-  <p style="font-size:11px;opacity:.5;">Straddle = Call + Put → σ levels</p>
-</div>
+    <!-- Empty -->
+    <div class="empty-state" id="empty-state">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      <p>Select date → Fill → Calculate</p>
+      <p style="font-size:11px;opacity:.5;">Straddle = Call + Put → σ levels</p>
+    </div>
 
-<!-- Results wrapper -->
-<div id="results-wrap" style="display:none;flex-direction:column;gap:14px;">
+    <!-- Results wrapper -->
+    <div id="results-wrap" style="display:none;flex-direction:column;gap:14px;">
 
-  <!-- Summary card -->
-  <div class="card">
-    <div class="result-header">
-      <div>
-        <div class="result-title"><span id="r-asset">$BTC</span> <span style="font-size:15px;color:var(--text2);font-weight:500;" id="r-date"></span></div>
-        <div class="result-meta">
-          Spot: <b id="r-spot"></b> &nbsp;·&nbsp; Straddle: <b style="color:var(--orange)" id="r-straddle"></b> &nbsp;·&nbsp; σ: <b id="r-sigma"></b>
+      <!-- Summary card -->
+      <div class="card">
+        <div class="result-header">
+          <div>
+            <div class="result-title"><span id="r-asset">$BTC</span> <span style="font-size:15px;color:var(--text2);font-weight:500;" id="r-date"></span></div>
+            <div class="result-meta">
+              Spot: <b id="r-spot"></b> &nbsp;·&nbsp; Straddle: <b style="color:var(--orange)" id="r-straddle"></b> &nbsp;·&nbsp; σ: <b id="r-sigma"></b>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copyOutput()" id="copy-btn">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+
+        <!-- Breakevens -->
+        <div class="be-row">
+          <div class="be-item">
+            <div class="be-lbl">LOWER BREAKEVEN</div>
+            <div class="be-val lo" id="r-be-lo">—</div>
+            <div style="font-size:10px;color:var(--text2);" id="r-be-lo-pct"></div>
+          </div>
+          <div class="be-mid">
+            <div class="straddle-lbl">WIDTH</div>
+            <div class="straddle-val" id="r-straddle-width">—</div>
+            <div style="font-size:8px;color:var(--text2);">± spot</div>
+          </div>
+          <div class="be-item">
+            <div class="be-lbl">UPPER BREAKEVEN</div>
+            <div class="be-val hi" id="r-be-hi">—</div>
+            <div style="font-size:10px;color:var(--text2);" id="r-be-hi-pct"></div>
+          </div>
         </div>
       </div>
-      <button class="copy-btn" onclick="copyOutput()" id="copy-btn">
-        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy
-      </button>
-    </div>
 
-    <!-- Breakevens -->
-    <div class="be-row">
-      <div class="be-item">
-        <div class="be-lbl">LOWER BREAKEVEN</div>
-        <div class="be-val lo" id="r-be-lo">—</div>
-        <div style="font-size:10px;color:var(--text2);" id="r-be-lo-pct"></div>
+      <!-- VISUALIZATION CARD -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--text);display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--orange);font-size:13px;">σ</span>
+            SIGMA LEVELS <span style="color:var(--orange)">—</span> WHERE PRICE WON'T BE
+          </div>
+          <div class="viz-tabs">
+            <button class="viz-tab active" onclick="setViz(1)" id="viz-tab-1">BAR</button>
+            <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
+            <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
+          </div>
+        </div>
+
+        <!-- Sigma cards -->
+        <div id="sigma-grid" style="display:grid;gap:8px;margin-bottom:14px;"></div>
+
+        <!-- VIZ 1: Range bar -->
+        <div id="viz-1">
+          <div class="v1-wrap" id="v1-bar-wrap">
+            <div class="v1-track" id="v1-track"></div>
+          </div>
+          <div class="v1-legend" id="v1-legend"></div>
+        </div>
+
+        <!-- VIZ 2: Gauge arcs -->
+        <div id="viz-2" style="display:none;">
+          <div class="v2-wrap">
+            <svg class="v2-gauge" id="v2-svg"></svg>
+            <div class="v2-labels" id="v2-labels"></div>
+            <div class="v2-sigma-row" id="v2-sigma-row"></div>
+          </div>
+        </div>
+
+        <!-- VIZ 3: Price Ladder -->
+        <div id="viz-3" style="display:none;">
+          <div class="v3-ladder" id="v3-ladder"></div>
+        </div>
       </div>
-      <div class="be-mid">
-        <div class="straddle-lbl">WIDTH</div>
-        <div class="straddle-val" id="r-straddle-width">—</div>
-        <div style="font-size:8px;color:var(--text2);">± spot</div>
+
+      <!-- Recent Calculations -->
+      <div class="card" id="hist-card" style="display:none;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+          <span style="display:inline-block;width:3px;height:14px;background:var(--orange);border-radius:2px;"></span>
+          RECENT CALCULATIONS
+        </div>
+        <div id="history-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
-      <div class="be-item">
-        <div class="be-lbl">UPPER BREAKEVEN</div>
-        <div class="be-val hi" id="r-be-hi">—</div>
-        <div style="font-size:10px;color:var(--text2);" id="r-be-hi-pct"></div>
+
+      <!-- Telegram Output (collapsed by default) -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;" onclick="toggleTelegramOutput()">
+            <span style="display:inline-block;width:3px;height:14px;background:var(--border2);border-radius:2px;" id="tg-indicator"></span>
+            TELEGRAM OUTPUT
+            <svg id="tg-chevron" viewBox="0 0 24 24" style="width:10px;height:10px;stroke:var(--text2);fill:none;stroke-width:2.5;transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <button class="copy-btn" onclick="copyOutput()" id="tg-copy-btn" style="display:none;">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <div id="tg-output-wrap" style="display:none;margin-top:12px;">
+          <div class="output-box" id="output-box"></div>
+        </div>
       </div>
+
     </div>
-  </div>
-
-  <!-- VISUALIZATION CARD -->
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <div style="font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--text);display:flex;align-items:center;gap:8px;">
-        <span style="color:var(--orange);font-size:13px;">σ</span>
-        SIGMA LEVELS <span style="color:var(--orange)">—</span> WHERE PRICE WON'T BE
-      </div>
-      <div class="viz-tabs">
-        <button class="viz-tab active" onclick="setViz(1)" id="viz-tab-1">BAR</button>
-        <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
-        <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
-      </div>
-    </div>
-
-    <!-- Sigma cards -->
-    <div id="sigma-grid" style="display:grid;gap:8px;margin-bottom:14px;"></div>
-
-    <!-- VIZ 1: Range bar -->
-    <div id="viz-1">
-      <div class="v1-wrap" id="v1-bar-wrap">
-        <div class="v1-track" id="v1-track"></div>
-      </div>
-      <div class="v1-legend" id="v1-legend"></div>
-    </div>
-
-    <!-- VIZ 2: Gauge arcs -->
-    <div id="viz-2" style="display:none;">
-      <div class="v2-wrap">
-        <svg class="v2-gauge" id="v2-svg"></svg>
-        <div class="v2-labels" id="v2-labels"></div>
-        <div class="v2-sigma-row" id="v2-sigma-row"></div>
-      </div>
-    </div>
-
-    <!-- VIZ 3: Price Ladder -->
-    <div id="viz-3" style="display:none;">
-      <div class="v3-ladder" id="v3-ladder"></div>
-    </div>
-  </div>
-
-  <!-- Recent Calculations -->
-  <div class="card" id="hist-card" style="display:none;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
-      <span style="display:inline-block;width:3px;height:14px;background:var(--orange);border-radius:2px;"></span>
-      RECENT CALCULATIONS
-    </div>
-    <div id="history-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-  </div>
-
-  <!-- Telegram Output (collapsed by default) -->
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;" onclick="toggleTelegramOutput()">
-        <span style="display:inline-block;width:3px;height:14px;background:var(--border2);border-radius:2px;" id="tg-indicator"></span>
-        TELEGRAM OUTPUT
-        <svg id="tg-chevron" viewBox="0 0 24 24" style="width:10px;height:10px;stroke:var(--text2);fill:none;stroke-width:2.5;transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <button class="copy-btn" onclick="copyOutput()" id="tg-copy-btn" style="display:none;">
-        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy
-      </button>
-    </div>
-    <div id="tg-output-wrap" style="display:none;margin-top:12px;">
-      <div class="output-box" id="output-box"></div>
-    </div>
-  </div>
-
-</div>
-```
-
   </div>
 </div>
 
 <!-- ══ AVERAGING CALCULATOR ══ -->
-
 <div id="avg-section" style="display:none;max-width:1060px;margin:0 auto;">
   <div class="avg-layout">
 
-```
-<!-- LEFT: Inputs -->
-<div>
-  <div class="card">
+    <!-- LEFT: Inputs -->
+    <div>
+      <div class="card">
 
-    <!-- Asset selector + live price fetch -->
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:8px;">ASSET</div>
-    <div class="avg-asset-bar">
-      <button class="avg-asset-chip active" id="avg-chip-BTC" onclick="avgSelectAsset('BTC')">BTC</button>
-      <button class="avg-asset-chip" id="avg-chip-ETH" onclick="avgSelectAsset('ETH')">ETH</button>
-      <button class="avg-asset-chip" id="avg-chip-SOL" onclick="avgSelectAsset('SOL')">SOL</button>
-      <button class="avg-asset-chip" id="avg-chip-BNB" onclick="avgSelectAsset('BNB')">BNB</button>
-      <button class="avg-asset-chip" id="avg-chip-XRP" onclick="avgSelectAsset('XRP')">XRP</button>
-      <input class="avg-asset-custom" id="avg-asset-custom" placeholder="OTHER..." maxlength="10"
-        oninput="avgSelectCustom(this.value)" onfocus="avgClearChips()">
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <button class="avg-fetch-btn" id="avg-fetch-btn" onclick="avgFetchPrice()">
-        <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;" id="avg-fetch-icon"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-        GET LIVE PRICE
-      </button>
-      <div class="avg-price-badge" id="avg-price-badge">
-        <div>
-          <div class="badge-label" id="avg-badge-asset">BTC</div>
-          <div style="font-size:7px;color:#22c55e;opacity:.6;font-family:Outfit,sans-serif;margin-top:1px;">→ AVG LEG + P&L</div>
-          <div id="avg-badge-price">—</div>
+        <!-- Asset selector + live price fetch -->
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:8px;">ASSET</div>
+        <div class="avg-asset-bar">
+          <button class="avg-asset-chip active" id="avg-chip-BTC" onclick="avgSelectAsset('BTC')">BTC</button>
+          <button class="avg-asset-chip" id="avg-chip-ETH" onclick="avgSelectAsset('ETH')">ETH</button>
+          <button class="avg-asset-chip" id="avg-chip-SOL" onclick="avgSelectAsset('SOL')">SOL</button>
+          <button class="avg-asset-chip" id="avg-chip-BNB" onclick="avgSelectAsset('BNB')">BNB</button>
+          <button class="avg-asset-chip" id="avg-chip-XRP" onclick="avgSelectAsset('XRP')">XRP</button>
+          <input class="avg-asset-custom" id="avg-asset-custom" placeholder="OTHER..." maxlength="10"
+            oninput="avgSelectCustom(this.value)" onfocus="avgClearChips()">
         </div>
-      </div>
-    </div>
-
-    <!-- Position direction toggle -->
-    <div class="pos-toggle">
-      <button class="pos-btn long active" id="pos-btn-long" onclick="avgSetPosition('long')">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="18 15 12 9 6 15"/></svg>
-        LONG
-      </button>
-      <button class="pos-btn short" id="pos-btn-short" onclick="avgSetPosition('short')">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="6 9 12 15 18 9"/></svg>
-        SHORT
-      </button>
-    </div>
-
-    <!-- Entry 1 (fixed) -->
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
-      <span id="avg-entry-accent" style="display:inline-block;width:3px;height:14px;background:#22c55e;border-radius:2px;"></span>
-      ENTRY #1
-      <span class="pos-indicator long" id="avg-pos-badge">LONG</span>
-    </div>
-
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
-        ENTRY PRICE
-        <span style="font-size:7px;font-weight:700;color:#555;letter-spacing:.5px;">YOUR OPEN PRICE</span>
-      </div>
-      <input class="avg-input" id="avg-price-1" type="number" placeholder="Your open price..." oninput="avgLiveCalc(); avgValidateLiq()">
-      <div style="font-size:8px;color:#444;margin-top:4px;">Enter your original position open price manually</div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div class="avg-input-group">
-        <div class="avg-label">QUANTITY</div>
-        <input class="avg-input" id="avg-qty-1" type="number" placeholder="0.1" step="any" oninput="avgSyncQtyVol(1,'qty'); avgLiveCalc()">
-      </div>
-      <div class="avg-input-group">
-        <div class="avg-label">VOLUME $</div>
-        <input class="avg-input" id="avg-vol-1" type="number" placeholder="6,600" step="any" oninput="avgSyncQtyVol(1,'vol'); avgLiveCalc()">
-      </div>
-    </div>
-
-    <div class="avg-input-group" style="margin-top:2px;">
-      <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
-        LIQUIDATION PRICE
-        <span style="background:rgba(239,68,68,0.12);color:#ef4444;font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;letter-spacing:.8px;">OPTIONAL</span>
-      </div>
-      <input class="avg-input" id="avg-liq-1" type="number" placeholder="e.g. 52,000" step="any"
-        style="border-color:rgba(239,68,68,0.2);"
-        oninput="avgLiveCalc(); avgValidateLiq()"
-        onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,0.2)'">
-      <div id="avg-liq-hint" style="font-size:8px;color:#555;margin-top:4px;">LONG: liq below entry price</div>
-    </div>
-
-    <div style="height:1px;background:var(--border);margin:14px 0;"></div>
-
-    <!-- Dynamic averaging legs -->
-    <div id="avg-legs-inputs"></div>
-
-    <button class="avg-add-btn" onclick="avgAddLeg()">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      ADD AVERAGING LEG
-    </button>
-
-    <button class="avg-calc-btn" onclick="avgCalculate()">⚡ CALCULATE AVERAGE</button>
-  </div>
-</div>
-
-<!-- RIGHT: Results -->
-<div>
-  <div class="card" style="min-height:400px;">
-    <div id="avg-empty-state" class="avg-empty">
-      <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 16 4-4 4 4 4-4"/></svg>
-      <p>Enter data and press CALCULATE</p>
-    </div>
-    <div id="avg-results" style="display:none;">
-
-      <!-- Hero: new average price -->
-      <div class="avg-result-hero">
-        <div class="avg-hero-label">NEW AVERAGE PRICE</div>
-        <div class="avg-hero-price" id="avg-r-avgprice">—</div>
-        <div class="avg-hero-sub" id="avg-r-herosub"></div>
-      </div>
-
-      <!-- Summary stats -->
-      <div class="avg-summary-grid">
-        <div class="avg-stat">
-          <div class="avg-stat-label">TOTAL VOLUME</div>
-          <div class="avg-stat-val" id="avg-r-totalvol">—</div>
-          <div class="avg-stat-sub" id="avg-r-totalqty"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <button class="avg-fetch-btn" id="avg-fetch-btn" onclick="avgFetchPrice()">
+            <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;" id="avg-fetch-icon"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            GET LIVE PRICE
+          </button>
+          <div class="avg-price-badge" id="avg-price-badge">
+            <div>
+              <div class="badge-label" id="avg-badge-asset">BTC</div>
+              <div style="font-size:7px;color:#22c55e;opacity:.6;font-family:Outfit,sans-serif;margin-top:1px;">→ AVG LEG + P&L</div>
+              <div id="avg-badge-price">—</div>
+            </div>
+          </div>
         </div>
-        <div class="avg-stat">
-          <div class="avg-stat-label">ENTRIES</div>
-          <div class="avg-stat-val" id="avg-r-legs">—</div>
-          <div class="avg-stat-sub">avg legs</div>
-        </div>
-        <div class="avg-stat">
-          <div class="avg-stat-label">CURRENT PRICE</div>
-          <div class="avg-stat-val" id="avg-r-curprice" style="cursor:pointer;text-decoration:underline dotted;" onclick="document.getElementById('avg-current-price').focus()">—</div>
-          <div class="avg-stat-sub" id="avg-r-pnl"></div>
-        </div>
-        <div class="avg-stat">
-          <div class="avg-stat-label">BREAK-EVEN</div>
-          <div class="avg-stat-val" id="avg-r-tobr">—</div>
-          <div class="avg-stat-sub" id="avg-r-tobr-pct"></div>
-        </div>
-      </div>
 
-      <!-- Liquidation card -->
-      <div id="avg-liq-result-card" style="display:none;background:linear-gradient(135deg,rgba(239,68,68,0.08) 0%,rgba(22,22,22,0) 70%);border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:16px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#ef4444;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:#ef4444;">LIQUIDATION ANALYSIS</span>
+        <!-- Position direction toggle -->
+        <div class="pos-toggle">
+          <button class="pos-btn long active" id="pos-btn-long" onclick="avgSetPosition('long')">
+            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="18 15 12 9 6 15"/></svg>
+            LONG
+          </button>
+          <button class="pos-btn short" id="pos-btn-short" onclick="avgSetPosition('short')">
+            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="6 9 12 15 18 9"/></svg>
+            SHORT
+          </button>
         </div>
+
+        <!-- Entry 1 (fixed) -->
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+          <span id="avg-entry-accent" style="display:inline-block;width:3px;height:14px;background:#22c55e;border-radius:2px;"></span>
+          ENTRY #1
+          <span class="pos-indicator long" id="avg-pos-badge">LONG</span>
+        </div>
+
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
+            ENTRY PRICE
+            <span style="font-size:7px;font-weight:700;color:#555;letter-spacing:.5px;">YOUR OPEN PRICE</span>
+          </div>
+          <input class="avg-input" id="avg-price-1" type="number" placeholder="Your open price..." oninput="avgLiveCalc(); avgValidateLiq()">
+          <div style="font-size:8px;color:#444;margin-top:4px;">Enter your original position open price manually</div>
+        </div>
+
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">ORIGINAL LIQ. PRICE</div>
-            <div id="avg-liq-original" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+          <div class="avg-input-group">
+            <div class="avg-label">QUANTITY</div>
+            <input class="avg-input" id="avg-qty-1" type="number" placeholder="0.1" step="any" oninput="avgSyncQtyVol(1,'qty'); avgLiveCalc()">
           </div>
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">NEW LIQ. PRICE</div>
-            <div id="avg-liq-new" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+          <div class="avg-input-group">
+            <div class="avg-label">VOLUME $</div>
+            <input class="avg-input" id="avg-vol-1" type="number" placeholder="6,600" step="any" oninput="avgSyncQtyVol(1,'vol'); avgLiveCalc()">
           </div>
         </div>
-        <div id="avg-liq-change-bar" style="margin-top:12px;padding:8px 12px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:9px;color:#666;">LIQ. DISTANCE IMPROVED</span>
-          <span id="avg-liq-improvement" style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:900;color:#22c55e;">—</span>
-        </div>
-        <div id="avg-liq-warn" style="display:none;margin-top:8px;padding:6px 10px;background:rgba(239,68,68,0.1);border-radius:6px;font-size:9px;color:#ef4444;font-weight:700;text-align:center;"></div>
-      </div>
 
-      <!-- Breakeven bar -->
-      <div class="avg-be-bar" id="avg-be-bar" style="display:none;">
-        <div class="avg-be-label">PRICE POSITION</div>
-        <div style="position:relative;height:8px;background:#1e1e1e;border-radius:4px;margin-bottom:28px;">
-          <div id="avg-bar-fill" style="position:absolute;left:0;top:0;height:100%;border-radius:4px;transition:width .4s;"></div>
-          <div id="avg-bar-cur" style="position:absolute;top:-5px;width:4px;height:18px;background:#f0f0f0;border-radius:2px;transform:translateX(-50%);transition:left .4s;"></div>
-          <div id="avg-bar-avg" style="position:absolute;top:-5px;width:3px;height:18px;background:var(--orange);border-radius:2px;transform:translateX(-50%);transition:left .4s;"></div>
-          <div id="avg-bar-label-cur" style="position:absolute;bottom:-20px;font-size:8px;color:#888;transform:translateX(-50%);white-space:nowrap;transition:left .4s;"></div>
-          <div id="avg-bar-label-avg" style="position:absolute;bottom:-20px;font-size:8px;color:var(--orange);transform:translateX(-50%);white-space:nowrap;transition:left .4s;"></div>
-        </div>
-      </div>
-
-      <!-- Legs table -->
-      <div class="avg-legs-card">
-        <div class="avg-legs-header">
-          <span>POSITION DETAILS</span>
-        </div>
-        <div class="avg-leg-row header-row">
-          <span>#</span><span>PRICE</span><span>QTY</span><span>VOLUME</span><span>SHARE</span>
-        </div>
-        <div id="avg-r-legs-table"></div>
-      </div>
-
-      <!-- ── WHAT-IF SCENARIOS ── -->
-      <div id="avg-scenarios-card" style="display:none;margin-top:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:7px;">
-            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-            <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);">WHAT-IF SCENARIOS</span>
+        <div class="avg-input-group" style="margin-top:2px;">
+          <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
+            LIQUIDATION PRICE
+            <span style="background:rgba(239,68,68,0.12);color:#ef4444;font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;letter-spacing:.8px;">OPTIONAL</span>
           </div>
-          <span style="font-size:8px;color:#444;">same entry · different averaging size</span>
+          <input class="avg-input" id="avg-liq-1" type="number" placeholder="e.g. 52,000" step="any"
+            style="border-color:rgba(239,68,68,0.2);"
+            oninput="avgLiveCalc(); avgValidateLiq()"
+            onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,0.2)'">
+          <div id="avg-liq-hint" style="font-size:8px;color:#555;margin-top:4px;">LONG: liq below entry price</div>
         </div>
-        <div class="scenarios-grid" id="avg-scenarios-grid"></div>
-      </div>
 
-      <!-- ── TAKE PROFIT TARGETS ── -->
-      <div id="avg-tp-card" style="display:none;margin-top:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:7px;">
-            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-            <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:#22c55e;">TAKE PROFIT TARGETS</span>
+        <div style="height:1px;background:var(--border);margin:14px 0;"></div>
+
+        <!-- Dynamic averaging legs -->
+        <div id="avg-legs-inputs"></div>
+
+        <button class="avg-add-btn" onclick="avgAddLeg()">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          ADD AVERAGING LEG
+        </button>
+
+        <button class="avg-calc-btn" onclick="avgCalculate()">⚡ CALCULATE AVERAGE</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card" style="min-height:400px;">
+        <div id="avg-empty-state" class="avg-empty">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 16 4-4 4 4 4-4"/></svg>
+          <p>Enter data and press CALCULATE</p>
+        </div>
+        <div id="avg-results" style="display:none;">
+
+          <!-- Hero: new average price -->
+          <div class="avg-result-hero">
+            <div class="avg-hero-label">NEW AVERAGE PRICE</div>
+            <div class="avg-hero-price" id="avg-r-avgprice">—</div>
+            <div class="avg-hero-sub" id="avg-r-herosub"></div>
           </div>
-          <span style="font-size:8px;color:#444;">from new avg price</span>
-        </div>
-        <div class="tp-grid" id="avg-tp-grid"></div>
-        <div class="tp-custom-row">
-          <input class="tp-custom-input" id="avg-tp-custom" type="number" placeholder="Custom TP price..." oninput="avgCalcCustomTp()">
-          <div id="avg-tp-custom-result" style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:800;color:#22c55e;min-width:60px;text-align:right;"></div>
+
+          <!-- Summary stats -->
+          <div class="avg-summary-grid">
+            <div class="avg-stat">
+              <div class="avg-stat-label">TOTAL VOLUME</div>
+              <div class="avg-stat-val" id="avg-r-totalvol">—</div>
+              <div class="avg-stat-sub" id="avg-r-totalqty"></div>
+            </div>
+            <div class="avg-stat">
+              <div class="avg-stat-label">ENTRIES</div>
+              <div class="avg-stat-val" id="avg-r-legs">—</div>
+              <div class="avg-stat-sub">avg legs</div>
+            </div>
+            <div class="avg-stat">
+              <div class="avg-stat-label">CURRENT PRICE</div>
+              <div class="avg-stat-val" id="avg-r-curprice" style="cursor:pointer;text-decoration:underline dotted;" onclick="document.getElementById('avg-current-price').focus()">—</div>
+              <div class="avg-stat-sub" id="avg-r-pnl"></div>
+            </div>
+            <div class="avg-stat">
+              <div class="avg-stat-label">BREAK-EVEN</div>
+              <div class="avg-stat-val" id="avg-r-tobr">—</div>
+              <div class="avg-stat-sub" id="avg-r-tobr-pct"></div>
+            </div>
+          </div>
+
+          <!-- Liquidation card -->
+          <div id="avg-liq-result-card" style="display:none;background:linear-gradient(135deg,rgba(239,68,68,0.08) 0%,rgba(22,22,22,0) 70%);border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:16px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#ef4444;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:#ef4444;">LIQUIDATION ANALYSIS</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="text-align:center;">
+                <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">ORIGINAL LIQ. PRICE</div>
+                <div id="avg-liq-original" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">NEW LIQ. PRICE</div>
+                <div id="avg-liq-new" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+              </div>
+            </div>
+            <div id="avg-liq-change-bar" style="margin-top:12px;padding:8px 12px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:9px;color:#666;">LIQ. DISTANCE IMPROVED</span>
+              <span id="avg-liq-improvement" style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:900;color:#22c55e;">—</span>
+            </div>
+            <div id="avg-liq-warn" style="display:none;margin-top:8px;padding:6px 10px;background:rgba(239,68,68,0.1);border-radius:6px;font-size:9px;color:#ef4444;font-weight:700;text-align:center;"></div>
+          </div>
+
+          <!-- Breakeven bar -->
+          <div class="avg-be-bar" id="avg-be-bar" style="display:none;">
+            <div class="avg-be-label">PRICE POSITION</div>
+            <div style="position:relative;height:8px;background:#1e1e1e;border-radius:4px;margin-bottom:28px;">
+              <div id="avg-bar-fill" style="position:absolute;left:0;top:0;height:100%;border-radius:4px;transition:width .4s;"></div>
+              <div id="avg-bar-cur" style="position:absolute;top:-5px;width:4px;height:18px;background:#f0f0f0;border-radius:2px;transform:translateX(-50%);transition:left .4s;"></div>
+              <div id="avg-bar-avg" style="position:absolute;top:-5px;width:3px;height:18px;background:var(--orange);border-radius:2px;transform:translateX(-50%);transition:left .4s;"></div>
+              <div id="avg-bar-label-cur" style="position:absolute;bottom:-20px;font-size:8px;color:#888;transform:translateX(-50%);white-space:nowrap;transition:left .4s;"></div>
+              <div id="avg-bar-label-avg" style="position:absolute;bottom:-20px;font-size:8px;color:var(--orange);transform:translateX(-50%);white-space:nowrap;transition:left .4s;"></div>
+            </div>
+          </div>
+
+          <!-- Legs table -->
+          <div class="avg-legs-card">
+            <div class="avg-legs-header">
+              <span>POSITION DETAILS</span>
+            </div>
+            <div class="avg-leg-row header-row">
+              <span>#</span><span>PRICE</span><span>QTY</span><span>VOLUME</span><span>SHARE</span>
+            </div>
+            <div id="avg-r-legs-table"></div>
+          </div>
+
+          <!-- ── WHAT-IF SCENARIOS ── -->
+          <div id="avg-scenarios-card" style="display:none;margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:7px;">
+                <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);">WHAT-IF SCENARIOS</span>
+              </div>
+              <span style="font-size:8px;color:#444;">same entry · different averaging size</span>
+            </div>
+            <div class="scenarios-grid" id="avg-scenarios-grid"></div>
+          </div>
+
+          <!-- ── TAKE PROFIT TARGETS ── -->
+          <div id="avg-tp-card" style="display:none;margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:7px;">
+                <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:#22c55e;">TAKE PROFIT TARGETS</span>
+              </div>
+              <span style="font-size:8px;color:#444;">from new avg price</span>
+            </div>
+            <div class="tp-grid" id="avg-tp-grid"></div>
+            <div class="tp-custom-row">
+              <input class="tp-custom-input" id="avg-tp-custom" type="number" placeholder="Custom TP price..." oninput="avgCalcCustomTp()">
+              <div id="avg-tp-custom-result" style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:800;color:#22c55e;min-width:60px;text-align:right;"></div>
+            </div>
+          </div>
+
+          <!-- ── RISK / REWARD ── -->
+          <div id="avg-rr-card" style="display:none;margin-top:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:7px;">
+                <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
+                <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);">RISK / REWARD</span>
+              </div>
+              <span id="avg-rr-tp-label" style="font-size:8px;color:#444;">vs nearest TP</span>
+            </div>
+            <div class="rr-bar-wrap" id="avg-rr-bar-wrap">
+              <div class="rr-bar-risk"  id="avg-rr-risk-bar"></div>
+              <div class="rr-bar-reward" id="avg-rr-reward-bar"></div>
+              <div class="rr-bar-center" id="avg-rr-center"></div>
+              <div class="rr-label" id="avg-rr-liq-label" style="color:#ef4444;"></div>
+              <div class="rr-label" id="avg-rr-avg-label" style="color:var(--orange);"></div>
+              <div class="rr-label" id="avg-rr-tp-bar-label" style="color:#22c55e;"></div>
+            </div>
+            <div class="rr-stats">
+              <div>
+                <div style="font-size:8px;color:#666;margin-bottom:4px;font-weight:700;">RISK (to liq)</div>
+                <div class="rr-val" id="avg-rr-risk-val" style="color:#ef4444;">—</div>
+                <div id="avg-rr-risk-pct" style="font-size:9px;color:#666;margin-top:2px;"></div>
+              </div>
+              <div class="rr-sep">:</div>
+              <div>
+                <div style="font-size:8px;color:#666;margin-bottom:4px;font-weight:700;">REWARD (to TP)</div>
+                <div class="rr-val" id="avg-rr-reward-val" style="color:#22c55e;">—</div>
+                <div id="avg-rr-reward-pct" style="font-size:9px;color:#666;margin-top:2px;"></div>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:10px;">
+              <span class="rr-ratio neutral" id="avg-rr-ratio">—</span>
+            </div>
+            <div id="avg-rr-verdict" style="margin-top:8px;text-align:center;font-size:10px;font-weight:700;color:#555;"></div>
+          </div>
+
         </div>
       </div>
 
-      <!-- ── RISK / REWARD ── -->
-      <div id="avg-rr-card" style="display:none;margin-top:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;">
+      <!-- Current price input for P&L -->
+      <div class="card" style="margin-top:14px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:10px;">
+          CURRENT MARKET PRICE (for P&amp;L)
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input class="avg-input" id="avg-current-price" type="number" placeholder="Current price..." style="flex:1;font-size:15px;" oninput="avgUpdatePnl()">
+          <button style="padding:12px 18px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;" onclick="avgUpdatePnl()">UPDATE</button>
+        </div>
+        <div id="avg-pnl-detail" style="display:none;margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
+            <div>
+              <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">P&L $</div>
+              <div id="avg-pnl-usd" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:900;"></div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">P&L %</div>
+              <div id="avg-pnl-pct" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:900;"></div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">STATUS</div>
+              <div id="avg-pnl-status" style="font-size:11px;font-weight:800;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CALCULATION HISTORY ── -->
+      <div class="card" id="avg-hist-card" style="margin-top:14px;display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:7px;">
-            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
-            <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);">RISK / REWARD</span>
-          </div>
-          <span id="avg-rr-tp-label" style="font-size:8px;color:#444;">vs nearest TP</span>
+          <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);">RECENT CALCULATIONS</div>
+          <button onclick="avgClearHistory()" style="background:none;border:none;font-size:9px;color:#444;cursor:pointer;font-weight:700;font-family:Outfit,sans-serif;">CLEAR</button>
         </div>
-        <div class="rr-bar-wrap" id="avg-rr-bar-wrap">
-          <div class="rr-bar-risk"  id="avg-rr-risk-bar"></div>
-          <div class="rr-bar-reward" id="avg-rr-reward-bar"></div>
-          <div class="rr-bar-center" id="avg-rr-center"></div>
-          <div class="rr-label" id="avg-rr-liq-label" style="color:#ef4444;"></div>
-          <div class="rr-label" id="avg-rr-avg-label" style="color:var(--orange);"></div>
-          <div class="rr-label" id="avg-rr-tp-bar-label" style="color:#22c55e;"></div>
-        </div>
-        <div class="rr-stats">
-          <div>
-            <div style="font-size:8px;color:#666;margin-bottom:4px;font-weight:700;">RISK (to liq)</div>
-            <div class="rr-val" id="avg-rr-risk-val" style="color:#ef4444;">—</div>
-            <div id="avg-rr-risk-pct" style="font-size:9px;color:#666;margin-top:2px;"></div>
-          </div>
-          <div class="rr-sep">:</div>
-          <div>
-            <div style="font-size:8px;color:#666;margin-bottom:4px;font-weight:700;">REWARD (to TP)</div>
-            <div class="rr-val" id="avg-rr-reward-val" style="color:#22c55e;">—</div>
-            <div id="avg-rr-reward-pct" style="font-size:9px;color:#666;margin-top:2px;"></div>
-          </div>
-        </div>
-        <div style="text-align:center;margin-top:10px;">
-          <span class="rr-ratio neutral" id="avg-rr-ratio">—</span>
-        </div>
-        <div id="avg-rr-verdict" style="margin-top:8px;text-align:center;font-size:10px;font-weight:700;color:#555;"></div>
+        <div id="avg-hist-list" style="display:flex;flex-direction:column;gap:6px;"></div>
       </div>
 
     </div>
-  </div>
-
-  <!-- Current price input for P&L -->
-  <div class="card" style="margin-top:14px;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:10px;">
-      CURRENT MARKET PRICE (for P&amp;L)
-    </div>
-    <div style="display:flex;gap:8px;">
-      <input class="avg-input" id="avg-current-price" type="number" placeholder="Current price..." style="flex:1;font-size:15px;" oninput="avgUpdatePnl()">
-      <button style="padding:12px 18px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;" onclick="avgUpdatePnl()">UPDATE</button>
-    </div>
-    <div id="avg-pnl-detail" style="display:none;margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
-        <div>
-          <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">P&L $</div>
-          <div id="avg-pnl-usd" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:900;"></div>
-        </div>
-        <div>
-          <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">P&L %</div>
-          <div id="avg-pnl-pct" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:900;"></div>
-        </div>
-        <div>
-          <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">STATUS</div>
-          <div id="avg-pnl-status" style="font-size:11px;font-weight:800;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── CALCULATION HISTORY ── -->
-  <div class="card" id="avg-hist-card" style="margin-top:14px;display:none;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);">RECENT CALCULATIONS</div>
-      <button onclick="avgClearHistory()" style="background:none;border:none;font-size:9px;color:#444;cursor:pointer;font-weight:700;font-family:Outfit,sans-serif;">CLEAR</button>
-    </div>
-    <div id="avg-hist-list" style="display:flex;flex-direction:column;gap:6px;"></div>
-  </div>
-
-</div>
-```
 
   </div>
 </div>
 
 <!-- ══ POSITION SIZER ══ -->
-
 <div id="sizer-section" style="display:none;max-width:900px;margin:0 auto;">
   <div class="sizer-layout">
     <!-- LEFT: Inputs -->
@@ -1582,163 +1564,159 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
           POSITION SIZER
         </div>
 
-```
-    <!-- DEPOSIT -->
-    <div class="avg-input-group">
-      <div class="avg-label">DEPOSIT (account balance) $</div>
-      <input class="avg-input" id="sz-balance" type="number" placeholder="e.g. 10,000" oninput="sizerCalc()">
-    </div>
-
-    <!-- LEVERAGE -->
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;justify-content:space-between;">
-        LEVERAGE
-        <span id="sz-lev-label" style="color:var(--orange);font-weight:800;">1× (no leverage)</span>
-      </div>
-      <input type="range" id="sz-leverage-slider" min="1" max="9" step="1" value="1"
-        list="sz-lev-steps"
-        style="width:100%;accent-color:var(--orange);margin:6px 0;"
-        oninput="sizerUpdateLevLabel(); sizerCalc()">
-      <datalist id="sz-lev-steps">
-        <option value="0"><option value="1"><option value="2"><option value="3">
-        <option value="4"><option value="5"><option value="6"><option value="7"><option value="8">
-      </datalist>
-      <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;margin-top:2px;">
-        <span>1×</span><span>2×</span><span>3×</span><span>5×</span><span>10×</span><span>20×</span><span>50×</span><span>75×</span><span>100×</span>
-      </div>
-    </div>
-
-    <!-- DIRECTION -->
-    <div class="avg-input-group">
-      <div class="avg-label">DIRECTION</div>
-      <div class="pos-toggle" style="margin-top:4px;">
-        <button class="pos-btn long active" id="sz-btn-long" onclick="szSetDir('long')">
-          <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="18 15 12 9 6 15"/></svg>
-          LONG
-        </button>
-        <button class="pos-btn short" id="sz-btn-short" onclick="szSetDir('short')">
-          <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="6 9 12 15 18 9"/></svg>
-          SHORT
-        </button>
-      </div>
-    </div>
-
-    <!-- ENTRY PRICE -->
-    <div class="avg-input-group">
-      <div class="avg-label">ENTRY PRICE</div>
-      <input class="avg-input" id="sz-entry" type="number" placeholder="e.g. 66,000" oninput="sizerSyncPcts(); sizerCalc()">
-    </div>
-
-    <!-- RISK SLIDER -->
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;justify-content:space-between;">
-        RISK PER TRADE
-        <span id="sz-risk-pct-label" style="color:var(--orange);font-weight:800;">1%</span>
-      </div>
-      <input type="range" id="sz-risk-slider" min="0.1" max="5" step="0.1" value="1"
-        style="width:100%;accent-color:var(--orange);margin:6px 0;"
-        oninput="document.getElementById('sz-risk-pct-label').textContent=parseFloat(this.value).toFixed(1)+'%'; sizerCalc()">
-      <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;">
-        <span>0.1%</span><span>Conservative ≤1%</span><span>Max 5%</span>
-      </div>
-    </div>
-
-    <!-- STOP LOSS -->
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;justify-content:space-between;">
-        STOP-LOSS PRICE
-        <span id="sz-sl-pct-label" style="color:#ef4444;font-size:9px;font-weight:700;"></span>
-      </div>
-      <input class="avg-input" id="sz-sl" type="number" placeholder="e.g. 63,000"
-        style="border-color:rgba(239,68,68,0.2);"
-        onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,0.2)'"
-        oninput="sizerSyncPcts(); sizerCalc()">
-    </div>
-
-    <!-- TAKE PROFIT -->
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;justify-content:space-between;">
-        TAKE PROFIT PRICE
-        <span id="sz-tp-pct-label" style="color:#22c55e;font-size:9px;font-weight:700;"></span>
-      </div>
-      <input class="avg-input" id="sz-tp" type="number" placeholder="optional"
-        style="border-color:rgba(34,197,94,0.2);"
-        onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(34,197,94,0.2)'"
-        oninput="sizerSyncPcts(); sizerCalc()">
-    </div>
-
-    <button class="sizer-calc-btn" onclick="sizerCalc()">⚡ CALCULATE POSITION SIZE</button>
-  </div>
-</div>
-
-<!-- RIGHT: Results -->
-<div>
-  <div class="card" style="min-height:360px;">
-    <div id="sz-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:12px;">
-      <svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:var(--text2);fill:none;stroke-width:1.2;opacity:.15;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <p style="font-size:13px;color:var(--text2);">Enter balance, risk % and stop-loss to calculate</p>
-    </div>
-    <div id="sz-results" style="display:none;">
-
-      <div class="sizer-result-hero">
-        <div class="sizer-hero-label">POSITION SIZE</div>
-        <div class="sizer-hero-val" id="sz-r-size">—</div>
-        <div class="sizer-hero-sub" id="sz-r-size-sub"></div>
-      <div id="sz-r-size-nolev" style="margin-top:6px;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.04);font-size:10px;font-weight:700;color:#666;display:none;"></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-        <div class="sizer-stat">
-          <div class="sizer-stat-label">MAX RISK $</div>
-          <div class="sizer-stat-val" id="sz-r-risk" style="color:#ef4444;">—</div>
-          <div class="sizer-stat-sub" id="sz-r-risk-pct"></div>
+        <!-- DEPOSIT -->
+        <div class="avg-input-group">
+          <div class="avg-label">DEPOSIT (account balance) $</div>
+          <input class="avg-input" id="sz-balance" type="number" placeholder="e.g. 10,000" oninput="sizerCalc()">
         </div>
-        <div class="sizer-stat">
-          <div class="sizer-stat-label">STOP DISTANCE</div>
-          <div class="sizer-stat-val" id="sz-r-stop-dist">—</div>
-          <div class="sizer-stat-sub" id="sz-r-stop-pct"></div>
+
+        <!-- LEVERAGE -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            LEVERAGE
+            <span id="sz-lev-label" style="color:var(--orange);font-weight:800;">1× (no leverage)</span>
+          </div>
+          <input type="range" id="sz-leverage-slider" min="1" max="9" step="1" value="1"
+            list="sz-lev-steps"
+            style="width:100%;accent-color:var(--orange);margin:6px 0;"
+            oninput="sizerUpdateLevLabel(); sizerCalc()">
+          <datalist id="sz-lev-steps">
+            <option value="0"><option value="1"><option value="2"><option value="3">
+            <option value="4"><option value="5"><option value="6"><option value="7"><option value="8">
+          </datalist>
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;margin-top:2px;">
+            <span>1×</span><span>2×</span><span>3×</span><span>5×</span><span>10×</span><span>20×</span><span>50×</span><span>75×</span><span>100×</span>
+          </div>
         </div>
-        <div class="sizer-stat">
-          <div class="sizer-stat-label">QUANTITY</div>
-          <div class="sizer-stat-val" id="sz-r-qty">—</div>
-          <div class="sizer-stat-sub">units</div>
+
+        <!-- DIRECTION -->
+        <div class="avg-input-group">
+          <div class="avg-label">DIRECTION</div>
+          <div class="pos-toggle" style="margin-top:4px;">
+            <button class="pos-btn long active" id="sz-btn-long" onclick="szSetDir('long')">
+              <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="18 15 12 9 6 15"/></svg>
+              LONG
+            </button>
+            <button class="pos-btn short" id="sz-btn-short" onclick="szSetDir('short')">
+              <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="6 9 12 15 18 9"/></svg>
+              SHORT
+            </button>
+          </div>
         </div>
-        <div class="sizer-stat" id="sz-rr-stat" style="display:none;">
-          <div class="sizer-stat-label">RISK / REWARD</div>
-          <div class="sizer-stat-val" id="sz-r-rr">—</div>
-          <div class="sizer-stat-sub" id="sz-r-rr-sub"></div>
+
+        <!-- ENTRY PRICE -->
+        <div class="avg-input-group">
+          <div class="avg-label">ENTRY PRICE</div>
+          <input class="avg-input" id="sz-entry" type="number" placeholder="e.g. 66,000" oninput="sizerSyncPcts(); sizerCalc()">
         </div>
+
+        <!-- RISK SLIDER -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            RISK PER TRADE
+            <span id="sz-risk-pct-label" style="color:var(--orange);font-weight:800;">1%</span>
+          </div>
+          <input type="range" id="sz-risk-slider" min="0.1" max="5" step="0.1" value="1"
+            style="width:100%;accent-color:var(--orange);margin:6px 0;"
+            oninput="document.getElementById('sz-risk-pct-label').textContent=parseFloat(this.value).toFixed(1)+'%'; sizerCalc()">
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;">
+            <span>0.1%</span><span>Conservative ≤1%</span><span>Max 5%</span>
+          </div>
+        </div>
+
+        <!-- STOP LOSS -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            STOP-LOSS PRICE
+            <span id="sz-sl-pct-label" style="color:#ef4444;font-size:9px;font-weight:700;"></span>
+          </div>
+          <input class="avg-input" id="sz-sl" type="number" placeholder="e.g. 63,000"
+            style="border-color:rgba(239,68,68,0.2);"
+            onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,0.2)'"
+            oninput="sizerSyncPcts(); sizerCalc()">
+        </div>
+
+        <!-- TAKE PROFIT -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            TAKE PROFIT PRICE
+            <span id="sz-tp-pct-label" style="color:#22c55e;font-size:9px;font-weight:700;"></span>
+          </div>
+          <input class="avg-input" id="sz-tp" type="number" placeholder="optional"
+            style="border-color:rgba(34,197,94,0.2);"
+            onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(34,197,94,0.2)'"
+            oninput="sizerSyncPcts(); sizerCalc()">
+        </div>
+
+        <button class="sizer-calc-btn" onclick="sizerCalc()">⚡ CALCULATE POSITION SIZE</button>
       </div>
-
-      <!-- Risk % of balance bar -->
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-          <span style="font-size:8px;color:var(--text2);font-weight:700;">RISK AS % OF BALANCE</span>
-          <span id="sz-risk-bar-label" style="font-size:9px;font-weight:800;color:var(--orange);"></span>
-        </div>
-        <div class="risk-bar-wrap">
-          <div class="risk-bar-fill" id="sz-risk-bar"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;margin-top:2px;">
-          <span>Safe &lt;2%</span><span>Moderate 2-5%</span><span>Risky &gt;5%</span>
-        </div>
-      </div>
-
-      <!-- Leverage warning -->
-      <div id="sz-leverage-warn" style="display:none;padding:8px 12px;border-radius:8px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);font-size:9px;color:#ef4444;font-weight:700;margin-bottom:8px;"></div>
-
-      <!-- Verdict -->
-      <div id="sz-verdict" style="padding:10px 14px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;"></div>
     </div>
-  </div>
-</div>
-```
 
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card" style="min-height:360px;">
+        <div id="sz-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:12px;">
+          <svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:var(--text2);fill:none;stroke-width:1.2;opacity:.15;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <p style="font-size:13px;color:var(--text2);">Enter balance, risk % and stop-loss to calculate</p>
+        </div>
+        <div id="sz-results" style="display:none;">
+
+          <div class="sizer-result-hero">
+            <div class="sizer-hero-label">POSITION SIZE</div>
+            <div class="sizer-hero-val" id="sz-r-size">—</div>
+            <div class="sizer-hero-sub" id="sz-r-size-sub"></div>
+          <div id="sz-r-size-nolev" style="margin-top:6px;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.04);font-size:10px;font-weight:700;color:#666;display:none;"></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+            <div class="sizer-stat">
+              <div class="sizer-stat-label">MAX RISK $</div>
+              <div class="sizer-stat-val" id="sz-r-risk" style="color:#ef4444;">—</div>
+              <div class="sizer-stat-sub" id="sz-r-risk-pct"></div>
+            </div>
+            <div class="sizer-stat">
+              <div class="sizer-stat-label">STOP DISTANCE</div>
+              <div class="sizer-stat-val" id="sz-r-stop-dist">—</div>
+              <div class="sizer-stat-sub" id="sz-r-stop-pct"></div>
+            </div>
+            <div class="sizer-stat">
+              <div class="sizer-stat-label">QUANTITY</div>
+              <div class="sizer-stat-val" id="sz-r-qty">—</div>
+              <div class="sizer-stat-sub">units</div>
+            </div>
+            <div class="sizer-stat" id="sz-rr-stat" style="display:none;">
+              <div class="sizer-stat-label">RISK / REWARD</div>
+              <div class="sizer-stat-val" id="sz-r-rr">—</div>
+              <div class="sizer-stat-sub" id="sz-r-rr-sub"></div>
+            </div>
+          </div>
+
+          <!-- Risk % of balance bar -->
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:8px;color:var(--text2);font-weight:700;">RISK AS % OF BALANCE</span>
+              <span id="sz-risk-bar-label" style="font-size:9px;font-weight:800;color:var(--orange);"></span>
+            </div>
+            <div class="risk-bar-wrap">
+              <div class="risk-bar-fill" id="sz-risk-bar"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;margin-top:2px;">
+              <span>Safe &lt;2%</span><span>Moderate 2-5%</span><span>Risky &gt;5%</span>
+            </div>
+          </div>
+
+          <!-- Leverage warning -->
+          <div id="sz-leverage-warn" style="display:none;padding:8px 12px;border-radius:8px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);font-size:9px;color:#ef4444;font-weight:700;margin-bottom:8px;"></div>
+
+          <!-- Verdict -->
+          <div id="sz-verdict" style="padding:10px 14px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- ══ FUNDING RATE CALCULATOR ══ -->
-
 <div id="funding-section" style="display:none;max-width:900px;margin:0 auto;">
   <div class="funding-layout">
     <!-- LEFT: Inputs -->
@@ -1749,171 +1727,162 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
           FUNDING RATE CALCULATOR
         </div>
 
-```
-    <div style="font-size:8px;color:var(--text2);margin-bottom:8px;font-weight:700;">POPULAR ASSETS</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;" id="funding-asset-btns">
-      <button class="funding-asset-btn active" onclick="fundingSelectAsset('BTC', 0.01)">BTC</button>
-      <button class="funding-asset-btn" onclick="fundingSelectAsset('ETH', 0.01)">ETH</button>
-      <button class="funding-asset-btn" onclick="fundingSelectAsset('SOL', 0.01)">SOL</button>
-      <button class="funding-asset-btn" onclick="fundingSelectAsset('BNB', 0.01)">BNB</button>
-      <button class="funding-asset-btn" onclick="fundingSelectAsset('XRP', 0.01)">XRP</button>
-    </div>
-
-    <div class="avg-input-group">
-      <div class="avg-label">POSITION SIZE $</div>
-      <input class="avg-input" id="fr-position" type="number" placeholder="e.g. 10,000" oninput="fundingCalc()">
-    </div>
-
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;justify-content:space-between;">
-        FUNDING RATE (per 8h)
-        <span id="fr-rate-display" style="color:var(--orange);font-weight:800;font-size:10px;">0.0100%</span>
-      </div>
-      <input class="avg-input" id="fr-rate" type="number" placeholder="e.g. 0.01" step="0.001" value="0.01"
-        oninput="document.getElementById('fr-rate-display').textContent=parseFloat(this.value||0).toFixed(4)+'%'; fundingCalc()">
-      <div style="font-size:8px;color:#555;margin-top:4px;">Typical: 0.01% (neutral) · High: 0.1%+ (overheated)</div>
-    </div>
-
-    <div class="avg-input-group">
-      <div class="avg-label" style="display:flex;justify-content:space-between;">
-        DIRECTION
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;">
-        <button id="fr-long-btn" onclick="fundingSetDir('long')"
-          style="padding:10px;border-radius:8px;border:1px solid #22c55e;background:rgba(34,197,94,.1);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:#22c55e;cursor:pointer;">
-          ▲ LONG
-        </button>
-        <button id="fr-short-btn" onclick="fundingSetDir('short')"
-          style="padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
-          ▼ SHORT
-        </button>
-      </div>
-      <div id="fr-dir-note" style="font-size:8px;color:#22c55e;margin-top:5px;font-weight:700;">LONG pays funding when rate is positive</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- RIGHT: Results -->
-<div>
-  <div class="card">
-    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;">HOLDING COST BREAKDOWN</div>
-
-    <div class="funding-periods" id="fr-periods">
-      <div class="funding-period-card">
-        <div><div class="funding-period-label">PER FUNDING (8h)</div><div id="fr-p-8h-sub" style="font-size:8px;color:#555;margin-top:2px;"></div></div>
-        <div><div class="funding-period-val" id="fr-p-8h">—</div><div class="funding-period-sub" id="fr-p-8h-pct"></div></div>
-      </div>
-      <div class="funding-period-card">
-        <div><div class="funding-period-label">PER DAY (3× payments)</div></div>
-        <div><div class="funding-period-val" id="fr-p-day">—</div><div class="funding-period-sub" id="fr-p-day-pct"></div></div>
-      </div>
-      <div class="funding-period-card">
-        <div><div class="funding-period-label">PER WEEK</div></div>
-        <div><div class="funding-period-val" id="fr-p-week">—</div><div class="funding-period-sub" id="fr-p-week-pct"></div></div>
-      </div>
-      <div class="funding-period-card" style="border-color:rgba(255,106,0,0.3);">
-        <div><div class="funding-period-label" style="color:var(--orange);">PER MONTH</div></div>
-        <div><div class="funding-period-val" id="fr-p-month" style="color:var(--orange);">—</div><div class="funding-period-sub" id="fr-p-month-pct"></div></div>
-      </div>
-    </div>
-
-    <!-- Breakeven move needed -->
-    <div id="fr-breakeven-card" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
-      <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">PRICE MOVE NEEDED TO OFFSET FUNDING COST</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
-        <div>
-          <div style="font-size:8px;color:#555;margin-bottom:3px;">1 DAY</div>
-          <div id="fr-be-day" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+        <div style="font-size:8px;color:var(--text2);margin-bottom:8px;font-weight:700;">POPULAR ASSETS</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;" id="funding-asset-btns">
+          <button class="funding-asset-btn active" onclick="fundingSelectAsset('BTC', 0.01)">BTC</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('ETH', 0.01)">ETH</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('SOL', 0.01)">SOL</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('BNB', 0.01)">BNB</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('XRP', 0.01)">XRP</button>
         </div>
-        <div>
-          <div style="font-size:8px;color:#555;margin-bottom:3px;">1 WEEK</div>
-          <div id="fr-be-week" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+
+        <div class="avg-input-group">
+          <div class="avg-label">POSITION SIZE $</div>
+          <input class="avg-input" id="fr-position" type="number" placeholder="e.g. 10,000" oninput="fundingCalc()">
         </div>
-        <div>
-          <div style="font-size:8px;color:#555;margin-bottom:3px;">1 MONTH</div>
-          <div id="fr-be-month" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            FUNDING RATE (per 8h)
+            <span id="fr-rate-display" style="color:var(--orange);font-weight:800;font-size:10px;">0.0100%</span>
+          </div>
+          <input class="avg-input" id="fr-rate" type="number" placeholder="e.g. 0.01" step="0.001" value="0.01"
+            oninput="document.getElementById('fr-rate-display').textContent=parseFloat(this.value||0).toFixed(4)+'%'; fundingCalc()">
+          <div style="font-size:8px;color:#555;margin-top:4px;">Typical: 0.01% (neutral) · High: 0.1%+ (overheated)</div>
         </div>
+
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            DIRECTION
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;">
+            <button id="fr-long-btn" onclick="fundingSetDir('long')"
+              style="padding:10px;border-radius:8px;border:1px solid #22c55e;background:rgba(34,197,94,.1);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:#22c55e;cursor:pointer;">
+              ▲ LONG
+            </button>
+            <button id="fr-short-btn" onclick="fundingSetDir('short')"
+              style="padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
+              ▼ SHORT
+            </button>
+          </div>
+          <div id="fr-dir-note" style="font-size:8px;color:#22c55e;margin-top:5px;font-weight:700;">LONG pays funding when rate is positive</div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Market sentiment signal -->
-    <div id="fr-sentiment-card" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;">
-      <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">MARKET SENTIMENT SIGNAL</div>
-      <div class="funding-direction-bar" id="fr-sentiment-bar">
-        <div class="funding-direction-needle" id="fr-sentiment-needle"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:8px;color:#555;margin-top:8px;">
-        <span style="color:#22c55e;">◀ BEARISH FUNDING</span>
-        <span>NEUTRAL</span>
-        <span style="color:#ef4444;">BULLISH FUNDING ▶</span>
-      </div>
-      <div id="fr-sentiment-text" style="text-align:center;margin-top:10px;font-size:11px;font-weight:800;color:#555;"></div>
-    </div>
-  </div>
-</div>
-```
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card">
+        <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;">HOLDING COST BREAKDOWN</div>
 
+        <div class="funding-periods" id="fr-periods">
+          <div class="funding-period-card">
+            <div><div class="funding-period-label">PER FUNDING (8h)</div><div id="fr-p-8h-sub" style="font-size:8px;color:#555;margin-top:2px;"></div></div>
+            <div><div class="funding-period-val" id="fr-p-8h">—</div><div class="funding-period-sub" id="fr-p-8h-pct"></div></div>
+          </div>
+          <div class="funding-period-card">
+            <div><div class="funding-period-label">PER DAY (3× payments)</div></div>
+            <div><div class="funding-period-val" id="fr-p-day">—</div><div class="funding-period-sub" id="fr-p-day-pct"></div></div>
+          </div>
+          <div class="funding-period-card">
+            <div><div class="funding-period-label">PER WEEK</div></div>
+            <div><div class="funding-period-val" id="fr-p-week">—</div><div class="funding-period-sub" id="fr-p-week-pct"></div></div>
+          </div>
+          <div class="funding-period-card" style="border-color:rgba(255,106,0,0.3);">
+            <div><div class="funding-period-label" style="color:var(--orange);">PER MONTH</div></div>
+            <div><div class="funding-period-val" id="fr-p-month" style="color:var(--orange);">—</div><div class="funding-period-sub" id="fr-p-month-pct"></div></div>
+          </div>
+        </div>
+
+        <!-- Breakeven move needed -->
+        <div id="fr-breakeven-card" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">PRICE MOVE NEEDED TO OFFSET FUNDING COST</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
+            <div>
+              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 DAY</div>
+              <div id="fr-be-day" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 WEEK</div>
+              <div id="fr-be-week" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 MONTH</div>
+              <div id="fr-be-month" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market sentiment signal -->
+        <div id="fr-sentiment-card" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;">
+          <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">MARKET SENTIMENT SIGNAL</div>
+          <div class="funding-direction-bar" id="fr-sentiment-bar">
+            <div class="funding-direction-needle" id="fr-sentiment-needle"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#555;margin-top:8px;">
+            <span style="color:#22c55e;">◀ BEARISH FUNDING</span>
+            <span>NEUTRAL</span>
+            <span style="color:#ef4444;">BULLISH FUNDING ▶</span>
+          </div>
+          <div id="fr-sentiment-text" style="text-align:center;margin-top:10px;font-size:11px;font-weight:800;color:#555;"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- ══ PORTFOLIO ══ -->
-
 <div id="portfolio-section" style="display:none;">
 <div class="pf-section">
 
   <!-- TOP: Chart + Stats -->
-
   <div class="pf-top">
 
-```
-<!-- Donut chart -->
-<div class="pf-chart-wrap">
-  <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:4px;">PORTFOLIO ALLOCATION</div>
-  <div class="pf-donut-container">
-    <svg id="pf-donut-svg" width="200" height="200" viewBox="0 0 200 200"></svg>
-    <div class="pf-donut-center">
-      <div class="pf-donut-total" id="pf-total-val">$0</div>
-      <div class="pf-donut-label">TOTAL VALUE</div>
-      <div class="pf-donut-pnl" id="pf-total-pnl"></div>
+    <!-- Donut chart -->
+    <div class="pf-chart-wrap">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:4px;">PORTFOLIO ALLOCATION</div>
+      <div class="pf-donut-container">
+        <svg id="pf-donut-svg" width="200" height="200" viewBox="0 0 200 200"></svg>
+        <div class="pf-donut-center">
+          <div class="pf-donut-total" id="pf-total-val">$0</div>
+          <div class="pf-donut-label">TOTAL VALUE</div>
+          <div class="pf-donut-pnl" id="pf-total-pnl"></div>
+        </div>
+      </div>
+      <div class="pf-legend" id="pf-legend"></div>
     </div>
-  </div>
-  <div class="pf-legend" id="pf-legend"></div>
-</div>
 
-<!-- Stats + type breakdown -->
-<div>
-  <div class="pf-stats-strip" style="margin-bottom:12px;">
-    <div class="pf-stat">
-      <div class="pf-stat-label">INVESTED</div>
-      <div class="pf-stat-val" id="pf-invested">$0</div>
-      <div class="pf-stat-sub">cost basis</div>
+    <!-- Stats + type breakdown -->
+    <div>
+      <div class="pf-stats-strip" style="margin-bottom:12px;">
+        <div class="pf-stat">
+          <div class="pf-stat-label">INVESTED</div>
+          <div class="pf-stat-val" id="pf-invested">$0</div>
+          <div class="pf-stat-sub">cost basis</div>
+        </div>
+        <div class="pf-stat">
+          <div class="pf-stat-label">CURRENT VALUE</div>
+          <div class="pf-stat-val" id="pf-cur-val">$0</div>
+          <div class="pf-stat-sub" id="pf-cur-sub">live prices</div>
+        </div>
+        <div class="pf-stat">
+          <div class="pf-stat-label">TOTAL P&L</div>
+          <div class="pf-stat-val" id="pf-pnl-usd">$0</div>
+          <div class="pf-stat-sub" id="pf-pnl-pct"></div>
+        </div>
+        <div class="pf-stat">
+          <div class="pf-stat-label">ASSETS</div>
+          <div class="pf-stat-val" id="pf-asset-count">0</div>
+          <div class="pf-stat-sub" id="pf-type-breakdown"></div>
+        </div>
+      </div>
+      <!-- Type allocation mini bars -->
+      <div id="pf-type-bars" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;"></div>
     </div>
-    <div class="pf-stat">
-      <div class="pf-stat-label">CURRENT VALUE</div>
-      <div class="pf-stat-val" id="pf-cur-val">$0</div>
-      <div class="pf-stat-sub" id="pf-cur-sub">live prices</div>
-    </div>
-    <div class="pf-stat">
-      <div class="pf-stat-label">TOTAL P&L</div>
-      <div class="pf-stat-val" id="pf-pnl-usd">$0</div>
-      <div class="pf-stat-sub" id="pf-pnl-pct"></div>
-    </div>
-    <div class="pf-stat">
-      <div class="pf-stat-label">ASSETS</div>
-      <div class="pf-stat-val" id="pf-asset-count">0</div>
-      <div class="pf-stat-sub" id="pf-type-breakdown"></div>
-    </div>
-  </div>
-  <!-- Type allocation mini bars -->
-  <div id="pf-type-bars" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;"></div>
-</div>
-```
-
   </div>
 
   <!-- ADD ASSET FORM -->
-
   <div class="pf-add-card">
     <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:7px;">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1955,7 +1924,6 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- ASSETS TABLE -->
-
   <div class="pf-table-wrap" id="pf-table-wrap" style="display:none;">
     <div class="pf-table-header">
       <span>#</span><span>ASSET</span><span>TYPE</span>
@@ -1965,7 +1933,6 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- ── PROJECTIONS ── -->
-
   <div id="pf-projections-wrap" style="display:none;margin-bottom:14px;">
     <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:7px;">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
@@ -1975,61 +1942,56 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- ── RANDOM SIMULATION ── -->
-
   <div id="pf-sim-wrap" style="display:none;margin-bottom:14px;">
     <div class="pf-sim-card">
 
-```
-  <!-- Mode tabs -->
-  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
-    <button id="pf-sim-tab-rand" onclick="pfSimSetMode('random')"
-      style="padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;">
-      🎲 RANDOM SIMULATION
-    </button>
-    <button id="pf-sim-tab-mult" onclick="pfSimSetMode('multiplier')"
-      style="padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
-      📈 GROWTH MULTIPLIER
-    </button>
-    <button id="pf-sim-reroll" onclick="pfRunSimulation()"
-      style="margin-left:auto;padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">
-      RE-ROLL ↺
-    </button>
-  </div>
+      <!-- Mode tabs -->
+      <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <button id="pf-sim-tab-rand" onclick="pfSimSetMode('random')"
+          style="padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;">
+          🎲 RANDOM SIMULATION
+        </button>
+        <button id="pf-sim-tab-mult" onclick="pfSimSetMode('multiplier')"
+          style="padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
+          📈 GROWTH MULTIPLIER
+        </button>
+        <button id="pf-sim-reroll" onclick="pfRunSimulation()"
+          style="margin-left:auto;padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">
+          RE-ROLL ↺
+        </button>
+      </div>
 
-  <!-- Random panel -->
-  <div id="pf-sim-random-panel">
-    <div style="font-size:9px;color:#555;margin-bottom:12px;">Probabilistic simulation: some assets +20%→+200%, some -10%→-70%, some flat. Based on asset count distribution theory.</div>
-    <div id="pf-sim-rows"></div>
-  </div>
+      <!-- Random panel -->
+      <div id="pf-sim-random-panel">
+        <div style="font-size:9px;color:#555;margin-bottom:12px;">Probabilistic simulation: some assets +20%→+200%, some -10%→-70%, some flat. Based on asset count distribution theory.</div>
+        <div id="pf-sim-rows"></div>
+      </div>
 
-  <!-- Multiplier panel -->
-  <div id="pf-sim-mult-panel" style="display:none;">
-    <div style="font-size:9px;color:#555;margin-bottom:10px;">Uniform growth scenario — all portfolio assets move by the same multiplier simultaneously.</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
-      <button class="pf-mult-btn active" onclick="pfRenderMultiplier(1)">×1 (0%)</button>
-      <button class="pf-mult-btn" onclick="pfRenderMultiplier(2)">×2 (+100%)</button>
-      <button class="pf-mult-btn" onclick="pfRenderMultiplier(3)">×3 (+200%)</button>
-      <button class="pf-mult-btn" onclick="pfRenderMultiplier(4)">×4 (+300%)</button>
-      <button class="pf-mult-btn" onclick="pfRenderMultiplier(5)">×5 (+400%)</button>
+      <!-- Multiplier panel -->
+      <div id="pf-sim-mult-panel" style="display:none;">
+        <div style="font-size:9px;color:#555;margin-bottom:10px;">Uniform growth scenario — all portfolio assets move by the same multiplier simultaneously.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+          <button class="pf-mult-btn active" onclick="pfRenderMultiplier(1)">×1 (0%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(2)">×2 (+100%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(3)">×3 (+200%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(4)">×4 (+300%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(5)">×5 (+400%)</button>
+        </div>
+        <div id="pf-sim-mult-rows"></div>
+      </div>
+
+      <!-- Footer total -->
+      <div style="margin-top:14px;padding:12px;background:var(--bg);border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:9px;font-weight:700;color:var(--text2);" id="pf-sim-footer-label">SIMULATED PORTFOLIO VALUE</span>
+        <div style="text-align:right;">
+          <div id="pf-sim-total" style="font-family:JetBrains Mono,monospace;font-size:20px;font-weight:900;"></div>
+          <div id="pf-sim-pnl" style="font-size:10px;font-weight:800;"></div>
+        </div>
+      </div>
     </div>
-    <div id="pf-sim-mult-rows"></div>
-  </div>
-
-  <!-- Footer total -->
-  <div style="margin-top:14px;padding:12px;background:var(--bg);border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
-    <span style="font-size:9px;font-weight:700;color:var(--text2);" id="pf-sim-footer-label">SIMULATED PORTFOLIO VALUE</span>
-    <div style="text-align:right;">
-      <div id="pf-sim-total" style="font-family:JetBrains Mono,monospace;font-size:20px;font-weight:900;"></div>
-      <div id="pf-sim-pnl" style="font-size:10px;font-weight:800;"></div>
-    </div>
-  </div>
-</div>
-```
-
   </div>
 
   <!-- ── ALERTS / SCHEDULE ── -->
-
   <div id="pf-alerts-wrap" style="display:none;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
       <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);display:flex;align-items:center;gap:7px;">
@@ -2058,12 +2020,10 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
 </div>
 
 <!-- ══ INVESTMENT AGENT ══ -->
-
 <div id="agent-section" style="display:none;">
 <div class="agent-section">
 
   <!-- Step nav -->
-
   <div class="agent-steps-nav" id="agent-steps-nav">
     <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)">◆ Portfolio</button>
     <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled>◈ Analysis</button>
@@ -2079,83 +2039,78 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- ── STEP 0: PORTFOLIO BUILDER ── -->
-
   <div id="agent-step-0">
 
-```
-<div class="card" style="margin-bottom:12px;">
-  <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">INVESTMENT BUDGET</div>
-  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-    <div style="position:relative;flex:1;min-width:180px;">
-      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--orange);font-weight:900;font-size:16px;pointer-events:none;">$</span>
-      <input type="number" id="agent-budget-input" value="1000000"
-        style="width:100%;padding:12px 12px 12px 28px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;font-family:JetBrains Mono,monospace;font-size:18px;font-weight:900;color:var(--text);outline:none;"
-        oninput="agentUpdateBudget()">
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">INVESTMENT BUDGET</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div style="position:relative;flex:1;min-width:180px;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--orange);font-weight:900;font-size:16px;pointer-events:none;">$</span>
+          <input type="number" id="agent-budget-input" value="1000000"
+            style="width:100%;padding:12px 12px 12px 28px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;font-family:JetBrains Mono,monospace;font-size:18px;font-weight:900;color:var(--text);outline:none;"
+            oninput="agentUpdateBudget()">
+        </div>
+        <button class="agent-budget-preset active" data-v="100000" onclick="agentSetBudget(100000)">$100K</button>
+        <button class="agent-budget-preset" data-v="500000" onclick="agentSetBudget(500000)">$500K</button>
+        <button class="agent-budget-preset" data-v="1000000" onclick="agentSetBudget(1000000)">$1M</button>
+        <button class="agent-budget-preset" data-v="2000000" onclick="agentSetBudget(2000000)">$2M</button>
+        <button class="agent-budget-preset" data-v="5000000" onclick="agentSetBudget(5000000)">$5M</button>
+      </div>
     </div>
-    <button class="agent-budget-preset active" data-v="100000" onclick="agentSetBudget(100000)">$100K</button>
-    <button class="agent-budget-preset" data-v="500000" onclick="agentSetBudget(500000)">$500K</button>
-    <button class="agent-budget-preset" data-v="1000000" onclick="agentSetBudget(1000000)">$1M</button>
-    <button class="agent-budget-preset" data-v="2000000" onclick="agentSetBudget(2000000)">$2M</button>
-    <button class="agent-budget-preset" data-v="5000000" onclick="agentSetBudget(5000000)">$5M</button>
-  </div>
-</div>
 
-<!-- Category tabs -->
-<div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
-  <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')">₿ Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-  <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')">📊 ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-  <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')">📈 Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-  <button id="agent-add-btn" onclick="agentToggleAddForm()"
-    style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
-    onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
-    <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    ADD ASSET
-  </button>
-</div>
-
-<!-- ADD ASSET inline form -->
-<div id="agent-add-form" style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.2);border-radius:10px;padding:14px;margin-bottom:12px;">
-  <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);margin-bottom:10px;">ADD CUSTOM ASSET</div>
-  <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:8px;align-items:end;">
-    <div>
-      <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">TICKER</div>
-      <input id="agent-add-ticker" class="agent-signal-input" placeholder="BTC, AAPL…" maxlength="10"
-        style="text-transform:uppercase;"
-        oninput="this.value=this.value.toUpperCase(); agentAddAutoDetect()"
-        onkeydown="if(event.key==='Enter') agentAddAsset()">
+    <!-- Category tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')">₿ Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')">📊 ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')">📈 Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button id="agent-add-btn" onclick="agentToggleAddForm()"
+        style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
+        onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
+        <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        ADD ASSET
+      </button>
     </div>
-    <div>
-      <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">NAME <span id="agent-add-type-badge" style="margin-left:6px;font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;"></span></div>
-      <input id="agent-add-name" class="agent-signal-input" placeholder="Full name (auto-fill)"
-        onkeydown="if(event.key==='Enter') agentAddAsset()">
+
+    <!-- ADD ASSET inline form -->
+    <div id="agent-add-form" style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.2);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);margin-bottom:10px;">ADD CUSTOM ASSET</div>
+      <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:8px;align-items:end;">
+        <div>
+          <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">TICKER</div>
+          <input id="agent-add-ticker" class="agent-signal-input" placeholder="BTC, AAPL…" maxlength="10"
+            style="text-transform:uppercase;"
+            oninput="this.value=this.value.toUpperCase(); agentAddAutoDetect()"
+            onkeydown="if(event.key==='Enter') agentAddAsset()">
+        </div>
+        <div>
+          <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">NAME <span id="agent-add-type-badge" style="margin-left:6px;font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;"></span></div>
+          <input id="agent-add-name" class="agent-signal-input" placeholder="Full name (auto-fill)"
+            onkeydown="if(event.key==='Enter') agentAddAsset()">
+        </div>
+        <button onclick="agentAddAsset()"
+          style="padding:9px 16px;border-radius:8px;border:none;background:var(--orange);font-family:Outfit,sans-serif;font-size:12px;font-weight:900;color:#000;cursor:pointer;">
+          ADD →
+        </button>
+      </div>
+      <div id="agent-add-feedback" style="font-size:9px;margin-top:8px;min-height:14px;font-weight:700;"></div>
     </div>
-    <button onclick="agentAddAsset()"
-      style="padding:9px 16px;border-radius:8px;border:none;background:var(--orange);font-family:Outfit,sans-serif;font-size:12px;font-weight:900;color:#000;cursor:pointer;">
-      ADD →
-    </button>
-  </div>
-  <div id="agent-add-feedback" style="font-size:9px;margin-top:8px;min-height:14px;font-weight:700;"></div>
-</div>
 
-<!-- Asset grid -->
-<div id="agent-asset-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:12px;"></div>
+    <!-- Asset grid -->
+    <div id="agent-asset-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:12px;"></div>
 
-<!-- Allocation panel -->
-<div id="agent-alloc-panel" class="card" style="display:none;margin-bottom:12px;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);">PORTFOLIO ALLOCATION</div>
-    <button onclick="agentAutoBalance()" style="padding:5px 12px;border-radius:6px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:10px;font-weight:800;color:var(--orange);cursor:pointer;">AUTO-BALANCE</button>
-  </div>
-  <div id="agent-alloc-rows"></div>
-</div>
+    <!-- Allocation panel -->
+    <div id="agent-alloc-panel" class="card" style="display:none;margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);">PORTFOLIO ALLOCATION</div>
+        <button onclick="agentAutoBalance()" style="padding:5px 12px;border-radius:6px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:10px;font-weight:800;color:var(--orange);cursor:pointer;">AUTO-BALANCE</button>
+      </div>
+      <div id="agent-alloc-rows"></div>
+    </div>
 
-<button class="agent-action-btn" id="agent-analyze-btn" style="display:none;" onclick="agentGoStep(1); agentRunAnalysis();">⚡ ANALYZE PORTFOLIO →</button>
-```
-
+    <button class="agent-action-btn" id="agent-analyze-btn" style="display:none;" onclick="agentGoStep(1); agentRunAnalysis();">⚡ ANALYZE PORTFOLIO →</button>
   </div>
 
   <!-- ── STEP 1: ANALYSIS ── -->
-
   <div id="agent-step-1" style="display:none;">
     <div id="agent-analyzing" style="text-align:center;padding:60px 20px;">
       <div class="agent-spinner"></div>
@@ -2166,7 +2121,6 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- ── STEP 2: SIGNALS ── -->
-
   <div id="agent-step-2" style="display:none;">
     <div style="background:rgba(255,106,0,.05);border:1px solid rgba(255,106,0,.15);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
       <span style="font-size:16px;">📡</span>
@@ -2180,7 +2134,6 @@ box-shadow:0 8px 28px rgba(0,0,0,.6);
   </div>
 
   <!-- ── STEP 3: PLAN ── -->
-
   <div id="agent-step-3" style="display:none;">
     <div id="agent-plan-loading" style="text-align:center;padding:60px 20px;">
       <div class="agent-spinner"></div>
