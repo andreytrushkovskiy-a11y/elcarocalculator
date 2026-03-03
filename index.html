@@ -33,12 +33,14 @@ body {
 
 /* ── MODE SWITCHER ── */
 .mode-switcher {
-  display:flex; gap:6px; margin-bottom:20px;
+  display:flex; gap:4px; margin-bottom:0;
   background:var(--bg2); border:1px solid var(--border);
-  border-radius:11px; padding:4px; max-width:420px;
+  border-radius:11px; padding:4px;
   overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  width:100%; box-sizing:border-box;
 }
 .mode-switcher::-webkit-scrollbar { display:none; }
+.mode-btn { flex:1; min-width:60px; }
 .mode-btn {
   flex:1; padding:9px 12px; border-radius:8px; border:none;
   background:transparent; font-family:'Outfit',sans-serif;
@@ -628,7 +630,10 @@ body {
 /* ── HEADER ── */
 .header { display:flex; align-items:center; gap:10px; margin-bottom:24px; }
 .brand-main { font-size:18px; font-weight:900; letter-spacing:-0.3px; }
-.brand-sub  { font-size:9px; color:var(--text2); letter-spacing:2px; font-weight:600; }
+.brand-sub  {
+  font-size:9px; color:var(--text2); font-weight:600;
+  white-space:nowrap; display:inline-block;
+}
 .brand-sub span { color:var(--orange); }
 
 /* ── LAYOUT ── */
@@ -995,6 +1000,25 @@ body {
     <div class="brand-sub">WE KNOW <span>WHEN TO BUY</span></div>
   </div>
 </div>
+<script>
+(function() {
+  function fitBrandSub() {
+    const main = document.querySelector('.brand-main');
+    const sub  = document.querySelector('.brand-sub');
+    if (!main || !sub) return;
+    sub.style.letterSpacing = '0px';
+    const targetW = main.offsetWidth;
+    const subW    = sub.offsetWidth;
+    if (subW <= 0 || targetW <= 0) return;
+    // number of gaps between 4 words = 3 spaces + distribute across all chars
+    const chars = sub.textContent.length - 1; // gaps between chars
+    const extra = (targetW - subW) / chars;
+    sub.style.letterSpacing = extra.toFixed(2) + 'px';
+  }
+  window.addEventListener('load', fitBrandSub);
+  window.addEventListener('resize', fitBrandSub);
+})();
+</script>
 
 <!-- ══ MODE SWITCHER ══ -->
 <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
@@ -1016,16 +1040,16 @@ body {
     </button>
     <!-- POSITION TOOLS — dropdown trigger -->
     <button class="mode-btn" id="mode-position-group" onclick="setMode('avg')"
-      style="position:relative;">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-      POSITION TOOLS
-      <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:2px;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+      style="position:relative;white-space:nowrap;min-width:0;flex-shrink:1;">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      <span style="overflow:hidden;text-overflow:ellipsis;">TOOLS</span>
+      <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:2px;flex-shrink:0;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
   </div>
 
   <!-- Row 2: sub-tabs (visible when any position tool is active) -->
   <div id="pos-tools-subtabs"
-    style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:8px;padding:6px;display:flex;gap:4px;">
+    style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:8px;padding:6px;gap:4px;flex-wrap:wrap;">
     <div style="font-size:8px;font-weight:700;color:rgba(255,106,0,.5);letter-spacing:1px;padding:0 8px;align-self:center;white-space:nowrap;">POSITION TOOLS</div>
     <button class="mode-btn" id="mode-avg" onclick="setMode('avg')"
       style="flex:1;padding:7px 12px;font-size:11px;">
@@ -3141,13 +3165,8 @@ function setMode(mode) {
     if (!el) return;
     const active = m === mode || (m === 'position-group' && isPositionMode);
     el.classList.toggle('active', active);
-    if (m === 'position-group' && active) {
-      el.style.borderColor = 'var(--orange)';
-      
-    } else if (m === 'position-group') {
-      el.style.borderColor = 'rgba(255,106,0,.35)';
-      el.style.borderStyle = 'dashed';
-    }
+    el.style.borderColor = '';
+    el.style.borderStyle = '';
   });
 
   // Sub-tab buttons
