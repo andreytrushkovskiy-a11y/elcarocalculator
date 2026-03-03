@@ -1125,6 +1125,25 @@ body {
 /* Hide Telegram WebApp injected button when outside Telegram */
 iframe[src*="telegram"], #telegram-web-app-fixed-button,
 div[class*="tgme"], div[id*="tgme"] { display:none !important; }
+
+/* ── GEO / GPR / ECON TOOLS ── */
+.geo-pill,.econ-pill{padding:5px 11px;border-radius:20px;border:1px solid rgba(255,255,255,.1);
+  background:transparent;color:rgba(255,255,255,.4);font-size:9px;font-weight:700;cursor:pointer;
+  font-family:'DM Sans',Outfit,sans-serif;transition:all .2s;}
+.geo-pill.active,.econ-pill.active{border-color:var(--orange);background:rgba(255,106,0,.12);color:var(--orange);}
+.geo-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:13px 15px;cursor:pointer;transition:border-color .2s;}
+.geo-card:hover{border-color:rgba(255,106,0,.4);}
+.geo-card-src{font-size:8px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;}
+.geo-card-title{font-size:12px;font-weight:600;color:rgba(255,255,255,.85);line-height:1.4;margin-bottom:4px;}
+.geo-card-meta{font-size:9px;color:rgba(255,255,255,.3);}
+.econ-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:11px 14px;display:grid;grid-template-columns:54px 1fr 28px;gap:10px;align-items:center;}
+.econ-time{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  color:var(--text2);line-height:1.3;}
+.econ-name{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);}
+.econ-sub{font-size:8px;color:rgba(255,255,255,.3);margin-top:2px;}
+
 </style>
 </head>
 <body>
@@ -1217,6 +1236,21 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
       <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       F&amp;G
+    </button>
+    <button class="mode-btn" id="mode-geo" onclick="setMode('geo')" title="Geopolitical News"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      GEO
+    </button>
+    <button class="mode-btn" id="mode-gpr" onclick="setMode('gpr')" title="Geopolitical Risk Index"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      GPR
+    </button>
+    <button class="mode-btn" id="mode-econ" onclick="setMode('econ')" title="Economic Calendar"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      ECON
     </button>
   </div>
 
@@ -2739,17 +2773,23 @@ function renderViz4() {
   const histSorted = [...calcHistory].reverse(); // oldest first
   const today = new Date();
 
-  const dataPoints = histSorted.map(h => {
-    // Parse the expiry date label (e.g. "Mar 20", "April 24", "May 29")
+  // Parse all history entries with real dates, then sort chronologically
+  const parsedHistory = calcHistory.map(h => {
     let parsed = new Date(h.dateLabel + ' ' + today.getFullYear());
     if (isNaN(parsed.getTime())) parsed = new Date(h.dateLabel);
     if (isNaN(parsed.getTime())) parsed = new Date();
-    // If date is in the past, show it as-is (it's historical)
-    const daysOut = Math.round((parsed - today) / 86400000);
+    return { ...h, _date: parsed };
+  });
+
+  // Sort by actual calendar date ascending (earliest → latest = left → right)
+  parsedHistory.sort((a, b) => a._date - b._date);
+
+  const dataPoints = parsedHistory.map(h => {
+    const daysOut = Math.round((h._date - today) / 86400000);
     const vis = (h.levels || levels || []).filter(l => l.show);
     return {
       label: h.dateLabel,
-      date: parsed,
+      date: h._date,
       daysOut,
       spot: h.spot,
       straddle: h.straddle,
@@ -2831,7 +2871,7 @@ function renderViz4() {
   svg += `<path d="${beLoPath}" fill="none" stroke="#ff6a00" stroke-width="2.5"/>`;
 
   // Spot price reference — use most recent history spot
-  const latestSpot = histSorted[histSorted.length-1]?.spot;
+  const latestSpot = parsedHistory[parsedHistory.length-1]?.spot;
   if (latestSpot) {
     const spotY = yOf(latestSpot);
     svg += `<line x1="${PAD.left}" y1="${spotY}" x2="${W-PAD.right}" y2="${spotY}" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="6,4"/>`;
@@ -3675,7 +3715,7 @@ let avgLegCount = 0;
 let avgLastResult = null;
 
 function setMode(mode) {
-  const positionModes = ['avg','sizer','funding'];
+  const positionModes = ['avg','sizer','funding','fgi','geo','gpr','econ'];
   const isPositionMode = positionModes.includes(mode);
 
   // Top-level nav buttons
@@ -3709,8 +3749,14 @@ function setMode(mode) {
   document.getElementById('avg-section').style.display             = mode === 'avg'            ? 'block' : 'none';
   document.getElementById('sizer-section').style.display           = mode === 'sizer'          ? 'block' : 'none';
   document.getElementById('funding-section').style.display         = mode === 'funding'        ? 'block' : 'none';
-  document.getElementById('fgi-section').style.display             = mode === 'fgi'            ? 'block' : 'none';
-  if (mode === 'fgi') fgiLoad();
+  document.getElementById('fgi-section').style.display  = mode === 'fgi'  ? 'block' : 'none';
+  document.getElementById('geo-section').style.display  = mode === 'geo'  ? 'block' : 'none';
+  document.getElementById('gpr-section').style.display  = mode === 'gpr'  ? 'block' : 'none';
+  document.getElementById('econ-section').style.display = mode === 'econ' ? 'block' : 'none';
+  if (mode === 'fgi')  fgiLoad();
+  if (mode === 'geo')  geoLoad();
+  if (mode === 'gpr')  gprLoad();
+  if (mode === 'econ') econLoad();
   document.getElementById('portfolio-section').style.display       = mode === 'portfolio'      ? 'block' : 'none';
   document.getElementById('agent-section').style.display           = mode === 'agent'          ? 'block' : 'none';
   document.getElementById('chart-section').style.display           = mode === 'chart'          ? 'block' : 'none';
@@ -5894,7 +5940,7 @@ async function agentRunAnalysis() {
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','x-api-key':window.ELCARO_API_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body: JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:1000,
@@ -6186,7 +6232,7 @@ async function agentGeneratePlan() {
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','x-api-key':window.ELCARO_API_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body: JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:1000,
@@ -6478,6 +6524,79 @@ function fgiRenderGauge(val) {
 
 
 <!-- ══ FEAR & GREED INDEX ══ -->
+
+<!-- ══ GEO NEWS ══ -->
+<div id="geo-section" style="display:none;max-width:900px;margin:0 auto;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+    <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    GEOPOLITICAL NEWS
+    <button onclick="geoLoad(true)" style="margin-left:auto;padding:4px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:9px;font-weight:700;cursor:pointer;">↻ REFRESH</button>
+  </div>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;">
+    <button class="geo-pill active" data-cat="all"       onclick="geoFilter('all')">ALL</button>
+    <button class="geo-pill" data-cat="war"              onclick="geoFilter('war')">⚔️ WAR</button>
+    <button class="geo-pill" data-cat="sanctions"        onclick="geoFilter('sanctions')">🚫 SANCTIONS</button>
+    <button class="geo-pill" data-cat="energy"           onclick="geoFilter('energy')">⚡ ENERGY</button>
+    <button class="geo-pill" data-cat="trade"            onclick="geoFilter('trade')">📦 TRADE</button>
+    <button class="geo-pill" data-cat="crypto"           onclick="geoFilter('crypto')">₿ CRYPTO</button>
+  </div>
+  <div id="geo-list" style="display:flex;flex-direction:column;gap:8px;min-height:60px;"></div>
+  <div style="font-size:8px;color:rgba(255,255,255,.15);margin-top:12px;text-align:center;">Reuters · BBC · FT · Al Jazeera · Powered by Claude AI web search</div>
+</div>
+
+<!-- ══ GPR INDEX ══ -->
+<div id="gpr-section" style="display:none;max-width:900px;margin:0 auto;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+    <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    GEOPOLITICAL RISK INDEX
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center;">
+      <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:8px;">CURRENT ESTIMATE</div>
+      <div id="gpr-value" style="font-size:52px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--orange);">—</div>
+      <div id="gpr-label" style="font-size:11px;font-weight:700;margin-top:6px;color:rgba(255,255,255,.5);"></div>
+      <div id="gpr-change" style="font-size:9px;color:rgba(255,255,255,.3);margin-top:4px;"></div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;">
+      <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:10px;">HISTORICAL PEAKS</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:10px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:rgba(255,255,255,.45);">Normal baseline</span><span style="color:#fff;font-weight:700;">~100</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:rgba(255,255,255,.45);">COVID 2020</span><span style="color:#ff6a00;font-weight:700;">175</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:rgba(255,255,255,.45);">Iraq War 2003</span><span style="color:#ff6a00;font-weight:700;">200</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:rgba(255,255,255,.45);">9/11 2001</span><span style="color:#e03b3b;font-weight:700;">270</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:rgba(255,255,255,.45);">Ukraine 2022</span><span style="color:#e03b3b;font-weight:700;">330</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center;margin-bottom:14px;">
+    <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:10px;">RISK GAUGE</div>
+    <svg id="gpr-gauge" width="280" height="145" viewBox="0 0 280 145" style="width:100%;max-width:280px;"></svg>
+    <div id="gpr-zone" style="font-size:10px;color:rgba(255,255,255,.35);margin-top:6px;font-weight:600;line-height:1.4;padding:0 10px;"></div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;">
+    <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:14px;">COMPONENT SIGNALS</div>
+    <div id="gpr-bars" style="display:flex;flex-direction:column;gap:12px;"></div>
+  </div>
+  <div style="font-size:8px;color:rgba(255,255,255,.15);margin-top:10px;text-align:center;">Caldara &amp; Iacoviello GPR Index (Federal Reserve) · Estimated via live news analysis</div>
+</div>
+
+<!-- ══ ECONOMIC CALENDAR ══ -->
+<div id="econ-section" style="display:none;max-width:900px;margin:0 auto;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+    <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    ECONOMIC CALENDAR
+    <span id="econ-tz" style="font-size:8px;color:rgba(255,255,255,.2);font-weight:400;margin-left:auto;"></span>
+  </div>
+  <div style="display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap;">
+    <button class="econ-pill active" data-imp="all"  onclick="econFilter('all')">ALL</button>
+    <button class="econ-pill" data-imp="high"        onclick="econFilter('high')">🔴 HIGH</button>
+    <button class="econ-pill" data-imp="med"         onclick="econFilter('med')">🟡 MEDIUM</button>
+    <button class="econ-pill" data-imp="low"         onclick="econFilter('low')">⚪ LOW</button>
+  </div>
+  <div id="econ-list" style="display:flex;flex-direction:column;gap:6px;min-height:60px;"></div>
+  <div style="font-size:8px;color:rgba(255,255,255,.15);margin-top:10px;text-align:center;">FED · ECB · BoE · BoJ · CPI · NFP · GDP · All times local timezone</div>
+</div>
+
 <div id="fgi-section" style="display:none;max-width:900px;margin:0 auto;">
   <div class="card" style="margin-bottom:14px;">
     <div style="font-size:9px;font-weight:800;letter-spacing:1.4px;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
@@ -6507,6 +6626,255 @@ function fgiRenderGauge(val) {
     <div id="fgi-source" style="font-size:9px;color:#333;margin-top:14px;text-align:center;"></div>
   </div>
 </div>
+
+
+<script>
+/* ══════════════════════════════════════════════
+   API KEY CONFIG  –  for local file:// usage
+═══════════════════════════════════════════════ */
+(function() {
+  const stored = localStorage.getItem('elcaro_api_key');
+  if (stored) window.ELCARO_API_KEY = stored;
+})();
+
+function elcaroSetApiKey(key) {
+  window.ELCARO_API_KEY = key;
+  localStorage.setItem('elcaro_api_key', key);
+}
+
+/* ══════════════════════════════════════════════
+   GEO NEWS  –  Claude AI powered geopolitical feed
+═══════════════════════════════════════════════ */
+let geoArticles   = [];
+let geoCurrentCat = 'all';
+let geoLastLoad   = 0;
+
+const CAT_KW = {
+  war:       ['war','military','troops','attack','missile','bomb','strike','conflict','invasion','ceasefire','battle','soldier','nato','weapon','drone','airstr','shoot','killed','casualties'],
+  sanctions: ['sanction','ban','embargo','restrict','tariff','penalt','expel','freezing','blocked','blacklist'],
+  energy:    ['oil','gas','opec','pipeline','energy','crude','lng','fuel','barrel','petro','reactor'],
+  trade:     ['trade','tariff','export','import','supply chain','wto','customs','deficit','surplus','deal','agreement','commerce'],
+  crypto:    ['bitcoin','crypto','blockchain','ethereum','stablecoin','cbdc','sec ','digital asset','defi','btc','eth ','token'],
+};
+const CAT_COLOR  = {war:'#e03b3b',sanctions:'#ff6a00',energy:'#f5c800',trade:'#86efac',crypto:'#818cf8',other:'rgba(255,255,255,.3)'};
+const CAT_LABEL  = {war:'⚔️ WAR',sanctions:'🚫 SANCTIONS',energy:'⚡ ENERGY',trade:'📦 TRADE',crypto:'₿ CRYPTO',other:'🌐 WORLD'};
+
+function geoClassify(text) {
+  const t = (text||'').toLowerCase();
+  for (const [cat, kws] of Object.entries(CAT_KW))
+    if (kws.some(k => t.includes(k))) return cat;
+  return 'other';
+}
+
+async function geoLoad(force) {
+  const now = Date.now();
+  if (!force && geoArticles.length && now - geoLastLoad < 15*60*1000) { geoRender(); return; }
+  const el = document.getElementById('geo-list');
+  if (!el) return;
+  // Check for API key
+  if (!window.ELCARO_API_KEY) {
+    el.innerHTML = '<div style="text-align:center;padding:24px;">' +
+      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your Anthropic API key to enable live news</div>' +
+      '<div style="display:flex;gap:8px;max-width:400px;margin:0 auto;">' +
+        '<input id="apikey-input" type="password" placeholder="sk-ant-..." style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,106,0,.3);background:rgba(255,106,0,.05);color:#fff;font-size:11px;font-family:monospace;" />' +
+        '<button onclick="elcaroSetApiKey(document.getElementById(\'apikey-input\').value);geoLoad(true);" style="padding:8px 14px;border-radius:8px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:11px;cursor:pointer;">SAVE</button>' +
+      '</div>' +
+      '<div style="font-size:9px;color:rgba(255,255,255,.2);margin-top:10px;">Key stored locally in your browser · Never sent to ELCARO servers</div>' +
+    '</div>';
+    return;
+  }
+  el.innerHTML = '<div style="text-align:center;padding:30px;color:rgba(255,255,255,.3);font-size:12px;animation:pulse 1.2s infinite;">⏳ Loading live geopolitical feed…</div>';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json','x-api-key':window.ELCARO_API_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1500,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:'Search for the 12 most important current geopolitical and macro news stories affecting global markets right now. Return ONLY a raw JSON array (no markdown, no explanation): [{"title":"...","source":"Reuters|BBC|FT|AP|Bloomberg","cat":"war|sanctions|energy|trade|crypto|other","summary":"one sentence","url":"https://...","time":"2h ago"},...]. Focus: wars, sanctions, tariffs, oil/gas, crypto regulation, central bank moves, geopolitical tensions.'}]
+      })
+    });
+    const d = await res.json();
+    const txt = (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const m = txt.match(/\[[\s\S]*?\]/);
+    if (m) { geoArticles = JSON.parse(m[0]); geoLastLoad = Date.now(); geoRender(); return; }
+  } catch(e) { console.warn('geoLoad',e); }
+  el.innerHTML = '<div style="text-align:center;padding:20px;color:rgba(255,255,255,.3);font-size:12px;">⚠️ Failed to load — try refreshing</div>';
+}
+
+function geoFilter(cat) {
+  geoCurrentCat = cat;
+  document.querySelectorAll('.geo-pill').forEach(b => b.classList.toggle('active', b.dataset.cat===cat));
+  geoRender();
+}
+
+function geoRender() {
+  const el = document.getElementById('geo-list');
+  if (!el) return;
+  const list = geoCurrentCat==='all' ? geoArticles : geoArticles.filter(a=>a.cat===geoCurrentCat);
+  if (!list.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,.25);">No stories in this category</div>'; return; }
+  el.innerHTML = list.map(a => {
+    const col = CAT_COLOR[a.cat]||CAT_COLOR.other;
+    const lbl = CAT_LABEL[a.cat]||'🌐 WORLD';
+    const href = (a.url&&a.url!=='#') ? 'window.open(\''+a.url+'\',\'_blank\')' : '';
+    return '<div class="geo-card"'+(href?' onclick="'+href+'"':'')+'>'+
+      '<div class="geo-card-src" style="color:'+col+'">'+lbl+' &nbsp;·&nbsp; '+(a.source||'')+'</div>'+
+      '<div class="geo-card-title">'+(a.title||'')+'</div>'+
+      (a.summary?'<div class="geo-card-meta">'+(a.summary||'')+'</div>':'')+
+      '<div class="geo-card-meta" style="margin-top:3px;">'+(a.time||'')+(href?' &nbsp;<span style="color:var(--orange)">→</span>':'')+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════
+   GPR INDEX  –  Geopolitical Risk estimate
+═══════════════════════════════════════════════ */
+async function gprLoad() {
+  const vEl=document.getElementById('gpr-value'), lEl=document.getElementById('gpr-label');
+  if (!vEl) return;
+  if (!window.ELCARO_API_KEY) {
+    vEl.textContent='🔑'; lEl.textContent='API key required';
+    const zEl=document.getElementById('gpr-zone');
+    if(zEl) zEl.innerHTML='<div style="margin-top:8px;"><input id="apikey-gpr" type="password" placeholder="sk-ant-..." style="padding:7px 12px;border-radius:8px;border:1px solid rgba(255,106,0,.3);background:rgba(255,106,0,.05);color:#fff;font-size:11px;font-family:monospace;width:200px;" /> <button onclick="elcaroSetApiKey(document.getElementById(\'apikey-gpr\').value);gprLoad();" style="padding:7px 12px;border-radius:8px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:11px;cursor:pointer;margin-left:6px;">SAVE</button></div>';
+    return;
+  }
+  vEl.textContent='…'; lEl.textContent='Estimating…';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json','x-api-key':window.ELCARO_API_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:700,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:'Search current geopolitical news today. Based on global news density of armed conflicts, nuclear threats, terrorism, and sanctions vs Caldara-Iacoviello GPR baseline of 100, estimate the CURRENT GPR index value on a 0-400 scale. Return ONLY raw JSON (no markdown): {"gpr":NUMBER,"label":"Low Risk|Normal|Elevated|High Risk|Extreme","change":"brief vs last month","rationale":"one sentence max 120 chars","components":{"wars":NUMBER_0_to_100,"nuclear":NUMBER_0_to_100,"terror":NUMBER_0_to_100,"sanctions":NUMBER_0_to_100}}'}]
+      })
+    });
+    const d = await res.json();
+    const txt = (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const m = txt.match(/\{[\s\S]*\}/);
+    if (m) {
+      const g = JSON.parse(m[0]);
+      const val = Math.max(0, Math.min(400, Math.round(g.gpr||100)));
+      const col = val<80?'#22c55e':val<130?'#f5c800':val<200?'#ff6a00':'#e03b3b';
+      vEl.textContent = val; vEl.style.color = col;
+      lEl.textContent = g.label||''; lEl.style.color = col;
+      const cEl=document.getElementById('gpr-change'); if(cEl) cEl.textContent=g.change||'';
+      const zEl=document.getElementById('gpr-zone');   if(zEl) zEl.textContent=g.rationale||'';
+      gprGauge(val);
+      const bEl=document.getElementById('gpr-bars');
+      if (bEl && g.components) {
+        const rows=[
+          ['wars','Armed Conflicts & War Threats',g.components.wars],
+          ['nuclear','Nuclear & WMD Tensions',g.components.nuclear],
+          ['terror','Terrorism & Civil Unrest',g.components.terror],
+          ['sanctions','Sanctions & Economic Warfare',g.components.sanctions],
+        ];
+        bEl.innerHTML = rows.map(([,lbl,v])=>{
+          v=Math.max(0,Math.min(100,Math.round(v||0)));
+          const bc=v<30?'#22c55e':v<60?'#f5c800':'#e03b3b';
+          return '<div>'+
+            '<div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:5px;">'+
+              '<span style="color:rgba(255,255,255,.5);">'+lbl+'</span>'+
+              '<span style="font-weight:700;color:'+bc+';">'+v+'</span>'+
+            '</div>'+
+            '<div style="background:rgba(255,255,255,.06);border-radius:4px;height:4px;">'+
+              '<div style="width:'+v+'%;height:4px;border-radius:4px;background:'+bc+';"></div>'+
+            '</div></div>';
+        }).join('');
+      }
+      return;
+    }
+  } catch(e){ console.warn('gprLoad',e); }
+  vEl.textContent='?'; lEl.textContent='Failed to load';
+}
+
+function gprGauge(val) {
+  const svg=document.getElementById('gpr-gauge'); if(!svg) return;
+  const cx=140,cy=128,r=100,MAX=400;
+  const toA = v => Math.PI+(v/MAX)*Math.PI;
+  const arc = (v1,v2,col) => {
+    const a1=toA(v1),a2=toA(v2);
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const lf=(v2-v1)/MAX>0.5?1:0;
+    return '<path d="M'+x1+','+y1+' A'+r+','+r+' 0 '+lf+',1 '+x2+','+y2+'" fill="none" stroke="'+col+'" stroke-width="14" opacity=".75"/>';
+  };
+  const zones=[[0,80,'#22c55e'],[80,130,'#f5c800'],[130,200,'#ff6a00'],[200,400,'#e03b3b']];
+  let s = zones.map(([a,b,c])=>arc(a,b,c)).join('');
+  // tick labels
+  [0,80,130,200,400].forEach(v=>{
+    const a=toA(v), lx=cx+(r+16)*Math.cos(a), ly=cy+(r+16)*Math.sin(a);
+    s+='<text x="'+lx+'" y="'+ly+'" text-anchor="middle" font-size="7" fill="rgba(255,255,255,.3)">'+v+'</text>';
+  });
+  // needle
+  const na=toA(val), nc=val<80?'#22c55e':val<130?'#f5c800':val<200?'#ff6a00':'#e03b3b';
+  s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+88*Math.cos(na))+'" y2="'+(cy+88*Math.sin(na))+'" stroke="'+nc+'" stroke-width="2.5" stroke-linecap="round"/>';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="'+nc+'"/>';
+  svg.innerHTML=s;
+}
+
+/* ══════════════════════════════════════════════
+   ECONOMIC CALENDAR  –  via Claude web search
+═══════════════════════════════════════════════ */
+let econEvents      = [];
+let econCurrentImp  = 'all';
+let econLoaded      = false;
+
+async function econLoad() {
+  const tzEl=document.getElementById('econ-tz');
+  if (tzEl) tzEl.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (econLoaded) { econRender(); return; }
+  const el=document.getElementById('econ-list'); if(!el) return;
+  if (!window.ELCARO_API_KEY) {
+    el.innerHTML = '<div style="text-align:center;padding:24px;">' +
+      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your Anthropic API key to load the calendar</div>' +
+      '<div style="display:flex;gap:8px;max-width:400px;margin:0 auto;">' +
+        '<input id="apikey-econ" type="password" placeholder="sk-ant-..." style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,106,0,.3);background:rgba(255,106,0,.05);color:#fff;font-size:11px;font-family:monospace;" />' +
+        '<button onclick="elcaroSetApiKey(document.getElementById(\'apikey-econ\').value);econLoad();" style="padding:8px 14px;border-radius:8px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:11px;cursor:pointer;">SAVE</button>' +
+      '</div>' +
+    '</div>';
+    return;
+  }
+  el.innerHTML='<div style="text-align:center;padding:30px;color:rgba(255,255,255,.3);font-size:12px;animation:pulse 1.2s infinite;">⏳ Loading calendar…</div>';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json','x-api-key':window.ELCARO_API_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1400,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:'Search for the economic calendar this week and next week. Give me the 16 most market-moving upcoming events (Fed, ECB, BoE, BoJ rate decisions, US CPI, NFP, GDP, PMI, PCE, retail sales etc). Return ONLY a raw JSON array (no markdown): [{"date":"Tue Mar 4","time":"14:30 UTC","name":"US Non-Farm Payrolls","country":"🇺🇸 US","impact":"high","forecast":"185K","previous":"175K"},...] — impact: "high"|"med"|"low". Sort by date ascending.'}]
+      })
+    });
+    const d = await res.json();
+    const txt = (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const m = txt.match(/\[[\s\S]*?\]/);
+    if (m) { econEvents=JSON.parse(m[0]); econLoaded=true; econRender(); return; }
+  } catch(e){ console.warn('econLoad',e); }
+  el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,.3);">⚠️ Failed to load — try refreshing</div>';
+}
+
+function econFilter(imp) {
+  econCurrentImp=imp;
+  document.querySelectorAll('.econ-pill').forEach(b=>b.classList.toggle('active',b.dataset.imp===imp));
+  econRender();
+}
+
+function econRender() {
+  const el=document.getElementById('econ-list'); if(!el) return;
+  const list = econCurrentImp==='all' ? econEvents : econEvents.filter(e=>e.impact===econCurrentImp);
+  if (!list.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,.25);">No events</div>'; return; }
+  const dot={high:'🔴',med:'🟡',low:'⚪'};
+  const bg ={high:'rgba(224,59,59,.1)',med:'rgba(245,200,0,.06)',low:'rgba(255,255,255,.02)'};
+  const bdr={high:'rgba(224,59,59,.3)', med:'rgba(245,200,0,.2)', low:'rgba(255,255,255,.07)'};
+  el.innerHTML = list.map(e=>{
+    const d=dot[e.impact]||'⚪', bg2=bg[e.impact]||bg.low, b=bdr[e.impact]||bdr.low;
+    const sub=[e.country, e.forecast?'Fcst: '+e.forecast:'', e.previous?'Prev: '+e.previous:''].filter(Boolean).join(' · ');
+    return '<div class="econ-row" style="background:'+bg2+';border:1px solid '+b+';">'+
+      '<div class="econ-time">'+(e.date||'').replace(/\d{4}/,'').trim()+'<br><span style="font-size:9px;color:rgba(255,255,255,.3);">'+(e.time||'TBD')+'</span></div>'+
+      '<div><div class="econ-name">'+(e.name||'')+'</div><div class="econ-sub">'+sub+'</div></div>'+
+      '<div style="font-size:16px;text-align:center;">'+d+'</div>'+
+    '</div>';
+  }).join('');
+}
+</script>
 
 </body>
 </html>
