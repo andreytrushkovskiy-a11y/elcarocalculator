@@ -26,6 +26,21 @@
 –purple: #8b5cf6;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
+/* ── FORCE DARK THEME (overrides Telegram light mode) ── */
+:root {
+color-scheme: dark !important;
+–tg-theme-bg-color: #080808 !important;
+–tg-theme-secondary-bg-color: #0f0f0f !important;
+–tg-theme-text-color: #f0f0f0 !important;
+–tg-theme-hint-color: #555 !important;
+–tg-theme-button-color: #ff6a00 !important;
+–tg-theme-button-text-color: #000 !important;
+}
+html, body {
+background: #080808 !important;
+color: #f0f0f0 !important;
+color-scheme: dark !important;
+}
 body {
 background:var(–bg); color:var(–text);
 font-family:‘Outfit’,sans-serif;
@@ -6951,7 +6966,6 @@ async function gprLoad() {
   vEl.textContent='…'; lEl.textContent='Estimating…';
   try {
     const txt = await aiChat('Search current geopolitical news today. Based on global news density of armed conflicts, nuclear threats, terrorism, and sanctions vs Caldara-Iacoviello GPR baseline of 100, estimate the CURRENT GPR index value on a 0-400 scale. Return ONLY raw JSON (no markdown): {"gpr":NUMBER,"label":"Low Risk|Normal|Elevated|High Risk|Extreme","change":"brief vs last month","rationale":"one sentence max 120 chars","components":{"wars":NUMBER_0_to_100,"nuclear":NUMBER_0_to_100,"terror":NUMBER_0_to_100,"sanctions":NUMBER_0_to_100}}', true);
-    {
     const m = txt.match(/\{[\s\S]*?\}/);
     if (m) {
       const g = JSON.parse(m[0]);
