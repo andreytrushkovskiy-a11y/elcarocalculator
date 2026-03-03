@@ -48,6 +48,46 @@ body {
 }
 .mode-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,.04); }
 
+/* ── AVG ASSET SELECTOR ── */
+.avg-asset-bar {
+  display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap;
+}
+.avg-asset-chip {
+  padding:7px 13px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:800; color:var(--text2);
+  cursor:pointer; transition:all .15s; letter-spacing:.3px;
+}
+.avg-asset-chip.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.avg-asset-chip:hover:not(.active) { border-color:var(--border2); color:var(--text); }
+.avg-asset-custom {
+  flex:1; min-width:80px; padding:7px 10px; border-radius:8px;
+  border:1px dashed var(--border2); background:transparent;
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
+  text-transform:uppercase;
+}
+.avg-asset-custom:focus { border-color:var(--orange); }
+.avg-asset-custom::placeholder { color:#333; }
+.avg-fetch-btn {
+  padding:7px 14px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-family:'Outfit',sans-serif; font-size:11px; font-weight:800;
+  color:var(--text2); cursor:pointer; transition:all .15s;
+  display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0;
+}
+.avg-fetch-btn:hover { border-color:var(--orange); color:var(--orange); }
+.avg-fetch-btn.loading { opacity:.6; cursor:wait; }
+.avg-fetch-btn.success { border-color:#22c55e; color:#22c55e; }
+.avg-price-badge {
+  display:none; align-items:center; gap:6px;
+  padding:5px 10px; border-radius:7px;
+  background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2);
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:800;
+  color:#22c55e;
+}
+.avg-price-badge .badge-label { font-size:8px; color:#22c55e; opacity:.7; font-family:'Outfit',sans-serif; font-weight:700; letter-spacing:.5px; }
+
 /* ── POSITION TOGGLE ── */
 .pos-toggle {
   display:grid; grid-template-columns:1fr 1fr; gap:0;
@@ -791,6 +831,31 @@ body {
     <div>
       <div class="card">
 
+        <!-- Asset selector + live price fetch -->
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:8px;">ASSET</div>
+        <div class="avg-asset-bar">
+          <button class="avg-asset-chip active" id="avg-chip-BTC" onclick="avgSelectAsset('BTC')">BTC</button>
+          <button class="avg-asset-chip" id="avg-chip-ETH" onclick="avgSelectAsset('ETH')">ETH</button>
+          <button class="avg-asset-chip" id="avg-chip-SOL" onclick="avgSelectAsset('SOL')">SOL</button>
+          <button class="avg-asset-chip" id="avg-chip-BNB" onclick="avgSelectAsset('BNB')">BNB</button>
+          <button class="avg-asset-chip" id="avg-chip-XRP" onclick="avgSelectAsset('XRP')">XRP</button>
+          <input class="avg-asset-custom" id="avg-asset-custom" placeholder="OTHER..." maxlength="10"
+            oninput="avgSelectCustom(this.value)" onfocus="avgClearChips()">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <button class="avg-fetch-btn" id="avg-fetch-btn" onclick="avgFetchPrice()">
+            <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;" id="avg-fetch-icon"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            GET LIVE PRICE
+          </button>
+          <div class="avg-price-badge" id="avg-price-badge">
+            <div>
+              <div class="badge-label" id="avg-badge-asset">BTC</div>
+              <div style="font-size:7px;color:#22c55e;opacity:.6;font-family:Outfit,sans-serif;margin-top:1px;">→ AVG LEG + P&L</div>
+              <div id="avg-badge-price">—</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Position direction toggle -->
         <div class="pos-toggle">
           <button class="pos-btn long active" id="pos-btn-long" onclick="avgSetPosition('long')">
@@ -811,8 +876,12 @@ body {
         </div>
 
         <div class="avg-input-group">
-          <div class="avg-label">ENTRY PRICE</div>
-          <input class="avg-input" id="avg-price-1" type="number" placeholder="66,000" oninput="avgLiveCalc(); avgValidateLiq()">
+          <div class="avg-label" style="display:flex;align-items:center;gap:6px;">
+            ENTRY PRICE
+            <span style="font-size:7px;font-weight:700;color:#555;letter-spacing:.5px;">YOUR OPEN PRICE</span>
+          </div>
+          <input class="avg-input" id="avg-price-1" type="number" placeholder="Your open price..." oninput="avgLiveCalc(); avgValidateLiq()">
+          <div style="font-size:8px;color:#444;margin-top:4px;">Enter your original position open price manually</div>
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -1745,6 +1814,149 @@ document.getElementById('logo-img').src = 'data:image/png;base64,/9j/4AAQSkZJRgA
 // ═══════════════════════════════════════════════
 // ══ AVERAGING CALCULATOR ══════════════════════
 // ═══════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════
+// ══ ASSET SELECTOR + LIVE PRICE (CoinGecko) ══
+// ═══════════════════════════════════════════════
+
+// CoinGecko IDs for known assets
+const COINGECKO_IDS = {
+  BTC: 'bitcoin', ETH: 'ethereum', SOL: 'solana', BNB: 'binancecoin',
+  XRP: 'ripple', ADA: 'cardano', DOGE: 'dogecoin', AVAX: 'avalanche-2',
+  DOT: 'polkadot', MATIC: 'matic-network', LINK: 'chainlink',
+  LTC: 'litecoin', UNI: 'uniswap', ATOM: 'cosmos', TRX: 'tron',
+  NEAR: 'near', ARB: 'arbitrum', OP: 'optimism', APT: 'aptos',
+  SUI: 'sui', INJ: 'injective-protocol', WLD: 'worldcoin-wld',
+  PEPE: 'pepe', SHIB: 'shiba-inu', TON: 'the-open-network',
+};
+
+let avgCurrentAsset = 'BTC';
+let avgLivePriceFetched = null;
+
+function avgSelectAsset(sym) {
+  avgCurrentAsset = sym;
+  // Clear custom input
+  const customInput = document.getElementById('avg-asset-custom');
+  if (customInput) customInput.value = '';
+  // Update chips
+  document.querySelectorAll('.avg-asset-chip').forEach(c => c.classList.remove('active'));
+  const chip = document.getElementById('avg-chip-' + sym);
+  if (chip) chip.classList.add('active');
+  // Reset price badge
+  avgResetPriceBadge();
+}
+
+function avgClearChips() {
+  document.querySelectorAll('.avg-asset-chip').forEach(c => c.classList.remove('active'));
+  avgCurrentAsset = '';
+}
+
+function avgSelectCustom(val) {
+  document.querySelectorAll('.avg-asset-chip').forEach(c => c.classList.remove('active'));
+  avgCurrentAsset = val.trim().toUpperCase();
+  avgResetPriceBadge();
+}
+
+function avgResetPriceBadge() {
+  avgLivePriceFetched = null;
+  const badge = document.getElementById('avg-price-badge');
+  if (badge) badge.style.display = 'none';
+  const btn = document.getElementById('avg-fetch-btn');
+  if (btn) {
+    btn.classList.remove('success', 'loading');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> GET LIVE PRICE';
+  }
+}
+
+async function avgFetchPrice() {
+  const sym = avgCurrentAsset;
+  if (!sym) { showToast('⚠ Select an asset first'); return; }
+
+  const btn  = document.getElementById('avg-fetch-btn');
+  const icon = document.getElementById('avg-fetch-icon');
+  btn.classList.add('loading');
+  btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;animation:spin 1s linear infinite;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> FETCHING...';
+
+  try {
+    // Resolve CoinGecko ID
+    let geckoId = COINGECKO_IDS[sym.toUpperCase()];
+
+    // If unknown, search CoinGecko for it
+    if (!geckoId) {
+      const searchRes = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(sym)}`);
+      const searchData = await searchRes.json();
+      const match = searchData.coins?.find(c => c.symbol.toUpperCase() === sym.toUpperCase());
+      if (!match) throw new Error(`Asset "${sym}" not found on CoinGecko`);
+      geckoId = match.id;
+    }
+
+    // Fetch price
+    const res  = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${geckoId}&vs_currencies=usd&include_24hr_change=true`);
+    const data = await res.json();
+    const info = data[geckoId];
+    if (!info?.usd) throw new Error('Price not available');
+
+    const price   = info.usd;
+    const change  = info.usd_24h_change?.toFixed(2);
+    const changeStr = change !== undefined
+      ? (change >= 0 ? ' +' : ' ') + change + '% 24h'
+      : '';
+
+    avgLivePriceFetched = price;
+
+    // Show badge
+    const badge = document.getElementById('avg-price-badge');
+    badge.style.display = 'flex';
+    document.getElementById('avg-badge-asset').textContent = sym.toUpperCase();
+    document.getElementById('avg-badge-price').textContent = fmtAvgPrice(price) + changeStr;
+
+    btn.classList.remove('loading');
+    btn.classList.add('success');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="20 6 9 17 4 12"/></svg> LIVE';
+    setTimeout(() => {
+      btn.classList.remove('success');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> REFRESH';
+    }, 5000);
+
+    avgUsePrice();
+    showToast('✓ ' + sym.toUpperCase() + ' · ' + fmtAvgPrice(price) + ' → filled');
+  } catch (err) {
+    btn.classList.remove('loading');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> RETRY';
+    showToast('⚠ ' + err.message.slice(0, 60));
+  }
+}
+
+function avgUsePrice() {
+  if (!avgLivePriceFetched) return;
+  const price = avgLivePriceFetched;
+
+  // 1. Fill CURRENT MARKET PRICE (P&L field)
+  document.getElementById('avg-current-price').value = price;
+
+  // 2. Fill AVERAGING LEG #1 price if it exists, else auto-add a leg and fill it
+  const firstLegPriceEl = document.querySelector('[id^="avg-leg-price-"]');
+  if (firstLegPriceEl) {
+    firstLegPriceEl.value = price;
+    const idx = firstLegPriceEl.id.replace('avg-leg-price-', '');
+    avgSyncLegQtyVol(idx, 'price');
+  } else {
+    // No leg yet — add one and fill it
+    avgAddLeg();
+    // avgAddLeg is sync, leg is now in DOM
+    const newLegEl = document.querySelector('[id^="avg-leg-price-"]');
+    if (newLegEl) {
+      newLegEl.value = price;
+      const idx = newLegEl.id.replace('avg-leg-price-', '');
+      avgSyncLegQtyVol(idx, 'price');
+    }
+  }
+
+  avgUpdatePnl();
+  avgLiveCalc();
+  showToast('✓ Live price → Averaging leg + P&L field');
+}
 
 let avgLegs = [];   // [{price, qty, vol, mult}]
 let avgPosition = 'long';  // 'long' | 'short'
