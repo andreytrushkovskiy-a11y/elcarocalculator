@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ELCARO · Straddle Calculator</title>
+<title>ELCARO · Calculator</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
@@ -163,6 +163,316 @@ body {
 .avg-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
 
 /* ── AVG RESULTS ── */
+
+/* ── WHAT-IF SCENARIOS ── */
+.scenarios-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px;
+}
+.scenario-card {
+  border-radius:12px; padding:14px 12px; text-align:center;
+  border:1px solid var(--border); background:var(--bg3);
+  position:relative; overflow:hidden; transition:border-color .18s;
+}
+.scenario-card.conservative { border-top:2px solid #22c55e; }
+.scenario-card.aggressive   { border-top:2px solid var(--orange); }
+.scenario-card.maximum      { border-top:2px solid #ef4444; }
+.scenario-card::before {
+  content:''; position:absolute; inset:0; opacity:0.06;
+  transition:opacity .18s;
+}
+.scenario-card.conservative::before { background:linear-gradient(180deg,#22c55e,transparent 60%); }
+.scenario-card.aggressive::before   { background:linear-gradient(180deg,#ff6a00,transparent 60%); }
+.scenario-card.maximum::before      { background:linear-gradient(180deg,#ef4444,transparent 60%); }
+.sc-tag   { font-size:7px; font-weight:800; letter-spacing:1.2px; margin-bottom:5px; padding:2px 7px; border-radius:3px; display:inline-block; }
+.sc-tag.conservative { background:rgba(34,197,94,.12);  color:#22c55e; }
+.sc-tag.aggressive   { background:rgba(255,106,0,.12);  color:var(--orange); }
+.sc-tag.maximum      { background:rgba(239,68,68,.12);  color:#ef4444; }
+.sc-mult-badge { font-size:10px; font-weight:800; color:var(--text2); margin-bottom:6px; }
+.sc-avg  { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; margin-bottom:3px; }
+.sc-avg.conservative { color:#22c55e; }
+.sc-avg.aggressive   { color:var(--orange); }
+.sc-avg.maximum      { color:#ef4444; }
+.sc-vol  { font-size:9px; color:#555; margin-bottom:4px; }
+.sc-liq  { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; }
+.sc-delta { font-size:9px; font-weight:700; margin-top:4px; }
+
+/* ── POSITION SIZER ── */
+.sizer-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
+@media(max-width:800px){ .sizer-layout{ grid-template-columns:1fr; } }
+.sizer-result-hero {
+  background:var(--bg3); border:1px solid var(--border2); border-radius:14px;
+  padding:22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden;
+}
+.sizer-result-hero::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,106,0,.07) 0%,transparent 60%);
+}
+.sizer-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text2); margin-bottom:6px; }
+.sizer-hero-val   { font-size:40px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--orange); line-height:1; margin-bottom:2px; }
+.sizer-hero-sub   { font-size:11px; color:var(--text2); }
+.sizer-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.sizer-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
+.sizer-stat-val   { font-size:16px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--text); }
+.sizer-stat-sub   { font-size:9px; color:#555; margin-top:2px; }
+.risk-bar-wrap { height:8px; background:#1a1a1a; border-radius:4px; margin:10px 0 4px; overflow:hidden; }
+.risk-bar-fill { height:100%; border-radius:4px; transition:width .4s; }
+.sizer-calc-btn {
+  width:100%; padding:14px; border-radius:10px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .18s; letter-spacing:.3px; margin-top:8px;
+}
+.sizer-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
+
+/* ── PORTFOLIO ── */
+.pf-section { max-width:1100px; margin:0 auto; }
+.pf-top { display:grid; grid-template-columns:320px 1fr; gap:14px; margin-bottom:14px; }
+@media(max-width:900px){ .pf-top{ grid-template-columns:1fr; } }
+
+/* Donut chart */
+.pf-chart-wrap {
+  background:var(--bg3); border:1px solid var(--border); border-radius:14px;
+  padding:18px; display:flex; flex-direction:column; align-items:center;
+}
+.pf-donut-container { position:relative; width:200px; height:200px; margin:8px 0; }
+.pf-donut-center {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center; pointer-events:none;
+}
+.pf-donut-total { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; color:var(--text); }
+.pf-donut-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-top:2px; }
+.pf-donut-pnl   { font-size:11px; font-weight:800; margin-top:3px; }
+.pf-legend { width:100%; margin-top:10px; display:flex; flex-direction:column; gap:5px; }
+.pf-legend-item { display:flex; align-items:center; justify-content:space-between; font-size:10px; }
+.pf-legend-dot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-right:6px; }
+.pf-legend-name { flex:1; font-weight:700; color:var(--text); }
+.pf-legend-pct  { font-weight:800; color:var(--text2); margin-left:6px; }
+
+/* Summary stats strip */
+.pf-stats-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+@media(max-width:700px){ .pf-stats-strip{ grid-template-columns:repeat(2,1fr); } }
+.pf-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.pf-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
+.pf-stat-val   { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; color:var(--text); }
+.pf-stat-sub   { font-size:9px; color:#555; margin-top:2px; }
+
+/* Asset table */
+.pf-table-wrap { background:var(--bg3); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
+.pf-table-header { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:8px 14px; background:rgba(0,0,0,.25); border-bottom:1px solid var(--border); }
+.pf-table-header span { font-size:8px; font-weight:700; letter-spacing:.8px; color:var(--text2); }
+.pf-asset-row { display:grid; grid-template-columns:28px 80px 1fr 90px 90px 90px 90px 80px; gap:8px; padding:11px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; }
+.pf-asset-row:last-child { border-bottom:none; }
+.pf-asset-row:hover { background:rgba(255,255,255,.02); }
+.pf-asset-type-badge { font-size:7px; font-weight:800; padding:2px 6px; border-radius:3px; letter-spacing:.6px; }
+.pf-asset-type-badge.crypto { background:rgba(255,106,0,.12); color:var(--orange); }
+.pf-asset-type-badge.stock  { background:rgba(34,197,94,.1);  color:#22c55e; }
+.pf-asset-type-badge.etf    { background:rgba(100,149,237,.1); color:#6495ed; }
+.pf-asset-type-badge.commodity { background:rgba(245,200,0,.1); color:#f5c800; }
+.pf-asset-type-badge.other  { background:rgba(255,255,255,.05); color:#888; }
+.pf-pnl-pos { color:#22c55e; font-weight:800; }
+.pf-pnl-neg { color:#ef4444; font-weight:800; }
+.pf-bar-mini { height:3px; border-radius:2px; margin-top:3px; }
+
+/* Add asset form */
+.pf-add-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:14px; }
+.pf-add-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; gap:8px; align-items:end; }
+@media(max-width:800px){ .pf-add-grid{ grid-template-columns:1fr 1fr; } }
+.pf-add-input {
+  width:100%; padding:10px 12px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--bg);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
+}
+.pf-add-input:focus { border-color:var(--orange); }
+.pf-add-input::placeholder { color:#2a2a2a; font-weight:400; }
+.pf-add-btn {
+  padding:10px 18px; border-radius:8px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .15s; white-space:nowrap;
+}
+.pf-add-btn:hover { background:var(--orange2); }
+.pf-fetch-price-btn {
+  padding:9px 12px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg); font-family:'Outfit',sans-serif; font-size:11px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
+}
+.pf-fetch-price-btn:hover { border-color:var(--orange); color:var(--orange); }
+
+/* Scenario projections */
+.pf-proj-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:8px; }
+@media(max-width:700px){ .pf-proj-grid{ grid-template-columns:repeat(3,1fr); } }
+.pf-proj-card { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px; text-align:center; }
+.pf-proj-pct  { font-size:8px; font-weight:800; color:#22c55e; letter-spacing:.8px; margin-bottom:4px; }
+.pf-proj-val  { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--text); margin-bottom:2px; }
+.pf-proj-gain { font-size:10px; font-weight:700; color:#22c55e; }
+
+/* Simulation */
+.pf-sim-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:14px; }
+.pf-sim-asset-row { display:grid; grid-template-columns:80px 1fr 80px 80px; gap:8px; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.03); }
+.pf-sim-asset-row:last-child { border-bottom:none; }
+.pf-sim-bar-wrap { height:6px; background:#1a1a1a; border-radius:3px; overflow:hidden; }
+.pf-sim-bar      { height:100%; border-radius:3px; transition:width .6s cubic-bezier(.34,1.56,.64,1); }
+.pf-mult-btn {
+  padding:7px 14px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg); font-family:'Outfit',sans-serif; font-size:11px;
+  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s;
+}
+.pf-mult-btn.active { border-color:#22c55e; color:#22c55e; background:rgba(34,197,94,.08); }
+.pf-mult-btn:hover:not(.active) { border-color:var(--orange); color:var(--orange); }
+
+/* Alerts */
+.pf-alert-row { display:grid; grid-template-columns:80px 100px 80px 1fr auto; gap:8px; align-items:center; padding:10px 14px; border-bottom:1px solid rgba(255,255,255,.03); font-size:11px; }
+.pf-alert-row:last-child { border-bottom:none; }
+.pf-alert-action { font-size:9px; font-weight:800; padding:3px 8px; border-radius:4px; }
+.pf-alert-action.buy  { background:rgba(34,197,94,.12); color:#22c55e; }
+.pf-alert-action.sell { background:rgba(239,68,68,.12); color:#ef4444; }
+.pf-alert-tf { font-size:8px; color:#555; font-weight:700; }
+
+/* ── INVESTMENT AGENT ── */
+.agent-section { max-width:1060px; margin:0 auto; }
+.agent-steps-nav { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
+.agent-step-btn {
+  display:flex; align-items:center; gap:7px;
+  padding:9px 18px; border-radius:8px;
+  border:1px solid var(--border); background:transparent;
+  font-family:'Outfit',sans-serif; font-size:12px; font-weight:600;
+  color:var(--text2); cursor:pointer; transition:all .18s;
+}
+.agent-step-btn.active {
+  border-color:var(--orange); background:rgba(255,106,0,.08); color:var(--orange);
+}
+.agent-step-btn.done { border-color:#22c55e30; color:#22c55e; }
+.agent-step-btn:disabled { opacity:.3; cursor:not-allowed; }
+
+/* Budget presets */
+.agent-budget-preset {
+  padding:8px 14px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:12px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
+}
+.agent-budget-preset.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.agent-budget-preset:hover:not(.active) { border-color:var(--border2); color:var(--text); }
+
+/* Category tabs */
+.agent-cat-btn {
+  flex:1; padding:12px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:13px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+}
+.agent-cat-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.07); }
+
+/* Asset cards */
+.agent-asset-card {
+  padding:14px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); cursor:pointer; text-align:left;
+  transition:all .18s; position:relative; overflow:hidden;
+  font-family:'Outfit',sans-serif;
+}
+.agent-asset-card:hover { border-color:var(--border2); }
+.agent-asset-card.selected { border-color:var(--orange); background:rgba(255,106,0,.05); }
+.agent-asset-check {
+  position:absolute; top:8px; right:8px; width:16px; height:16px;
+  border-radius:50%; background:var(--orange);
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; color:#000; font-weight:900;
+}
+
+/* Allocation row */
+.agent-alloc-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.agent-alloc-name { width:52px; font-size:12px; font-weight:800; }
+.agent-alloc-bar-wrap { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.agent-alloc-bar { height:100%; border-radius:2px; transition:width .4s; }
+
+/* Score ring */
+.agent-score-card {
+  background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+  padding:20px; display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+
+/* Signal inputs */
+.agent-signal-input {
+  width:100%; padding:9px 11px; border-radius:7px;
+  border:1px solid var(--border2); background:var(--bg);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
+}
+.agent-signal-input:focus { border-color:var(--orange); }
+.agent-signal-input::placeholder { color:#2a2a2a; font-weight:400; }
+
+/* Plan cards */
+.agent-tranche-row {
+  display:grid; grid-template-columns:36px 1fr 70px 90px 1fr 80px;
+  gap:8px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.03);
+  align-items:center; font-size:11px;
+}
+.agent-tranche-num {
+  width:22px; height:22px; border-radius:50%; display:flex;
+  align-items:center; justify-content:center; font-size:11px; font-weight:800;
+}
+.agent-plan-hero {
+  border-radius:14px; padding:22px;
+  background:linear-gradient(135deg,rgba(255,106,0,.07),rgba(255,255,255,.02));
+  border:1px solid rgba(255,106,0,.2);
+}
+
+/* Spinner */
+@keyframes agentSpin { to { transform:rotate(360deg); } }
+.agent-spinner {
+  width:44px; height:44px; border:3px solid rgba(255,106,0,.15);
+  border-top-color:var(--orange); border-radius:50%;
+  animation:agentSpin 1s linear infinite; margin:0 auto 16px;
+}
+
+/* TF selector */
+.agent-tf-btn {
+  flex:1; padding:16px 12px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); cursor:pointer; text-align:center;
+  font-family:'Outfit',sans-serif; transition:all .15s;
+}
+.agent-tf-btn.active { border-color:var(--orange); background:rgba(255,106,0,.07); }
+.agent-action-btn {
+  width:100%; padding:14px; border-radius:10px; border:none;
+  background:var(--orange); font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:900; color:#000; cursor:pointer;
+  transition:all .18s; letter-spacing:.3px; margin-top:8px;
+}
+.agent-action-btn:hover { background:var(--orange2); transform:translateY(-1px); }
+.agent-action-btn.secondary {
+  background:var(--bg3); border:1px solid var(--border2); color:var(--text2);
+  font-weight:700;
+}
+.agent-action-btn.secondary:hover { border-color:var(--orange); color:var(--orange); transform:none; }
+
+/* ── FUNDING RATE ── */
+.funding-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
+@media(max-width:800px){ .funding-layout{ grid-template-columns:1fr; } }
+.funding-asset-btn {
+  padding:8px 14px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:12px;
+  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s;
+}
+.funding-asset-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.funding-asset-btn:hover:not(.active) { color:var(--text); }
+.funding-period-card {
+  background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+  padding:16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+}
+.funding-period-label { font-size:10px; font-weight:700; color:var(--text2); }
+.funding-period-val   { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; }
+.funding-period-sub   { font-size:9px; color:#555; margin-top:2px; text-align:right; }
+.funding-periods { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+.funding-direction-bar {
+  height:6px; border-radius:3px; margin:12px 0 6px; overflow:hidden;
+  background:linear-gradient(90deg, #ef4444 0%, #1a1a1a 50%, #22c55e 100%);
+  position:relative;
+}
+.funding-direction-needle {
+  position:absolute; top:-4px; width:3px; height:14px;
+  background:#f0f0f0; border-radius:2px; transform:translateX(-50%);
+  transition:left .4s;
+}
 
 /* ── TAKE PROFIT ── */
 .tp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:6px; }
@@ -677,21 +987,59 @@ body {
 <div class="header">
   <div><img id="logo-img" style="width:40px;height:40px;object-fit:contain;"></div>
   <div>
-    <div class="brand-main">ELCARO <span style="color:var(--orange)">OPTIONS</span></div>
-    <div class="brand-sub">STRADDLE <span>SIGMA CALCULATOR</span></div>
+    <div class="brand-main">ELCARO <span style="color:var(--orange)">CALCULATOR</span></div>
+    <div class="brand-sub">WE KNOW <span>WHEN TO BUY</span></div>
   </div>
 </div>
 
 <!-- ══ MODE SWITCHER ══ -->
-<div class="mode-switcher">
-  <button class="mode-btn active" id="mode-straddle" onclick="setMode('straddle')">
-    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    STRADDLE CALCULATOR
-  </button>
-  <button class="mode-btn" id="mode-avg" onclick="setMode('avg')">
-    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    AVERAGING
-  </button>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
+
+  <!-- Row 1: main tools -->
+  <div class="mode-switcher" style="max-width:100%;margin-bottom:0;">
+    <button class="mode-btn active" id="mode-straddle" onclick="setMode('straddle')">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      STRADDLE
+    </button>
+    <button class="mode-btn" id="mode-portfolio" onclick="setMode('portfolio')">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 10 14 12 12 14 14 16 12"/></svg>
+      PORTFOLIO
+    </button>
+    <button class="mode-btn" id="mode-agent" onclick="setMode('agent')" style="position:relative;">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2a5 5 0 0 1 5 5c0 2.76-2.24 5-5 5S7 9.76 7 7a5 5 0 0 1 5-5z"/><path d="M2 21c0-4.42 4.48-8 10-8s10 3.58 10 8"/></svg>
+      AGENT
+      <span style="position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
+    </button>
+    <!-- POSITION TOOLS — dropdown trigger -->
+    <button class="mode-btn" id="mode-position-group" onclick="setMode('avg')"
+      style="position:relative;border-style:dashed;border-color:rgba(255,106,0,.35);">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      POSITION TOOLS
+      <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:2px;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+
+  <!-- Row 2: sub-tabs (visible when any position tool is active) -->
+  <div id="pos-tools-subtabs"
+    style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:8px;padding:6px;display:flex;gap:4px;">
+    <div style="font-size:8px;font-weight:700;color:rgba(255,106,0,.5);letter-spacing:1px;padding:0 8px;align-self:center;white-space:nowrap;">POSITION TOOLS</div>
+    <button class="mode-btn" id="mode-avg" onclick="setMode('avg')"
+      style="flex:1;padding:7px 12px;font-size:11px;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      AVERAGING
+    </button>
+    <button class="mode-btn" id="mode-sizer" onclick="setMode('sizer')"
+      style="flex:1;padding:7px 12px;font-size:11px;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      POSITION SIZER
+    </button>
+    <button class="mode-btn" id="mode-funding" onclick="setMode('funding')"
+      style="flex:1;padding:7px 12px;font-size:11px;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      FUNDING RATE
+    </button>
+  </div>
+
 </div>
 
 <div class="layout">
@@ -1097,6 +1445,18 @@ body {
             <div id="avg-r-legs-table"></div>
           </div>
 
+          <!-- ── WHAT-IF SCENARIOS ── -->
+          <div id="avg-scenarios-card" style="display:none;margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:7px;">
+                <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);">WHAT-IF SCENARIOS</span>
+              </div>
+              <span style="font-size:8px;color:#444;">same entry · different averaging size</span>
+            </div>
+            <div class="scenarios-grid" id="avg-scenarios-grid"></div>
+          </div>
+
           <!-- ── TAKE PROFIT TARGETS ── -->
           <div id="avg-tp-card" style="display:none;margin-top:14px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -1191,6 +1551,599 @@ body {
     </div>
 
   </div>
+</div>
+
+<!-- ══ POSITION SIZER ══ -->
+<div id="sizer-section" style="display:none;max-width:900px;margin:0 auto;">
+  <div class="sizer-layout">
+    <!-- LEFT: Inputs -->
+    <div>
+      <div class="card">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          POSITION SIZER
+        </div>
+
+        <!-- DEPOSIT -->
+        <div class="avg-input-group">
+          <div class="avg-label">DEPOSIT (account balance) $</div>
+          <input class="avg-input" id="sz-balance" type="number" placeholder="e.g. 10,000" oninput="sizerCalc()">
+        </div>
+
+        <!-- LEVERAGE -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            LEVERAGE
+            <span id="sz-lev-label" style="color:var(--orange);font-weight:800;">1× (no leverage)</span>
+          </div>
+          <input type="range" id="sz-leverage-slider" min="1" max="9" step="1" value="1"
+            list="sz-lev-steps"
+            style="width:100%;accent-color:var(--orange);margin:6px 0;"
+            oninput="sizerUpdateLevLabel(); sizerCalc()">
+          <datalist id="sz-lev-steps">
+            <option value="0"><option value="1"><option value="2"><option value="3">
+            <option value="4"><option value="5"><option value="6"><option value="7"><option value="8">
+          </datalist>
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;margin-top:2px;">
+            <span>1×</span><span>2×</span><span>3×</span><span>5×</span><span>10×</span><span>20×</span><span>50×</span><span>75×</span><span>100×</span>
+          </div>
+        </div>
+
+        <!-- DIRECTION -->
+        <div class="avg-input-group">
+          <div class="avg-label">DIRECTION</div>
+          <div class="pos-toggle" style="margin-top:4px;">
+            <button class="pos-btn long active" id="sz-btn-long" onclick="szSetDir('long')">
+              <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="18 15 12 9 6 15"/></svg>
+              LONG
+            </button>
+            <button class="pos-btn short" id="sz-btn-short" onclick="szSetDir('short')">
+              <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><polyline points="6 9 12 15 18 9"/></svg>
+              SHORT
+            </button>
+          </div>
+        </div>
+
+        <!-- ENTRY PRICE -->
+        <div class="avg-input-group">
+          <div class="avg-label">ENTRY PRICE</div>
+          <input class="avg-input" id="sz-entry" type="number" placeholder="e.g. 66,000" oninput="sizerSyncPcts(); sizerCalc()">
+        </div>
+
+        <!-- RISK SLIDER -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            RISK PER TRADE
+            <span id="sz-risk-pct-label" style="color:var(--orange);font-weight:800;">1%</span>
+          </div>
+          <input type="range" id="sz-risk-slider" min="0.1" max="5" step="0.1" value="1"
+            style="width:100%;accent-color:var(--orange);margin:6px 0;"
+            oninput="document.getElementById('sz-risk-pct-label').textContent=parseFloat(this.value).toFixed(1)+'%'; sizerCalc()">
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;">
+            <span>0.1%</span><span>Conservative ≤1%</span><span>Max 5%</span>
+          </div>
+        </div>
+
+        <!-- STOP LOSS -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            STOP-LOSS PRICE
+            <span id="sz-sl-pct-label" style="color:#ef4444;font-size:9px;font-weight:700;"></span>
+          </div>
+          <input class="avg-input" id="sz-sl" type="number" placeholder="e.g. 63,000"
+            style="border-color:rgba(239,68,68,0.2);"
+            onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,0.2)'"
+            oninput="sizerSyncPcts(); sizerCalc()">
+        </div>
+
+        <!-- TAKE PROFIT -->
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            TAKE PROFIT PRICE
+            <span id="sz-tp-pct-label" style="color:#22c55e;font-size:9px;font-weight:700;"></span>
+          </div>
+          <input class="avg-input" id="sz-tp" type="number" placeholder="optional"
+            style="border-color:rgba(34,197,94,0.2);"
+            onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(34,197,94,0.2)'"
+            oninput="sizerSyncPcts(); sizerCalc()">
+        </div>
+
+        <button class="sizer-calc-btn" onclick="sizerCalc()">⚡ CALCULATE POSITION SIZE</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card" style="min-height:360px;">
+        <div id="sz-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:12px;">
+          <svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:var(--text2);fill:none;stroke-width:1.2;opacity:.15;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <p style="font-size:13px;color:var(--text2);">Enter balance, risk % and stop-loss to calculate</p>
+        </div>
+        <div id="sz-results" style="display:none;">
+
+          <div class="sizer-result-hero">
+            <div class="sizer-hero-label">POSITION SIZE</div>
+            <div class="sizer-hero-val" id="sz-r-size">—</div>
+            <div class="sizer-hero-sub" id="sz-r-size-sub"></div>
+          <div id="sz-r-size-nolev" style="margin-top:6px;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.04);font-size:10px;font-weight:700;color:#666;display:none;"></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+            <div class="sizer-stat">
+              <div class="sizer-stat-label">MAX RISK $</div>
+              <div class="sizer-stat-val" id="sz-r-risk" style="color:#ef4444;">—</div>
+              <div class="sizer-stat-sub" id="sz-r-risk-pct"></div>
+            </div>
+            <div class="sizer-stat">
+              <div class="sizer-stat-label">STOP DISTANCE</div>
+              <div class="sizer-stat-val" id="sz-r-stop-dist">—</div>
+              <div class="sizer-stat-sub" id="sz-r-stop-pct"></div>
+            </div>
+            <div class="sizer-stat">
+              <div class="sizer-stat-label">QUANTITY</div>
+              <div class="sizer-stat-val" id="sz-r-qty">—</div>
+              <div class="sizer-stat-sub">units</div>
+            </div>
+            <div class="sizer-stat" id="sz-rr-stat" style="display:none;">
+              <div class="sizer-stat-label">RISK / REWARD</div>
+              <div class="sizer-stat-val" id="sz-r-rr">—</div>
+              <div class="sizer-stat-sub" id="sz-r-rr-sub"></div>
+            </div>
+          </div>
+
+          <!-- Risk % of balance bar -->
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:8px;color:var(--text2);font-weight:700;">RISK AS % OF BALANCE</span>
+              <span id="sz-risk-bar-label" style="font-size:9px;font-weight:800;color:var(--orange);"></span>
+            </div>
+            <div class="risk-bar-wrap">
+              <div class="risk-bar-fill" id="sz-risk-bar"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#444;margin-top:2px;">
+              <span>Safe &lt;2%</span><span>Moderate 2-5%</span><span>Risky &gt;5%</span>
+            </div>
+          </div>
+
+          <!-- Leverage warning -->
+          <div id="sz-leverage-warn" style="display:none;padding:8px 12px;border-radius:8px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);font-size:9px;color:#ef4444;font-weight:700;margin-bottom:8px;"></div>
+
+          <!-- Verdict -->
+          <div id="sz-verdict" style="padding:10px 14px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FUNDING RATE CALCULATOR ══ -->
+<div id="funding-section" style="display:none;max-width:900px;margin:0 auto;">
+  <div class="funding-layout">
+    <!-- LEFT: Inputs -->
+    <div>
+      <div class="card">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          FUNDING RATE CALCULATOR
+        </div>
+
+        <div style="font-size:8px;color:var(--text2);margin-bottom:8px;font-weight:700;">POPULAR ASSETS</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;" id="funding-asset-btns">
+          <button class="funding-asset-btn active" onclick="fundingSelectAsset('BTC', 0.01)">BTC</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('ETH', 0.01)">ETH</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('SOL', 0.01)">SOL</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('BNB', 0.01)">BNB</button>
+          <button class="funding-asset-btn" onclick="fundingSelectAsset('XRP', 0.01)">XRP</button>
+        </div>
+
+        <div class="avg-input-group">
+          <div class="avg-label">POSITION SIZE $</div>
+          <input class="avg-input" id="fr-position" type="number" placeholder="e.g. 10,000" oninput="fundingCalc()">
+        </div>
+
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            FUNDING RATE (per 8h)
+            <span id="fr-rate-display" style="color:var(--orange);font-weight:800;font-size:10px;">0.0100%</span>
+          </div>
+          <input class="avg-input" id="fr-rate" type="number" placeholder="e.g. 0.01" step="0.001" value="0.01"
+            oninput="document.getElementById('fr-rate-display').textContent=parseFloat(this.value||0).toFixed(4)+'%'; fundingCalc()">
+          <div style="font-size:8px;color:#555;margin-top:4px;">Typical: 0.01% (neutral) · High: 0.1%+ (overheated)</div>
+        </div>
+
+        <div class="avg-input-group">
+          <div class="avg-label" style="display:flex;justify-content:space-between;">
+            DIRECTION
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;">
+            <button id="fr-long-btn" onclick="fundingSetDir('long')"
+              style="padding:10px;border-radius:8px;border:1px solid #22c55e;background:rgba(34,197,94,.1);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:#22c55e;cursor:pointer;">
+              ▲ LONG
+            </button>
+            <button id="fr-short-btn" onclick="fundingSetDir('short')"
+              style="padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
+              ▼ SHORT
+            </button>
+          </div>
+          <div id="fr-dir-note" style="font-size:8px;color:#22c55e;margin-top:5px;font-weight:700;">LONG pays funding when rate is positive</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div>
+      <div class="card">
+        <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;">HOLDING COST BREAKDOWN</div>
+
+        <div class="funding-periods" id="fr-periods">
+          <div class="funding-period-card">
+            <div><div class="funding-period-label">PER FUNDING (8h)</div><div id="fr-p-8h-sub" style="font-size:8px;color:#555;margin-top:2px;"></div></div>
+            <div><div class="funding-period-val" id="fr-p-8h">—</div><div class="funding-period-sub" id="fr-p-8h-pct"></div></div>
+          </div>
+          <div class="funding-period-card">
+            <div><div class="funding-period-label">PER DAY (3× payments)</div></div>
+            <div><div class="funding-period-val" id="fr-p-day">—</div><div class="funding-period-sub" id="fr-p-day-pct"></div></div>
+          </div>
+          <div class="funding-period-card">
+            <div><div class="funding-period-label">PER WEEK</div></div>
+            <div><div class="funding-period-val" id="fr-p-week">—</div><div class="funding-period-sub" id="fr-p-week-pct"></div></div>
+          </div>
+          <div class="funding-period-card" style="border-color:rgba(255,106,0,0.3);">
+            <div><div class="funding-period-label" style="color:var(--orange);">PER MONTH</div></div>
+            <div><div class="funding-period-val" id="fr-p-month" style="color:var(--orange);">—</div><div class="funding-period-sub" id="fr-p-month-pct"></div></div>
+          </div>
+        </div>
+
+        <!-- Breakeven move needed -->
+        <div id="fr-breakeven-card" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">PRICE MOVE NEEDED TO OFFSET FUNDING COST</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
+            <div>
+              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 DAY</div>
+              <div id="fr-be-day" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 WEEK</div>
+              <div id="fr-be-week" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 MONTH</div>
+              <div id="fr-be-month" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market sentiment signal -->
+        <div id="fr-sentiment-card" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;">
+          <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">MARKET SENTIMENT SIGNAL</div>
+          <div class="funding-direction-bar" id="fr-sentiment-bar">
+            <div class="funding-direction-needle" id="fr-sentiment-needle"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#555;margin-top:8px;">
+            <span style="color:#22c55e;">◀ BEARISH FUNDING</span>
+            <span>NEUTRAL</span>
+            <span style="color:#ef4444;">BULLISH FUNDING ▶</span>
+          </div>
+          <div id="fr-sentiment-text" style="text-align:center;margin-top:10px;font-size:11px;font-weight:800;color:#555;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PORTFOLIO ══ -->
+<div id="portfolio-section" style="display:none;">
+<div class="pf-section">
+
+  <!-- TOP: Chart + Stats -->
+  <div class="pf-top">
+
+    <!-- Donut chart -->
+    <div class="pf-chart-wrap">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:4px;">PORTFOLIO ALLOCATION</div>
+      <div class="pf-donut-container">
+        <svg id="pf-donut-svg" width="200" height="200" viewBox="0 0 200 200"></svg>
+        <div class="pf-donut-center">
+          <div class="pf-donut-total" id="pf-total-val">$0</div>
+          <div class="pf-donut-label">TOTAL VALUE</div>
+          <div class="pf-donut-pnl" id="pf-total-pnl"></div>
+        </div>
+      </div>
+      <div class="pf-legend" id="pf-legend"></div>
+    </div>
+
+    <!-- Stats + type breakdown -->
+    <div>
+      <div class="pf-stats-strip" style="margin-bottom:12px;">
+        <div class="pf-stat">
+          <div class="pf-stat-label">INVESTED</div>
+          <div class="pf-stat-val" id="pf-invested">$0</div>
+          <div class="pf-stat-sub">cost basis</div>
+        </div>
+        <div class="pf-stat">
+          <div class="pf-stat-label">CURRENT VALUE</div>
+          <div class="pf-stat-val" id="pf-cur-val">$0</div>
+          <div class="pf-stat-sub" id="pf-cur-sub">live prices</div>
+        </div>
+        <div class="pf-stat">
+          <div class="pf-stat-label">TOTAL P&L</div>
+          <div class="pf-stat-val" id="pf-pnl-usd">$0</div>
+          <div class="pf-stat-sub" id="pf-pnl-pct"></div>
+        </div>
+        <div class="pf-stat">
+          <div class="pf-stat-label">ASSETS</div>
+          <div class="pf-stat-val" id="pf-asset-count">0</div>
+          <div class="pf-stat-sub" id="pf-type-breakdown"></div>
+        </div>
+      </div>
+      <!-- Type allocation mini bars -->
+      <div id="pf-type-bars" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;"></div>
+    </div>
+  </div>
+
+  <!-- ADD ASSET FORM -->
+  <div class="pf-add-card">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:7px;">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      ADD / AVERAGE POSITION
+    </div>
+    <div class="pf-add-grid">
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">TICKER / NAME</div>
+        <input class="pf-add-input" id="pf-add-sym" placeholder="BTC, AAPL, GOLD..." maxlength="12" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">BUY PRICE $</div>
+        <div style="display:flex;gap:4px;">
+          <input class="pf-add-input" id="pf-add-price" placeholder="66,000" type="number" style="flex:1;">
+          <button class="pf-fetch-price-btn" onclick="pfFetchAddPrice()" title="Get live price">⟳</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">QUANTITY</div>
+        <input class="pf-add-input" id="pf-add-qty" placeholder="0.5" type="number" step="any">
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">TYPE (auto-detect)</div>
+        <select class="pf-add-input" id="pf-add-type" style="font-family:Outfit,sans-serif;font-size:11px;">
+          <option value="auto">AUTO</option>
+          <option value="crypto">CRYPTO</option>
+          <option value="stock">STOCK</option>
+          <option value="etf">ETF</option>
+          <option value="commodity">COMMODITY</option>
+          <option value="other">OTHER</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:transparent;margin-bottom:5px;">.</div>
+        <button class="pf-add-btn" onclick="pfAddAsset()">+ ADD</button>
+      </div>
+    </div>
+    <div id="pf-add-feedback" style="font-size:9px;margin-top:8px;min-height:14px;font-weight:700;"></div>
+  </div>
+
+  <!-- ASSETS TABLE -->
+  <div class="pf-table-wrap" id="pf-table-wrap" style="display:none;">
+    <div class="pf-table-header">
+      <span>#</span><span>ASSET</span><span>TYPE</span>
+      <span>AVG PRICE</span><span>CURRENT</span><span>VALUE</span><span>P&L</span><span>SHARE</span>
+    </div>
+    <div id="pf-asset-rows"></div>
+  </div>
+
+  <!-- ── PROJECTIONS ── -->
+  <div id="pf-projections-wrap" style="display:none;margin-bottom:14px;">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:7px;">
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      PORTFOLIO PROJECTIONS — IF ALL ASSETS MOVE
+    </div>
+    <div class="pf-proj-grid" id="pf-proj-grid"></div>
+  </div>
+
+  <!-- ── RANDOM SIMULATION ── -->
+  <div id="pf-sim-wrap" style="display:none;margin-bottom:14px;">
+    <div class="pf-sim-card">
+
+      <!-- Mode tabs -->
+      <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <button id="pf-sim-tab-rand" onclick="pfSimSetMode('random')"
+          style="padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;">
+          🎲 RANDOM SIMULATION
+        </button>
+        <button id="pf-sim-tab-mult" onclick="pfSimSetMode('multiplier')"
+          style="padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
+          📈 GROWTH MULTIPLIER
+        </button>
+        <button id="pf-sim-reroll" onclick="pfRunSimulation()"
+          style="margin-left:auto;padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">
+          RE-ROLL ↺
+        </button>
+      </div>
+
+      <!-- Random panel -->
+      <div id="pf-sim-random-panel">
+        <div style="font-size:9px;color:#555;margin-bottom:12px;">Probabilistic simulation: some assets +20%→+200%, some -10%→-70%, some flat. Based on asset count distribution theory.</div>
+        <div id="pf-sim-rows"></div>
+      </div>
+
+      <!-- Multiplier panel -->
+      <div id="pf-sim-mult-panel" style="display:none;">
+        <div style="font-size:9px;color:#555;margin-bottom:10px;">Uniform growth scenario — all portfolio assets move by the same multiplier simultaneously.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+          <button class="pf-mult-btn active" onclick="pfRenderMultiplier(1)">×1 (0%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(2)">×2 (+100%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(3)">×3 (+200%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(4)">×4 (+300%)</button>
+          <button class="pf-mult-btn" onclick="pfRenderMultiplier(5)">×5 (+400%)</button>
+        </div>
+        <div id="pf-sim-mult-rows"></div>
+      </div>
+
+      <!-- Footer total -->
+      <div style="margin-top:14px;padding:12px;background:var(--bg);border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:9px;font-weight:700;color:var(--text2);" id="pf-sim-footer-label">SIMULATED PORTFOLIO VALUE</span>
+        <div style="text-align:right;">
+          <div id="pf-sim-total" style="font-family:JetBrains Mono,monospace;font-size:20px;font-weight:900;"></div>
+          <div id="pf-sim-pnl" style="font-size:10px;font-weight:800;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ALERTS / SCHEDULE ── -->
+  <div id="pf-alerts-wrap" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);display:flex;align-items:center;gap:7px;">
+        <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--text2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        TRADE ALERTS — TELEGRAM NOTIFICATIONS
+      </div>
+      <button onclick="pfAddAlert()" style="padding:6px 12px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">+ ADD ALERT</button>
+    </div>
+    <div style="background:rgba(255,106,0,0.05);border:1px solid rgba(255,106,0,0.15);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:9px;color:rgba(255,106,0,0.7);">
+      ⚡ Connect your Telegram bot (@elcarocalculator_bot) to receive alerts. Alerts will be sent on the scheduled date with: ASSET / ACTION / TIMEFRAME
+    </div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:80px 100px 80px 1fr auto;gap:8px;padding:8px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--border);">
+        <span style="font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--text2);">ASSET</span>
+        <span style="font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--text2);">DATE</span>
+        <span style="font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--text2);">ACTION</span>
+        <span style="font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--text2);">TIMEFRAME / NOTE</span>
+        <span></span>
+      </div>
+      <div id="pf-alerts-list"></div>
+      <div id="pf-alerts-empty" style="padding:20px;text-align:center;font-size:12px;color:#444;">No alerts set. Click + ADD ALERT to schedule a trade notification.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ INVESTMENT AGENT ══ -->
+<div id="agent-section" style="display:none;">
+<div class="agent-section">
+
+  <!-- Step nav -->
+  <div class="agent-steps-nav" id="agent-steps-nav">
+    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)">◆ Portfolio</button>
+    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled>◈ Analysis</button>
+    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled>◇ Signals</button>
+    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled>▣ Plan</button>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text2);">BUDGET</span>
+      <span id="agent-budget-display" style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;color:var(--orange);">$1,000,000</span>
+      <span style="font-size:8px;color:#444;margin:0 6px;">·</span>
+      <span style="font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text2);">ASSETS</span>
+      <span id="agent-assets-display" style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;color:var(--text);">0</span>
+    </div>
+  </div>
+
+  <!-- ── STEP 0: PORTFOLIO BUILDER ── -->
+  <div id="agent-step-0">
+
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">INVESTMENT BUDGET</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div style="position:relative;flex:1;min-width:180px;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--orange);font-weight:900;font-size:16px;pointer-events:none;">$</span>
+          <input type="number" id="agent-budget-input" value="1000000"
+            style="width:100%;padding:12px 12px 12px 28px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;font-family:JetBrains Mono,monospace;font-size:18px;font-weight:900;color:var(--text);outline:none;"
+            oninput="agentUpdateBudget()">
+        </div>
+        <button class="agent-budget-preset active" data-v="100000" onclick="agentSetBudget(100000)">$100K</button>
+        <button class="agent-budget-preset" data-v="500000" onclick="agentSetBudget(500000)">$500K</button>
+        <button class="agent-budget-preset" data-v="1000000" onclick="agentSetBudget(1000000)">$1M</button>
+        <button class="agent-budget-preset" data-v="2000000" onclick="agentSetBudget(2000000)">$2M</button>
+        <button class="agent-budget-preset" data-v="5000000" onclick="agentSetBudget(5000000)">$5M</button>
+      </div>
+    </div>
+
+    <!-- Category tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')">₿ Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')">📊 ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')">📈 Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button id="agent-add-btn" onclick="agentToggleAddForm()"
+        style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
+        onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
+        <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        ADD ASSET
+      </button>
+    </div>
+
+    <!-- ADD ASSET inline form -->
+    <div id="agent-add-form" style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.2);border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);margin-bottom:10px;">ADD CUSTOM ASSET</div>
+      <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:8px;align-items:end;">
+        <div>
+          <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">TICKER</div>
+          <input id="agent-add-ticker" class="agent-signal-input" placeholder="BTC, AAPL…" maxlength="10"
+            style="text-transform:uppercase;"
+            oninput="this.value=this.value.toUpperCase(); agentAddAutoDetect()"
+            onkeydown="if(event.key==='Enter') agentAddAsset()">
+        </div>
+        <div>
+          <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">NAME <span id="agent-add-type-badge" style="margin-left:6px;font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;"></span></div>
+          <input id="agent-add-name" class="agent-signal-input" placeholder="Full name (auto-fill)"
+            onkeydown="if(event.key==='Enter') agentAddAsset()">
+        </div>
+        <button onclick="agentAddAsset()"
+          style="padding:9px 16px;border-radius:8px;border:none;background:var(--orange);font-family:Outfit,sans-serif;font-size:12px;font-weight:900;color:#000;cursor:pointer;">
+          ADD →
+        </button>
+      </div>
+      <div id="agent-add-feedback" style="font-size:9px;margin-top:8px;min-height:14px;font-weight:700;"></div>
+    </div>
+
+    <!-- Asset grid -->
+    <div id="agent-asset-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:12px;"></div>
+
+    <!-- Allocation panel -->
+    <div id="agent-alloc-panel" class="card" style="display:none;margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);">PORTFOLIO ALLOCATION</div>
+        <button onclick="agentAutoBalance()" style="padding:5px 12px;border-radius:6px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:10px;font-weight:800;color:var(--orange);cursor:pointer;">AUTO-BALANCE</button>
+      </div>
+      <div id="agent-alloc-rows"></div>
+    </div>
+
+    <button class="agent-action-btn" id="agent-analyze-btn" style="display:none;" onclick="agentGoStep(1); agentRunAnalysis();">⚡ ANALYZE PORTFOLIO →</button>
+  </div>
+
+  <!-- ── STEP 1: ANALYSIS ── -->
+  <div id="agent-step-1" style="display:none;">
+    <div id="agent-analyzing" style="text-align:center;padding:60px 20px;">
+      <div class="agent-spinner"></div>
+      <div style="font-size:15px;font-weight:800;color:var(--orange);margin-bottom:6px;">ELCARO AI ANALYZING PORTFOLIO</div>
+      <div style="font-size:11px;color:var(--text2);">Fetching market data · Running diversification analysis</div>
+    </div>
+    <div id="agent-analysis-results" style="display:none;"></div>
+  </div>
+
+  <!-- ── STEP 2: SIGNALS ── -->
+  <div id="agent-step-2" style="display:none;">
+    <div style="background:rgba(255,106,0,.05);border:1px solid rgba(255,106,0,.15);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:16px;">📡</span>
+      <div>
+        <div style="font-size:12px;font-weight:800;color:var(--orange);" id="agent-signal-tf-label">SIGNAL INPUT — 4H TIMEFRAME</div>
+        <div style="font-size:9px;color:var(--text2);margin-top:2px;">Enter buy/sell zones and predicted top/bottom for each asset. These drive the hedge fund-style deployment plan.</div>
+      </div>
+    </div>
+    <div id="agent-signal-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+    <button class="agent-action-btn" onclick="agentGoStep(3); agentGeneratePlan();">▣ GENERATE DEPLOYMENT PLAN →</button>
+  </div>
+
+  <!-- ── STEP 3: PLAN ── -->
+  <div id="agent-step-3" style="display:none;">
+    <div id="agent-plan-loading" style="text-align:center;padding:60px 20px;">
+      <div class="agent-spinner"></div>
+      <div style="font-size:15px;font-weight:800;color:var(--orange);margin-bottom:6px;">GENERATING HEDGE FUND DEPLOYMENT PLAN</div>
+      <div style="font-size:11px;color:var(--text2);">Building institutional-grade position tranches</div>
+    </div>
+    <div id="agent-plan-results" style="display:none;"></div>
+  </div>
+
+</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -2164,11 +3117,49 @@ let avgLegCount = 0;
 let avgLastResult = null;
 
 function setMode(mode) {
-  const isAvg = mode === 'avg';
-  document.getElementById('mode-straddle').classList.toggle('active', !isAvg);
-  document.getElementById('mode-avg').classList.toggle('active', isAvg);
-  document.querySelector('.layout').style.display   = isAvg ? 'none' : 'grid';
-  document.getElementById('avg-section').style.display = isAvg ? 'block' : 'none';
+  const positionModes = ['avg','sizer','funding'];
+  const isPositionMode = positionModes.includes(mode);
+
+  // Top-level nav buttons
+  ['straddle','portfolio','agent','position-group'].forEach(m => {
+    const el = document.getElementById('mode-'+m);
+    if (!el) return;
+    const active = m === mode || (m === 'position-group' && isPositionMode);
+    el.classList.toggle('active', active);
+    if (m === 'position-group' && active) {
+      el.style.borderColor = 'var(--orange)';
+      el.style.borderStyle = 'solid';
+    } else if (m === 'position-group') {
+      el.style.borderColor = 'rgba(255,106,0,.35)';
+      el.style.borderStyle = 'dashed';
+    }
+  });
+
+  // Sub-tab buttons
+  positionModes.forEach(m => {
+    document.getElementById('mode-'+m)?.classList.toggle('active', m === mode);
+  });
+
+  // Show/hide sub-tab row
+  const subtabs = document.getElementById('pos-tools-subtabs');
+  if (subtabs) subtabs.style.display = isPositionMode ? 'flex' : 'none';
+
+  // Chevron
+  const chev = document.getElementById('pos-tools-chevron');
+  if (chev) chev.style.transform = isPositionMode ? 'rotate(180deg)' : '';
+
+  // Sections
+  document.querySelector('.layout').style.display           = mode === 'straddle'  ? 'grid'  : 'none';
+  document.getElementById('avg-section').style.display      = mode === 'avg'       ? 'block' : 'none';
+  document.getElementById('sizer-section').style.display    = mode === 'sizer'     ? 'block' : 'none';
+  document.getElementById('funding-section').style.display  = mode === 'funding'   ? 'block' : 'none';
+  document.getElementById('portfolio-section').style.display= mode === 'portfolio' ? 'block' : 'none';
+  document.getElementById('agent-section').style.display    = mode === 'agent'     ? 'block' : 'none';
+  if (mode === 'portfolio') pfRenderAll();
+  if (mode === 'agent') {
+    agentInitialized = false; // force re-sync each visit
+    agentInit();
+  }
 }
 
 // ── Sync qty ↔ vol for leg 1 ──
@@ -2375,6 +3366,14 @@ function avgCalculate() {
 
   // Update P&L if current price already set
   avgUpdatePnl();
+  // ── Render What-If Scenarios ──
+  const legPricesForScenarios = [];
+  document.querySelectorAll('[id^="avg-leg-price-"]').forEach(el => {
+    const p = parseFloat(el.value) || 0;
+    if (p) legPricesForScenarios.push({ price: p });
+  });
+  avgRenderScenarios(price1, resolvedQty1, legPricesForScenarios, avgLastResult.origLiq);
+
   // ── Render TP targets ──
   avgRenderTpTargets(avgPrice, totalQty, totalVol);
 
@@ -2482,6 +3481,382 @@ function avgUpdatePnl() {
   document.getElementById('avg-pnl-usd').innerHTML = `<span style="color:${col}">${sign}$${Math.abs(pnlUsd).toLocaleString('en',{maximumFractionDigits:0})}</span>`;
   document.getElementById('avg-pnl-pct').innerHTML = `<span style="color:${col}">${sign}${Math.abs(pnlPct).toFixed(2)}%</span>`;
   document.getElementById('avg-pnl-status').innerHTML = `<span style="color:${col}">${status}</span>`;
+}
+
+
+// ═══════════════════════════════════════════════════════
+// ══ B: WHAT-IF SCENARIOS ═══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function avgRenderScenarios(entry1Price, entry1Qty, avgLegPrices, origLiq) {
+  const card = document.getElementById('avg-scenarios-card');
+  const grid = document.getElementById('avg-scenarios-grid');
+  if (!entry1Price || !entry1Qty || !avgLegPrices.length) { card.style.display='none'; return; }
+  card.style.display = 'block';
+
+  const scenarios = [
+    { label:'CONSERVATIVE', cls:'conservative', mult:1 },
+    { label:'AGGRESSIVE',   cls:'aggressive',   mult:2 },
+    { label:'MAXIMUM',      cls:'maximum',       mult:3 },
+  ];
+
+  const isLong = avgPosition === 'long';
+
+  grid.innerHTML = scenarios.map(sc => {
+    // Build legs for this scenario
+    const legs = [{ price: entry1Price, qty: entry1Qty }];
+    avgLegPrices.forEach(lp => {
+      if (!lp.price) return;
+      legs.push({ price: lp.price, qty: entry1Qty * sc.mult });
+    });
+    const totalQty = legs.reduce((s,l) => s+l.qty, 0);
+    const totalVol = legs.reduce((s,l) => s+l.price*l.qty, 0);
+    const avg = totalVol / totalQty;
+
+    // Liq for this scenario
+    let liqStr = '';
+    if (origLiq) {
+      const origDist = Math.abs(origLiq - entry1Price);
+      const origMargin = origDist * entry1Qty;
+      const newDist = origMargin / totalQty;
+      const newLiq = isLong ? avg - newDist : avg + newDist;
+      liqStr = `<div class="sc-liq" style="color:#ef4444;">LIQ ${fmtAvgPrice(newLiq)}</div>`;
+    }
+
+    // Delta vs ×1 (if not conservative)
+    const legs1 = [{ price: entry1Price, qty: entry1Qty }];
+    avgLegPrices.forEach(lp => { if(lp.price) legs1.push({price:lp.price, qty:entry1Qty}); });
+    const avg1 = legs1.reduce((s,l)=>s+l.price*l.qty,0) / legs1.reduce((s,l)=>s+l.qty,0);
+    const delta = avg - avg1;
+    const deltaStr = sc.mult > 1
+      ? `<div class="sc-delta" style="color:${isLong?(delta<0?'#22c55e':'#ef4444'):(delta>0?'#22c55e':'#ef4444')};">${delta>0?'+':''}${fmtAvgPrice(Math.abs(delta))} vs ×1</div>`
+      : '<div class="sc-delta" style="color:#555;">baseline</div>';
+
+    return `<div class="scenario-card ${sc.cls}">
+      <div class="sc-tag ${sc.cls}">${sc.label}</div>
+      <div class="sc-mult-badge">×${sc.mult} avg size</div>
+      <div class="sc-avg ${sc.cls}">${fmtAvgPrice(avg)}</div>
+      <div class="sc-vol">$${totalVol.toLocaleString('en',{maximumFractionDigits:0})} total</div>
+      ${liqStr}
+      ${deltaStr}
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// ══ C: POSITION SIZER ══════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+let szDirection = 'long';
+
+function szSetDir(dir) {
+  szDirection = dir;
+  const isLong = dir === 'long';
+  document.getElementById('sz-btn-long').classList.toggle('active', isLong);
+  document.getElementById('sz-btn-short').classList.toggle('active', !isLong);
+  sizerSyncPcts();
+  sizerCalc();
+}
+
+const SZ_LEV_MAP = [null, 1, 2, 3, 5, 10, 20, 50, 75, 100]; // index 1-9
+
+function szGetLeverage() {
+  const idx = parseInt(document.getElementById('sz-leverage-slider').value) || 1;
+  return SZ_LEV_MAP[idx] || 1;
+}
+
+function sizerUpdateLevLabel() {
+  const lev = szGetLeverage();
+  const el  = document.getElementById('sz-lev-label');
+  el.textContent = lev === 1 ? '1× (no leverage)' : lev + '× leverage';
+  el.style.color = lev <= 5 ? 'var(--orange)' : lev <= 20 ? '#f5c800' : '#ef4444';
+}
+
+function sizerSyncPcts() {
+  const entry = parseFloat(document.getElementById('sz-entry').value) || 0;
+  const sl    = parseFloat(document.getElementById('sz-sl').value)    || 0;
+  const tp    = parseFloat(document.getElementById('sz-tp').value)    || 0;
+  const slEl  = document.getElementById('sz-sl-pct-label');
+  const tpEl  = document.getElementById('sz-tp-pct-label');
+
+  if (entry && sl) {
+    const pct = ((Math.abs(sl - entry) / entry) * 100).toFixed(2);
+    const dir = szDirection === 'long' ? (sl < entry ? '▼ ' : '⚠ above entry ') : (sl > entry ? '▲ ' : '⚠ below entry ');
+    slEl.textContent = dir + pct + '% stop';
+  } else { slEl.textContent = ''; }
+
+  if (entry && tp) {
+    const pct = ((Math.abs(tp - entry) / entry) * 100).toFixed(2);
+    tpEl.textContent = '+' + pct + '% target';
+  } else { tpEl.textContent = ''; }
+}
+
+// Keep old name for backward compat
+function sizerSyncStopPct() { sizerSyncPcts(); }
+
+function sizerCalc() {
+  const balance  = parseFloat(document.getElementById('sz-balance').value)       || 0;
+  const leverage = szGetLeverage();
+  const riskPct  = parseFloat(document.getElementById('sz-risk-slider').value)   || 1;
+  const entry    = parseFloat(document.getElementById('sz-entry').value)         || 0;
+  const sl       = parseFloat(document.getElementById('sz-sl').value)            || 0;
+  const tp       = parseFloat(document.getElementById('sz-tp').value)            || 0;
+
+  sizerUpdateLevLabel();
+  sizerSyncPcts();
+
+  const empty = document.getElementById('sz-empty');
+  const res   = document.getElementById('sz-results');
+
+  if (!balance || !entry || !sl) { empty.style.display='flex'; res.style.display='none'; return; }
+
+  // ── Core risk math ──
+  // Risk in $ = deposit × risk%
+  const riskUsd  = balance * riskPct / 100;
+
+  // Stop distance in price
+  const stopDist = Math.abs(entry - sl);
+  const stopPct  = (stopDist / entry * 100);
+  if (!stopDist) return;
+
+  // Without leverage: position size (units) where max loss = riskUsd
+  const qtyNoLev    = riskUsd / stopDist;
+  const sizeNoLev   = qtyNoLev * entry;          // $ value
+
+  // With leverage: buying power = deposit × leverage
+  // But risk is still capped at riskUsd → qty scales with leverage
+  const buyingPower  = balance * leverage;
+  // qty constrained by risk per trade (risk = qty × stopDist)
+  const qtyWithLev   = riskUsd / stopDist;       // same formula — risk cap is the binding constraint
+  const sizeWithLev  = qtyWithLev * entry;       // notional value
+  // actual margin used = sizeWithLev / leverage
+  const marginUsed   = sizeWithLev / leverage;
+  const marginPct    = (marginUsed / balance * 100);
+
+  empty.style.display = 'none';
+  res.style.display   = 'block';
+
+  // Hero: position size (notional with leverage)
+  document.getElementById('sz-r-size').textContent = '$' + Math.round(sizeWithLev).toLocaleString('en');
+  document.getElementById('sz-r-size-sub').textContent =
+    qtyWithLev.toLocaleString('en',{maximumFractionDigits:6}) + ' units  ·  notional @ ' + leverage + '× leverage';
+
+  // No-leverage row
+  const noLevEl = document.getElementById('sz-r-size-nolev');
+  if (leverage > 1) {
+    noLevEl.style.display = 'block';
+    noLevEl.textContent = 'Without leverage: $' + Math.round(sizeNoLev).toLocaleString('en') +
+      '  ·  margin used: $' + Math.round(marginUsed).toLocaleString('en') + ' (' + marginPct.toFixed(1) + '% of deposit)';
+  } else {
+    noLevEl.style.display = 'none';
+  }
+
+  document.getElementById('sz-r-risk').textContent      = '$' + riskUsd.toLocaleString('en',{maximumFractionDigits:2});
+  document.getElementById('sz-r-risk-pct').textContent  = riskPct + '% of deposit';
+  document.getElementById('sz-r-stop-dist').textContent = fmtAvgPrice(stopDist);
+  document.getElementById('sz-r-stop-pct').textContent  = stopPct.toFixed(2) + '% from entry';
+  document.getElementById('sz-r-qty').textContent       = qtyWithLev.toLocaleString('en',{maximumFractionDigits:6});
+
+  // R/R
+  const rrStat = document.getElementById('sz-rr-stat');
+  if (tp) {
+    rrStat.style.display = 'block';
+    const isLong  = szDirection === 'long';
+    const reward  = isLong ? (tp - entry) : (entry - tp);
+    const risk_d  = isLong ? (entry - sl) : (sl - entry);
+    // Validate direction
+    const validSl = isLong ? sl < entry : sl > entry;
+    const validTp = isLong ? tp > entry : tp < entry;
+    if (validSl && validTp && risk_d > 0) {
+      const rrRatio = reward / risk_d;
+      const rrEl    = document.getElementById('sz-r-rr');
+      rrEl.textContent = '1 : ' + rrRatio.toFixed(2);
+      rrEl.style.color = rrRatio >= 2 ? '#22c55e' : rrRatio >= 1 ? 'var(--orange)' : '#ef4444';
+      document.getElementById('sz-r-rr-sub').textContent =
+        rrRatio >= 2 ? 'Good setup' : rrRatio >= 1 ? 'Marginal' : 'Poor setup';
+    } else {
+      const rrEl = document.getElementById('sz-r-rr');
+      rrEl.textContent = '—';
+      document.getElementById('sz-r-rr-sub').textContent = isLong
+        ? 'Check: SL below entry, TP above'
+        : 'Check: SL above entry, TP below';
+    }
+  } else {
+    rrStat.style.display = 'none';
+  }
+
+  // Risk bar (0.1–5% range)
+  const barPct   = riskPct / 5 * 100;
+  const barColor = riskPct <= 1 ? '#22c55e' : riskPct <= 2 ? 'var(--orange)' : '#ef4444';
+  document.getElementById('sz-risk-bar').style.cssText =
+    `width:${Math.min(barPct,100)}%;background:${barColor};`;
+  document.getElementById('sz-risk-bar-label').textContent = riskPct.toFixed(1) + '% at risk';
+  document.getElementById('sz-risk-bar-label').style.color = barColor;
+
+  // Leverage warning
+  const warn = document.getElementById('sz-leverage-warn');
+  if (leverage >= 50) {
+    warn.style.display = 'block';
+    warn.style.background  = 'rgba(239,68,68,.08)';
+    warn.style.borderColor = 'rgba(239,68,68,.2)';
+    warn.style.color = '#ef4444';
+    warn.textContent = '⚠ ' + leverage + '× leverage — extreme risk. Liquidation can happen instantly on small moves.';
+  } else if (leverage >= 20) {
+    warn.style.display = 'block';
+    warn.style.background  = 'rgba(255,106,0,.08)';
+    warn.style.borderColor = 'rgba(255,106,0,.2)';
+    warn.style.color = 'var(--orange)';
+    warn.textContent = '⚠ ' + leverage + '× leverage — high risk. Use tight stops and monitor position closely.';
+  } else if (leverage > 1) {
+    warn.style.display = 'block';
+    warn.style.background  = 'rgba(255,255,255,.03)';
+    warn.style.borderColor = 'rgba(255,255,255,.08)';
+    warn.style.color = '#666';
+    warn.textContent = leverage + '× leverage — margin used: $' + Math.round(marginUsed).toLocaleString('en') + ' of $' + Math.round(balance).toLocaleString('en') + ' deposit.';
+  } else {
+    warn.style.display = 'none';
+  }
+
+  // Verdict
+  const verdict = document.getElementById('sz-verdict');
+  const verdicts = [
+    [0,   1,   'rgba(34,197,94,.08)',  'rgba(34,197,94,.2)',  '#22c55e',       '✓ Conservative sizing — excellent risk management'],
+    [1,   2,   'rgba(34,197,94,.06)',  'rgba(34,197,94,.15)', '#22c55e',       '✓ Standard sizing — within professional risk limits'],
+    [2,   3.5, 'rgba(255,106,0,.08)', 'rgba(255,106,0,.2)',  'var(--orange)', '⚠ Moderate risk — acceptable for experienced traders'],
+    [3.5, 5,   'rgba(239,68,68,.08)', 'rgba(239,68,68,.2)',  '#ef4444',       '✗ High risk sizing — significant drawdown possible on a single trade'],
+  ];
+  const v = verdicts.find(([lo,hi]) => riskPct >= lo && riskPct <= hi) || verdicts[verdicts.length-1];
+  verdict.style.cssText = `background:${v[2]};border:1px solid ${v[3]};border-radius:10px;padding:10px 14px;font-size:11px;font-weight:700;`;
+  verdict.innerHTML = `<span style="color:${v[4]}">${v[5]}</span>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// ══ D: FUNDING RATE CALCULATOR ═════════════════════════
+// ═══════════════════════════════════════════════════════
+
+let fundingDirection = 'long';
+let fundingAsset = 'BTC';
+
+// Approximate typical funding rates per asset
+const FUNDING_DEFAULTS = {
+  BTC: 0.01, ETH: 0.01, SOL: 0.015, BNB: 0.01, XRP: 0.02
+};
+
+function fundingSelectAsset(sym, rate) {
+  fundingAsset = sym;
+  document.querySelectorAll('.funding-asset-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('fr-rate').value = (FUNDING_DEFAULTS[sym] || 0.01).toFixed(4);
+  document.getElementById('fr-rate-display').textContent = (FUNDING_DEFAULTS[sym] || 0.01).toFixed(4) + '%';
+  fundingCalc();
+}
+
+function fundingSetDir(dir) {
+  fundingDirection = dir;
+  const isLong = dir === 'long';
+  const lBtn = document.getElementById('fr-long-btn');
+  const sBtn = document.getElementById('fr-short-btn');
+  lBtn.style.cssText = isLong
+    ? 'padding:10px;border-radius:8px;border:1px solid #22c55e;background:rgba(34,197,94,.1);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:#22c55e;cursor:pointer;'
+    : 'padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--text2);cursor:pointer;';
+  sBtn.style.cssText = !isLong
+    ? 'padding:10px;border-radius:8px;border:1px solid #ef4444;background:rgba(239,68,68,.1);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:#ef4444;cursor:pointer;'
+    : 'padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--text2);cursor:pointer;';
+  const note = document.getElementById('fr-dir-note');
+  const rate = parseFloat(document.getElementById('fr-rate').value) || 0;
+  note.style.color = (isLong && rate > 0) || (!isLong && rate < 0) ? '#ef4444' : '#22c55e';
+  note.textContent = isLong
+    ? (rate >= 0 ? 'LONG pays funding when rate is positive' : 'LONG receives funding when rate is negative')
+    : (rate > 0  ? 'SHORT receives funding when rate is positive' : 'SHORT pays funding when rate is negative');
+  fundingCalc();
+}
+
+function fundingCalc() {
+  const position  = parseFloat(document.getElementById('fr-position').value) || 0;
+  const rate      = parseFloat(document.getElementById('fr-rate').value) || 0;
+  // leverage removed — position size is the full notional
+  const isLong    = fundingDirection === 'long';
+
+  // When positive rate: longs pay, shorts receive
+  // Sign: positive = cost (paying), negative = income (receiving)
+  const payCost = isLong
+    ? (rate > 0 ? 1 : -1)
+    : (rate > 0 ? -1 : 1);
+
+  const per8h   = position * Math.abs(rate) / 100 * payCost;
+  const perDay  = per8h * 3;
+  const perWeek = perDay * 7;
+  const perMonth= perDay * 30;
+
+  const fmt = (v) => {
+    const sign = v >= 0 ? '-$' : '+$';  // positive = cost (paying out)
+    const col  = v >= 0 ? '#ef4444' : '#22c55e';
+    return { str: sign + Math.abs(v).toLocaleString('en',{maximumFractionDigits:2}), col };
+  };
+
+  const pcts = (v) => {
+    const pct = (Math.abs(v) / position * 100).toFixed(4);
+    return Math.abs(v) >= 0 ? pct + '% of position' : '';
+  };
+
+  if (!position) return;
+
+  const f8h   = fmt(per8h);
+  const fDay  = fmt(perDay);
+  const fWeek = fmt(perWeek);
+  const fMonth= fmt(perMonth);
+
+  document.getElementById('fr-p-8h').style.color   = f8h.col;
+  document.getElementById('fr-p-day').style.color  = fDay.col;
+  document.getElementById('fr-p-week').style.color = fWeek.col;
+  document.getElementById('fr-p-month').style.color= fMonth.col;
+
+  document.getElementById('fr-p-8h').textContent   = f8h.str;
+  document.getElementById('fr-p-day').textContent  = fDay.str;
+  document.getElementById('fr-p-week').textContent = fWeek.str;
+  document.getElementById('fr-p-month').textContent= fMonth.str;
+
+  document.getElementById('fr-p-8h-pct').textContent   = pcts(per8h);
+  document.getElementById('fr-p-day-pct').textContent  = pcts(perDay);
+  document.getElementById('fr-p-week-pct').textContent = pcts(perWeek);
+  document.getElementById('fr-p-month-pct').textContent= pcts(perMonth);
+
+  // Breakeven
+  const beCard = document.getElementById('fr-breakeven-card');
+  beCard.style.display = 'block';
+  document.getElementById('fr-be-day').textContent   = (Math.abs(perDay)   / position * 100).toFixed(4) + '%';
+  document.getElementById('fr-be-week').textContent  = (Math.abs(perWeek)  / position * 100).toFixed(4) + '%';
+  document.getElementById('fr-be-month').textContent = (Math.abs(perMonth) / position * 100).toFixed(3) + '%';
+
+  // Sentiment needle
+  // Rate range: -0.1% to +0.1%, map to 0-100%
+  const needlePos = Math.max(0, Math.min(100, (rate + 0.1) / 0.2 * 100));
+  document.getElementById('fr-sentiment-needle').style.left = needlePos + '%';
+
+  const sentEl = document.getElementById('fr-sentiment-text');
+  const absRate = Math.abs(rate);
+  if (absRate < 0.005) {
+    sentEl.textContent = '⚪ Neutral — market balanced, low carry cost';
+    sentEl.style.color = '#888';
+  } else if (rate > 0.05) {
+    sentEl.textContent = '🔴 Extremely bullish — longs paying heavily, reversal risk high';
+    sentEl.style.color = '#ef4444';
+  } else if (rate > 0.02) {
+    sentEl.textContent = '🟠 Overheated — market heavily long, elevated carry cost';
+    sentEl.style.color = 'var(--orange)';
+  } else if (rate > 0) {
+    sentEl.textContent = '🟡 Mildly bullish — normal funding, manageable cost';
+    sentEl.style.color = '#f5c800';
+  } else if (rate < -0.02) {
+    sentEl.textContent = '🟢 Oversold — market heavily short, shorts paying';
+    sentEl.style.color = '#22c55e';
+  } else {
+    sentEl.textContent = '🟢 Mildly bearish — shorts paying small premium';
+    sentEl.style.color = '#22c55e';
+  }
+
+  // Update dir note
+  fundingSetDir(fundingDirection);
 }
 
 // ═══════════════════════════════════════════════
@@ -2663,6 +4038,1631 @@ function fmtAvgPrice(v) {
   if (v >= 1000) return '$' + Math.round(v).toLocaleString('en');
   if (v >= 1)    return '$' + v.toFixed(2);
   return '$' + v.toFixed(4);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══ PORTFOLIO TRACKER ══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+
+// ── Known crypto tickers for auto-detection ──
+const CRYPTO_TICKERS = new Set([
+  'BTC','ETH','SOL','BNB','XRP','ADA','DOGE','AVAX','DOT','MATIC','LINK',
+  'LTC','UNI','ATOM','TRX','NEAR','ARB','OP','APT','SUI','INJ','WLD',
+  'PEPE','SHIB','TON','FTM','ALGO','VET','ICP','ETC','XLM','HBAR',
+  'QNT','EGLD','SAND','MANA','AXS','AAVE','MKR','SNX','CRV','LDO'
+]);
+const STOCK_PATTERNS = /^[A-Z]{1,5}$/;
+const ETF_TICKERS    = new Set(['SPY','QQQ','IWM','DIA','GLD','SLV','USO','TLT','HYG','VTI','ARKK','ARKW','XLF','XLK','SQQQ','TQQQ','UVXY','VIX']);
+const COMMODITY_TICKERS = new Set(['GOLD','SILVER','OIL','GAS','WHEAT','CORN','COPPER','PLATINUM','PALLADIUM','NATGAS','WTI','BRENT']);
+
+// ── Palette for donut chart ──
+const PF_COLORS = [
+  '#ff6a00','#f5c800','#22c55e','#6495ed','#e03b3b',
+  '#a78bfa','#34d399','#fb923c','#38bdf8','#f472b6',
+  '#4ade80','#fbbf24','#60a5fa','#f87171','#c084fc'
+];
+
+// ── State ──
+let pfAssets  = JSON.parse(localStorage.getItem('elcaro_pf_assets') || '[]');
+let pfAlerts  = JSON.parse(localStorage.getItem('elcaro_pf_alerts') || '[]');
+let pfLivePrices = {};  // sym → price
+
+function pfSave() {
+  localStorage.setItem('elcaro_pf_assets', JSON.stringify(pfAssets));
+  localStorage.setItem('elcaro_pf_alerts', JSON.stringify(pfAlerts));
+}
+
+// ── Auto-detect asset type ──
+function pfDetectType(sym) {
+  const s = sym.toUpperCase();
+  if (CRYPTO_TICKERS.has(s)) return 'crypto';
+  if (ETF_TICKERS.has(s))    return 'etf';
+  if (COMMODITY_TICKERS.has(s)) return 'commodity';
+  // Heuristic: crypto often ends in BTC/ETH/USDT or has numbers
+  if (/USDT$|BTC$|ETH$|USD$/.test(s)) return 'crypto';
+  if (STOCK_PATTERNS.test(s)) return 'stock';
+  return 'other';
+}
+
+// ── Fetch live price for any asset ──
+async function pfGetLivePrice(sym) {
+  if (pfLivePrices[sym] && pfLivePrices[sym].ts > Date.now() - 60000)
+    return pfLivePrices[sym].price;
+
+  const geckoId = COINGECKO_IDS[sym.toUpperCase()] || null;
+  let geckoSym  = null;
+
+  try {
+    if (geckoId) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${geckoId}&vs_currencies=usd`);
+      const d = await r.json();
+      const price = d[geckoId]?.usd;
+      if (price) { pfLivePrices[sym] = {price, ts:Date.now()}; return price; }
+    }
+    // Search CoinGecko
+    const sr = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(sym)}`);
+    const sd = await sr.json();
+    const match = sd.coins?.find(c => c.symbol.toUpperCase() === sym.toUpperCase());
+    if (match) {
+      const r2 = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd`);
+      const d2 = await r2.json();
+      const price = d2[match.id]?.usd;
+      if (price) { pfLivePrices[sym] = {price, ts:Date.now()}; return price; }
+    }
+  } catch(e) {}
+  return null;
+}
+
+async function pfFetchAddPrice() {
+  const sym = document.getElementById('pf-add-sym').value.trim().toUpperCase();
+  if (!sym) { showToast('⚠ Enter a ticker first'); return; }
+  const btn = event.target;
+  btn.textContent = '…';
+  const price = await pfGetLivePrice(sym);
+  btn.textContent = '⟳';
+  if (price) {
+    document.getElementById('pf-add-price').value = price;
+    showToast('✓ ' + sym + ' · ' + fmtAvgPrice(price));
+  } else {
+    showToast('⚠ Price not found — enter manually');
+  }
+}
+
+// ── Add / average asset ──
+function pfAddAsset() {
+  const sym   = document.getElementById('pf-add-sym').value.trim().toUpperCase();
+  const price = parseFloat(document.getElementById('pf-add-price').value) || 0;
+  const qty   = parseFloat(document.getElementById('pf-add-qty').value)   || 0;
+  const typeEl= document.getElementById('pf-add-type').value;
+  const fb    = document.getElementById('pf-add-feedback');
+
+  if (!sym)   { fb.style.color='#ef4444'; fb.textContent='⚠ Enter ticker symbol'; return; }
+  if (!price) { fb.style.color='#ef4444'; fb.textContent='⚠ Enter buy price'; return; }
+  if (!qty)   { fb.style.color='#ef4444'; fb.textContent='⚠ Enter quantity'; return; }
+
+  const type  = typeEl === 'auto' ? pfDetectType(sym) : typeEl;
+  const existing = pfAssets.find(a => a.sym === sym);
+
+  if (existing) {
+    // Weighted average
+    const newTotalQty = existing.qty + qty;
+    const newAvgPrice = (existing.avgPrice * existing.qty + price * qty) / newTotalQty;
+    existing.qty      = newTotalQty;
+    existing.avgPrice = newAvgPrice;
+    existing.entries  = (existing.entries || 1) + 1;
+    fb.style.color = '#22c55e';
+    fb.textContent = '✓ ' + sym + ' averaged — new avg: ' + fmtAvgPrice(newAvgPrice) + ' · qty: ' + newTotalQty.toLocaleString('en',{maximumFractionDigits:6});
+  } else {
+    pfAssets.push({ sym, avgPrice: price, qty, type, entries:1, addedAt: Date.now() });
+    fb.style.color = '#22c55e';
+    fb.textContent = '✓ ' + sym + ' added — ' + qty + ' @ ' + fmtAvgPrice(price);
+  }
+
+  pfSave();
+  pfRenderAll();
+
+  // Clear form
+  document.getElementById('pf-add-sym').value   = '';
+  document.getElementById('pf-add-price').value = '';
+  document.getElementById('pf-add-qty').value   = '';
+  setTimeout(() => { fb.textContent = ''; }, 4000);
+}
+
+function pfRemoveAsset(sym) {
+  pfAssets = pfAssets.filter(a => a.sym !== sym);
+  pfSave();
+  pfRenderAll();
+}
+
+// ── Refresh all live prices ──
+async function pfRefreshPrices() {
+  if (!pfAssets.length) return;
+  showToast('⟳ Fetching live prices…');
+  const results = await Promise.allSettled(pfAssets.map(a => pfGetLivePrice(a.sym)));
+  pfRenderAll();
+  showToast('✓ Prices updated');
+}
+
+// ── Master render ──
+function pfRenderAll() {
+  if (!pfAssets.length) {
+    document.getElementById('pf-table-wrap').style.display      = 'none';
+    document.getElementById('pf-projections-wrap').style.display= 'none';
+    document.getElementById('pf-sim-wrap').style.display        = 'none';
+    document.getElementById('pf-alerts-wrap').style.display     = 'block';
+    pfRenderAlerts();
+    pfRenderDonut([]);
+    return;
+  }
+
+  const totalInvested = pfAssets.reduce((s,a) => s + a.avgPrice * a.qty, 0);
+  const totalCurrent  = pfAssets.reduce((s,a) => {
+    const lp = pfLivePrices[a.sym]?.price || a.avgPrice;
+    return s + lp * a.qty;
+  }, 0);
+  const totalPnl    = totalCurrent - totalInvested;
+  const totalPnlPct = totalInvested ? (totalPnl / totalInvested * 100) : 0;
+
+  // Stats
+  document.getElementById('pf-invested').textContent  = '$' + totalInvested.toLocaleString('en',{maximumFractionDigits:0});
+  document.getElementById('pf-cur-val').textContent   = '$' + totalCurrent.toLocaleString('en',{maximumFractionDigits:0});
+  const pnlEl = document.getElementById('pf-pnl-usd');
+  pnlEl.textContent  = (totalPnl>=0?'+':'')+  '$' + Math.abs(totalPnl).toLocaleString('en',{maximumFractionDigits:0});
+  pnlEl.style.color  = totalPnl >= 0 ? '#22c55e' : '#ef4444';
+  const pnlPctEl = document.getElementById('pf-pnl-pct');
+  pnlPctEl.textContent = (totalPnlPct>=0?'+':'') + totalPnlPct.toFixed(2) + '%';
+  pnlPctEl.style.color = totalPnl >= 0 ? '#22c55e' : '#ef4444';
+  document.getElementById('pf-asset-count').textContent = pfAssets.length;
+
+  // Type breakdown
+  const typeCounts = {};
+  pfAssets.forEach(a => { typeCounts[a.type] = (typeCounts[a.type]||0) + 1; });
+  document.getElementById('pf-type-breakdown').textContent =
+    Object.entries(typeCounts).map(([t,n])=>n+'× '+t).join(' · ');
+
+  // Type value bars
+  pfRenderTypeBars(totalCurrent);
+
+  // Donut
+  pfRenderDonut(pfAssets.map((a,i) => ({
+    sym: a.sym,
+    val: (pfLivePrices[a.sym]?.price || a.avgPrice) * a.qty,
+    color: PF_COLORS[i % PF_COLORS.length]
+  })));
+
+  // Donut center
+  document.getElementById('pf-total-val').textContent = '$' + totalCurrent.toLocaleString('en',{maximumFractionDigits:0});
+  const dpnl = document.getElementById('pf-total-pnl');
+  dpnl.textContent = (totalPnl>=0?'+':'') + totalPnlPct.toFixed(1) + '% P&L';
+  dpnl.style.color = totalPnl >= 0 ? '#22c55e' : '#ef4444';
+
+  // Table
+  pfRenderTable(totalCurrent);
+
+  // Projections
+  pfRenderProjections(totalCurrent);
+
+  // Simulation
+  document.getElementById('pf-sim-wrap').style.display = 'block';
+  pfRunSimulation();
+
+  // Alerts
+  document.getElementById('pf-alerts-wrap').style.display = 'block';
+  pfRenderAlerts();
+}
+
+// ── Donut SVG ──
+function pfRenderDonut(items) {
+  const svg  = document.getElementById('pf-donut-svg');
+  const leg  = document.getElementById('pf-legend');
+  const total = items.reduce((s,i) => s+i.val, 0);
+  if (!total) { svg.innerHTML = `<circle cx="100" cy="100" r="70" fill="none" stroke="#1a1a1a" stroke-width="28"/>`; leg.innerHTML=''; return; }
+
+  const cx=100, cy=100, r=70, strokeW=28;
+  let startAngle = -Math.PI/2;
+  let paths = '';
+
+  items.forEach(item => {
+    const frac  = item.val / total;
+    const angle = frac * 2 * Math.PI;
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(startAngle + angle);
+    const y2 = cy + r * Math.sin(startAngle + angle);
+    const large = angle > Math.PI ? 1 : 0;
+    paths += `<path d="M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}"
+      fill="none" stroke="${item.color}" stroke-width="${strokeW}" stroke-linecap="butt"
+      data-sym="${item.sym}" style="cursor:pointer;transition:opacity .15s;"
+      onmouseover="this.style.opacity=.7"
+      onmouseout="this.style.opacity=1"/>`;
+    startAngle += angle;
+  });
+
+  svg.innerHTML = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#111" stroke-width="${strokeW}"/>` + paths;
+
+  // Legend
+  leg.innerHTML = items.slice(0,8).map((item,i) => {
+    const pct = (item.val/total*100).toFixed(1);
+    return `<div class="pf-legend-item">
+      <div style="display:flex;align-items:center;flex:1;gap:0;">
+        <div class="pf-legend-dot" style="background:${item.color};"></div>
+        <span class="pf-legend-name">${item.sym}</span>
+      </div>
+      <span style="font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;color:var(--text);">$${Math.round(item.val).toLocaleString('en')}</span>
+      <span class="pf-legend-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+  if (items.length > 8) {
+    leg.innerHTML += `<div style="font-size:8px;color:#444;text-align:center;margin-top:4px;">+${items.length-8} more assets</div>`;
+  }
+}
+
+// ── Type bars ──
+function pfRenderTypeBars(totalCurrent) {
+  const typeVals = {};
+  pfAssets.forEach(a => {
+    const v = (pfLivePrices[a.sym]?.price || a.avgPrice) * a.qty;
+    typeVals[a.type] = (typeVals[a.type]||0) + v;
+  });
+  const typeColors = { crypto:'var(--orange)', stock:'#22c55e', etf:'#6495ed', commodity:'#f5c800', other:'#888' };
+  const wrap = document.getElementById('pf-type-bars');
+  wrap.innerHTML = `<div style="font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--text2);margin-bottom:10px;">BY ASSET TYPE</div>` +
+    Object.entries(typeVals).sort((a,b)=>b[1]-a[1]).map(([type,val]) => {
+      const pct = (val/totalCurrent*100).toFixed(1);
+      return `<div style="margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+          <span class="pf-asset-type-badge ${type}">${type.toUpperCase()}</span>
+          <span style="font-size:9px;font-weight:700;color:var(--text);">${pct}% · $${Math.round(val).toLocaleString('en')}</span>
+        </div>
+        <div style="height:4px;background:#1a1a1a;border-radius:2px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${typeColors[type]||'#888'};border-radius:2px;transition:width .5s;"></div>
+        </div>
+      </div>`;
+    }).join('');
+}
+
+// ── Asset table ──
+function pfRenderTable(totalCurrent) {
+  const wrap = document.getElementById('pf-table-wrap');
+  const rows = document.getElementById('pf-asset-rows');
+  wrap.style.display = 'block';
+
+  // Sort by value desc
+  const sorted = [...pfAssets].sort((a,b) => {
+    const va = (pfLivePrices[a.sym]?.price||a.avgPrice)*a.qty;
+    const vb = (pfLivePrices[b.sym]?.price||b.avgPrice)*b.qty;
+    return vb - va;
+  });
+
+  rows.innerHTML = sorted.map((a,i) => {
+    const livePrice = pfLivePrices[a.sym]?.price || null;
+    const curPrice  = livePrice || a.avgPrice;
+    const value     = curPrice * a.qty;
+    const pnl       = livePrice ? (livePrice - a.avgPrice) * a.qty : 0;
+    const pnlPct    = livePrice ? ((livePrice - a.avgPrice) / a.avgPrice * 100) : 0;
+    const share     = (value / totalCurrent * 100).toFixed(1);
+    const pnlCls    = pnl >= 0 ? 'pf-pnl-pos' : 'pf-pnl-neg';
+    const liveBadge = livePrice
+      ? `<span style="font-size:7px;color:#22c55e;font-weight:700;margin-left:3px;">LIVE</span>`
+      : `<span style="font-size:7px;color:#555;font-weight:700;margin-left:3px;">—</span>`;
+
+    return `<div class="pf-asset-row">
+      <span style="font-size:10px;color:#444;font-weight:700;">${i+1}</span>
+      <div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;">${a.sym}</div>
+        <div style="font-size:8px;color:#555;">${a.qty.toLocaleString('en',{maximumFractionDigits:6})} units${a.entries>1?' · avg×'+a.entries:''}</div>
+      </div>
+      <span class="pf-asset-type-badge ${a.type}">${a.type.toUpperCase()}</span>
+      <span style="font-family:JetBrains Mono,monospace;font-size:12px;">${fmtAvgPrice(a.avgPrice)}</span>
+      <div>${fmtAvgPrice(curPrice)}${liveBadge}</div>
+      <span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;">$${Math.round(value).toLocaleString('en')}</span>
+      <div class="${pnlCls}" style="font-family:JetBrains Mono,monospace;font-size:11px;">
+        ${livePrice ? (pnl>=0?'+':'')+fmtAvgPrice(Math.abs(pnl)) : '—'}<br>
+        <span style="font-size:9px;">${livePrice ? (pnlPct>=0?'+':'')+pnlPct.toFixed(1)+'%' : ''}</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;font-weight:800;">${share}%</div>
+        <div style="width:40px;margin-left:auto;">
+          <div class="pf-bar-mini" style="background:${PF_COLORS[pfAssets.indexOf(a)%PF_COLORS.length]};width:${Math.min(parseFloat(share)*2,100)}%;"></div>
+        </div>
+        <button onclick="pfRemoveAsset('${a.sym}')"
+          style="font-size:9px;color:#333;background:none;border:none;cursor:pointer;margin-top:3px;font-family:Outfit,sans-serif;"
+          onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#333'">✕ remove</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Refresh prices button row
+  rows.innerHTML += `<div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;">
+    <button onclick="pfRefreshPrices()" style="padding:6px 14px;border-radius:7px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:5px;"
+      onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)'"
+      onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
+      ⟳ REFRESH ALL PRICES
+    </button>
+  </div>`;
+}
+
+// ── Projections +100/200/300/400/500% ──
+function pfRenderProjections(totalCurrent) {
+  const wrap = document.getElementById('pf-projections-wrap');
+  const grid = document.getElementById('pf-proj-grid');
+  wrap.style.display = 'block';
+
+  const presets = [100,200,300,400,500];
+  grid.innerHTML = presets.map(pct => {
+    const val  = totalCurrent * (1 + pct/100);
+    const gain = val - totalCurrent;
+    return `<div class="pf-proj-card">
+      <div class="pf-proj-pct">+${pct}%</div>
+      <div class="pf-proj-val">$${Math.round(val).toLocaleString('en')}</div>
+      <div class="pf-proj-gain">+$${Math.round(gain).toLocaleString('en')}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Random simulation ──
+function pfRunSimulation() {
+  const rows = document.getElementById('pf-sim-rows');
+  const n = pfAssets.length;
+  if (!n) return;
+
+  // Distribution: based on asset count
+  // ~40% gain (20-200%), ~35% loss (10-70%), ~25% flat (±5%)
+  const rand = () => Math.random();
+
+  let simTotal = 0;
+  const simData = pfAssets.map(a => {
+    const r = rand();
+    let changePct;
+    let outcome;
+    if (r < 0.40) {
+      // Gain: 20% to 200%
+      changePct = 20 + rand() * 180;
+      outcome   = 'gain';
+    } else if (r < 0.75) {
+      // Loss: 10% to 70%
+      changePct = -(10 + rand() * 60);
+      outcome   = 'loss';
+    } else {
+      // Flat: -5% to +5%
+      changePct = (rand() - 0.5) * 10;
+      outcome   = 'flat';
+    }
+    const curPrice  = pfLivePrices[a.sym]?.price || a.avgPrice;
+    const simPrice  = curPrice * (1 + changePct/100);
+    const simValue  = simPrice * a.qty;
+    simTotal += simValue;
+    return { sym: a.sym, changePct, simValue, outcome };
+  });
+
+  const curTotal = pfAssets.reduce((s,a) => {
+    return s + (pfLivePrices[a.sym]?.price||a.avgPrice)*a.qty;
+  }, 0);
+
+  rows.innerHTML = simData.map(d => {
+    const barW  = Math.min(Math.abs(d.changePct) / 200 * 100, 100);
+    const barCol = d.outcome==='gain' ? '#22c55e' : d.outcome==='loss' ? '#ef4444' : '#888';
+    const sign   = d.changePct >= 0 ? '+' : '';
+    return `<div class="pf-sim-asset-row">
+      <span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:800;">${d.sym}</span>
+      <div class="pf-sim-bar-wrap">
+        <div class="pf-sim-bar" style="width:${barW}%;background:${barCol};"></div>
+      </div>
+      <span style="font-size:11px;font-weight:800;color:${barCol};text-align:right;">${sign}${d.changePct.toFixed(0)}%</span>
+      <span style="font-family:JetBrains Mono,monospace;font-size:11px;text-align:right;color:var(--text);">$${Math.round(d.simValue).toLocaleString('en')}</span>
+    </div>`;
+  }).join('');
+
+  const simPnl    = simTotal - curTotal;
+  const simPnlPct = curTotal ? (simPnl/curTotal*100) : 0;
+  const simEl     = document.getElementById('pf-sim-total');
+  simEl.textContent  = '$' + Math.round(simTotal).toLocaleString('en');
+  simEl.style.color  = simPnl >= 0 ? '#22c55e' : '#ef4444';
+  const spEl = document.getElementById('pf-sim-pnl');
+  spEl.textContent   = (simPnl>=0?'+':'') + '$' + Math.abs(Math.round(simPnl)).toLocaleString('en') +
+                       ' (' + (simPnlPct>=0?'+':'') + simPnlPct.toFixed(1) + '%)';
+  spEl.style.color   = simPnl >= 0 ? '#22c55e' : '#ef4444';
+}
+
+// ── Simulation mode toggle ──
+let pfSimMode = 'random';
+
+function pfSimSetMode(mode) {
+  pfSimMode = mode;
+  const isRand = mode === 'random';
+
+  const tabRand = document.getElementById('pf-sim-tab-rand');
+  const tabMult = document.getElementById('pf-sim-tab-mult');
+  const reroll  = document.getElementById('pf-sim-reroll');
+
+  // Active tab style
+  const activeStyle  = 'padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;';
+  const inactiveStyle= 'padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;';
+
+  if (tabRand) tabRand.style.cssText = isRand ? activeStyle : inactiveStyle;
+  if (tabMult) tabMult.style.cssText = isRand ? inactiveStyle : activeStyle.replace('var(--orange)','#22c55e').replace('rgba(255,106,0,.1)','rgba(34,197,94,.08)').replace('var(--orange)','#22c55e');
+
+  document.getElementById('pf-sim-random-panel').style.display = isRand ? 'block' : 'none';
+  document.getElementById('pf-sim-mult-panel').style.display   = isRand ? 'none' : 'block';
+  if (reroll) reroll.style.display = isRand ? 'inline-flex' : 'none';
+
+  const label = document.getElementById('pf-sim-footer-label');
+  if (label) label.textContent = isRand ? 'SIMULATED PORTFOLIO VALUE' : 'PROJECTED PORTFOLIO VALUE';
+
+  if (!isRand) pfRenderMultiplier(1);
+  else pfRunSimulation();
+}
+
+function pfRenderMultiplier(mult) {
+  // Update active button
+  document.querySelectorAll('.pf-mult-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.textContent) === mult || b.textContent.startsWith('×'+mult));
+  });
+
+  const rows = document.getElementById('pf-sim-mult-rows');
+  const curTotal = pfAssets.reduce((s,a) => s + (pfLivePrices[a.sym]?.price||a.avgPrice)*a.qty, 0);
+  let simTotal = 0;
+
+  rows.innerHTML = pfAssets.map(a => {
+    const curPrice  = pfLivePrices[a.sym]?.price || a.avgPrice;
+    const simPrice  = curPrice * mult;
+    const simValue  = simPrice * a.qty;
+    const costBasis = a.avgPrice * a.qty;
+    const pnl       = simValue - costBasis;
+    const pnlPct    = (pnl / costBasis * 100);
+    simTotal += simValue;
+
+    const barW  = Math.min((mult - 1) / 4 * 100, 100); // 0-100% across ×1–×5
+    const barCol = mult === 1 ? '#555' : '#22c55e';
+    const sign   = pnl >= 0 ? '+' : '';
+
+    return `<div class="pf-sim-asset-row">
+      <span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:800;">${a.sym}</span>
+      <div class="pf-sim-bar-wrap">
+        <div class="pf-sim-bar" style="width:${barW}%;background:${barCol};"></div>
+      </div>
+      <span style="font-size:11px;font-weight:800;color:${barCol};text-align:right;">${mult === 1 ? '—' : '×'+mult}</span>
+      <span style="font-family:JetBrains Mono,monospace;font-size:11px;text-align:right;color:var(--text);">$${Math.round(simValue).toLocaleString('en')}</span>
+    </div>`;
+  }).join('');
+
+  // Footer
+  const simPnl    = simTotal - curTotal;
+  const simPnlPct = curTotal ? (simPnl/curTotal*100) : 0;
+  const simEl     = document.getElementById('pf-sim-total');
+  simEl.textContent = '$' + Math.round(simTotal).toLocaleString('en');
+  simEl.style.color = simPnl >= 0 ? '#22c55e' : '#ef4444';
+  const spEl = document.getElementById('pf-sim-pnl');
+  spEl.textContent = (simPnl>=0?'+':'') + '$' + Math.abs(Math.round(simPnl)).toLocaleString('en') +
+    ' (' + (simPnlPct>=0?'+':'') + simPnlPct.toFixed(1) + '%)';
+  spEl.style.color = simPnl >= 0 ? '#22c55e' : '#ef4444';
+}
+
+
+// ── Alerts ──
+function pfAddAlert() {
+  const syms = pfAssets.map(a=>a.sym);
+  const symOpts = syms.length
+    ? syms.map(s=>`<option value="${s}">${s}</option>`).join('')
+    : '<option value="">—</option>';
+
+  // Inline form at top of alert list
+  const list = document.getElementById('pf-alerts-list');
+  const formId = 'pf-alert-form-' + Date.now();
+  const formHtml = `<div id="${formId}" style="padding:12px 14px;background:rgba(255,106,0,0.05);border-bottom:1px solid rgba(255,106,0,0.15);">
+    <div style="display:grid;grid-template-columns:100px 130px 80px 1fr auto auto;gap:8px;align-items:end;">
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">ASSET</div>
+        <select class="pf-add-input" id="${formId}-sym" style="font-family:Outfit,sans-serif;font-size:12px;">
+          ${symOpts}
+          <option value="CUSTOM">CUSTOM…</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">DATE</div>
+        <input class="pf-add-input" id="${formId}-date" type="date" min="${new Date().toISOString().split('T')[0]}">
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">ACTION</div>
+        <select class="pf-add-input" id="${formId}-action" style="font-family:Outfit,sans-serif;font-size:12px;">
+          <option value="BUY">BUY</option>
+          <option value="SELL">SELL</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">TIMEFRAME / NOTE</div>
+        <div style="display:flex;gap:4px;">
+          <select class="pf-add-input" id="${formId}-tf" style="font-family:Outfit,sans-serif;font-size:11px;width:80px;">
+            <option value="4H">4H</option>
+            <option value="1D">1D</option>
+            <option value="1W">1W</option>
+          </select>
+          <input class="pf-add-input" id="${formId}-note" placeholder="Optional note…" style="flex:1;font-size:11px;">
+        </div>
+      </div>
+      <div>
+        <div style="font-size:8px;color:transparent;margin-bottom:4px;">.</div>
+        <button class="pf-add-btn" onclick="pfSaveAlert('${formId}')">SAVE</button>
+      </div>
+      <div>
+        <div style="font-size:8px;color:transparent;margin-bottom:4px;">.</div>
+        <button onclick="document.getElementById('${formId}').remove()" style="padding:9px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">✕</button>
+      </div>
+    </div>
+  </div>`;
+
+  list.insertAdjacentHTML('afterbegin', formHtml);
+  document.getElementById('pf-alerts-empty').style.display = 'none';
+}
+
+function pfSaveAlert(formId) {
+  const sym    = document.getElementById(formId+'-sym').value;
+  const date   = document.getElementById(formId+'-date').value;
+  const action = document.getElementById(formId+'-action').value;
+  const tf     = document.getElementById(formId+'-tf').value;
+  const note   = document.getElementById(formId+'-note').value.trim();
+
+  if (!sym || !date) { showToast('⚠ Fill in asset and date'); return; }
+
+  pfAlerts.push({ sym, date, action, tf, note, id: Date.now(), notified:false });
+  pfAlerts.sort((a,b) => new Date(a.date) - new Date(b.date));
+  pfSave();
+  document.getElementById(formId).remove();
+  pfRenderAlerts();
+  showToast('✓ Alert set: ' + sym + ' ' + action + ' on ' + date + ' [' + tf + ']');
+}
+
+function pfRemoveAlert(id) {
+  pfAlerts = pfAlerts.filter(a => a.id !== id);
+  pfSave();
+  pfRenderAlerts();
+}
+
+function pfRenderAlerts() {
+  const list  = document.getElementById('pf-alerts-list');
+  const empty = document.getElementById('pf-alerts-empty');
+
+  const saved = pfAlerts.filter(a => !a._formRow);
+  if (!saved.length) {
+    empty.style.display = 'block';
+    // Clear any existing rows but keep form rows
+    list.querySelectorAll('.pf-alert-saved-row').forEach(el => el.remove());
+    return;
+  }
+  empty.style.display = 'none';
+
+  list.querySelectorAll('.pf-alert-saved-row').forEach(el => el.remove());
+
+  saved.forEach(alert => {
+    const today  = new Date().toISOString().split('T')[0];
+    const isPast = alert.date < today;
+    const isToday= alert.date === today;
+    const actionCls = alert.action === 'BUY' ? 'buy' : 'sell';
+    const row = document.createElement('div');
+    row.className = 'pf-alert-row pf-alert-saved-row';
+    row.style.opacity = isPast ? '.4' : '1';
+    row.innerHTML = `
+      <span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:800;">${alert.sym}</span>
+      <span style="font-size:11px;font-weight:700;${isToday?'color:var(--orange);':'color:var(--text2);'}">${alert.date}${isToday?' 🔔':''}</span>
+      <span class="pf-alert-action ${actionCls}">${alert.action}</span>
+      <span style="font-size:10px;color:var(--text2);">
+        <span class="pf-alert-tf">[${alert.tf}]</span>
+        ${alert.note ? ' · ' + alert.note : ''}
+      </span>
+      <button onclick="pfRemoveAlert(${alert.id})"
+        style="background:none;border:none;font-size:11px;color:#333;cursor:pointer;"
+        onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#333'">✕</button>`;
+    list.appendChild(row);
+  });
+}
+
+// Check alerts on load
+function pfCheckAlerts() {
+  const today = new Date().toISOString().split('T')[0];
+  pfAlerts.forEach(alert => {
+    if (alert.date === today && !alert.notified) {
+      alert.notified = true;
+      const msg = `🔔 ELCARO ALERT\n${alert.sym} / ${alert.action} [${alert.tf}]${alert.note?' — '+alert.note:''}`;
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('ELCARO · ' + alert.sym, { body: alert.action + ' signal [' + alert.tf + ']' });
+      }
+      showToast('🔔 ' + alert.sym + ' → ' + alert.action + ' [' + alert.tf + ']');
+    }
+  });
+  pfSave();
+}
+
+// Request notification permission on first use
+function pfRequestNotifications() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+// Init on load
+setTimeout(() => { pfCheckAlerts(); pfRequestNotifications(); }, 1000);
+
+// ═══════════════════════════════════════════════════════════════════
+// ══ INVESTMENT AGENT ════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
+
+const AGENT_ASSETS_DB = {
+  crypto: [
+    { ticker:'BTC',   name:'Bitcoin',          color:'#F7931A' },
+    { ticker:'ETH',   name:'Ethereum',          color:'#627EEA' },
+    { ticker:'SOL',   name:'Solana',            color:'#9945FF' },
+    { ticker:'BNB',   name:'BNB',               color:'#F3BA2F' },
+    { ticker:'XRP',   name:'Ripple',            color:'#00AAE4' },
+    { ticker:'ADA',   name:'Cardano',           color:'#0033AD' },
+    { ticker:'AVAX',  name:'Avalanche',         color:'#E84142' },
+    { ticker:'DOT',   name:'Polkadot',          color:'#E6007A' },
+    { ticker:'LINK',  name:'Chainlink',         color:'#2A5ADA' },
+    { ticker:'MATIC', name:'Polygon',           color:'#8247E5' },
+  ],
+  etf: [
+    { ticker:'VOO',   name:'Vanguard S&P 500',      color:'#C41230' },
+    { ticker:'QQQ',   name:'Invesco NASDAQ 100',     color:'#0071CE' },
+    { ticker:'VTI',   name:'Vanguard Total Market',  color:'#96151D' },
+    { ticker:'SCHD',  name:'Schwab US Dividend',     color:'#0078C1' },
+    { ticker:'VGT',   name:'Vanguard Info Tech',     color:'#B71C1C' },
+    { ticker:'VXUS',  name:'Vanguard Intl ex-US',    color:'#8B0000' },
+    { ticker:'VNQ',   name:'Vanguard REIT',          color:'#A52A2A' },
+    { ticker:'BND',   name:'Vanguard Total Bond',    color:'#2E7D32' },
+    { ticker:'GLD',   name:'SPDR Gold Trust',        color:'#FFD700' },
+    { ticker:'VWO',   name:'Vanguard Emerging Mkts', color:'#D84315' },
+  ],
+  stocks: [
+    { ticker:'AAPL',  name:'Apple Inc.',       color:'#A2AAAD' },
+    { ticker:'MSFT',  name:'Microsoft',        color:'#00A4EF' },
+    { ticker:'NVDA',  name:'NVIDIA',           color:'#76B900' },
+    { ticker:'GOOGL', name:'Alphabet',         color:'#4285F4' },
+    { ticker:'AMZN',  name:'Amazon',           color:'#FF9900' },
+    { ticker:'TSLA',  name:'Tesla',            color:'#CC0000' },
+    { ticker:'META',  name:'Meta Platforms',   color:'#0668E1' },
+    { ticker:'JPM',   name:'JPMorgan Chase',   color:'#003087' },
+    { ticker:'V',     name:'Visa Inc.',        color:'#1A1F71' },
+    { ticker:'O',     name:'Realty Income',    color:'#0056B3' },
+  ],
+};
+
+const AGENT_ALL = [...AGENT_ASSETS_DB.crypto, ...AGENT_ASSETS_DB.etf, ...AGENT_ASSETS_DB.stocks];
+
+// State
+let agentBudget    = 1000000;
+let agentSelected  = [];
+let agentAllocations = {};
+let agentTimeframe = 'monthly';
+let agentEntryData = {};
+let agentAnalysis  = null;
+let agentPlan      = null;
+let agentCat       = 'crypto';
+let agentStep      = 0;
+let agentInitialized = false;
+
+function agentFmt(n) {
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+  return '$' + n.toFixed(2);
+}
+
+function agentSyncFromPortfolio() {
+  if (!pfAssets || !pfAssets.length) return false;
+
+  // Build total cost basis as budget
+  const totalCost = pfAssets.reduce((s, a) => s + a.avgPrice * a.qty, 0);
+  if (!totalCost) return false;
+
+  agentBudget = Math.round(totalCost);
+  document.getElementById('agent-budget-input').value = agentBudget;
+  document.querySelectorAll('.agent-budget-preset').forEach(b => b.classList.remove('active'));
+  document.getElementById('agent-budget-display').textContent = agentFmt(agentBudget);
+
+  // Map portfolio assets → agent asset DB entries
+  agentSelected = [];
+  agentAllocations = {};
+
+  pfAssets.forEach(a => {
+    // Try to find in agent DB
+    const match = AGENT_ALL.find(x => x.ticker === a.sym.toUpperCase());
+    const assetEntry = match || {
+      ticker: a.sym.toUpperCase(),
+      name: a.sym,
+      color: PF_COLORS[pfAssets.indexOf(a) % PF_COLORS.length],
+      category: a.type || 'other',
+    };
+
+    // Add to AGENT_ALL if custom (not already there)
+    if (!match) {
+      // Inject into correct category array for grid rendering
+      if (!AGENT_ASSETS_DB[assetEntry.category]) AGENT_ASSETS_DB['stocks'] = AGENT_ASSETS_DB['stocks'] || [];
+      const targetCat = AGENT_ASSETS_DB[assetEntry.category] || AGENT_ASSETS_DB['stocks'];
+      if (!targetCat.find(x => x.ticker === assetEntry.ticker)) {
+        targetCat.push(assetEntry);
+        // Also push to AGENT_ALL mirror
+        AGENT_ALL.push(assetEntry);
+      }
+    }
+
+    agentSelected.push(assetEntry);
+
+    // Allocation % = cost basis share
+    const costShare = (a.avgPrice * a.qty / totalCost * 100);
+    agentAllocations[a.sym.toUpperCase()] = parseFloat(costShare.toFixed(1));
+  });
+
+  document.getElementById('agent-assets-display').textContent = agentSelected.length;
+  return true;
+}
+
+// Periodic-table style badge: first letter big, second small
+function agentElementBadge(ticker, color, size=30) {
+  const s   = ticker.replace(/[^A-Z]/g, '');
+  const ch1 = s[0] || '?';
+  const ch2 = s[1] || '';
+  const radius = Math.round(size * 0.23);
+  // Bigger letters, perfectly centered via flex
+  const fs1 = Math.round(size * 0.56);  // first letter ~56% of box
+  const fs2 = Math.round(size * 0.34);  // second letter ~34% of box
+  // Baseline shift: align bottom of small letter to ~30% from bottom of box
+  const baselineOffset = Math.round(size * 0.04);
+  return `<div style="width:${size}px;height:${size}px;flex-shrink:0;border-radius:${radius}px;background:${color}20;border:1px solid ${color}40;display:flex;align-items:center;justify-content:center;color:${color};">
+    <span style="display:flex;align-items:baseline;line-height:1;margin-top:${baselineOffset}px;">
+      <span style="font-size:${fs1}px;font-weight:900;letter-spacing:-0.5px;line-height:1;">${ch1}</span><span style="font-size:${fs2}px;font-weight:700;line-height:1;">${ch2.toLowerCase()}</span>
+    </span>
+  </div>`;
+}
+
+
+function agentInit() {
+  const synced = agentSyncFromPortfolio();
+
+  if (!agentInitialized) {
+    agentInitialized = true;
+  }
+
+  agentRenderGrid();
+  agentRenderAllocRows();
+
+  const analyzeBtn = document.getElementById('agent-analyze-btn');
+  if (analyzeBtn) analyzeBtn.style.display = agentSelected.length >= 2 ? 'block' : 'none';
+  const allocPanel = document.getElementById('agent-alloc-panel');
+  if (allocPanel) allocPanel.style.display = agentSelected.length > 0 ? 'block' : 'none';
+
+  if (synced && pfAssets.length) {
+    agentShowSyncBanner(pfAssets.length);
+  }
+}
+
+function agentShowSyncBanner(count) {
+  // Remove old banner if any
+  const old = document.getElementById('agent-sync-banner');
+  if (old) old.remove();
+
+  const banner = document.createElement('div');
+  banner.id = 'agent-sync-banner';
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:15px;">🔗</span>
+      <div>
+        <div style="font-size:12px;font-weight:800;color:#22c55e;">SYNCED FROM YOUR PORTFOLIO</div>
+        <div style="font-size:9px;color:rgba(34,197,94,.6);margin-top:1px;">${count} asset${count>1?'s':''} imported · allocations based on cost basis</div>
+      </div>
+      <button onclick="this.parentElement.parentElement.remove()"
+        style="margin-left:auto;background:none;border:none;color:#335533;font-size:14px;cursor:pointer;padding:2px 6px;"
+        onmouseover="this.style.color='#22c55e'" onmouseout="this.style.color='#335533'">✕</button>
+    </div>`;
+  banner.style.cssText = 'background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:12px 16px;margin-bottom:12px;';
+
+  const step0 = document.getElementById('agent-step-0');
+  if (step0) step0.insertBefore(banner, step0.firstChild);
+}
+
+// ── Budget ──
+function agentSetBudget(v) {
+  agentBudget = v;
+  document.getElementById('agent-budget-input').value = v;
+  document.querySelectorAll('.agent-budget-preset').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.v) === v);
+  });
+  agentUpdateBudget();
+}
+
+function agentUpdateBudget() {
+  agentBudget = parseFloat(document.getElementById('agent-budget-input').value) || 0;
+  document.getElementById('agent-budget-display').textContent = agentFmt(agentBudget);
+  document.querySelectorAll('.agent-budget-preset').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.v) === agentBudget);
+  });
+  agentRenderAllocRows();
+}
+
+// ── Category ──
+// ── ADD ASSET ──────────────────────────────────────────────────────
+
+// Known name map for quick auto-fill
+const AGENT_KNOWN_NAMES = {
+  BTC:'Bitcoin', ETH:'Ethereum', SOL:'Solana', BNB:'BNB', XRP:'Ripple',
+  ADA:'Cardano', AVAX:'Avalanche', DOT:'Polkadot', LINK:'Chainlink', MATIC:'Polygon',
+  DOGE:'Dogecoin', SHIB:'Shiba Inu', TON:'Toncoin', NEAR:'NEAR Protocol',
+  ARB:'Arbitrum', OP:'Optimism', APT:'Aptos', SUI:'Sui', INJ:'Injective',
+  PEPE:'Pepe', WLD:'Worldcoin', FTM:'Fantom', ATOM:'Cosmos', TRX:'Tron',
+  // ETFs
+  VOO:'Vanguard S&P 500', QQQ:'Invesco NASDAQ 100', VTI:'Vanguard Total Market',
+  SCHD:'Schwab US Dividend', VGT:'Vanguard Info Tech', GLD:'SPDR Gold Trust',
+  SPY:'SPDR S&P 500', IWM:'iShares Russell 2000', TLT:'iShares 20+ Yr Treasury',
+  // Stocks
+  AAPL:'Apple Inc.', MSFT:'Microsoft', NVDA:'NVIDIA', GOOGL:'Alphabet',
+  AMZN:'Amazon', TSLA:'Tesla', META:'Meta Platforms', JPM:'JPMorgan Chase',
+  V:'Visa Inc.', O:'Realty Income', NFLX:'Netflix', DIS:'Disney',
+  AMD:'AMD', INTC:'Intel', PYPL:'PayPal', UBER:'Uber', COIN:'Coinbase',
+  MSTR:'MicroStrategy', HOOD:'Robinhood',
+};
+
+const AGENT_CAT_COLORS = {
+  crypto: ['#F7931A','#627EEA','#9945FF','#F3BA2F','#00AAE4','#E84142','#E6007A','#2A5ADA','#8247E5','#0033AD'],
+  etf:    ['#C41230','#0071CE','#96151D','#0078C1','#B71C1C','#8B0000','#2E7D32','#FFD700','#D84315','#A52A2A'],
+  stocks: ['#A2AAAD','#00A4EF','#76B900','#4285F4','#FF9900','#CC0000','#0668E1','#003087','#1A1F71','#0056B3'],
+};
+
+function agentDetectCategory(ticker) {
+  const s = ticker.toUpperCase();
+  if (CRYPTO_TICKERS?.has(s)) return 'crypto';
+  if (ETF_TICKERS?.has(s))    return 'etf';
+  if (COMMODITY_TICKERS?.has(s)) return 'crypto'; // treat as crypto-like
+  const etfPattern = /^(VOO|QQQ|VTI|SPY|IWM|TLT|GLD|SLV|BND|VGT|SCHD|VXUS|VNQ|VWO|ARKK|SQQQ|TQQQ|XLF|XLK)$/;
+  if (etfPattern.test(s)) return 'etf';
+  if (/USDT$|BTC$|ETH$|USD$/.test(s)) return 'crypto';
+  return 'stocks';
+}
+
+function agentAddAutoDetect() {
+  const ticker = document.getElementById('agent-add-ticker').value.toUpperCase().trim();
+  if (!ticker) return;
+
+  // Auto-fill name
+  const knownName = AGENT_KNOWN_NAMES[ticker];
+  const nameEl = document.getElementById('agent-add-name');
+  if (knownName && !nameEl.value) nameEl.value = knownName;
+
+  // Show type badge
+  const cat    = agentDetectCategory(ticker);
+  const badge  = document.getElementById('agent-add-type-badge');
+  const colors = { crypto:'rgba(255,106,0,.15)', etf:'rgba(100,149,237,.15)', stocks:'rgba(34,197,94,.1)' };
+  const clrs   = { crypto:'var(--orange)', etf:'#6495ed', stocks:'#22c55e' };
+  const labels = { crypto:'CRYPTO', etf:'ETF', stocks:'STOCK' };
+  badge.textContent = labels[cat] || 'OTHER';
+  badge.style.background = colors[cat] || 'rgba(255,255,255,.05)';
+  badge.style.color = clrs[cat] || '#888';
+}
+
+function agentToggleAddForm() {
+  const form = document.getElementById('agent-add-form');
+  const btn  = document.getElementById('agent-add-btn');
+  const open = form.style.display === 'none' || form.style.display === '';
+  form.style.display = open ? 'block' : 'none';
+  if (open) {
+    document.getElementById('agent-add-ticker').focus();
+    btn.style.background = 'rgba(255,106,0,.2)';
+  } else {
+    btn.style.background = 'rgba(255,106,0,.08)';
+  }
+}
+
+function agentAddAsset() {
+  const ticker = document.getElementById('agent-add-ticker').value.toUpperCase().trim();
+  const name   = document.getElementById('agent-add-name').value.trim() || ticker;
+  const fb     = document.getElementById('agent-add-feedback');
+
+  if (!ticker) { fb.style.color='#ef4444'; fb.textContent='⚠ Enter a ticker symbol'; return; }
+  if (AGENT_ALL.find(a => a.ticker === ticker)) {
+    // Already in DB — just select/switch to right cat
+    const existing = AGENT_ALL.find(a => a.ticker === ticker);
+    const cat = existing.category || agentDetectCategory(ticker);
+    agentSetCat(cat);
+    // Auto-select it
+    if (!agentSelected.find(a => a.ticker === ticker)) {
+      agentToggleAsset(ticker);
+    }
+    fb.style.color = '#22c55e';
+    fb.textContent = '✓ ' + ticker + ' is already in the library — selected';
+    setTimeout(() => { fb.textContent = ''; }, 3000);
+    return;
+  }
+
+  const cat   = agentDetectCategory(ticker);
+  const catColors = AGENT_CAT_COLORS[cat] || AGENT_CAT_COLORS.stocks;
+  const color = catColors[AGENT_ASSETS_DB[cat]?.length % catColors.length] || '#888';
+
+  const newAsset = { ticker, name, color, category: cat };
+
+  // Inject into DB arrays
+  if (!AGENT_ASSETS_DB[cat]) AGENT_ASSETS_DB[cat] = [];
+  AGENT_ASSETS_DB[cat].push(newAsset);
+  AGENT_ALL.push(newAsset);
+
+  // Update category count badges
+  agentUpdateCatCounts();
+
+  // Switch to the right category tab and select the asset
+  agentSetCat(cat);
+  agentToggleAsset(ticker);
+
+  // Feedback
+  const catLabels = { crypto:'Crypto', etf:'ETF', stocks:'Stocks' };
+  fb.style.color = '#22c55e';
+  fb.textContent = '✓ ' + ticker + ' added to ' + (catLabels[cat] || cat);
+
+  // Clear inputs
+  document.getElementById('agent-add-ticker').value = '';
+  document.getElementById('agent-add-name').value   = '';
+  document.getElementById('agent-add-type-badge').textContent = '';
+  setTimeout(() => { fb.textContent = ''; }, 3000);
+}
+
+function agentUpdateCatCounts() {
+  ['crypto','etf','stocks'].forEach(cat => {
+    const el = document.getElementById('agent-count-' + cat);
+    if (el) el.textContent = AGENT_ASSETS_DB[cat]?.length || 0;
+  });
+}
+
+
+function agentSetCat(cat) {
+  agentCat = cat;
+  ['crypto','etf','stocks'].forEach(c => {
+    document.getElementById('agent-cat-'+c)?.classList.toggle('active', c === cat);
+  });
+  agentRenderGrid();
+}
+
+// ── Asset grid ──
+function agentRenderGrid() {
+  const grid = document.getElementById('agent-asset-grid');
+  const assets = AGENT_ASSETS_DB[agentCat] || [];
+  const maxAlloc = Math.max(...Object.values(agentAllocations), 1);
+
+  grid.innerHTML = assets.map(a => {
+    const isSel = agentSelected.some(s => s.ticker === a.ticker);
+    const alloc = agentAllocations[a.ticker] || 0;
+    const barW  = isSel ? Math.min((alloc / maxAlloc) * 100, 100) : 0;
+    return `<button class="agent-asset-card${isSel?' selected':''}" onclick="agentToggleAsset('${a.ticker}')">
+      <div style="position:absolute;top:0;right:0;width:40px;height:40px;background:radial-gradient(circle at 100% 0%,${a.color}22,transparent);pointer-events:none;"></div>
+      ${isSel ? '<div class="agent-asset-check">✓</div>' : ''}
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:${isSel?'8':'0'}px;">
+        ${agentElementBadge(a.ticker, a.color, 30)}
+        
+        <div>
+          <div style="font-size:13px;font-weight:800;color:var(--text);">${a.ticker}</div>
+          <div style="font-size:9px;color:var(--text2);">${a.name}</div>
+        </div>
+      </div>
+      ${isSel ? `<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--orange);font-weight:700;">${alloc.toFixed(1)}%</span><div style="flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${barW}%;background:${a.color};border-radius:2px;transition:width .4s;"></div></div></div>` : ''}
+    </button>`;
+  }).join('');
+}
+
+function agentToggleAsset(ticker) {
+  const asset = AGENT_ALL.find(a => a.ticker === ticker);
+  if (!asset) return;
+  const idx = agentSelected.findIndex(a => a.ticker === ticker);
+  if (idx >= 0) {
+    agentSelected.splice(idx, 1);
+    delete agentAllocations[ticker];
+  } else {
+    agentSelected.push(asset);
+  }
+  agentAutoBalance();
+  agentRenderGrid();
+  agentRenderAllocRows();
+  const analyzeBtn = document.getElementById('agent-analyze-btn');
+  if (analyzeBtn) analyzeBtn.style.display = agentSelected.length >= 2 ? 'block' : 'none';
+  document.getElementById('agent-alloc-panel').style.display = agentSelected.length > 0 ? 'block' : 'none';
+  document.getElementById('agent-assets-display').textContent = agentSelected.length;
+}
+
+// ── Allocation ──
+function agentAutoBalance() {
+  if (!agentSelected.length) return;
+  // Even split first, then weighted by category
+  const cats = {};
+  agentSelected.forEach(a => {
+    const cat = a.category || 'other';
+    cats[cat] = (cats[cat]||0) + 1;
+  });
+  const catW = { crypto:0.25, etf:0.45, stocks:0.30, other:0.10 };
+  // Normalise cat weights to only present cats
+  let usedWeight = 0;
+  const presentCats = Object.keys(cats);
+  presentCats.forEach(c => { usedWeight += catW[c]||0.1; });
+
+  const alloc = {};
+  agentSelected.forEach(a => {
+    const cat = a.category || 'other';
+    const cw  = (catW[cat]||0.1) / usedWeight; // normalised
+    const cnt = cats[cat];
+    alloc[a.ticker] = (cw / cnt) * 100;
+  });
+
+  // Hard-normalise to exactly 100
+  const total = Object.values(alloc).reduce((s,v)=>s+v, 0);
+  const tickers = Object.keys(alloc);
+  tickers.forEach(k => { alloc[k] = (alloc[k] / total) * 100; });
+  // Fix float rounding: adjust last item so sum is exactly 100
+  const sum = tickers.reduce((s,k) => s + alloc[k], 0);
+  alloc[tickers[tickers.length-1]] += (100 - sum);
+
+  agentAllocations = alloc;
+  agentRenderAllocRows();
+  agentRenderGrid();
+}
+
+// Called when a slider moves — redistribute the "taken" amount from others proportionally
+function agentSliderMove(ticker, newVal) {
+  const n = agentSelected.length;
+  if (n <= 1) { agentAllocations[ticker] = 100; agentRefreshAllocUI(); return; }
+
+  newVal = Math.min(Math.max(parseFloat(newVal), 0.1), 100 - (n - 1) * 0.1);
+  const oldVal  = agentAllocations[ticker] || (100 / n);
+  const delta   = newVal - oldVal;
+
+  // Others get shrunk/grown proportionally
+  const others  = agentSelected.filter(a => a.ticker !== ticker);
+  const othersTotal = others.reduce((s,a) => s + (agentAllocations[a.ticker]||0), 0);
+
+  if (othersTotal <= 0) {
+    // Edge case: redistribute evenly
+    const each = (100 - newVal) / others.length;
+    others.forEach(a => { agentAllocations[a.ticker] = Math.max(each, 0.1); });
+  } else {
+    others.forEach(a => {
+      const share = (agentAllocations[a.ticker]||0) / othersTotal;
+      agentAllocations[a.ticker] = Math.max((agentAllocations[a.ticker]||0) - delta * share, 0.1);
+    });
+  }
+
+  agentAllocations[ticker] = newVal;
+
+  // Final normalise to exactly 100 (fix float drift)
+  const total = agentSelected.reduce((s,a) => s + (agentAllocations[a.ticker]||0), 0);
+  agentSelected.forEach(a => { agentAllocations[a.ticker] = (agentAllocations[a.ticker]||0) / total * 100; });
+
+  agentRefreshAllocUI();
+}
+
+// Update only values+sliders in-place (no full re-render, so dragging stays smooth)
+function agentRefreshAllocUI() {
+  const wrap = document.getElementById('agent-alloc-rows');
+  if (!wrap) return;
+  agentSelected.forEach(a => {
+    const alloc  = agentAllocations[a.ticker] || 0;
+    const valUsd = agentBudget * alloc / 100;
+    const row    = wrap.querySelector(`[data-ticker="${a.ticker}"]`);
+    if (!row) return;
+    const slider = row.querySelector('input[type=range]');
+    const pctEl  = row.querySelector('.alloc-pct');
+    const usdEl  = row.querySelector('.alloc-usd');
+    if (slider && Math.abs(parseFloat(slider.value) - alloc) > 0.05) slider.value = alloc;
+    if (pctEl)  pctEl.textContent  = alloc.toFixed(1) + '%';
+    if (usdEl)  usdEl.textContent  = agentFmt(valUsd);
+    // Update bar fill via CSS variable
+    const bar = row.querySelector('.alloc-bar-fill');
+    if (bar) bar.style.width = Math.min(alloc * 2, 100) + '%';
+  });
+  // Also refresh total display
+  agentRenderAllocTotal();
+  agentRenderGrid();
+}
+
+function agentRenderAllocTotal() {
+  const totalEl = document.getElementById('agent-alloc-total');
+  if (!totalEl) return;
+  const sum = agentSelected.reduce((s,a) => s + (agentAllocations[a.ticker]||0), 0);
+  const rounded = Math.round(sum * 10) / 10;
+  totalEl.textContent = rounded.toFixed(1) + '%';
+  totalEl.style.color = Math.abs(rounded - 100) < 0.5 ? '#22c55e' : '#ef4444';
+}
+
+function agentRenderAllocRows() {
+  const wrap = document.getElementById('agent-alloc-rows');
+  if (!wrap) return;
+
+  // Total line
+  const totalHtml = `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0 12px;border-bottom:1px solid var(--border);margin-bottom:8px;">
+    <span style="font-size:9px;font-weight:700;color:var(--text2);letter-spacing:.8px;">TOTAL ALLOCATION</span>
+    <span id="agent-alloc-total" style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;color:#22c55e;">100.0%</span>
+  </div>`;
+
+  wrap.innerHTML = totalHtml + agentSelected.map(a => {
+    const alloc  = agentAllocations[a.ticker] || 0;
+    const valUsd = agentBudget * alloc / 100;
+    const barW   = Math.min(alloc * 2, 100); // 50% alloc = full bar
+    return `<div class="agent-alloc-row" data-ticker="${a.ticker}">
+      <span class="agent-alloc-name" style="color:${a.color};font-size:11px;">${a.ticker}</span>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <input type="range" min="0.1" max="99" step="0.1" value="${alloc.toFixed(1)}"
+          style="width:100%;accent-color:${a.color};"
+          oninput="agentSliderMove('${a.ticker}', this.value)">
+        <div style="height:2px;background:var(--border);border-radius:1px;overflow:hidden;">
+          <div class="alloc-bar-fill" style="height:100%;width:${barW}%;background:${a.color};border-radius:1px;transition:width .2s;"></div>
+        </div>
+      </div>
+      <span class="alloc-pct" style="width:44px;font-size:12px;font-weight:800;color:var(--orange);text-align:right;">${alloc.toFixed(1)}%</span>
+      <span class="alloc-usd" style="width:64px;font-size:10px;color:var(--text2);text-align:right;">${agentFmt(valUsd)}</span>
+    </div>`;
+  }).join('');
+
+  agentRenderAllocTotal();
+}
+
+// ── Steps nav ──
+function agentGoStep(n) {
+  if (n === 1 && !agentSelected.length) return;
+  if (n === 2 && !agentAnalysis) return;
+  if (n === 3 && !Object.keys(agentEntryData).length) return;
+  agentStep = n;
+  for (let i=0; i<4; i++) {
+    const el = document.getElementById('agent-step-'+i);
+    if (el) el.style.display = i === n ? 'block' : 'none';
+    const btn = document.getElementById('agent-nav-'+i);
+    if (btn) {
+      btn.classList.toggle('active', i === n);
+      btn.classList.toggle('done', i < n);
+      btn.disabled = (i === 1 && !agentSelected.length) ||
+                     (i === 2 && !agentAnalysis) ||
+                     (i === 3 && !Object.keys(agentEntryData).length);
+    }
+  }
+}
+
+// ── Analysis ──
+async function agentRunAnalysis() {
+  document.getElementById('agent-analyzing').style.display = 'block';
+  document.getElementById('agent-analysis-results').style.display = 'none';
+
+  const portfolioDesc = agentSelected.map(a =>
+    `${a.ticker} (${a.name}): ${agentAllocations[a.ticker]||0}% = ${agentFmt((agentBudget*(agentAllocations[a.ticker]||0))/100)}`
+  ).join('\n');
+
+  let analysis = null;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{
+          role:'user',
+          content:`You are a senior portfolio strategist at a top-tier hedge fund. Analyze this investment portfolio.
+
+PORTFOLIO (Total Budget: ${agentFmt(agentBudget)}):
+${portfolioDesc}
+
+Investment timeframe: ${agentTimeframe}
+
+Search for current prices and recent performance of these assets. Then provide a professional assessment.
+
+Respond ONLY in valid JSON with this exact structure:
+{
+  "portfolioScore": number,
+  "diversificationScore": number,
+  "riskScore": number,
+  "assets": [{"ticker":"XXX","score":number,"assessment":"string","currentPrice":"string or null"}],
+  "recommendations": ["string","string","string"],
+  "warnings": ["string"],
+  "summary": "2-3 sentence overall assessment"
+}`
+        }],
+      })
+    });
+    const data = await res.json();
+    const txt = data.content?.filter(b=>b.type==='text').map(b=>b.text).join('') || '';
+    const clean = txt.replace(/```json|```/g,'').trim();
+    // Find JSON block
+    const m = clean.match(/\{[\s\S]*\}/);
+    if (m) analysis = JSON.parse(m[0]);
+  } catch(e) { console.error(e); }
+
+  if (!analysis) {
+    analysis = {
+      portfolioScore: 72,
+      diversificationScore: agentSelected.length > 5 ? 78 : 55,
+      riskScore: agentSelected.some(a => a.category === 'crypto') ? 65 : 40,
+      assets: agentSelected.map(a => ({ ticker:a.ticker, score: Math.floor(Math.random()*30)+60, assessment:'Solid position for portfolio diversification.', currentPrice:null })),
+      recommendations: [
+        'Consider adding international exposure to reduce correlation risk',
+        'Balance crypto allocation with stable income-generating assets',
+        'Implement dollar-cost averaging over the selected timeframe for optimal entry'
+      ],
+      warnings: agentSelected.filter(a => a.ticker === a.ticker && ['BTC','ETH','SOL','BNB','XRP'].includes(a.ticker)).length > 3 ? ['High crypto concentration — consider diversifying into equities'] : [],
+      summary: 'Portfolio shows reasonable construction with room for optimization. Diversification across asset classes is key to managing downside risk while maintaining growth potential.'
+    };
+  }
+
+  agentAnalysis = analysis;
+  agentRenderAnalysis(analysis);
+  document.getElementById('agent-analyzing').style.display = 'none';
+  document.getElementById('agent-analysis-results').style.display = 'block';
+
+  // Enable next steps
+  const nav1 = document.getElementById('agent-nav-1');
+  if (nav1) { nav1.disabled = false; nav1.classList.add('done'); }
+}
+
+function agentRenderScoreRing(score, label, size=80) {
+  const r = (size-8)/2;
+  const c = 2*Math.PI*r;
+  const offset = c - (score/100)*c;
+  const clr = score>=70?'#22c55e':score>=40?'var(--orange)':'#ef4444';
+  return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <svg width="${size}" height="${size}" style="transform:rotate(-90deg);">
+      <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="5"/>
+      <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${clr}" stroke-width="5"
+        stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round"
+        style="transition:stroke-dashoffset 1s ease;"/>
+      <text x="${size/2}" y="${size/2}" text-anchor="middle" dominant-baseline="central"
+        fill="#fff" font-size="${size*0.24}" font-weight="700"
+        style="transform:rotate(90deg);transform-origin:center;">${score}</text>
+    </svg>
+    ${label ? `<span style="font-size:8px;color:var(--text2);letter-spacing:.8px;font-weight:700;">${label.toUpperCase()}</span>` : ''}
+  </div>`;
+}
+
+function agentRenderAnalysis(a) {
+  const wrap = document.getElementById('agent-analysis-results');
+  const tfOpts = [
+    { key:'monthly',   label:'MONTHLY',   desc:'4H candles · Weekly entries',     icon:'⚡' },
+    { key:'quarterly', label:'QUARTERLY', desc:'1D candles · Bi-weekly entries',   icon:'📊' },
+    { key:'yearly',    label:'ANNUAL',    desc:'1W candles · Monthly entries',     icon:'🏛' },
+  ];
+
+  wrap.innerHTML = `
+  <!-- Score rings -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
+    <div class="agent-score-card">${agentRenderScoreRing(a.portfolioScore,'Portfolio')}</div>
+    <div class="agent-score-card">${agentRenderScoreRing(a.diversificationScore,'Diversification')}</div>
+    <div class="agent-score-card">${agentRenderScoreRing(100-a.riskScore,'Safety')}</div>
+  </div>
+
+  <!-- Summary -->
+  <div class="card" style="border-color:rgba(255,106,0,.2);background:rgba(255,106,0,.04);margin-bottom:10px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--orange);margin-bottom:8px;">AI ASSESSMENT</div>
+    <div style="font-size:13px;color:#ccc;line-height:1.65;">${a.summary}</div>
+  </div>
+
+  <!-- Asset ratings -->
+  <div class="card" style="margin-bottom:10px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">ASSET RATINGS</div>
+    ${(a.assets||[]).map(asset => {
+      const assetData = AGENT_ALL.find(x=>x.ticker===asset.ticker);
+      const clr = asset.score>=70?'#22c55e':asset.score>=50?'var(--orange)':'#ef4444';
+      const barW = asset.score;
+      return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);">
+        <span style="width:48px;font-size:13px;font-weight:800;color:${assetData?.color||'var(--orange)'};">${asset.ticker}</span>
+        <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+          <div style="height:100%;width:${barW}%;background:${assetData?.color||'var(--orange)'};border-radius:2px;transition:width .6s;"></div>
+        </div>
+        <span style="width:30px;font-size:13px;font-weight:800;color:${clr};text-align:right;">${asset.score}</span>
+        <span style="flex:2;font-size:10px;color:var(--text2);">${asset.assessment}</span>
+        ${asset.currentPrice ? `<span style="font-size:10px;color:var(--orange);font-weight:700;">${asset.currentPrice}</span>` : ''}
+      </div>`;
+    }).join('')}
+  </div>
+
+  <!-- Recommendations -->
+  <div class="card" style="margin-bottom:10px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">RECOMMENDATIONS</div>
+    ${(a.recommendations||[]).map((r,i) => `
+      <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);">
+        <span style="color:var(--orange);font-weight:800;font-size:14px;">${i+1}</span>
+        <span style="font-size:12px;color:#ccc;line-height:1.55;">${r}</span>
+      </div>`).join('')}
+  </div>
+
+  ${(a.warnings||[]).length ? `
+  <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:14px;margin-bottom:10px;">
+    ${a.warnings.map(w => `<div style="font-size:12px;color:#ef4444;display:flex;gap:8px;align-items:start;"><span>⚠</span><span>${w}</span></div>`).join('')}
+  </div>` : ''}
+
+  <!-- Timeframe selector -->
+  <div class="card" style="margin-bottom:12px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">INVESTMENT TIMEFRAME</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      ${tfOpts.map(tf => `
+        <button class="agent-tf-btn${agentTimeframe===tf.key?' active':''}" onclick="agentSetTimeframe('${tf.key}')">
+          <div style="font-size:20px;margin-bottom:6px;">${tf.icon}</div>
+          <div style="font-size:14px;font-weight:800;color:${agentTimeframe===tf.key?'var(--orange)':'var(--text)'};">${tf.label}</div>
+          <div style="font-size:9px;color:var(--text2);margin-top:3px;">${tf.desc}</div>
+        </button>`).join('')}
+    </div>
+  </div>
+  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);">◇ INPUT ENTRY SIGNALS →</button>
+  `;
+}
+
+function agentSetTimeframe(tf) {
+  agentTimeframe = tf;
+  const labels = { monthly:'4H TIMEFRAME', quarterly:'1D TIMEFRAME', yearly:'1W TIMEFRAME' };
+  const el = document.getElementById('agent-signal-tf-label');
+  if (el) el.textContent = 'SIGNAL INPUT — ' + (labels[tf]||'');
+  // Re-render tf buttons
+  document.querySelectorAll('.agent-tf-btn').forEach(b => {
+    const key = b.getAttribute('onclick')?.match(/'(\w+)'/)?.[1];
+    b.classList.toggle('active', key === tf);
+    b.querySelector('div:nth-child(2)').style.color = key === tf ? 'var(--orange)' : 'var(--text)';
+  });
+}
+
+// ── Signals ──
+function agentInitSignals() {
+  agentEntryData = {};
+  agentSelected.forEach(a => {
+    agentEntryData[a.ticker] = { buyZone:'', sellZone:'', bottom:'', top:'', confidence:7 };
+  });
+  agentRenderSignals();
+  const nav2 = document.getElementById('agent-nav-2');
+  if (nav2) nav2.disabled = false;
+}
+
+function agentRenderSignals() {
+  const wrap = document.getElementById('agent-signal-rows');
+  wrap.innerHTML = agentSelected.map(a => {
+    const alloc = agentAllocations[a.ticker]||0;
+    const valUsd = agentFmt((agentBudget*alloc)/100);
+    return `<div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        ${agentElementBadge(a.ticker, a.color, 28)}
+        <span style="font-size:15px;font-weight:800;color:var(--text);">${a.ticker}</span>
+        <span style="font-size:11px;color:var(--text2);">${a.name}</span>
+        <span style="margin-left:auto;font-size:12px;font-weight:800;color:var(--orange);">${alloc.toFixed(1)}% · ${valUsd}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div>
+          <div style="font-size:8px;font-weight:700;color:#22c55e;letter-spacing:.8px;margin-bottom:4px;">BUY ZONE $</div>
+          <input class="agent-signal-input" type="number" placeholder="0.00"
+            value="${agentEntryData[a.ticker]?.buyZone||''}"
+            oninput="agentEntryData['${a.ticker}'].buyZone=this.value"
+            style="border-color:rgba(34,197,94,.2);"
+            onfocus="this.style.borderColor='#22c55e'" onblur="this.style.borderColor='rgba(34,197,94,.2)'">
+        </div>
+        <div>
+          <div style="font-size:8px;font-weight:700;color:#ef4444;letter-spacing:.8px;margin-bottom:4px;">SELL ZONE $</div>
+          <input class="agent-signal-input" type="number" placeholder="0.00"
+            value="${agentEntryData[a.ticker]?.sellZone||''}"
+            oninput="agentEntryData['${a.ticker}'].sellZone=this.value"
+            style="border-color:rgba(239,68,68,.2);"
+            onfocus="this.style.borderColor='#ef4444'" onblur="this.style.borderColor='rgba(239,68,68,.2)'">
+        </div>
+        <div>
+          <div style="font-size:8px;font-weight:700;color:#6495ed;letter-spacing:.8px;margin-bottom:4px;">BOTTOM (FORECAST) $</div>
+          <input class="agent-signal-input" type="number" placeholder="0.00"
+            value="${agentEntryData[a.ticker]?.bottom||''}"
+            oninput="agentEntryData['${a.ticker}'].bottom=this.value"
+            style="border-color:rgba(100,149,237,.2);"
+            onfocus="this.style.borderColor='#6495ed'" onblur="this.style.borderColor='rgba(100,149,237,.2)'">
+        </div>
+        <div>
+          <div style="font-size:8px;font-weight:700;color:var(--orange);letter-spacing:.8px;margin-bottom:4px;">TOP (FORECAST) $</div>
+          <input class="agent-signal-input" type="number" placeholder="0.00"
+            value="${agentEntryData[a.ticker]?.top||''}"
+            oninput="agentEntryData['${a.ticker}'].top=this.value"
+            style="border-color:rgba(255,106,0,.2);"
+            onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,106,0,.2)'">
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:9px;font-weight:700;color:var(--text2);">SIGNAL CONFIDENCE</span>
+        <input type="range" min="1" max="10" value="${agentEntryData[a.ticker]?.confidence||7}"
+          style="flex:1;accent-color:var(--orange);"
+          oninput="agentEntryData['${a.ticker}'].confidence=parseInt(this.value); this.nextElementSibling.textContent=this.value+'/10'; this.nextElementSibling.style.color=this.value>=7?'#22c55e':this.value>=4?'var(--orange)':'#ef4444';">
+        <span style="font-size:16px;font-weight:900;color:${(agentEntryData[a.ticker]?.confidence||7)>=7?'#22c55e':(agentEntryData[a.ticker]?.confidence||7)>=4?'var(--orange)':'#ef4444'};">${agentEntryData[a.ticker]?.confidence||7}/10</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Generate plan ──
+async function agentGeneratePlan() {
+  document.getElementById('agent-plan-loading').style.display = 'block';
+  document.getElementById('agent-plan-results').style.display = 'none';
+
+  const entriesDesc = agentSelected.map(a => {
+    const ed = agentEntryData[a.ticker]||{};
+    return `${a.ticker}: Buy=$${ed.buyZone||'N/A'}, Sell=$${ed.sellZone||'N/A'}, Bottom=$${ed.bottom||'N/A'}, Top=$${ed.top||'N/A'}, Confidence=${ed.confidence||7}/10, Alloc=${agentAllocations[a.ticker]||0}%`;
+  }).join('\n');
+
+  const tf = agentTimeframe==='monthly' ? '4H candles, weekly DCA entries, 4-week plan'
+           : agentTimeframe==='quarterly' ? '1D candles, bi-weekly entries, 12-week plan'
+           : 'weekly candles, monthly entries, 12-month plan';
+
+  let plan = null;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{
+          role:'user',
+          content:`You are a quantitative portfolio manager at a $10B hedge fund. Create a precise capital deployment plan.
+
+TOTAL BUDGET: ${agentFmt(agentBudget)}
+TIMEFRAME: ${agentTimeframe} (${tf})
+ASSETS: ${entriesDesc}
+
+Split each position into 3-5 tranches. Respond ONLY in valid JSON:
+{
+  "planName":"string",
+  "totalDeployment":number,
+  "deploymentPeriod":"string",
+  "tranches":[{"ticker":"XXX","totalAllocation":number,"entries":[{"tranche":1,"percentage":number,"amount":number,"triggerPrice":"string","type":"string","week":"string"}],"stopLoss":"string","takeProfit":"string","riskReward":"string"}],
+  "cashReserve":number,
+  "monthlyReview":"string"
+}`
+        }],
+      })
+    });
+    const data = await res.json();
+    const txt = data.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+    const m   = txt.replace(/```json|```/g,'').match(/\{[\s\S]*\}/);
+    if (m) plan = JSON.parse(m[0]);
+  } catch(e) { console.error(e); }
+
+  if (!plan) plan = agentBuildFallbackPlan();
+
+  agentPlan = plan;
+  document.getElementById('agent-plan-loading').style.display = 'none';
+  document.getElementById('agent-plan-results').style.display = 'block';
+  agentRenderPlan(plan);
+
+  const nav3 = document.getElementById('agent-nav-3');
+  if (nav3) nav3.disabled = false;
+}
+
+function agentBuildFallbackPlan() {
+  const reserve    = agentBudget * 0.1;
+  const deployable = agentBudget - reserve;
+  const periods    = agentTimeframe==='monthly' ? 4 : agentTimeframe==='quarterly' ? 12 : 52;
+  const pLabel     = 'Week';
+  return {
+    planName: 'ELCARO ' + agentTimeframe.charAt(0).toUpperCase() + agentTimeframe.slice(1) + ' Deployment',
+    totalDeployment: deployable,
+    deploymentPeriod: agentTimeframe==='monthly' ? '4 Weeks' : agentTimeframe==='quarterly' ? '12 Weeks' : '52 Weeks',
+    tranches: agentSelected.map(a => {
+      const pct = (agentAllocations[a.ticker]||0)/100;
+      const tot = deployable * pct;
+      const ed  = agentEntryData[a.ticker]||{};
+      return {
+        ticker: a.ticker, totalAllocation: tot,
+        entries: [
+          { tranche:1, percentage:30, amount:tot*.30, triggerPrice:ed.buyZone||'Market',         type:'Limit at Buy Zone', week:pLabel+' 1' },
+          { tranche:2, percentage:25, amount:tot*.25, triggerPrice:ed.bottom||'Below Buy Zone',  type:'Scaled Limit',      week:pLabel+' '+Math.ceil(periods/4) },
+          { tranche:3, percentage:25, amount:tot*.25, triggerPrice:'Mid-Range DCA',              type:'DCA Market',        week:pLabel+' '+Math.ceil(periods/2) },
+          { tranche:4, percentage:20, amount:tot*.20, triggerPrice:'Dip Buy Reserve',            type:'Conditional',       week:pLabel+' '+Math.ceil(periods*.75) },
+        ],
+        stopLoss:    ed.bottom ? '$'+(parseFloat(ed.bottom)*.9).toFixed(2) : '−10%',
+        takeProfit:  ed.top||ed.sellZone||'+25%',
+        riskReward:  '1 : 2.5',
+      };
+    }),
+    cashReserve: reserve,
+    monthlyReview: 'Rebalance if any position drifts >5% from target allocation',
+  };
+}
+
+function agentRenderPlan(plan) {
+  const wrap = document.getElementById('agent-plan-results');
+  const totalPct = plan.totalDeployment / agentBudget * 100;
+  const cashPct  = plan.cashReserve / agentBudget * 100;
+
+  wrap.innerHTML = `
+  <!-- Plan header -->
+  <div class="agent-plan-hero" style="margin-bottom:12px;">
+    <div style="font-size:16px;font-weight:900;color:var(--orange);margin-bottom:12px;letter-spacing:.5px;">${plan.planName}</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+      ${[
+        ['TOTAL DEPLOYMENT', agentFmt(plan.totalDeployment), 'var(--text)'],
+        ['PERIOD',           plan.deploymentPeriod,          'var(--text)'],
+        ['CASH RESERVE',     agentFmt(plan.cashReserve),     '#22c55e'],
+        ['ASSETS',           plan.tranches?.length,          'var(--text)'],
+      ].map(([label,val,clr]) => `
+        <div>
+          <div style="font-size:8px;font-weight:700;color:var(--text2);letter-spacing:.8px;margin-bottom:4px;">${label}</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:18px;font-weight:900;color:${clr};">${val}</div>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Tranches per asset -->
+  ${(plan.tranches||[]).map(t => {
+    const a = AGENT_ALL.find(x=>x.ticker===t.ticker);
+    return `<div class="card" style="margin-bottom:10px;padding:0;overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(90deg,${a?.color||'#ff6a00'}12,transparent);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          ${agentElementBadge(t.ticker, a?.color||'#ff6a00', 30)}
+          <div>
+            <div style="font-size:15px;font-weight:900;">${t.ticker}</div>
+            <div style="font-size:9px;color:var(--text2);">Total: ${agentFmt(t.totalAllocation)}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:18px;">
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:#ef4444;font-weight:700;letter-spacing:.6px;">STOP LOSS</div>
+            <div style="font-size:12px;font-weight:800;color:#ef4444;">${t.stopLoss}</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:#22c55e;font-weight:700;letter-spacing:.6px;">TAKE PROFIT</div>
+            <div style="font-size:12px;font-weight:800;color:#22c55e;">${t.takeProfit}</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--orange);font-weight:700;letter-spacing:.6px;">R:R</div>
+            <div style="font-size:12px;font-weight:800;color:var(--orange);">${t.riskReward}</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 18px 14px;">
+        <div class="agent-tranche-row" style="border-color:rgba(255,255,255,.06);font-size:8px;font-weight:700;color:var(--text2);letter-spacing:.6px;padding:10px 0 6px;">
+          <span>#</span><span>TYPE</span><span style="text-align:right;">WEIGHT</span><span style="text-align:right;">AMOUNT</span><span style="text-align:center;">TRIGGER</span><span style="text-align:right;">TIMING</span>
+        </div>
+        ${(t.entries||[]).map((e,i) => `
+          <div class="agent-tranche-row">
+            <div class="agent-tranche-num" style="background:${a?.color||'var(--orange)'}20;color:${a?.color||'var(--orange)'};">${e.tranche}</div>
+            <span style="color:#ccc;">${e.type}</span>
+            <span style="font-weight:800;text-align:right;">${e.percentage}%</span>
+            <span style="font-weight:800;color:var(--orange);font-family:JetBrains Mono,monospace;text-align:right;">${agentFmt(e.amount)}</span>
+            <span style="color:var(--text2);text-align:center;font-size:10px;">${e.triggerPrice}</span>
+            <span style="color:var(--text2);text-align:right;font-size:10px;">${e.week}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('')}
+
+  <!-- Capital distribution bar -->
+  <div class="card" style="margin-bottom:12px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">CAPITAL DISTRIBUTION</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      ${(plan.tranches||[]).map(t => {
+        const a   = AGENT_ALL.find(x=>x.ticker===t.ticker);
+        const pct = (t.totalAllocation / plan.totalDeployment * 100);
+        return `<div style="flex:${pct} 0 0;min-width:70px;background:${a?.color||'var(--orange)'}15;border:1px solid ${a?.color||'var(--orange)'}30;border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-size:13px;font-weight:900;color:${a?.color||'var(--orange)'};">${t.ticker}</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:16px;font-weight:900;margin:3px 0;">${pct.toFixed(1)}%</div>
+          <div style="font-size:9px;color:var(--text2);">${agentFmt(t.totalAllocation)}</div>
+        </div>`;
+      }).join('')}
+      <div style="flex:${cashPct} 0 0;min-width:70px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:13px;font-weight:900;color:#22c55e;">CASH</div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:16px;font-weight:900;margin:3px 0;">${cashPct.toFixed(1)}%</div>
+        <div style="font-size:9px;color:var(--text2);">${agentFmt(plan.cashReserve)}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review note -->
+  <div class="card" style="border-color:rgba(255,106,0,.15);background:rgba(255,106,0,.04);margin-bottom:12px;display:flex;gap:12px;align-items:start;">
+    <span style="font-size:18px;">📋</span>
+    <div>
+      <div style="font-size:10px;font-weight:800;color:var(--orange);margin-bottom:4px;letter-spacing:.6px;">REVIEW POLICY</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.55;">${plan.monthlyReview}</div>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div style="text-align:center;font-size:9px;color:#333;line-height:1.7;margin-bottom:16px;">
+    ELCARO Investment Intelligence Agent — For Educational Purposes Only<br>
+    Not financial advice. Consult licensed professionals before making investment decisions.
+  </div>
+
+  <!-- Actions -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+    <button class="agent-action-btn secondary" onclick="agentGoStep(0)">← Edit Portfolio</button>
+    <button class="agent-action-btn secondary" onclick="agentGoStep(2)">← Edit Signals</button>
+    <button class="agent-action-btn" onclick="agentGeneratePlan()">↻ Regenerate Plan</button>
+  </div>
+  `;
 }
 
 </script>
