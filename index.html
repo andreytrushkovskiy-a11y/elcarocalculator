@@ -265,8 +265,11 @@ body {
 .pf-chart-wrap { position:relative; }
 .pf-donut-container { position:relative; width:160px; height:160px; }
 .pf-donut-center {
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
   text-align:center; pointer-events:none;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  width:80px;
 }
 .pf-donut-total { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:#fff; }
 .pf-donut-label { font-size:8px; font-weight:500; letter-spacing:.6px; color:rgba(255,255,255,.3); margin-top:1px; text-transform:uppercase; }
@@ -282,9 +285,9 @@ body {
 
 /* Asset cards — Robinhood style rows */
 .pf-table-wrap { border-radius:14px; overflow:hidden; margin-bottom:16px; background:var(--bg2); border:1px solid rgba(255,255,255,.05); }
-.pf-table-header { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:10px 16px; background:rgba(0,0,0,.2); border-bottom:1px solid rgba(255,255,255,.04); }
+.pf-table-header { display:grid; grid-template-columns:40px 1fr 1fr 1fr; gap:6px; padding:10px 14px; background:rgba(0,0,0,.2); border-bottom:1px solid rgba(255,255,255,.04); }
 .pf-table-header span { font-size:8px; font-weight:600; letter-spacing:.8px; color:rgba(255,255,255,.25); text-transform:uppercase; }
-.pf-asset-row { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; cursor:default; }
+.pf-asset-row { display:grid; grid-template-columns:40px 1fr 1fr 1fr; gap:6px; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; cursor:default; }
 .pf-asset-row:last-child { border-bottom:none; }
 .pf-asset-row:hover { background:rgba(255,255,255,.02); }
 .pf-asset-type-badge { font-size:7px; font-weight:700; padding:2px 6px; border-radius:4px; letter-spacing:.5px; display:inline-block; margin-top:2px; }
@@ -371,9 +374,10 @@ body {
   background:var(--bg3); border:1px solid var(--border); border-radius:14px;
   padding:18px; display:flex; flex-direction:column; align-items:center;
 }
-.pf-donut-container { position:relative; width:200px; height:200px; margin:8px 0; }
+.pf-donut-container { position:relative; width:160px; height:160px; margin:8px 0; }
 .pf-donut-center {
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  position:absolute; inset:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; pointer-events:none;
 }
 .pf-donut-total { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; color:var(--text); }
@@ -397,9 +401,7 @@ body {
 .pf-table-wrap { background:var(--bg3); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
 .pf-table-header { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:8px 14px; background:rgba(0,0,0,.25); border-bottom:1px solid var(--border); }
 .pf-table-header span { font-size:8px; font-weight:700; letter-spacing:.8px; color:var(--text2); }
-.pf-asset-row { display:grid; grid-template-columns:44px 1fr 80px 80px 80px; gap:8px; padding:11px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; }
-.pf-asset-row:last-child { border-bottom:none; }
-.pf-asset-row:hover { background:rgba(255,255,255,.02); }
+/* pf-asset-row defined above */
 .pf-asset-type-badge { font-size:7px; font-weight:800; padding:2px 6px; border-radius:3px; letter-spacing:.6px; }
 .pf-asset-type-badge.crypto { background:rgba(255,106,0,.12); color:var(--orange); }
 .pf-asset-type-badge.stock  { background:rgba(34,197,94,.1);  color:#22c55e; }
@@ -540,9 +542,9 @@ body {
 
 /* Plan cards */
 .agent-tranche-row {
-  display:grid; grid-template-columns:36px 1fr 70px 90px 1fr 80px;
-  gap:8px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.03);
-  align-items:center; font-size:11px;
+  display:grid; grid-template-columns:28px 1fr 55px 80px 80px;
+  gap:6px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.03);
+  align-items:start; font-size:11px;
 }
 .agent-tranche-num {
   width:22px; height:22px; border-radius:50%; display:flex;
@@ -1119,6 +1121,10 @@ body {
 @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
 .expiry-loading { animation:pulse 1.2s ease-in-out infinite; }
 @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* Hide Telegram WebApp injected button when outside Telegram */
+iframe[src*="telegram"], #telegram-web-app-fixed-button,
+div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 </style>
 </head>
 <body>
@@ -1187,22 +1193,30 @@ body {
 
   <!-- Row 2: sub-tabs (visible when any position tool is active) -->
   <div id="pos-tools-subtabs"
-    style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:8px;padding:6px;gap:4px;flex-wrap:wrap;">
-    <div style="font-size:8px;font-weight:700;color:rgba(255,106,0,.5);letter-spacing:1px;padding:0 8px;align-self:center;white-space:nowrap;">POSITION TOOLS</div>
+    style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:10px;padding:5px;gap:3px;flex-wrap:nowrap;overflow:hidden;">
     <button class="mode-btn" id="mode-avg" onclick="setMode('avg')"
-      style="flex:1;padding:7px 12px;font-size:11px;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      AVERAGING
+      title="Averaging Calculator"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      AVG
     </button>
     <button class="mode-btn" id="mode-sizer" onclick="setMode('sizer')"
-      style="flex:1;padding:7px 12px;font-size:11px;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      POSITION SIZER
+      title="Position Sizer"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      SIZER
     </button>
     <button class="mode-btn" id="mode-funding" onclick="setMode('funding')"
-      style="flex:1;padding:7px 12px;font-size:11px;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      FUNDING RATE
+      title="Funding Rate Calculator"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      FUNDING
+    </button>
+    <button class="mode-btn" id="mode-fgi" onclick="setMode('fgi')"
+      title="Fear &amp; Greed Index"
+      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      F&amp;G
     </button>
   </div>
 
@@ -1384,16 +1398,18 @@ body {
 
       <!-- VISUALIZATION CARD -->
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--text);display:flex;align-items:center;gap:8px;">
+        <div style="margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:10px;">
             <span style="color:var(--orange);font-size:13px;">σ</span>
             SIGMA LEVELS <span style="color:var(--orange)">—</span> WHERE PRICE WON'T BE
           </div>
-          <div class="viz-tabs">
+          <div class="viz-tabs" style="margin-bottom:0;">
             <button class="viz-tab active" onclick="setViz(1)" id="viz-tab-1">BAR</button>
             <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
             <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
-            <button class="viz-tab" onclick="setViz(4)" id="viz-tab-4">TIMELINE</button>
+            <button class="viz-tab" id="viz-tab-4" onclick="setViz(4)"
+              title="Available after calculating 5 different expiry dates"
+              style="opacity:0.35;cursor:not-allowed;">TIMELINE</button>
           </div>
         </div>
 
@@ -1998,17 +2014,65 @@ body {
 
 <!-- ══ NEWS ══ -->
 <div id="news-section" style="display:none;padding:0;">
-  <!-- News sub-tabs -->
-  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;" id="news-subtabs">
-    <button class="mode-btn active" id="news-tab-top"      onclick="setNewsTab('top')"        style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">TOP</button>
-    <button class="mode-btn"        id="news-tab-crypto"   onclick="setNewsTab('crypto')"     style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">CRYPTO</button>
-    <button class="mode-btn"        id="news-tab-forex"    onclick="setNewsTab('forex')"      style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">CURRENCIES</button>
-    <button class="mode-btn"        id="news-tab-stock"    onclick="setNewsTab('stock')"      style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">STOCKS</button>
-    <button class="mode-btn"        id="news-tab-indices"  onclick="setNewsTab('indices')"    style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">INDICES</button>
-    <button class="mode-btn"        id="news-tab-futures"  onclick="setNewsTab('futures')"    style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">FUTURES</button>
-    <button class="mode-btn"        id="news-tab-bonds"    onclick="setNewsTab('bonds')"      style="flex:1;padding:7px 10px;font-size:10px;min-width:70px;">BONDS</button>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+    <button class="mode-btn active" id="news-tab-top"      onclick="setNewsTab('top')"       style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">TOP</button>
+    <button class="mode-btn"        id="news-tab-crypto"   onclick="setNewsTab('crypto')"    style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">CRYPTO</button>
+    <button class="mode-btn"        id="news-tab-forex"    onclick="setNewsTab('forex')"     style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">FX</button>
+    <button class="mode-btn"        id="news-tab-stock"    onclick="setNewsTab('stock')"     style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">STOCKS</button>
+    <button class="mode-btn"        id="news-tab-futures"  onclick="setNewsTab('futures')"   style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">FUTURES</button>
+    <button class="mode-btn"        id="news-tab-bonds"    onclick="setNewsTab('bonds')"     style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">BONDS</button>
   </div>
-  <div id="news-widget-wrap" style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;"></div>
+  <!-- All widgets pre-rendered, toggled by display -->
+  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;position:relative;">
+    <div id="news-top" style="height:100%;width:100%;position:absolute;top:0;left:0;">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+        {"displayMode":"regular","feedMode":"all_symbols","colorTheme":"dark","isTransparent":true,"locale":"en","width":"100%","height":"100%"}
+        </script>
+      </div>
+    </div>
+    <div id="news-crypto" style="height:100%;width:100%;position:absolute;top:0;left:0;display:none;">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+        {"displayMode":"regular","feedMode":"market","market":"crypto","colorTheme":"dark","isTransparent":true,"locale":"en","width":"100%","height":"100%"}
+        </script>
+      </div>
+    </div>
+    <div id="news-forex" style="height:100%;width:100%;position:absolute;top:0;left:0;display:none;">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+        {"displayMode":"regular","feedMode":"market","market":"forex","colorTheme":"dark","isTransparent":true,"locale":"en","width":"100%","height":"100%"}
+        </script>
+      </div>
+    </div>
+    <div id="news-stock" style="height:100%;width:100%;position:absolute;top:0;left:0;display:none;">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+        {"displayMode":"regular","feedMode":"market","market":"stock","colorTheme":"dark","isTransparent":true,"locale":"en","width":"100%","height":"100%"}
+        </script>
+      </div>
+    </div>
+    <div id="news-futures" style="height:100%;width:100%;position:absolute;top:0;left:0;display:none;">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+        {"displayMode":"regular","feedMode":"market","market":"futures","colorTheme":"dark","isTransparent":true,"locale":"en","width":"100%","height":"100%"}
+        </script>
+      </div>
+    </div>
+    <div id="news-bonds" style="height:100%;width:100%;position:absolute;top:0;left:0;display:none;">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+        {"displayMode":"regular","feedMode":"market","market":"cfd","colorTheme":"dark","isTransparent":true,"locale":"en","width":"100%","height":"100%"}
+        </script>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ FUNDING RATE CALCULATOR ══ -->
@@ -2168,7 +2232,7 @@ body {
     <div class="pf-chart-wrap">
       <div style="font-size:9px;font-weight:600;letter-spacing:.8px;color:rgba(255,255,255,.3);margin-bottom:10px;text-transform:uppercase;">Allocation</div>
       <div class="pf-donut-container">
-        <svg id="pf-donut-svg" width="160" height="160" viewBox="0 0 160 160"></svg>
+        <svg id="pf-donut-svg" width="160" height="160" viewBox="0 0 160 160" style="display:block;"></svg>
         <div class="pf-donut-center">
           <div class="pf-donut-total" id="pf-donut-count">—</div>
           <div class="pf-donut-label">assets</div>
@@ -2223,7 +2287,7 @@ body {
   <!-- ASSETS TABLE -->
   <div class="pf-table-wrap" id="pf-table-wrap" style="display:none;">
     <div class="pf-table-header">
-      <span></span><span>ASSET</span><span>VALUE</span><span>P&amp;L</span><span>SHARE</span>
+      <span></span><span>ASSET</span><span>VALUE / P&amp;L</span><span>SHARE</span>
     </div>
     <div id="pf-asset-rows"></div>
   </div>
@@ -2621,6 +2685,18 @@ function calculate() {
   const dateShort = dateStr ? formatDateShort(dateStr) : 'Expiry';
 
   lastResult = { asset, dateLabel, dateShort, spot, call, put, straddle, sigma, be_lo, be_hi, levels, round };
+  // Track unique dates for TIMELINE unlock
+  if (!window._calcDates) window._calcDates = new Set();
+  window._calcDates.add(dateShort);
+  const timelineBtn = document.getElementById('viz-tab-4');
+  if (timelineBtn) {
+    const unlocked = window._calcDates.size >= 5;
+    timelineBtn.style.opacity = unlocked ? '1' : '0.35';
+    timelineBtn.style.cursor  = unlocked ? 'pointer' : 'not-allowed';
+    timelineBtn.title = unlocked ? 'Timeline chart' : `Calculate ${5 - window._calcDates.size} more expiry date(s) to unlock`;
+    if (unlocked) timelineBtn.onclick = () => setViz(4);
+    else timelineBtn.onclick = () => showToast('⏳ Calculate ' + (5 - window._calcDates.size) + ' more expiry dates to unlock TIMELINE');
+  }
 
   // Show results
   document.getElementById('empty-state').style.display = 'none';
@@ -2722,18 +2798,23 @@ function renderViz4() {
   const sigmaColors = { 1:'245,200,0', 2:'255,106,0', 3:'224,59,59', 4:'255,26,26' };
   const sigLevels = dataPoints[0].sigmas.length;
 
+  // Red = upper sigma (sell zone), Green = lower sigma (buy zone)
+  // Higher sigma = more saturated color
+  const redPalette   = ['rgba(255,120,120,.65)','rgba(255,50,50,.8)','rgba(200,0,0,.95)','rgba(150,0,0,1)'];
+  const greenPalette = ['rgba(100,220,130,.65)','rgba(30,180,80,.8)','rgba(0,150,55,.95)','rgba(0,110,35,1)'];
+
   for (let si = sigLevels-1; si >= 0; si--) {
     const hiPts = dataPoints.map((p,i) => `${xOf(i)},${yOf(p.sigmas[si].hi)}`).join(' ');
     const loPts = [...dataPoints].reverse().map((p,i) => `${xOf(N-1-i)},${yOf(p.sigmas[si].lo)}`).join(' ');
-    const rgb = sigmaColors[dataPoints[0].sigmas[si].n] || '255,106,0';
-    const alpha = 0.06 + si * 0.02;
-    svg += `<polygon points="${hiPts} ${loPts}" fill="rgba(${rgb},${alpha})" stroke="none"/>`;
+    // Subtle fill
+    svg += `<polygon points="${hiPts} ${loPts}" fill="rgba(255,60,60,${0.03 + si*0.015})" stroke="none"/>`;
 
-    // Upper boundary line
     const hiPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${xOf(i)},${yOf(p.sigmas[si].hi)}`).join(' ');
     const loPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${xOf(i)},${yOf(p.sigmas[si].lo)}`).join(' ');
-    svg += `<path d="${hiPath}" fill="none" stroke="rgba(${rgb},.5)" stroke-width="1.5" stroke-dasharray="${si===0?'none':'4,3'}"/>`;
-    svg += `<path d="${loPath}" fill="none" stroke="rgba(${rgb},.5)" stroke-width="1.5" stroke-dasharray="${si===0?'none':'4,3'}"/>`;
+    const dash = ['6,3','8,4','10,5','12,5'][Math.min(si,3)];
+    const sw   = [1.5, 2, 2.5, 3][Math.min(si,3)];
+    svg += `<path d="${hiPath}" fill="none" stroke="${redPalette[Math.min(si,3)]}"   stroke-width="${sw}" stroke-dasharray="${dash}"/>`;
+    svg += `<path d="${loPath}" fill="none" stroke="${greenPalette[Math.min(si,3)]}" stroke-width="${sw}" stroke-dasharray="${dash}"/>`;
   }
 
   // Breakeven corridor (solid lines, orange)
@@ -2772,11 +2853,11 @@ function renderViz4() {
   // Legend
   const legY = H - 10;
   svg += `<circle cx="${PAD.left}" cy="${legY}" r="4" fill="#ff6a00"/>`;
-  svg += `<text x="${PAD.left+8}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.5)">BREAKEVEN</text>`;
-  svg += `<line x1="${PAD.left+90}" y1="${legY}" x2="${PAD.left+110}" y2="${legY}" stroke="rgba(245,200,0,.6)" stroke-width="1.5"/>`;
-  svg += `<text x="${PAD.left+114}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.5)">σ1</text>`;
-  svg += `<line x1="${PAD.left+130}" y1="${legY}" x2="${PAD.left+150}" y2="${legY}" stroke="rgba(255,106,0,.6)" stroke-width="1.5" stroke-dasharray="4,3"/>`;
-  svg += `<text x="${PAD.left+154}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.5)">σ2+</text>`;
+  svg += `<text x="${PAD.left+8}" y="${legY+4}" font-size="9" fill="rgba(255,255,255,.45)">BREAKEVEN</text>`;
+  svg += `<line x1="${PAD.left+95}" y1="${legY}" x2="${PAD.left+112}" y2="${legY}" stroke="rgba(255,50,50,.8)" stroke-width="2" stroke-dasharray="6,3"/>`;
+  svg += `<text x="${PAD.left+116}" y="${legY+4}" font-size="9" fill="rgba(255,120,120,.9)">UPPER σ · sell/stop zone</text>`;
+  svg += `<line x1="${PAD.left+260}" y1="${legY}" x2="${PAD.left+277}" y2="${legY}" stroke="rgba(30,180,80,.8)" stroke-width="2" stroke-dasharray="6,3"/>`;
+  svg += `<text x="${PAD.left+281}" y="${legY+4}" font-size="9" fill="rgba(100,220,130,.9)">LOWER σ · buy zone</text>`;
 
   svg += '</svg>';
   wrap.innerHTML = svg;
@@ -3618,6 +3699,8 @@ function setMode(mode) {
   document.getElementById('avg-section').style.display             = mode === 'avg'            ? 'block' : 'none';
   document.getElementById('sizer-section').style.display           = mode === 'sizer'          ? 'block' : 'none';
   document.getElementById('funding-section').style.display         = mode === 'funding'        ? 'block' : 'none';
+  document.getElementById('fgi-section').style.display             = mode === 'fgi'            ? 'block' : 'none';
+  if (mode === 'fgi') fgiLoad();
   document.getElementById('portfolio-section').style.display       = mode === 'portfolio'      ? 'block' : 'none';
   document.getElementById('agent-section').style.display           = mode === 'agent'          ? 'block' : 'none';
   document.getElementById('chart-section').style.display           = mode === 'chart'          ? 'block' : 'none';
@@ -4850,28 +4933,30 @@ function pfRenderTable(totalCurrent) {
       ? `<span style="font-size:7px;color:#22c55e;font-weight:700;margin-left:3px;">LIVE</span>`
       : `<span style="font-size:7px;color:#555;font-weight:700;margin-left:3px;">—</span>`;
 
+    const accentColor = PF_COLORS[pfAssets.indexOf(a)%PF_COLORS.length];
     return `<div class="pf-asset-row">
-      <span style="font-size:10px;color:#444;font-weight:700;">${i+1}</span>
+      <span style="font-size:10px;color:#333;font-weight:700;">${i+1}</span>
       <div>
-        <div style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;">${a.sym}</div>
-        <div style="font-size:8px;color:#555;">${a.qty.toLocaleString('en',{maximumFractionDigits:6})} units${a.entries>1?' · avg×'+a.entries:''}</div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;">${a.sym}</span>
+          <span class="pf-asset-type-badge ${a.type}">${a.type.toUpperCase()}</span>
+        </div>
+        <div style="font-size:8px;color:#444;margin-top:1px;">${a.qty.toLocaleString('en',{maximumFractionDigits:4})} units</div>
+        <div style="font-size:8px;color:#444;">avg ${fmtAvgPrice(a.avgPrice)} → <span style="color:rgba(255,255,255,.5);">${fmtAvgPrice(curPrice)}${liveBadge}</span></div>
       </div>
-      <span class="pf-asset-type-badge ${a.type}">${a.type.toUpperCase()}</span>
-      <span style="font-family:JetBrains Mono,monospace;font-size:12px;">${fmtAvgPrice(a.avgPrice)}</span>
-      <div>${fmtAvgPrice(curPrice)}${liveBadge}</div>
-      <span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;">$${Math.round(value).toLocaleString('en')}</span>
-      <div class="${pnlCls}" style="font-family:JetBrains Mono,monospace;font-size:11px;">
-        ${livePrice ? (pnl>=0?'+':'')+fmtAvgPrice(Math.abs(pnl)) : '—'}<br>
-        <span style="font-size:9px;">${livePrice ? (pnlPct>=0?'+':'')+pnlPct.toFixed(1)+'%' : ''}</span>
+      <div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:800;white-space:nowrap;">$${Math.round(value).toLocaleString('en')}</div>
+        <div class="${pnlCls}" style="font-size:10px;font-weight:700;margin-top:2px;white-space:nowrap;">
+          ${livePrice ? (pnl>=0?'+':'-')+'$'+Math.abs(Math.round(pnl)).toLocaleString('en') : '—'}
+          <span style="font-size:9px;opacity:.8;">${livePrice ? ' ('+((pnlPct>=0?'+':'')+pnlPct.toFixed(1))+'%)' : ''}</span>
+        </div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:11px;font-weight:800;">${share}%</div>
-        <div style="width:40px;margin-left:auto;">
-          <div class="pf-bar-mini" style="background:${PF_COLORS[pfAssets.indexOf(a)%PF_COLORS.length]};width:${Math.min(parseFloat(share)*2,100)}%;"></div>
-        </div>
+        <div style="font-size:13px;font-weight:800;">${share}%</div>
+        <div style="height:3px;border-radius:2px;background:${accentColor};width:${Math.min(parseFloat(share)*1.8,100)}%;margin:4px 0 4px auto;max-width:40px;"></div>
         <button onclick="pfRemoveAsset('${a.sym}')"
-          style="font-size:9px;color:#333;background:none;border:none;cursor:pointer;margin-top:3px;font-family:Outfit,sans-serif;"
-          onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#333'">✕ remove</button>
+          style="font-size:8px;color:#333;background:none;border:none;cursor:pointer;font-family:Outfit,sans-serif;padding:0;"
+          onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#333'">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -5054,7 +5139,7 @@ function pfAddAlert() {
   const list = document.getElementById('pf-alerts-list');
   const formId = 'pf-alert-form-' + Date.now();
   const formHtml = `<div id="${formId}" style="padding:12px 14px;background:rgba(255,106,0,0.05);border-bottom:1px solid rgba(255,106,0,0.15);">
-    <div style="display:grid;grid-template-columns:100px 130px 80px 1fr auto auto;gap:8px;align-items:end;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end;">
       <div>
         <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:4px;">ASSET</div>
         <select class="pf-add-input" id="${formId}-sym" style="font-family:Outfit,sans-serif;font-size:12px;">
@@ -5356,29 +5441,13 @@ const NEWS_CONFIGS = {
 };
 
 function setNewsTab(tab) {
-  // Update tab buttons
-  Object.keys(NEWS_CONFIGS).forEach(t => {
-    document.getElementById('news-tab-'+t)?.classList.toggle('active', t === tab);
+  const tabs = ['top','crypto','forex','stock','futures','bonds'];
+  tabs.forEach(t => {
+    const btn = document.getElementById('news-tab-'+t);
+    if (btn) btn.classList.toggle('active', t === tab);
+    const pane = document.getElementById('news-'+t);
+    if (pane) pane.style.display = t === tab ? 'block' : 'none';
   });
-  // Rebuild widget
-  const wrap = document.getElementById('news-widget-wrap');
-  if (!wrap) return;
-  const cfg = NEWS_CONFIGS[tab] || NEWS_CONFIGS.top;
-  const payload = Object.assign({
-    displayMode: 'regular',
-    colorTheme: 'dark',
-    isTransparent: false,
-    locale: 'en',
-    width: '100%',
-    height: '100%'
-  }, cfg);
-  wrap.innerHTML = `
-    <div class="tradingview-widget-container" style="height:100%;width:100%">
-      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
-      ${JSON.stringify(payload)}
-      <\/script>
-    </div>`;
 }
 
 
@@ -6032,30 +6101,28 @@ function agentRenderSignals() {
         </div>
       </div>
 
-      <!-- Row 2: BOTTOM date + alert / TOP date + alert -->
+      <!-- Row 2: BOTTOM date + alert / TOP date + alert — compact -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-        <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.12);border-radius:8px;padding:10px;">
-          <div style="font-size:8px;font-weight:700;color:#6495ed;letter-spacing:.8px;margin-bottom:6px;">📅 BOTTOM DATE (FORECAST)</div>
-          <input class="agent-signal-input" type="date"
-            value="${ed.bottomDate||''}" min="${todayStr}"
+        <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.12);border-radius:8px;padding:8px;">
+          <div style="font-size:7px;font-weight:700;color:#6495ed;letter-spacing:.6px;margin-bottom:5px;">📅 BOTTOM DATE</div>
+          <input type="date" value="${ed.bottomDate||''}" min="${todayStr}"
             oninput="agentEntryData['${a.ticker}'].bottomDate=this.value"
-            style="border-color:rgba(100,149,237,.3);font-family:JetBrains Mono,monospace;font-size:11px;width:100%;">
-          ${tg ? `<label style="display:flex;align-items:center;gap:6px;margin-top:8px;cursor:pointer;font-size:10px;color:#6495ed;font-weight:700;">
+            style="width:100%;background:transparent;border:none;color:#6495ed;font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;">
+          ${tg ? `<label style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer;font-size:9px;color:#6495ed;font-weight:600;">
             <input type="checkbox" ${ed.alertBottom?'checked':''} onchange="agentEntryData['${a.ticker}'].alertBottom=this.checked"
-              style="accent-color:#6495ed;width:13px;height:13px;">
-            🔔 Notify me on this date
+              style="accent-color:#6495ed;width:11px;height:11px;flex-shrink:0;">
+            🔔 Notify
           </label>` : ''}
         </div>
-        <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:8px;padding:10px;">
-          <div style="font-size:8px;font-weight:700;color:var(--orange);letter-spacing:.8px;margin-bottom:6px;">📅 TOP DATE (FORECAST)</div>
-          <input class="agent-signal-input" type="date"
-            value="${ed.topDate||''}" min="${todayStr}"
+        <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:8px;padding:8px;">
+          <div style="font-size:7px;font-weight:700;color:var(--orange);letter-spacing:.6px;margin-bottom:5px;">📅 TOP DATE</div>
+          <input type="date" value="${ed.topDate||''}" min="${todayStr}"
             oninput="agentEntryData['${a.ticker}'].topDate=this.value"
-            style="border-color:rgba(255,106,0,.3);font-family:JetBrains Mono,monospace;font-size:11px;width:100%;">
-          ${tg ? `<label style="display:flex;align-items:center;gap:6px;margin-top:8px;cursor:pointer;font-size:10px;color:var(--orange);font-weight:700;">
+            style="width:100%;background:transparent;border:none;color:var(--orange);font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;">
+          ${tg ? `<label style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer;font-size:9px;color:var(--orange);font-weight:600;">
             <input type="checkbox" ${ed.alertTop?'checked':''} onchange="agentEntryData['${a.ticker}'].alertTop=this.checked"
-              style="accent-color:var(--orange);width:13px;height:13px;">
-            🔔 Notify me on this date
+              style="accent-color:var(--orange);width:11px;height:11px;flex-shrink:0;">
+            🔔 Notify
           </label>` : ''}
         </div>
       </div>
@@ -6233,15 +6300,14 @@ function agentRenderPlan(plan) {
       </div>
       <div style="padding:0 18px 14px;">
         <div class="agent-tranche-row" style="border-color:rgba(255,255,255,.06);font-size:8px;font-weight:700;color:var(--text2);letter-spacing:.6px;padding:10px 0 6px;">
-          <span>#</span><span>TYPE</span><span style="text-align:right;">WEIGHT</span><span style="text-align:right;">AMOUNT</span><span style="text-align:center;">TRIGGER</span><span style="text-align:right;">TIMING</span>
+          <span>#</span><span>TYPE</span><span style="text-align:right;">WT</span><span style="text-align:right;">AMT</span><span style="text-align:right;">TIMING</span>
         </div>
         ${(t.entries||[]).map((e,i) => `
           <div class="agent-tranche-row">
             <div class="agent-tranche-num" style="background:${a?.color||'var(--orange)'}20;color:${a?.color||'var(--orange)'};">${e.tranche}</div>
-            <span style="color:#ccc;">${e.type}</span>
+            <div><div style="color:#ccc;font-size:11px;">${e.type}</div><div style="font-size:9px;color:var(--text2);margin-top:1px;">${e.triggerPrice}</div></div>
             <span style="font-weight:800;text-align:right;">${e.percentage}%</span>
-            <span style="font-weight:800;color:var(--orange);font-family:JetBrains Mono,monospace;text-align:right;">${agentFmt(e.amount)}</span>
-            <span style="color:var(--text2);text-align:center;font-size:10px;">${e.triggerPrice}</span>
+            <span style="font-weight:800;color:var(--orange);font-family:JetBrains Mono,monospace;text-align:right;font-size:10px;">${agentFmt(e.amount)}</span>
             <span style="color:var(--text2);text-align:right;font-size:10px;">${e.week}</span>
           </div>`).join('')}
       </div>
@@ -6293,7 +6359,187 @@ function agentRenderPlan(plan) {
   `;
 }
 
+
+// ════════════════════════════════════════
+// FEAR & GREED INDEX
+// ════════════════════════════════════════
+let fgiCurrentTab = 'crypto';
+let fgiLoaded = { crypto: false, stock: false };
+
+function fgiSetTab(tab) {
+  fgiCurrentTab = tab;
+  ['crypto','stock'].forEach(t => {
+    const btn = document.getElementById('fgi-tab-' + t);
+    if (!btn) return;
+    const active = t === tab;
+    btn.style.borderColor  = active ? 'var(--orange)' : 'var(--border2)';
+    btn.style.background   = active ? 'rgba(255,106,0,.1)' : 'var(--bg3)';
+    btn.style.color        = active ? 'var(--orange)' : 'var(--text2)';
+  });
+  fgiLoad();
+}
+
+async function fgiLoad() {
+  const isCrypto = fgiCurrentTab === 'crypto';
+  const valEl    = document.getElementById('fgi-value');
+  const lblEl    = document.getElementById('fgi-label');
+  const histEl   = document.getElementById('fgi-history');
+  const srcEl    = document.getElementById('fgi-source');
+  if (!valEl) return;
+
+  valEl.textContent = '…';
+  lblEl.textContent = 'Loading…';
+  histEl.innerHTML  = '';
+
+  if (isCrypto) {
+    // alternative.me public API — no CORS issues
+    try {
+      const res  = await fetch('https://api.alternative.me/fng/?limit=4&format=json');
+      const data = await res.json();
+      const arr  = data.data; // newest first
+      const cur  = arr[0];
+      const val  = parseInt(cur.value);
+      const lbl  = cur.value_classification;
+
+      fgiRenderGauge(val);
+      valEl.textContent = val;
+      lblEl.textContent = lbl;
+      lblEl.style.color = fgiColor(val);
+
+      // History: yesterday, last week, last month (arr[1], arr[2], arr[3])
+      const labels = ['Yesterday','Last Week','Last Month'];
+      histEl.innerHTML = [1,2,3].map((i,idx) => {
+        if (!arr[i]) return '';
+        const v = parseInt(arr[i].value);
+        return `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:600;margin-bottom:5px;">${labels[idx].toUpperCase()}</div>
+          <div style="font-size:22px;font-weight:700;color:${fgiColor(v)};">${v}</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px;">${arr[i].value_classification}</div>
+        </div>`;
+      }).join('');
+      if (srcEl) srcEl.textContent = 'Source: alternative.me · Crypto Fear & Greed Index';
+    } catch(e) {
+      valEl.textContent = '?';
+      lblEl.textContent = 'Failed to load';
+    }
+  } else {
+    // CNN Fear & Greed — use a CORS proxy approach or fall back to informational
+    // CNN doesn't have a public API; we show a static-style card with link
+    fgiRenderGauge(null);
+    valEl.textContent = '—';
+    lblEl.textContent = 'See CNN Market';
+    histEl.innerHTML = `
+      <div style="grid-column:1/-1;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:10px;padding:16px;text-align:center;">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:10px;">CNN Fear & Greed doesn't offer a public API.</div>
+        <a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank"
+          style="display:inline-block;padding:9px 20px;background:var(--orange);color:#000;font-weight:700;font-size:12px;border-radius:8px;text-decoration:none;font-family:'DM Sans',Outfit,sans-serif;">
+          Open CNN Fear & Greed →
+        </a>
+        <div style="font-size:9px;color:#333;margin-top:10px;">Tracks: momentum, strength, breadth, put/call ratio, junk bond demand, market volatility, safe haven demand</div>
+      </div>`;
+    if (srcEl) srcEl.textContent = '';
+  }
+}
+
+function fgiColor(val) {
+  if (val <= 25)  return '#ef4444';  // Extreme Fear
+  if (val <= 45)  return '#ff6a00';  // Fear
+  if (val <= 55)  return '#f5c800';  // Neutral
+  if (val <= 75)  return '#86efac';  // Greed
+  return '#22c55e';                  // Extreme Greed
+}
+
+function fgiRenderGauge(val) {
+  const svg = document.getElementById('fgi-arc-svg');
+  if (!svg) return;
+  const W = 240, H = 130;
+  const cx = 120, cy = 118, r = 95;
+  const startAngle = Math.PI;   // 9 o'clock (left)
+  const endAngle   = 0;         // 3 o'clock (right)
+
+  // Background arc
+  const segments = [
+    { from: 0,   to: 25,  color: '#ef4444' },
+    { from: 25,  to: 45,  color: '#ff6a00' },
+    { from: 45,  to: 55,  color: '#f5c800' },
+    { from: 55,  to: 75,  color: '#86efac' },
+    { from: 75,  to: 100, color: '#22c55e' },
+  ];
+
+  const toAngle = v => Math.PI - (v / 100) * Math.PI;
+  const arcPath = (a1, a2, rr) => {
+    const x1 = cx + rr * Math.cos(a1), y1 = cy - rr * Math.sin(a1);
+    const x2 = cx + rr * Math.cos(a2), y2 = cy - rr * Math.sin(a2);
+    const large = Math.abs(a2 - a1) > Math.PI ? 1 : 0;
+    return `M ${x1} ${y1} A ${rr} ${rr} 0 ${large} 0 ${x2} ${y2}`;
+  };
+
+  let paths = '';
+  segments.forEach(seg => {
+    const a1 = toAngle(seg.from);
+    const a2 = toAngle(seg.to);
+    paths += `<path d="${arcPath(a1, a2, r)}" fill="none" stroke="${seg.color}" stroke-width="18" stroke-linecap="round" opacity="0.85"/>`;
+  });
+
+  // Needle line (no separate needle element, just redraw the SVG dot)
+  const needleAngle = val !== null ? toAngle(val) : toAngle(50);
+  const nx = cx + (r) * Math.cos(needleAngle);
+  const ny = cy - (r) * Math.sin(needleAngle);
+  paths += `<circle cx="${nx}" cy="${ny}" r="7" fill="white" stroke="#0f0f0f" stroke-width="2"/>`;
+
+  // Zone labels
+  paths += `<text x="${cx - r - 2}" y="${cy + 16}" font-size="8" fill="rgba(255,255,255,.3)" font-family="DM Sans,Outfit,sans-serif" text-anchor="middle">EXTREME\nFEAR</text>`;
+  paths += `<text x="${cx + r + 2}" y="${cy + 16}" font-size="8" fill="rgba(255,255,255,.3)" font-family="DM Sans,Outfit,sans-serif" text-anchor="middle">EXTREME\nGREED</text>`;
+
+  svg.innerHTML = paths;
+  // Hide old needle
+  const nw = document.getElementById('fgi-needle-wrap');
+  if (nw) nw.style.display = 'none';
+}
+
 </script>
+
+
+<!-- ══ FEAR & GREED INDEX ══ -->
+<div id="fgi-section" style="display:none;max-width:900px;margin:0 auto;">
+  <div class="card" style="margin-bottom:14px;">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.4px;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+      <span style="display:inline-block;width:3px;height:14px;background:var(--orange);border-radius:2px;"></span>
+      FEAR &amp; GREED INDEX
+    </div>
+
+    <!-- Tab switcher -->
+    <div style="display:flex;gap:6px;margin-bottom:20px;">
+      <button id="fgi-tab-crypto" onclick="fgiSetTab('crypto')"
+        style="flex:1;padding:8px;border-radius:9px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--orange);cursor:pointer;">
+        ₿ CRYPTO
+      </button>
+      <button id="fgi-tab-stock" onclick="fgiSetTab('stock')"
+        style="flex:1;padding:8px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;">
+        📈 STOCK MARKET
+      </button>
+    </div>
+
+    <!-- Gauge display -->
+    <div id="fgi-gauge-wrap" style="display:flex;flex-direction:column;align-items:center;padding:10px 0 6px;">
+      <div style="position:relative;width:240px;height:130px;">
+        <svg id="fgi-arc-svg" width="240" height="130" viewBox="0 0 240 130"></svg>
+        <div id="fgi-needle-wrap" style="position:absolute;bottom:0;left:50%;transform-origin:bottom center;transform:translateX(-50%) rotate(-90deg);transition:transform 1s cubic-bezier(.4,0,.2,1);">
+          <div style="width:2px;height:90px;background:white;border-radius:2px;margin:0 auto;"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:white;margin:-5px auto 0;box-shadow:0 0 8px rgba(255,255,255,.5);"></div>
+        </div>
+      </div>
+      <div id="fgi-value" style="font-family:'DM Sans',sans-serif;font-size:52px;font-weight:700;line-height:1;color:#fff;margin-top:-10px;">—</div>
+      <div id="fgi-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,.5);margin-top:4px;letter-spacing:.3px;">Loading…</div>
+    </div>
+
+    <!-- History row -->
+    <div id="fgi-history" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:20px;"></div>
+
+    <!-- Source note -->
+    <div id="fgi-source" style="font-size:9px;color:#333;margin-top:14px;text-align:center;"></div>
+  </div>
+</div>
 
 </body>
 </html>
