@@ -2725,33 +2725,40 @@ function calculate() {
 }
 
 // ═══════════════════ VIZ SWITCHING ═══════════════════
-// ── VIZ 4: TIMELINE — sigma corridor across 5 expiry dates ──
+// ── VIZ 4: TIMELINE — sigma corridor using real calculated expiry dates ──
 function renderViz4() {
   const wrap = document.getElementById('v4-wrap');
   if (!wrap || !lastResult) return;
-  const { spot, levels, straddle: straddleCost } = lastResult;
+  const { levels } = lastResult;
 
-  // Generate 5 future expiry dates from current expiry
-  const currentExpiry = document.getElementById('r-date')?.textContent?.trim() || '';
-  const expiryDates = generateFutureExpiries(5);
-
-  // For each date, scale straddle cost by sqrt(t) — t = days to expiry / 30
+  // Use real history entries (oldest→newest) as X-axis points
+  if (!calcHistory || calcHistory.length < 2) {
+    wrap.innerHTML = '<div style="color:rgba(255,255,255,.3);padding:30px;text-align:center;font-size:12px;">Calculate more expiry dates to see timeline</div>';
+    return;
+  }
+  const histSorted = [...calcHistory].reverse(); // oldest first
   const today = new Date();
-  const dataPoints = expiryDates.map(d => {
-    const daysOut = Math.max(1, Math.round((d.date - today) / 86400000));
-    const tScale  = Math.sqrt(daysOut / 30);
-    const scaledCost = straddleCost * tScale;
-    const vis = levels.filter(l => l.show);
+
+  const dataPoints = histSorted.map(h => {
+    // Parse the expiry date label (e.g. "Mar 20", "April 24", "May 29")
+    let parsed = new Date(h.dateLabel + ' ' + today.getFullYear());
+    if (isNaN(parsed.getTime())) parsed = new Date(h.dateLabel);
+    if (isNaN(parsed.getTime())) parsed = new Date();
+    // If date is in the past, show it as-is (it's historical)
+    const daysOut = Math.round((parsed - today) / 86400000);
+    const vis = (h.levels || levels || []).filter(l => l.show);
     return {
-      label: d.label,
-      date: d.date,
+      label: h.dateLabel,
+      date: parsed,
       daysOut,
-      breakEvenHi: spot + scaledCost,
-      breakEvenLo: spot - scaledCost,
+      spot: h.spot,
+      straddle: h.straddle,
+      breakEvenHi: h.be_hi,
+      breakEvenLo: h.be_lo,
       sigmas: vis.map(lv => ({
         n: lv.n,
-        hi: spot + (lv.hi - spot) * tScale,
-        lo: spot - (spot - lv.lo) * tScale,
+        hi: lv.hi,
+        lo: lv.lo,
         color: lv.color
       }))
     };
@@ -2823,10 +2830,13 @@ function renderViz4() {
   svg += `<path d="${beHiPath}" fill="none" stroke="#ff6a00" stroke-width="2.5"/>`;
   svg += `<path d="${beLoPath}" fill="none" stroke="#ff6a00" stroke-width="2.5"/>`;
 
-  // Spot price horizontal reference
-  const spotY = yOf(spot);
-  svg += `<line x1="${PAD.left}" y1="${spotY}" x2="${W-PAD.right}" y2="${spotY}" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="6,4"/>`;
-  svg += `<text x="${PAD.left-6}" y="${spotY+4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${fmtPrice(spot)}</text>`;
+  // Spot price reference — use most recent history spot
+  const latestSpot = histSorted[histSorted.length-1]?.spot;
+  if (latestSpot) {
+    const spotY = yOf(latestSpot);
+    svg += `<line x1="${PAD.left}" y1="${spotY}" x2="${W-PAD.right}" y2="${spotY}" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="6,4"/>`;
+    svg += `<text x="${PAD.left-6}" y="${spotY+4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${fmtPrice(latestSpot)}</text>`;
+  }
 
   // Breakeven dots + labels at each date
   dataPoints.forEach((p, i) => {
