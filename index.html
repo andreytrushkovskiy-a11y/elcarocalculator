@@ -5,7 +5,29 @@
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+<script>
+// Force dark theme immediately after Telegram SDK loads
+(function(){
+  try {
+    var tg = window.Telegram && window.Telegram.WebApp;
+    if (tg) {
+      if (tg.setBackgroundColor)  tg.setBackgroundColor('#080808');
+      if (tg.setHeaderColor)      tg.setHeaderColor('#080808');
+      if (tg.setBottomBarColor)   tg.setBottomBarColor('#080808');
+      if (tg.expand)              tg.expand();
+    }
+  } catch(e) {}
+  // Force CSS vars before page renders
+  var r = document.documentElement;
+  r.style.setProperty('--tg-theme-bg-color',           '#080808');
+  r.style.setProperty('--tg-theme-secondary-bg-color', '#0f0f0f');
+  r.style.setProperty('--tg-theme-text-color',         '#f0f0f0');
+  r.style.setProperty('--tg-theme-hint-color',         '#555555');
+  r.style.setProperty('--tg-theme-button-color',       '#ff6a00');
+  r.style.setProperty('--tg-theme-button-text-color',  '#000000');
+  r.style.setProperty('background-color',              '#080808');
+})();
+</script>
 <title>ELCARO · Calculator</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,900&display=swap');
@@ -26,19 +48,29 @@
 –purple: #8b5cf6;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
-/* ── FORCE DARK THEME (overrides Telegram light mode) ── */
+/* ══ FORCE DARK THEME — overrides Telegram Mini App light mode ══ */
 :root {
 color-scheme: dark !important;
-–tg-theme-bg-color: #080808 !important;
+–tg-theme-bg-color:           #080808 !important;
 –tg-theme-secondary-bg-color: #0f0f0f !important;
-–tg-theme-text-color: #f0f0f0 !important;
-–tg-theme-hint-color: #555 !important;
-–tg-theme-button-color: #ff6a00 !important;
-–tg-theme-button-text-color: #000 !important;
+–tg-theme-text-color:         #f0f0f0 !important;
+–tg-theme-hint-color:         #555555 !important;
+–tg-theme-link-color:         #ff6a00 !important;
+–tg-theme-button-color:       #ff6a00 !important;
+–tg-theme-button-text-color:  #000000 !important;
+–tg-color-scheme:             dark    !important;
+}
+html {
+background: #080808 !important;
+color-scheme: dark !important;
 }
 html, body {
 background: #080808 !important;
 color: #f0f0f0 !important;
+}
+button, input, select, textarea {
+-webkit-appearance: none !important;
+appearance: none !important;
 color-scheme: dark !important;
 }
 body {
@@ -65,7 +97,7 @@ color:var(–text2); cursor:pointer; transition:all .18s;
 display:flex; align-items:center; justify-content:center; gap:6px;
 }
 .mode-btn.active {
-background:var(–orange); color:#000;
+background:#ff6a00 !important; color:#000 !important;
 box-shadow:0 2px 12px rgba(255,106,0,0.3);
 }
 .mode-btn:hover:not(.active) { color:var(–text); background:rgba(255,255,255,.04); }
@@ -853,9 +885,9 @@ border-bottom:1px solid var(–border);
 /* ── ACTION BUTTONS ── */
 .btn-autofill {
 width:100%; padding:12px; border-radius:9px; margin-top:4px; margin-bottom:8px;
-border:1px solid var(–orange); background:rgba(255,106,0,0.08);
+border:1px solid #ff6a00 !important; background:rgba(255,106,0,0.08) !important;
 font-family:‘Outfit’,sans-serif; font-size:13px; font-weight:800;
-color:var(–orange); cursor:pointer; transition:all .18s;
+color:#ff6a00 !important; cursor:pointer; transition:all .18s;
 display:flex; align-items:center; justify-content:center; gap:7px;
 letter-spacing:.3px;
 }
@@ -865,7 +897,7 @@ letter-spacing:.3px;
 .btn-autofill.success { border-color:var(–green); background:rgba(0,200,150,.08); color:var(–green); }
 .btn-calc {
 padding:13px; border-radius:9px; border:none;
-background:var(–orange); color:#000;
+background:#ff6a00 !important; color:#000 !important;
 font-family:‘Outfit’,sans-serif; font-size:14px; font-weight:900;
 cursor:pointer; letter-spacing:.3px; transition:all .18s;
 width:100%; margin-top:10px;
