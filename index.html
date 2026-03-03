@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ELCARO · Calculator</title>
 <style>
@@ -34,7 +36,9 @@ body {
   display:flex; gap:6px; margin-bottom:20px;
   background:var(--bg2); border:1px solid var(--border);
   border-radius:11px; padding:4px; max-width:420px;
+  overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
 }
+.mode-switcher::-webkit-scrollbar { display:none; }
 .mode-btn {
   flex:1; padding:9px 12px; border-radius:8px; border:none;
   background:transparent; font-family:'Outfit',sans-serif;
@@ -1012,7 +1016,7 @@ body {
     </button>
     <!-- POSITION TOOLS — dropdown trigger -->
     <button class="mode-btn" id="mode-position-group" onclick="setMode('avg')"
-      style="position:relative;border-style:dashed;border-color:rgba(255,106,0,.35);">
+      style="position:relative;">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
       POSITION TOOLS
       <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:2px;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
@@ -2001,7 +2005,18 @@ body {
       <button onclick="pfAddAlert()" style="padding:6px 12px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">+ ADD ALERT</button>
     </div>
     <div style="background:rgba(255,106,0,0.05);border:1px solid rgba(255,106,0,0.15);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:9px;color:rgba(255,106,0,0.7);">
-      ⚡ Connect your Telegram bot (@elcarocalculator_bot) to receive alerts. Alerts will be sent on the scheduled date with: ASSET / ACTION / TIMEFRAME
+      <span id="pf-tg-status">⚡ Open this app inside @elcarocalculator_bot to receive Telegram alerts on scheduled dates.</span>
+      <script>
+        (function() {
+          window.addEventListener('load', function() {
+            const el = document.getElementById('pf-tg-status');
+            if (!el) return;
+            const id = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+            if (id) el.innerHTML = '✅ Telegram connected · alerts will be sent to your bot automatically';
+            else    el.innerHTML = '⚡ Open inside @elcarocalculator_bot to enable Telegram alerts';
+          });
+        })();
+      </script>
     </div>
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
       <div style="display:grid;grid-template-columns:80px 100px 80px 1fr auto;gap:8px;padding:8px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--border);">
@@ -3128,7 +3143,7 @@ function setMode(mode) {
     el.classList.toggle('active', active);
     if (m === 'position-group' && active) {
       el.style.borderColor = 'var(--orange)';
-      el.style.borderStyle = 'solid';
+      
     } else if (m === 'position-group') {
       el.style.borderColor = 'rgba(255,106,0,.35)';
       el.style.borderStyle = 'dashed';
@@ -4595,6 +4610,41 @@ function pfAddAlert() {
   document.getElementById('pf-alerts-empty').style.display = 'none';
 }
 
+// ── Telegram config ──
+const WORKER_URL  = 'https://elcaro-alerts.andreytrushkovskiy.workers.dev';
+const APP_SECRET  = 'elcaro_alerts_2026';
+
+function getTgChatId() {
+  try {
+    const tg = window.Telegram?.WebApp;
+    if (tg?.initDataUnsafe?.user?.id) return String(tg.initDataUnsafe.user.id);
+  } catch(e) {}
+  return null;
+}
+
+async function registerAlertTelegram(sym, date, action, tf, note) {
+  const chat_id = getTgChatId();
+  if (!chat_id) return; // not inside Telegram — skip silently
+  try {
+    await fetch(WORKER_URL + '/register-alert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret: APP_SECRET, chat_id, ticker: sym, action, timeframe: tf, date, note })
+    });
+  } catch(e) { console.warn('Alert server unreachable', e); }
+}
+
+async function deleteAlertTelegram(serverId) {
+  if (!serverId) return;
+  try {
+    await fetch(WORKER_URL + '/delete-alert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret: APP_SECRET, id: serverId })
+    });
+  } catch(e) {}
+}
+
 function pfSaveAlert(formId) {
   const sym    = document.getElementById(formId+'-sym').value;
   const date   = document.getElementById(formId+'-date').value;
@@ -4604,15 +4654,25 @@ function pfSaveAlert(formId) {
 
   if (!sym || !date) { showToast('⚠ Fill in asset and date'); return; }
 
-  pfAlerts.push({ sym, date, action, tf, note, id: Date.now(), notified:false });
+  const alertId = Date.now();
+  const serverId = `alert:${getTgChatId() || 'anon'}:${alertId}`;
+
+  pfAlerts.push({ sym, date, action, tf, note, id: alertId, serverId, notified:false });
   pfAlerts.sort((a,b) => new Date(a.date) - new Date(b.date));
   pfSave();
   document.getElementById(formId).remove();
   pfRenderAlerts();
-  showToast('✓ Alert set: ' + sym + ' ' + action + ' on ' + date + ' [' + tf + ']');
+
+  // Register on Telegram server
+  registerAlertTelegram(sym, date, action, tf, note);
+
+  const tgNote = getTgChatId() ? ' · 📬 Telegram alert set' : '';
+  showToast('✓ Alert: ' + sym + ' ' + action + ' on ' + date + tgNote);
 }
 
 function pfRemoveAlert(id) {
+  const alert = pfAlerts.find(a => a.id === id);
+  if (alert?.serverId) deleteAlertTelegram(alert.serverId);
   pfAlerts = pfAlerts.filter(a => a.id !== id);
   pfSave();
   pfRenderAlerts();
