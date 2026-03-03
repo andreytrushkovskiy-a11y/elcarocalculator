@@ -163,6 +163,96 @@ body {
 .avg-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
 
 /* ── AVG RESULTS ── */
+
+/* ── TAKE PROFIT ── */
+.tp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:6px; }
+.tp-card {
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; padding:12px 10px; text-align:center;
+  cursor:pointer; transition:all .18s; position:relative; overflow:hidden;
+}
+.tp-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(34,197,94,0.06) 0%,transparent 70%);
+  opacity:0; transition:opacity .18s;
+}
+.tp-card:hover::before { opacity:1; }
+.tp-card:hover { border-color:rgba(34,197,94,0.3); }
+.tp-pct   { font-size:8px; font-weight:800; letter-spacing:1px; color:#22c55e; margin-bottom:4px; }
+.tp-price { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--text); margin-bottom:3px; }
+.tp-pnl   { font-size:10px; font-weight:700; color:#22c55e; }
+.tp-custom-row {
+  display:flex; gap:6px; align-items:center; margin-top:6px;
+}
+.tp-custom-input {
+  flex:1; padding:8px 10px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--bg3);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--text); outline:none; transition:border-color .15s;
+}
+.tp-custom-input:focus { border-color:#22c55e; }
+.tp-custom-input::placeholder { color:#333; }
+.tp-custom-btn {
+  padding:8px 12px; border-radius:8px; border:1px solid var(--border2);
+  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:11px;
+  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s; white-space:nowrap;
+}
+.tp-custom-btn:hover { border-color:#22c55e; color:#22c55e; }
+
+/* ── RISK/REWARD ── */
+.rr-bar-wrap {
+  position:relative; height:10px; border-radius:5px;
+  background:#1a1a1a; margin:14px 0 24px; overflow:visible;
+}
+.rr-bar-risk {
+  position:absolute; left:0; top:0; height:100%;
+  background:linear-gradient(90deg,#ef4444,#ff6b6b);
+  border-radius:5px 0 0 5px; transition:width .4s;
+}
+.rr-bar-reward {
+  position:absolute; top:0; height:100%;
+  background:linear-gradient(90deg,#22c55e,#4ade80);
+  border-radius:0 5px 5px 0; transition:width .4s left .4s;
+}
+.rr-bar-center {
+  position:absolute; top:-4px; width:3px; height:18px;
+  background:#f0f0f0; border-radius:2px; transform:translateX(-50%);
+  transition:left .4s;
+}
+.rr-label {
+  position:absolute; bottom:-18px; font-size:8px;
+  transform:translateX(-50%); white-space:nowrap; font-weight:700;
+}
+.rr-stats { display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:center; text-align:center; }
+.rr-val   { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; }
+.rr-sep   { font-size:11px; color:#444; font-weight:700; }
+.rr-ratio {
+  display:inline-block; padding:4px 12px; border-radius:6px;
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:900;
+  margin-top:8px;
+}
+.rr-ratio.good { background:rgba(34,197,94,0.12); color:#22c55e; border:1px solid rgba(34,197,94,0.25); }
+.rr-ratio.bad  { background:rgba(239,68,68,0.12);  color:#ef4444;  border:1px solid rgba(239,68,68,0.25); }
+.rr-ratio.neutral { background:rgba(255,255,255,0.05); color:#888; border:1px solid var(--border); }
+
+/* ── AVG HISTORY ── */
+.avg-hist-item {
+  padding:10px 12px; border-radius:9px;
+  border:1px solid var(--border); background:var(--bg3);
+  cursor:pointer; transition:border-color .15s;
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:10px; align-items:center;
+}
+.avg-hist-item:hover { border-color:var(--orange); }
+.avg-hist-item.latest { border-color:rgba(255,106,0,0.4); }
+.avg-hist-num { font-size:9px; font-weight:800; color:#444; }
+.avg-hist-main { }
+.avg-hist-asset { font-size:8px; font-weight:800; letter-spacing:1px; color:var(--text2); margin-bottom:3px; }
+.avg-hist-price { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--orange); }
+.avg-hist-meta  { font-size:9px; color:#555; margin-top:2px; }
+.avg-hist-dir { font-size:9px; font-weight:800; padding:2px 7px; border-radius:4px; }
+.avg-hist-dir.long  { background:rgba(34,197,94,0.1);  color:#22c55e; }
+.avg-hist-dir.short { background:rgba(239,68,68,0.1);  color:#ef4444; }
 .avg-empty {
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   min-height:280px; gap:12px;
@@ -1007,6 +1097,58 @@ body {
             <div id="avg-r-legs-table"></div>
           </div>
 
+          <!-- ── TAKE PROFIT TARGETS ── -->
+          <div id="avg-tp-card" style="display:none;margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:7px;">
+                <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:#22c55e;">TAKE PROFIT TARGETS</span>
+              </div>
+              <span style="font-size:8px;color:#444;">from new avg price</span>
+            </div>
+            <div class="tp-grid" id="avg-tp-grid"></div>
+            <div class="tp-custom-row">
+              <input class="tp-custom-input" id="avg-tp-custom" type="number" placeholder="Custom TP price..." oninput="avgCalcCustomTp()">
+              <div id="avg-tp-custom-result" style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:800;color:#22c55e;min-width:60px;text-align:right;"></div>
+            </div>
+          </div>
+
+          <!-- ── RISK / REWARD ── -->
+          <div id="avg-rr-card" style="display:none;margin-top:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:7px;">
+                <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
+                <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--orange);">RISK / REWARD</span>
+              </div>
+              <span id="avg-rr-tp-label" style="font-size:8px;color:#444;">vs nearest TP</span>
+            </div>
+            <div class="rr-bar-wrap" id="avg-rr-bar-wrap">
+              <div class="rr-bar-risk"  id="avg-rr-risk-bar"></div>
+              <div class="rr-bar-reward" id="avg-rr-reward-bar"></div>
+              <div class="rr-bar-center" id="avg-rr-center"></div>
+              <div class="rr-label" id="avg-rr-liq-label" style="color:#ef4444;"></div>
+              <div class="rr-label" id="avg-rr-avg-label" style="color:var(--orange);"></div>
+              <div class="rr-label" id="avg-rr-tp-bar-label" style="color:#22c55e;"></div>
+            </div>
+            <div class="rr-stats">
+              <div>
+                <div style="font-size:8px;color:#666;margin-bottom:4px;font-weight:700;">RISK (to liq)</div>
+                <div class="rr-val" id="avg-rr-risk-val" style="color:#ef4444;">—</div>
+                <div id="avg-rr-risk-pct" style="font-size:9px;color:#666;margin-top:2px;"></div>
+              </div>
+              <div class="rr-sep">:</div>
+              <div>
+                <div style="font-size:8px;color:#666;margin-bottom:4px;font-weight:700;">REWARD (to TP)</div>
+                <div class="rr-val" id="avg-rr-reward-val" style="color:#22c55e;">—</div>
+                <div id="avg-rr-reward-pct" style="font-size:9px;color:#666;margin-top:2px;"></div>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:10px;">
+              <span class="rr-ratio neutral" id="avg-rr-ratio">—</span>
+            </div>
+            <div id="avg-rr-verdict" style="margin-top:8px;text-align:center;font-size:10px;font-weight:700;color:#555;"></div>
+          </div>
+
         </div>
       </div>
 
@@ -1036,6 +1178,16 @@ body {
           </div>
         </div>
       </div>
+
+      <!-- ── CALCULATION HISTORY ── -->
+      <div class="card" id="avg-hist-card" style="margin-top:14px;display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);">RECENT CALCULATIONS</div>
+          <button onclick="avgClearHistory()" style="background:none;border:none;font-size:9px;color:#444;cursor:pointer;font-weight:700;font-family:Outfit,sans-serif;">CLEAR</button>
+        </div>
+        <div id="avg-hist-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+      </div>
+
     </div>
 
   </div>
@@ -2223,6 +2375,12 @@ function avgCalculate() {
 
   // Update P&L if current price already set
   avgUpdatePnl();
+  // ── Render TP targets ──
+  avgRenderTpTargets(avgPrice, totalQty, totalVol);
+
+  // ── Add to history ──
+  avgAddToHistory(avgLastResult);
+
   // ── Render liquidation result ──
   const liqCard = document.getElementById('avg-liq-result-card');
   if (avgLastResult.origLiq && avgLastResult.newLiq !== null) {
@@ -2256,8 +2414,15 @@ function avgCalculate() {
     } else {
       warn.style.display = 'none';
     }
+
+    // R/R vs default +10% TP
+    const defaultTp = avgPrice * 1.10;
+    avgRenderRR(avgPrice, nL, defaultTp, avgLastResult.totalQty);
+    document.getElementById('avg-rr-tp-label').textContent = 'vs +10% TP (click target to update)';
+
   } else {
     liqCard.style.display = 'none';
+    document.getElementById('avg-rr-card').style.display = 'none';
   }
 
   showToast('✓ Average calculated');
@@ -2318,6 +2483,180 @@ function avgUpdatePnl() {
   document.getElementById('avg-pnl-pct').innerHTML = `<span style="color:${col}">${sign}${Math.abs(pnlPct).toFixed(2)}%</span>`;
   document.getElementById('avg-pnl-status').innerHTML = `<span style="color:${col}">${status}</span>`;
 }
+
+// ═══════════════════════════════════════════════
+// ══ TAKE PROFIT TARGETS ════════════════════════
+// ═══════════════════════════════════════════════
+
+const TP_PRESETS = [5, 10, 20, 30, 50, 100];
+
+function avgRenderTpTargets(avgPrice, totalQty, totalVol) {
+  const card = document.getElementById('avg-tp-card');
+  const grid = document.getElementById('avg-tp-grid');
+  if (!avgPrice) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+
+  grid.innerHTML = TP_PRESETS.map(pct => {
+    const tpPrice = avgPrice * (1 + pct / 100);
+    const pnl     = (tpPrice - avgPrice) * totalQty;
+    return `
+      <div class="tp-card" onclick="avgSetCustomTp(${tpPrice.toFixed(4)}); if(avgLastResult?.newLiq) { avgRenderRR(avgLastResult.avgPrice, avgLastResult.newLiq, ${tpPrice.toFixed(4)}, avgLastResult.totalQty); document.getElementById('avg-rr-tp-label').textContent='vs +${pct}% TP'; }">
+        <div class="tp-pct">+${pct}%</div>
+        <div class="tp-price">${fmtAvgPrice(tpPrice)}</div>
+        <div class="tp-pnl">+${pnl >= 1000 ? '$' + (pnl/1000).toFixed(1) + 'k' : '$' + pnl.toFixed(0)}</div>
+      </div>`;
+  }).join('');
+
+  // Clear custom
+  const ci = document.getElementById('avg-tp-custom');
+  if (ci) { ci.value = ''; }
+  document.getElementById('avg-tp-custom-result').textContent = '';
+}
+
+function avgCalcCustomTp() {
+  if (!avgLastResult) return;
+  const { avgPrice, totalQty } = avgLastResult;
+  const tp = parseFloat(document.getElementById('avg-tp-custom').value) || 0;
+  const el = document.getElementById('avg-tp-custom-result');
+  if (!tp || !avgPrice) { el.textContent = ''; return; }
+  const pct = ((tp - avgPrice) / avgPrice * 100);
+  const pnl = (tp - avgPrice) * totalQty;
+  const sign = pnl >= 0 ? '+' : '';
+  el.style.color = pnl >= 0 ? '#22c55e' : '#ef4444';
+  el.textContent = sign + pct.toFixed(1) + '% · ' + sign + '$' + Math.abs(pnl).toFixed(0);
+  // Update R/R with custom TP
+  if (avgLastResult.newLiq) {
+    avgRenderRR(avgPrice, avgLastResult.newLiq, tp, totalQty);
+    document.getElementById('avg-rr-tp-label').textContent = 'vs custom TP';
+  }
+}
+
+function avgSetCustomTp(price) {
+  const el = document.getElementById('avg-tp-custom');
+  if (el) {
+    el.value = parseFloat(price.toFixed(6));
+    avgCalcCustomTp();
+  }
+}
+
+// ═══════════════════════════════════════════════
+// ══ RISK / REWARD ══════════════════════════════
+// ═══════════════════════════════════════════════
+
+function avgRenderRR(avgPrice, liqPrice, tpPrice, totalQty) {
+  const card = document.getElementById('avg-rr-card');
+  if (!avgPrice || !liqPrice || !tpPrice) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+
+  const risk   = Math.abs(avgPrice - liqPrice);
+  const reward = Math.abs(tpPrice  - avgPrice);
+  const riskPct   = (risk   / avgPrice * 100).toFixed(1);
+  const rewardPct = (reward / avgPrice * 100).toFixed(1);
+  const riskPnl   = risk   * totalQty;
+  const rewardPnl = reward * totalQty;
+  const ratio = reward / risk;
+
+  document.getElementById('avg-rr-risk-val').textContent   = fmtAvgPrice(risk);
+  document.getElementById('avg-rr-reward-val').textContent = fmtAvgPrice(reward);
+  document.getElementById('avg-rr-risk-pct').textContent   = '-' + riskPct + '% · -$' + riskPnl.toFixed(0);
+  document.getElementById('avg-rr-reward-pct').textContent = '+' + rewardPct + '% · +$' + rewardPnl.toFixed(0);
+  document.getElementById('avg-rr-tp-label').textContent   = 'vs TP ' + fmtAvgPrice(tpPrice);
+
+  // Ratio badge
+  const ratioEl = document.getElementById('avg-rr-ratio');
+  ratioEl.textContent = '1 : ' + ratio.toFixed(2);
+  ratioEl.className = 'rr-ratio ' + (ratio >= 2 ? 'good' : ratio >= 1 ? 'neutral' : 'bad');
+
+  // Verdict
+  const verdict = document.getElementById('avg-rr-verdict');
+  if (ratio >= 3)      verdict.innerHTML = '<span style="color:#22c55e">✓ Excellent setup — strong reward vs risk</span>';
+  else if (ratio >= 2) verdict.innerHTML = '<span style="color:#22c55e">✓ Good setup — reward outweighs risk</span>';
+  else if (ratio >= 1) verdict.innerHTML = '<span style="color:#888">⚠ Marginal — reward barely covers risk</span>';
+  else                 verdict.innerHTML = '<span style="color:#ef4444">✗ Poor setup — risk exceeds reward</span>';
+
+  // Bar visualization
+  const total = risk + reward;
+  const riskW  = (risk / total * 100).toFixed(1);
+  const rewardW = (reward / total * 100).toFixed(1);
+  const centerPct = riskW;
+
+  document.getElementById('avg-rr-risk-bar').style.width   = riskW + '%';
+  document.getElementById('avg-rr-reward-bar').style.cssText =
+    `left:${centerPct}%;width:${rewardW}%;top:0;height:100%;border-radius:0 5px 5px 0;background:linear-gradient(90deg,#22c55e,#4ade80);`;
+  document.getElementById('avg-rr-center').style.left = centerPct + '%';
+
+  // Labels
+  const liqLabel = document.getElementById('avg-rr-liq-label');
+  liqLabel.style.left = '0%';
+  liqLabel.textContent = 'LIQ ' + fmtAvgPrice(liqPrice);
+
+  const avgLabel = document.getElementById('avg-rr-avg-label');
+  avgLabel.style.left = centerPct + '%';
+  avgLabel.textContent = 'AVG ' + fmtAvgPrice(avgPrice);
+
+  const tpLabel = document.getElementById('avg-rr-tp-bar-label');
+  tpLabel.style.left = '100%';
+  tpLabel.textContent = 'TP ' + fmtAvgPrice(tpPrice);
+}
+
+// ═══════════════════════════════════════════════
+// ══ CALCULATION HISTORY ════════════════════════
+// ═══════════════════════════════════════════════
+
+let avgHistory = [];
+
+function avgAddToHistory(result) {
+  const entry = {
+    ts: Date.now(),
+    asset: avgCurrentAsset || '—',
+    position: result.position,
+    avgPrice: result.avgPrice,
+    totalVol: result.totalVol,
+    totalQty: result.totalQty,
+    legs: result.legs.length,
+    origLiq: result.origLiq,
+    newLiq: result.newLiq,
+  };
+  avgHistory.unshift(entry);
+  if (avgHistory.length > 5) avgHistory.pop();
+  avgRenderHistory();
+}
+
+function avgRenderHistory() {
+  const card = document.getElementById('avg-hist-card');
+  const list = document.getElementById('avg-hist-list');
+  if (!avgHistory.length) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+
+  list.innerHTML = avgHistory.map((h, i) => {
+    const time = new Date(h.ts).toLocaleTimeString('en', {hour:'2-digit', minute:'2-digit'});
+    const liqStr = h.newLiq ? ' · LIQ ' + fmtAvgPrice(h.newLiq) : '';
+    return `
+      <div class="avg-hist-item ${i===0?'latest':''}" onclick="avgRestoreHistory(${i})">
+        <span class="avg-hist-num">#${i+1}</span>
+        <div class="avg-hist-main">
+          <div class="avg-hist-asset">${h.asset} · ${time} · ${h.legs} entries</div>
+          <div class="avg-hist-price">${fmtAvgPrice(h.avgPrice)}</div>
+          <div class="avg-hist-meta">$${h.totalVol.toLocaleString('en',{maximumFractionDigits:0})}${liqStr}</div>
+        </div>
+        <span class="avg-hist-dir ${h.position}">${h.position.toUpperCase()}</span>
+      </div>`;
+  }).join('');
+}
+
+function avgRestoreHistory(idx) {
+  const h = avgHistory[idx];
+  if (!h) return;
+  showToast('History entry #' + (idx+1) + ' · ' + h.asset + ' loaded');
+  // Scroll results into view
+  document.getElementById('avg-results').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function avgClearHistory() {
+  avgHistory = [];
+  avgRenderHistory();
+}
+
 
 function fmtAvgPrice(v) {
   if (!v && v !== 0) return '—';
