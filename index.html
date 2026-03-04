@@ -1299,7 +1299,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       ECON
     </button>
-    <button class="mode-btn" id="mode-ai-settings" onclick="setMode('ai-settings')" title="AI Provider Settings"
+    <button class="mode-btn" id="mode-ai-settings" onclick="setMode('ai-settings')" title="Anthropic API Key"
       style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
       <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
       API
@@ -6583,37 +6583,16 @@ function fgiRenderGauge(val) {
 <div id="ai-settings-section" style="display:none;max-width:900px;margin:0 auto;">
   <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
     <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-    AI PROVIDER SETTINGS
+    ANTHROPIC API KEY
   </div>
-
-  <!-- Provider toggle -->
-  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px;">
-    <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:12px;">SELECT AI PROVIDER</div>
-    <div style="display:flex;gap:8px;">
-      <button id="prov-anthropic" onclick="elcaroSetProvider('anthropic')"
-        style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,106,0,.4);background:rgba(255,106,0,.1);color:var(--orange);font-weight:700;font-size:11px;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;transition:all .2s;">
-        <div style="font-size:16px;margin-bottom:4px;">🟠</div>
-        Anthropic
-        <div style="font-size:8px;font-weight:500;color:rgba(255,255,255,.4);margin-top:2px;">Claude Sonnet</div>
-      </button>
-      <button id="prov-openai" onclick="elcaroSetProvider('openai')"
-        style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:rgba(255,255,255,.5);font-weight:700;font-size:11px;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;transition:all .2s;">
-        <div style="font-size:16px;margin-bottom:4px;">🟢</div>
-        OpenAI
-        <div style="font-size:8px;font-weight:500;color:rgba(255,255,255,.4);margin-top:2px;">GPT-4o</div>
-      </button>
-    </div>
-  </div>
-
-  <!-- API Key input -->
   <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px;">
     <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:10px;">API KEY</div>
     <div style="display:flex;gap:8px;margin-bottom:10px;">
-      <input id="ai-key-input" type="password" placeholder="sk-ant-..."
+      <input id="ai-key-input" type="password" placeholder="sk-ant-api03-..."
         style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.04);color:#fff;font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;"
         onkeydown="if(event.key==='Enter') elcaroSetApiKey(this.value)" />
       <button onclick="elcaroSetApiKey(document.getElementById('ai-key-input').value)"
-        style="padding:10px 18px;border-radius:10px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;white-space:nowrap;">
+        style="padding:10px 18px;border-radius:10px;border:none;background:#ff6a00 !important;color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;white-space:nowrap;">
         SAVE
       </button>
     </div>
@@ -6625,13 +6604,11 @@ function fgiRenderGauge(val) {
       </button>
     </div>
   </div>
-
-  <!-- Where to get key -->
   <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:12px;padding:14px;">
     <div style="font-size:9px;font-weight:700;color:rgba(255,106,0,.7);margin-bottom:8px;">WHERE TO GET YOUR KEY</div>
     <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.7;">
-      <b style="color:rgba(255,255,255,.6);">Anthropic:</b> console.anthropic.com → API Keys → Create Key<br>
-      <b style="color:rgba(255,255,255,.6);">OpenAI:</b> platform.openai.com → API Keys → Create new secret key
+      console.anthropic.com → API Keys → Create Key<br>
+      <span style="color:rgba(255,255,255,.25);font-size:9px;">Powers live GEO news · GPR index · Economic calendar</span>
     </div>
     <div style="font-size:8px;color:rgba(255,255,255,.2);margin-top:10px;">🔒 Key saved locally in your browser only · Never sent to ELCARO servers</div>
   </div>
@@ -6742,49 +6719,14 @@ function fgiRenderGauge(val) {
 
 <script>
 /* ══════════════════════════════════════════════
-   AI PROVIDER CONFIG  –  Anthropic or OpenAI
+   ANTHROPIC API KEY CONFIG
 ═══════════════════════════════════════════════ */
 (function() {
-  const key      = localStorage.getItem('elcaro_api_key')    || '';
-  const provider = localStorage.getItem('elcaro_provider')   || 'anthropic';
-  if (key)      window.ELCARO_API_KEY  = key;
-  if (provider) window.ELCARO_PROVIDER = provider;
-  // Apply provider toggle state on load
-  setTimeout(() => { elcaroSetProvider(provider); updateKeyStatus(); }, 200);
+  const key = localStorage.getItem('elcaro_api_key') || '';
+  if (key) window.ELCARO_API_KEY = key;
+  setTimeout(() => updateKeyStatus(), 200);
 })();
 
-function elcaroSetProvider(p) {
-  window.ELCARO_PROVIDER = p;
-  localStorage.setItem('elcaro_provider', p);
-  const ant = document.getElementById('prov-anthropic');
-  const oai = document.getElementById('prov-openai');
-  if (ant) {
-    ant.style.borderColor = p==='anthropic' ? 'var(--orange)' : 'var(--border)';
-    ant.style.background  = p==='anthropic' ? 'rgba(255,106,0,.12)' : 'transparent';
-    ant.style.color       = p==='anthropic' ? 'var(--orange)' : 'rgba(255,255,255,.5)';
-  }
-  if (oai) {
-    oai.style.borderColor = p==='openai' ? '#22c55e' : 'var(--border)';
-    oai.style.background  = p==='openai' ? 'rgba(34,197,94,.1)' : 'transparent';
-    oai.style.color       = p==='openai' ? '#22c55e' : 'rgba(255,255,255,.5)';
-  }
-  const ph = document.getElementById('ai-key-input');
-  if (ph) ph.placeholder = p === 'openai' ? 'sk-...' : 'sk-ant-...';
-}
-
-function elcaroSetApiKey(key) {
-  window.ELCARO_API_KEY = key.trim();
-  localStorage.setItem('elcaro_api_key', key.trim());
-  updateKeyStatus();
-  // reload active section
-  const active = document.querySelector('.mode-btn.active');
-  if (active) {
-    const m = active.id.replace('mode-','');
-    if (m==='geo') { geoArticles=[]; geoLoad(true); }
-    if (m==='gpr') gprLoad();
-    if (m==='econ') { econLoaded=false; econLoad(); }
-  }
-}
 
 function elcaroClearApiKey() {
   window.ELCARO_API_KEY = '';
@@ -6807,71 +6749,31 @@ function updateKeyStatus() {
   }
 }
 
-// Unified API call — works with Anthropic or OpenAI
+// Anthropic API call
 async function aiChat(prompt, useSearch) {
-  const provider = window.ELCARO_PROVIDER || 'anthropic';
-  const key      = window.ELCARO_API_KEY  || '';
+  const key = window.ELCARO_API_KEY || '';
   if (!key) throw new Error('no_key');
-
-  if (provider === 'openai') {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        max_tokens: 1500,
-        messages:[{role:'user', content: prompt + (useSearch ? ' Use your knowledge up to your latest training data.' : '')}]
-      })
-    });
-    const d = await res.json();
-    if (d.error) throw new Error(d.error.message);
-    return d.choices?.[0]?.message?.content || '';
-  } else {
-    // Anthropic
-    const body = {
-      model:'claude-sonnet-4-20250514', max_tokens:1500,
-      messages:[{role:'user', content:prompt}]
-    };
-    if (useSearch) body.tools = [{type:'web_search_20250305',name:'web_search'}];
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key': key,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body: JSON.stringify(body)
-    });
-    const d = await res.json();
-    if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
-    return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-  }
+  const body = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1500,
+    messages: [{role:'user', content: prompt}]
+  };
+  if (useSearch) body.tools = [{type:'web_search_20250305', name:'web_search'}];
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify(body)
+  });
+  const d = await res.json();
+  if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
+  return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
 }
 
-/* ══════════════════════════════════════════════
-   GEO NEWS  –  Claude AI powered geopolitical feed
-═══════════════════════════════════════════════ */
-let geoArticles   = [];
-let geoCurrentCat = 'all';
-let geoLastLoad   = 0;
-
-const CAT_KW = {
-  war:       ['war','military','troops','attack','missile','bomb','strike','conflict','invasion','ceasefire','battle','soldier','nato','weapon','drone','airstr','shoot','killed','casualties'],
-  sanctions: ['sanction','ban','embargo','restrict','tariff','penalt','expel','freezing','blocked','blacklist'],
-  energy:    ['oil','gas','opec','pipeline','energy','crude','lng','fuel','barrel','petro','reactor'],
-  trade:     ['trade','tariff','export','import','supply chain','wto','customs','deficit','surplus','deal','agreement','commerce'],
-  crypto:    ['bitcoin','crypto','blockchain','ethereum','stablecoin','cbdc','sec ','digital asset','defi','btc','eth ','token'],
-};
-const CAT_COLOR  = {war:'#e03b3b',sanctions:'#ff6a00',energy:'#f5c800',trade:'#86efac',crypto:'#818cf8',other:'rgba(255,255,255,.3)'};
-const CAT_LABEL  = {war:'⚔️ WAR',sanctions:'🚫 SANCTIONS',energy:'⚡ ENERGY',trade:'📦 TRADE',crypto:'₿ CRYPTO',other:'🌐 WORLD'};
-
-function geoClassify(text) {
-  const t = (text||'').toLowerCase();
-  for (const [cat, kws] of Object.entries(CAT_KW))
-    if (kws.some(k => t.includes(k))) return cat;
-  return 'other';
-}
 
 async function geoLoad(force) {
   const now = Date.now();
@@ -6881,7 +6783,7 @@ async function geoLoad(force) {
   // Check for API key
   if (!window.ELCARO_API_KEY) {
     el.innerHTML = '<div style="text-align:center;padding:24px;">' +
-      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your API key (Anthropic or OpenAI)</div>' +
+      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your Anthropic API key</div>' +
       '<div style="display:flex;gap:8px;max-width:400px;margin:0 auto;">' +
         '<input id="apikey-input" type="password" placeholder="sk-ant-..." style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,106,0,.3);background:rgba(255,106,0,.05);color:#fff;font-size:11px;font-family:monospace;" />' +
         '<button onclick="elcaroSetApiKey(document.getElementById(\'apikey-input\').value);geoLoad(true);" style="padding:8px 14px;border-radius:8px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:11px;cursor:pointer;">SAVE</button>' +
@@ -7017,7 +6919,7 @@ async function econLoad() {
   const el=document.getElementById('econ-list'); if(!el) return;
   if (!window.ELCARO_API_KEY) {
     el.innerHTML = '<div style="text-align:center;padding:24px;">' +
-      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your API key (Anthropic or OpenAI)</div>' +
+      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your Anthropic API key</div>' +
       '<div style="display:flex;gap:8px;max-width:400px;margin:0 auto;">' +
         '<input id="apikey-econ" type="password" placeholder="sk-ant-..." style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,106,0,.3);background:rgba(255,106,0,.05);color:#fff;font-size:11px;font-family:monospace;" />' +
         '<button onclick="elcaroSetApiKey(document.getElementById(\'apikey-econ\').value);econLoad();" style="padding:8px 14px;border-radius:8px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:11px;cursor:pointer;">SAVE</button>' +
