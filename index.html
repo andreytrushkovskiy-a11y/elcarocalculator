@@ -3029,87 +3029,79 @@ function renderViz4() {
 
   svgChart += '</svg>';
 
-  // ── 6. OVERLAY LAYER — PEAK/BOTTOM markers ──
+  // ── 6. OVERLAY LAYER — solid marker lines only (no labels inside chart) ──
   const markers = (window.targetDates || []).filter(t => t.date);
 
   let svgOverlay = `<svg id="v4-overlay-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"
-    style="width:100%;position:absolute;top:0;left:0;pointer-events:none;font-family:'DM Sans',Outfit,sans-serif;overflow:visible;">`;
+    style="width:100%;position:absolute;top:0;left:0;pointer-events:none;overflow:visible;">`;
 
-  if (markers.length) {
-    // Group by date key for collision offsetting
-    const grouped = {};
-    markers.forEach(m => {
-      if (!grouped[m.date]) grouped[m.date] = [];
-      grouped[m.date].push({ ...m, _d: new Date(m.date + 'T12:00:00') });
-    });
+  // Compute raw X for each marker (true time scale, no snapping)
+  const markerRendered = markers.map(m => {
+    const d   = new Date(m.date + 'T12:00:00');
+    const raw = timeScale(d.getTime());
+    return { ...m, _d: d, rawX: raw, offsetX: 0 };
+  });
 
-    const offsetsList = [-2, +2, -4, +4, -6, +6];
-    Object.values(grouped).forEach(group => {
-      group.forEach((m, i) => {
-        m.offsetX = offsetsList[i] ?? (i - Math.floor(group.length / 2)) * 2;
+  // Collision detection: same date OR |xi - xj| < 6px → distribute offsetX
+  const offsetsList = [-3, +3, -6, +6, -9, +9];
+  // Group by proximity
+  const assigned = new Array(markerRendered.length).fill(false);
+  for (let i = 0; i < markerRendered.length; i++) {
+    if (assigned[i]) continue;
+    const group = [i];
+    for (let j = i + 1; j < markerRendered.length; j++) {
+      if (!assigned[j] && Math.abs(markerRendered[i].rawX - markerRendered[j].rawX) < 6) {
+        group.push(j);
+        assigned[j] = true;
+      }
+    }
+    assigned[i] = true;
+    if (group.length > 1) {
+      group.forEach((idx, gi) => {
+        markerRendered[idx].offsetX = offsetsList[gi] ?? (gi - Math.floor(group.length / 2)) * 3;
       });
-    });
-
-    Object.values(grouped).forEach(group => {
-      group.forEach(m => {
-        const rawX = timeScale(m._d.getTime());
-
-        // DEBUG: clamp to plot bounds + always render
-        // PRODUCTION: skip if outside bounds
-        let tx;
-        if (DEBUG) {
-          tx = clamp(rawX, PAD.left, PAD.left + plotW) + m.offsetX;
-        } else {
-          if (rawX < PAD.left - 8 || rawX > PAD.left + plotW + 8) return;
-          tx = rawX + m.offsetX;
-        }
-
-        const isPeak    = m.type === 'peak';
-        const lineColor = DEBUG ? 'white'       : (isPeak ? '#ef4444' : '#22c55e');
-        const lineWidth = DEBUG ? 6             : 1.5;
-        const actionLbl = DEBUG ? 'DEBUG MARKER': (isPeak ? 'SELL' : 'BUY');
-        const anchor    = tx > PAD.left + plotW - 55 ? 'end'
-                        : tx < PAD.left + 55         ? 'start'
-                        :                              'middle';
-
-        // Vertical line through plot area
-        svgOverlay += `<line
-          x1="${tx.toFixed(1)}" y1="${PAD.top}"
-          x2="${tx.toFixed(1)}" y2="${PAD.top + plotH}"
-          stroke="${lineColor}" stroke-width="${lineWidth}" stroke-dasharray="${DEBUG ? 'none' : '5,3'}" opacity="0.9"/>`;
-
-        // Tick at X axis bottom
-        svgOverlay += `<line
-          x1="${tx.toFixed(1)}" y1="${PAD.top + plotH}"
-          x2="${tx.toFixed(1)}" y2="${PAD.top + plotH + 5}"
-          stroke="${lineColor}" stroke-width="${lineWidth}" opacity="0.7"/>`;
-
-        // Labels in gutter below X-axis date labels (gutter starts at +36px below axis)
-        const gutterTop = PAD.top + plotH + 36;
-        const rowShift  = isPeak ? 0 : 20;
-
-        // Line 1: SELL / BUY (or DEBUG MARKER)
-        svgOverlay += `<text
-          x="${tx.toFixed(1)}" y="${gutterTop + rowShift}"
-          font-size="${DEBUG ? 9 : 8.5}" fill="${lineColor}" text-anchor="${anchor}"
-          font-weight="800" opacity="0.95">${actionLbl}</text>`;
-
-        if (!DEBUG) {
-          // Line 2: formatted date (e.g. "Mar 16, 2026")
-          const dateLbl = m._d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-          svgOverlay += `<text
-            x="${tx.toFixed(1)}" y="${gutterTop + rowShift + 11}"
-            font-size="7.5" fill="${lineColor}" text-anchor="${anchor}"
-            font-weight="600" opacity="0.75">${dateLbl}</text>`;
-        }
-      });
-    });
+    }
   }
+
+  markerRendered.forEach(m => {
+    const tx = clamp(m.rawX + m.offsetX, PAD.left + 2, PAD.left + plotW - 2);
+    const isPeak    = m.type === 'peak';
+    const lineColor = isPeak ? '#ef4444' : '#22c55e';
+
+    // SOLID vertical line — NO stroke-dasharray
+    svgOverlay += `<line x1="${tx.toFixed(1)}" y1="${PAD.top}" x2="${tx.toFixed(1)}" y2="${PAD.top + plotH}"
+      stroke="${lineColor}" stroke-width="1.5" opacity="0.9"/>`;
+    // Small triangle tick at axis
+    const ty = PAD.top + plotH;
+    svgOverlay += `<polygon points="${tx.toFixed(1)},${ty} ${(+tx-4).toFixed(1)},${ty+7} ${(+tx+4).toFixed(1)},${ty+7}"
+      fill="${lineColor}" opacity="0.7"/>`;
+  });
 
   svgOverlay += '</svg>';
 
-  // Mount both layers
-  wrap.innerHTML = `<div style="position:relative;width:100%;height:${H}px;">${svgChart}${svgOverlay}</div>`;
+  // ── 7. Marker chip list — rendered BELOW the SVG, never overlapping ──
+  let chipList = '';
+  if (markers.length) {
+    const sorted = [...markers].filter(m=>m.date).sort((a,b)=>new Date(a.date)-new Date(b.date));
+    chipList = `<div style="display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.06);margin-top:6px;">` +
+      sorted.map(m => {
+        const isPeak = m.type === 'peak';
+        const color  = isPeak ? '#ef4444' : '#22c55e';
+        const bg     = isPeak ? 'rgba(239,68,68,.1)' : 'rgba(34,197,94,.1)';
+        const action = isPeak ? 'SELL' : 'BUY';
+        const d      = new Date(m.date + 'T12:00:00');
+        const label  = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        const tf     = m.tf || '1D';
+        return `<div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:${bg};border:1px solid ${color}40;">
+          <span style="font-size:9px;font-weight:800;color:${color};">${action}</span>
+          <span style="font-size:9px;color:rgba(255,255,255,.6);">${label}</span>
+          <span style="font-size:8px;font-weight:700;color:${color};opacity:.7;">${tf}</span>
+        </div>`;
+      }).join('') + `</div>`;
+  }
+
+  // Mount both layers + chip list
+  wrap.innerHTML = `<div style="position:relative;width:100%;height:${H}px;">${svgChart}${svgOverlay}</div>${chipList}`;
 }
 
 
@@ -3461,19 +3453,54 @@ function addHistory(entry) {
 // ═══════════════════ OUTPUT ═══════════════════
 function buildOutput(asset, dateLabel, dateShort, spot, straddle, be_lo, be_hi, levels) {
   const sym = '$' + asset;
-  let out = `🪙 ${sym}  —  *${dateLabel}*\n`;
-  out += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  out += `Straddle breakevens:\n`;
-  out += `   *${fmtPrice(be_lo)}*  &  *${fmtPrice(be_hi)}*\n\n`;
-  out += `σ Sigma levels:\n`;
+  const SEP = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+
+  // Header
+  let out = `🪙 ${sym} — ${dateLabel}\n`;
+  out += `${SEP}\n`;
+
+  // Straddle breakevens
+  out += `Straddle breakevens\n`;
+  out += `${fmtPrice(be_lo)} — ${fmtPrice(be_hi)}\n`;
+  out += `\n`;
+
+  // Sigma levels
+  out += `σ Sigma levels\n`;
+  const sigmaDesc = {
+    1: 'Price is unlikely to move outside this range',
+    2: 'Price is extremely unlikely to move outside this range',
+    3: 'Statistically impossible — near zero probability',
+    4: 'Virtually impossible — ignore this zone',
+  };
+  const sigmaProb = { 1:'≈68%', 2:'≈95%', 3:'≈99.7%', 4:'≈99.99%' };
   levels.filter(l => l.show).forEach(l => {
-    out += `| ${l.k}σ  |  *${fmtPrice(l.lo)}*  &  *${fmtPrice(l.hi)}*  |  *${l.prob}*\n`;
-    out += `   The price of *${sym}* *NOT GONNA BE* here with *${l.probFull}* probability\n\n`;
+    out += `\n${l.k}σ corridor\n`;
+    out += `${fmtPrice(l.lo)} — ${fmtPrice(l.hi)} · ${sigmaProb[l.k]}\n`;
+    out += `${sigmaDesc[l.k] || ''}\n`;
   });
-  out += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  out += `Spot: ${fmtPrice(spot)}  |  Straddle: ${fmtPrice(straddle)}`;
-  return out;
+
+  out += `${SEP}\n`;
+
+  // Expected trade windows — only if markers exist
+  const filledMarkers = (window.targetDates || []).filter(t => t.date);
+  if (filledMarkers.length) {
+    const sorted = [...filledMarkers].sort((a,b) => new Date(a.date) - new Date(b.date));
+    out += `Expected trade windows\n`;
+    sorted.forEach(m => {
+      const isPeak  = m.type === 'peak';
+      const emoji   = isPeak ? '🔴' : '🟢';
+      const action  = isPeak ? 'SELL' : 'BUY';
+      const d       = new Date(m.date + 'T12:00:00');
+      const label   = d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+      const tf      = m.tf || '1D';
+      out += `${emoji} ${action} — ${label} (${tf})\n`;
+    });
+    out += `${SEP}\n`;
+  }
+
+  return out.trimEnd();
 }
+
 
 function toggleTelegramOutput() {
   const wrap = document.getElementById('tg-output-wrap');
@@ -7131,7 +7158,7 @@ window.targetDates = [];
 
 function addTargetDate(type) {
   const id = Date.now();
-  window.targetDates.push({ id, type, date: '' });
+  window.targetDates.push({ id, type, date: '', tf: '1D' });
   renderTargetDates();
 }
 
@@ -7144,18 +7171,52 @@ function removeTargetDate(id) {
 function renderTargetDates() {
   const list = document.getElementById('target-dates-list');
   if (!list) return;
-  if (!targetDates.length) { list.innerHTML = ''; return; }
-  list.innerHTML = targetDates.map(t => `
-    <div class="target-date-row" id="trow-${t.id}">
-      <span class="target-date-tag ${t.type === 'peak' ? 'tag-peak' : 'tag-bot'}">${t.type === 'peak' ? '▲' : '▼'}</span>
+  if (!window.targetDates.length) { list.innerHTML = ''; return; }
+  list.innerHTML = window.targetDates.map(t => {
+    const isPeak = t.type === 'peak';
+    const tagCls = isPeak ? 'tag-peak' : 'tag-bot';
+    const icon   = isPeak ? '▲' : '▼';
+    const tf     = t.tf || '1D';
+    return `
+    <div class="target-date-row" id="trow-${t.id}" style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+      <span class="target-date-tag ${tagCls}">${icon}</span>
       <input class="target-date-input" type="date" value="${t.date}"
-        onchange="targetDates.find(x=>x.id===${t.id}).date=this.value; if(window.lastResult){updateTargetDateDisplay();try{renderViz4();}catch(e){}}"
-        oninput="targetDates.find(x=>x.id===${t.id}).date=this.value; if(window.lastResult){updateTargetDateDisplay();try{renderViz4();}catch(e){}}"
-        placeholder="YYYY-MM-DD" style="-webkit-appearance:none;" />
-      <button class="target-date-del" onclick="removeTargetDate(${t.id})">✕</button>
-    </div>
-  `).join('');
+        onchange="window.targetDates.find(x=>x.id===${t.id}).date=this.value;renderTargetDates();if(window.lastResult){try{renderViz4();}catch(e){}}"
+        oninput="window.targetDates.find(x=>x.id===${t.id}).date=this.value;if(window.lastResult){try{renderViz4();}catch(e){}}"
+        style="-webkit-appearance:none;flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:#fff;font-size:11px;font-family:'JetBrains Mono',monospace;outline:none;" />
+      <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12);flex-shrink:0;">
+        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='4H';renderTargetDates();try{renderViz4();}catch(e){}"
+          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
+            background:${tf==='4H'?'rgba(255,106,0,.3)':'transparent'};
+            color:${tf==='4H'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">4H</button>
+        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='1D';renderTargetDates();try{renderViz4();}catch(e){}"
+          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
+            background:${tf==='1D'?'rgba(255,106,0,.3)':'transparent'};
+            color:${tf==='1D'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">1D</button>
+      </div>
+      <button class="target-date-del" onclick="window.targetDates=window.targetDates.filter(x=>x.id!==${t.id});renderTargetDates();try{renderViz4();}catch(e){}"
+        style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;flex-shrink:0;">✕</button>
+    </div>`;
+  }).join('');
 }
+
+ style="-webkit-appearance:none;flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:#fff;font-size:11px;font-family:'JetBrains Mono',monospace;outline:none;" />
+      <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12);flex-shrink:0;">
+        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='4H';renderTargetDates();try{renderViz4();}catch(e){}"
+          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
+            background:${tf==='4H'?'rgba(255,106,0,.3)':'transparent'};
+            color:${tf==='4H'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">4H</button>
+        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='1D';renderTargetDates();try{renderViz4();}catch(e){}"
+          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
+            background:${tf==='1D'?'rgba(255,106,0,.3)':'transparent'};
+            color:${tf==='1D'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">1D</button>
+      </div>
+      <button class="target-date-del" onclick="window.targetDates=window.targetDates.filter(x=>x.id!==${t.id});renderTargetDates();try{renderViz4();}catch(e){}"
+        style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;flex-shrink:0;">✕</button>
+    </div>`;
+  }).join('');
+}
+
 
 function updateTargetDateDisplay() {
   if (!window.lastResult) return;
