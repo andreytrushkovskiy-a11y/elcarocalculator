@@ -2998,9 +2998,13 @@ function renderViz4() {
     svgChart += `<text x="${PAD.left - 6}" y="${spotY + 4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${fmtPrice(latestSpot)}</text>`;
   }
 
+  // Precompute X positions for collision-aware label anchoring
+  const xPositions = dataPoints.map((p, i) => xOf(i));
+  const MIN_LABEL_GAP = 28; // px — minimum space before switching anchor
+
   // Breakeven dots + X axis labels
   dataPoints.forEach((p, i) => {
-    const x   = xOf(i);
+    const x   = xPositions[i];
     const yHi = yOf(p.breakEvenHi);
     const yLo = yOf(p.breakEvenLo);
     svgChart += `<circle cx="${x}" cy="${yHi}" r="4" fill="#ff6a00" stroke="#0f0f0f" stroke-width="2"/>`;
@@ -3011,8 +3015,26 @@ function renderViz4() {
     }
     const xAxisY = PAD.top + plotH;
     svgChart += `<line x1="${x}" y1="${xAxisY}" x2="${x}" y2="${xAxisY + 6}" stroke="rgba(255,255,255,.15)" stroke-width="1"/>`;
-    svgChart += `<text x="${x}" y="${xAxisY + 18}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${p.xLabel}</text>`;
-    svgChart += `<text x="${x}" y="${xAxisY + 30}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.2)">${p.daysOut}d</text>`;
+
+    // Determine text-anchor based on distance to neighbours
+    const prevX = i > 0       ? xPositions[i - 1] : null;
+    const nextX = i < N - 1   ? xPositions[i + 1] : null;
+    const gapLeft  = prevX !== null ? x - prevX : Infinity;
+    const gapRight = nextX !== null ? nextX - x : Infinity;
+
+    let anchor;
+    if (gapLeft < MIN_LABEL_GAP && gapRight >= MIN_LABEL_GAP) {
+      anchor = 'start';   // too close to left neighbour — shift label right
+    } else if (gapRight < MIN_LABEL_GAP && gapLeft >= MIN_LABEL_GAP) {
+      anchor = 'end';     // too close to right neighbour — shift label left
+    } else if (gapLeft < MIN_LABEL_GAP && gapRight < MIN_LABEL_GAP) {
+      anchor = 'start';   // squeezed on both sides — prefer right
+    } else {
+      anchor = 'middle';  // enough room — centre as normal
+    }
+
+    svgChart += `<text x="${x}" y="${xAxisY + 18}" text-anchor="${anchor}" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${p.xLabel}</text>`;
+    svgChart += `<text x="${x}" y="${xAxisY + 30}" text-anchor="${anchor}" font-size="8" fill="rgba(255,255,255,.2)">${p.daysOut}d</text>`;
   });
 
   // Axes
@@ -3072,10 +3094,11 @@ function renderViz4() {
     // SOLID vertical line — NO stroke-dasharray
     svgOverlay += `<line x1="${tx.toFixed(1)}" y1="${PAD.top}" x2="${tx.toFixed(1)}" y2="${PAD.top + plotH}"
       stroke="${lineColor}" stroke-width="1.5" opacity="0.9"/>`;
-    // Small triangle tick at axis
-    const ty = PAD.top + plotH;
-    svgOverlay += `<polygon points="${tx.toFixed(1)},${ty} ${(+tx-4).toFixed(1)},${ty+7} ${(+tx+4).toFixed(1)},${ty+7}"
-      fill="${lineColor}" opacity="0.7"/>`;
+    // Label at top of line: SELL (red) or BUY (green)
+    const topLbl = isPeak ? 'SELL' : 'BUY';
+    const lblAnchor = tx > PAD.left + plotW - 30 ? 'end' : tx < PAD.left + 30 ? 'start' : 'middle';
+    svgOverlay += `<text x="${tx.toFixed(1)}" y="${PAD.top - 4}" font-size="8" font-weight="800"
+      fill="${lineColor}" text-anchor="${lblAnchor}" opacity="0.9">${topLbl}</text>`;
   });
 
   svgOverlay += '</svg>';
@@ -3438,7 +3461,9 @@ function addHistory(entry) {
         <span class="hist-row-prob">${l.prob}</span>
       </div>`).join('');
 
-    return `<div class="hist-item${i===0?' latest':''}">
+    return `<div class="hist-item${i===0?' latest':''}" style="cursor:pointer;"
+      onclick="loadHistoryEntry(${i})"
+      title="Load into Telegram output">
       <div class="hist-header">
         <div style="display:flex;align-items:center;gap:8px;">
           <span class="hist-sym">$${h.asset}</span>
@@ -3515,7 +3540,28 @@ function toggleTelegramOutput() {
   indicator.style.background = isOpen ? 'var(--border2)' : 'var(--orange)';
 }
 
+
+function loadHistoryEntry(i) {
+  const h = calcHistory[i];
+  if (!h) return;
+  const out = buildOutput(h.asset, h.dateLabel, h.dateLabel, h.spot, h.straddle, h.be_lo, h.be_hi, h.levels);
+  document.getElementById('output-box').textContent = out;
+  // Highlight the selected item
+  document.querySelectorAll('.hist-item').forEach((el, idx) => {
+    el.style.outline = idx === i ? '1px solid var(--orange)' : '';
+  });
+  // Open Telegram output panel if closed
+  const wrap = document.getElementById('tg-output-wrap');
+  if (wrap && wrap.style.display === 'none') toggleTelegramOutput();
+  showToast('✓ Loaded into Telegram output');
+}
 function copyOutput() {
+  // Regenerate output fresh so current PEAK/BOTTOM markers are included
+  if (window.lastResult) {
+    const r = window.lastResult;
+    const fresh = buildOutput(r.asset, r.dateLabel, r.dateShort, r.spot, r.straddle, r.be_lo, r.be_hi, r.levels);
+    document.getElementById('output-box').textContent = fresh;
+  }
   const txt = document.getElementById('output-box').textContent;
   navigator.clipboard.writeText(txt).then(() => showToast('✓ Copied!'));
 }
@@ -7269,12 +7315,18 @@ function renderTargetDates() {
 
 // Two-step commit: called only when user explicitly selects a day in the picker
 function tdCommit(id, value) {
-  if (!value) return;                          // picker closed with no selection
+  if (!value) return;
   const m = window.targetDates.find(x => x.id === id);
   if (!m) return;
   m.date = value;
-  renderTargetDates();                         // now safe to re-render — user confirmed
+  renderTargetDates();
   try { renderViz4(); } catch(e) {}
+  // Refresh Telegram output box with updated markers
+  if (window.lastResult) {
+    const r = window.lastResult;
+    const fresh = buildOutput(r.asset, r.dateLabel, r.dateShort, r.spot, r.straddle, r.be_lo, r.be_hi, r.levels);
+    document.getElementById('output-box').textContent = fresh;
+  }
 }
 
 function updateTargetDateDisplay() {
