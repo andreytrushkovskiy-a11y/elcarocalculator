@@ -2899,6 +2899,7 @@ function renderViz4() {
     // Fallback: if no visible sigmas, use all levels for Y-range only
     return {
       label:       h.dateLabel,
+      xLabel:      (() => { const d = h._date; return (d.getMonth()+1).toString().padStart(2,'0') + '/' + d.getDate().toString().padStart(2,'0'); })(),
       date:        h._date,
       daysOut,
       spot:        h.spot,
@@ -3010,7 +3011,7 @@ function renderViz4() {
     }
     const xAxisY = PAD.top + plotH;
     svgChart += `<line x1="${x}" y1="${xAxisY}" x2="${x}" y2="${xAxisY + 6}" stroke="rgba(255,255,255,.15)" stroke-width="1"/>`;
-    svgChart += `<text x="${x}" y="${xAxisY + 18}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${p.label}</text>`;
+    svgChart += `<text x="${x}" y="${xAxisY + 18}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.5)" font-weight="600">${p.xLabel}</text>`;
     svgChart += `<text x="${x}" y="${xAxisY + 30}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.2)">${p.daysOut}d</text>`;
   });
 
@@ -7160,6 +7161,16 @@ function addTargetDate(type) {
   const id = Date.now();
   window.targetDates.push({ id, type, date: '', tf: '1D' });
   renderTargetDates();
+  // Auto-focus the new date input so iOS opens picker immediately
+  setTimeout(() => {
+    const inputs = document.querySelectorAll('.target-date-input');
+    if (inputs.length) {
+      const last = inputs[inputs.length - 1];
+      last.focus();
+      // On iOS, showPicker() opens native calendar without double-tap
+      try { last.showPicker(); } catch(e) {}
+    }
+  }, 50);
 }
 
 function removeTargetDate(id) {
@@ -7183,7 +7194,8 @@ function renderTargetDates() {
       <input class="target-date-input" type="date" value="${t.date}"
         onchange="window.targetDates.find(x=>x.id===${t.id}).date=this.value;renderTargetDates();if(window.lastResult){try{renderViz4();}catch(e){}}"
         oninput="window.targetDates.find(x=>x.id===${t.id}).date=this.value;if(window.lastResult){try{renderViz4();}catch(e){}}"
-        style="-webkit-appearance:none;flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:#fff;font-size:11px;font-family:'JetBrains Mono',monospace;outline:none;" />
+        onfocus="if(!this.value)this.value=''"
+        style="-webkit-appearance:none;flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:${t.date?'#fff':'rgba(255,255,255,.3)'};font-size:11px;font-family:'JetBrains Mono',monospace;outline:none;" />
       <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12);flex-shrink:0;">
         <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='4H';renderTargetDates();try{renderViz4();}catch(e){}"
           style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
