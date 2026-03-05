@@ -2918,7 +2918,9 @@ function renderViz4() {
   const markerTimes = (window.targetDates || [])
     .filter(t => t.date)
     .map(t => new Date(t.date + 'T12:00:00').getTime());
-  const tMax = Math.max(xDates[xDates.length - 1].getTime(), ...markerTimes, Date.now());
+  const tMax = markerTimes.length
+    ? Math.max(xDates[xDates.length - 1].getTime(), ...markerTimes, Date.now())
+    : Math.max(xDates[xDates.length - 1].getTime(), Date.now());
   const tRange  = tMax - tMin || 1;
 
   const timeScale = ms  => PAD.left + ((ms  - tMin) / tRange) * plotW;
@@ -7104,16 +7106,16 @@ function econRender() {
 /* ═══════════════════════════════════════
    TARGET DATES — peaks & bottoms
 ═══════════════════════════════════════ */
-let targetDates = [];
+window.targetDates = [];
 
 function addTargetDate(type) {
   const id = Date.now();
-  targetDates.push({ id, type, date: '' });
+  window.targetDates.push({ id, type, date: '' });
   renderTargetDates();
 }
 
 function removeTargetDate(id) {
-  targetDates = targetDates.filter(t => t.id !== id);
+  window.targetDates = window.targetDates.filter(t => t.id !== id);
   renderTargetDates();
   if (window.lastResult) { updateTargetDateDisplay(); try { renderViz4(); } catch(e){} }
 }
