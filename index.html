@@ -1428,17 +1428,35 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
           </select>
         </div>
 
-        <div class="divider"></div>
-
-        <div class="edit-label" style="margin-bottom:8px;">SHOW SIGMA LEVELS</div>
-        <div class="sigma-options">
-          <label class="sigma-opt"><input type="checkbox" id="chk-s1" checked onchange="recalcSigmaDisplay()"> <span style="color:#f5c800">1σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">68%</span></label>
-          <label class="sigma-opt"><input type="checkbox" id="chk-s2" checked onchange="recalcSigmaDisplay()"> <span style="color:#ff6a00">2σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">95%</span></label>
-          <label class="sigma-opt"><input type="checkbox" id="chk-s3" onchange="recalcSigmaDisplay()"> <span style="color:#e03b3b">3σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">99.7%</span></label>
-          <label class="sigma-opt"><input type="checkbox" id="chk-s4" onchange="recalcSigmaDisplay()"> <span style="color:#ff1a1a">4σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">99.99%</span></label>
-        </div>
       </div>
 
+      <!-- SHOW SIGMA LEVELS — toggle buttons, iOS compatible -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:8px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:10px;">SHOW SIGMA LEVELS</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button id="sig-btn-1" onclick="toggleSigma(1)"
+            style="padding:7px 14px;border-radius:8px;border:2px solid #f5c800;background:rgba(245,200,0,.15);color:#f5c800;font-weight:800;font-size:12px;cursor:pointer;font-family:inherit;-webkit-appearance:none;transition:all .15s;">
+            1σ <span style="font-size:9px;opacity:.6">68%</span>
+          </button>
+          <button id="sig-btn-2" onclick="toggleSigma(2)"
+            style="padding:7px 14px;border-radius:8px;border:2px solid #ff6a00;background:rgba(255,106,0,.15);color:#ff6a00;font-weight:800;font-size:12px;cursor:pointer;font-family:inherit;-webkit-appearance:none;transition:all .15s;">
+            2σ <span style="font-size:9px;opacity:.6">95%</span>
+          </button>
+          <button id="sig-btn-3" onclick="toggleSigma(3)"
+            style="padding:7px 14px;border-radius:8px;border:2px solid rgba(224,59,59,.3);background:transparent;color:rgba(224,59,59,.45);font-weight:800;font-size:12px;cursor:pointer;font-family:inherit;-webkit-appearance:none;transition:all .15s;">
+            3σ <span style="font-size:9px;opacity:.6">99.7%</span>
+          </button>
+          <button id="sig-btn-4" onclick="toggleSigma(4)"
+            style="padding:7px 14px;border-radius:8px;border:2px solid rgba(255,26,26,.3);background:transparent;color:rgba(255,26,26,.45);font-weight:800;font-size:12px;cursor:pointer;font-family:inherit;-webkit-appearance:none;transition:all .15s;">
+            4σ <span style="font-size:9px;opacity:.6">99.99%</span>
+          </button>
+        </div>
+        <!-- Hidden checkboxes keep existing JS compatibility -->
+        <input type="checkbox" id="chk-s1" checked style="display:none">
+        <input type="checkbox" id="chk-s2" checked style="display:none">
+        <input type="checkbox" id="chk-s3" style="display:none">
+        <input type="checkbox" id="chk-s4" style="display:none">
+      </div>
       <!-- Target Dates -->
       <div class="target-dates-wrap" id="target-dates-wrap">
         <div class="target-dates-label">📅 TARGET DATES (PEAKS / BOTTOMS)</div>
@@ -2991,28 +3009,33 @@ function renderViz4() {
   if (window.targetDates && targetDates.length) {
     const xDates = parsedHistory.map(h => h._date);
     const xMin = xDates[0].getTime();
-    const xMax = xDates[xDates.length-1].getTime();
+    // Extend xMax to include future target dates so they appear on chart
+    const allTargetTimes = targetDates.filter(t=>t.date).map(t=>new Date(t.date+'T12:00:00').getTime());
+    const xMax = Math.max(xDates[xDates.length-1].getTime(), ...allTargetTimes, Date.now());
     const xRange = xMax - xMin || 1;
 
     targetDates.filter(t => t.date).forEach(t => {
       const td = new Date(t.date + 'T12:00:00');
       const tx = PAD.left + ((td.getTime() - xMin) / xRange) * plotW;
-      // Only draw if within chart bounds (allow slight overflow)
-      if (tx < PAD.left - 20 || tx > PAD.left + plotW + 20) return;
+      // Only draw if within chart bounds
+      if (tx < PAD.left - 5 || tx > PAD.left + plotW + 5) return;
       const isPeak = t.type === 'peak';
       const lineColor = isPeak ? '#ef4444' : '#22c55e';
-      const labelColor = isPeak ? '#ef4444' : '#22c55e';
-      const labelY = isPeak ? PAD.top - 4 : PAD.top + plotH + 16;
-      const anchor = tx > PAD.left + plotW - 40 ? 'end' : tx < PAD.left + 40 ? 'start' : 'middle';
       const icon = isPeak ? '▲' : '▼';
       const dateStr = t.date.slice(5); // MM-DD
+      const anchor = tx > PAD.left + plotW - 45 ? 'end' : tx < PAD.left + 45 ? 'start' : 'middle';
 
-      // Vertical line
-      svg += `<line x1="${tx}" y1="${PAD.top}" x2="${tx}" y2="${PAD.top + plotH}"
-        stroke="${lineColor}" stroke-width="1" stroke-dasharray="3,3" opacity="0.7"/>`;
-      // Label
-      svg += `<text x="${tx}" y="${labelY}" font-size="8" fill="${labelColor}"
-        text-anchor="${anchor}" font-weight="700" opacity="0.9">${icon} ${dateStr}</text>`;
+      // Thin vertical line full height of plot
+      svg += `<line x1="${tx.toFixed(1)}" y1="${PAD.top}" x2="${tx.toFixed(1)}" y2="${PAD.top + plotH}"
+        stroke="${lineColor}" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>`;
+      // Peak label ABOVE chart, Bottom label BELOW chart
+      if (isPeak) {
+        svg += `<text x="${tx.toFixed(1)}" y="${PAD.top - 6}" font-size="8.5" fill="${lineColor}"
+          text-anchor="${anchor}" font-weight="800" opacity="0.95">${icon} ${dateStr}</text>`;
+      } else {
+        svg += `<text x="${tx.toFixed(1)}" y="${PAD.top + plotH + 18}" font-size="8.5" fill="${lineColor}"
+          text-anchor="${anchor}" font-weight="800" opacity="0.95">${icon} ${dateStr}</text>`;
+      }
     });
   }
 
@@ -6271,8 +6294,9 @@ function agentRenderSignals() {
         <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.12);border-radius:8px;padding:8px;">
           <div style="font-size:7px;font-weight:700;color:#6495ed;letter-spacing:.6px;margin-bottom:5px;">📅 BOTTOM DATE</div>
           <input type="date" value="${ed.bottomDate||''}" min="${todayStr}"
+            onchange="agentEntryData['${a.ticker}'].bottomDate=this.value"
             oninput="agentEntryData['${a.ticker}'].bottomDate=this.value"
-            style="width:100%;background:transparent;border:none;color:#6495ed;font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;">
+            style="width:100%;background:rgba(100,149,237,.1);border:1px solid rgba(100,149,237,.35);border-radius:6px;color:#6495ed;font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:5px 6px;-webkit-appearance:none;">
           ${tg ? `<label style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer;font-size:9px;color:#6495ed;font-weight:600;">
             <input type="checkbox" ${ed.alertBottom?'checked':''} onchange="agentEntryData['${a.ticker}'].alertBottom=this.checked"
               style="accent-color:#6495ed;width:11px;height:11px;flex-shrink:0;">
@@ -6282,8 +6306,9 @@ function agentRenderSignals() {
         <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:8px;padding:8px;">
           <div style="font-size:7px;font-weight:700;color:var(--orange);letter-spacing:.6px;margin-bottom:5px;">📅 TOP DATE</div>
           <input type="date" value="${ed.topDate||''}" min="${todayStr}"
+            onchange="agentEntryData['${a.ticker}'].topDate=this.value"
             oninput="agentEntryData['${a.ticker}'].topDate=this.value"
-            style="width:100%;background:transparent;border:none;color:var(--orange);font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;">
+            style="width:100%;background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.3);border-radius:6px;color:var(--orange);font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:5px 6px;-webkit-appearance:none;">
           ${tg ? `<label style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer;font-size:9px;color:var(--orange);font-weight:600;">
             <input type="checkbox" ${ed.alertTop?'checked':''} onchange="agentEntryData['${a.ticker}'].alertTop=this.checked"
               style="accent-color:var(--orange);width:11px;height:11px;flex-shrink:0;">
@@ -6788,7 +6813,7 @@ function fgiRenderGauge(val) {
 (function() {
   const key = localStorage.getItem('elcaro_api_key') || '';
   if (key) window.ELCARO_API_KEY = key;
-  setTimeout(() => updateKeyStatus(), 200);
+  setTimeout(() => { updateKeyStatus(); initSigmaButtons(); }, 200);
 })();
 
 
@@ -7050,7 +7075,8 @@ function renderTargetDates() {
       <span class="target-date-tag ${t.type === 'peak' ? 'tag-peak' : 'tag-bot'}">${t.type === 'peak' ? '▲' : '▼'}</span>
       <input class="target-date-input" type="date" value="${t.date}"
         onchange="targetDates.find(x=>x.id===${t.id}).date=this.value; if(window.lastResult){updateTargetDateDisplay();try{renderViz4();}catch(e){}}"
-        placeholder="YYYY-MM-DD" />
+        oninput="targetDates.find(x=>x.id===${t.id}).date=this.value; if(window.lastResult){updateTargetDateDisplay();try{renderViz4();}catch(e){}}"
+        placeholder="YYYY-MM-DD" style="-webkit-appearance:none;" />
       <button class="target-date-del" onclick="removeTargetDate(${t.id})">✕</button>
     </div>
   `).join('');
@@ -7100,6 +7126,41 @@ function recalcSigmaDisplay() {
   try { renderViz3(); } catch(e) {}
   try { renderViz4(); } catch(e) {}
   updateTargetDateDisplay();
+}
+
+
+/* ── Sigma toggle buttons (replaces native checkbox for iOS compatibility) ── */
+const SIGMA_BTN_COLORS = {
+  1: { c:'#f5c800', bg:'rgba(245,200,0,.15)', border:'#f5c800',     off_c:'rgba(245,200,0,.4)',  off_bg:'transparent', off_border:'rgba(245,200,0,.3)'  },
+  2: { c:'#ff6a00', bg:'rgba(255,106,0,.15)', border:'#ff6a00',     off_c:'rgba(255,106,0,.4)',  off_bg:'transparent', off_border:'rgba(255,106,0,.3)'  },
+  3: { c:'#e03b3b', bg:'rgba(224,59,59,.15)', border:'#e03b3b',     off_c:'rgba(224,59,59,.4)',  off_bg:'transparent', off_border:'rgba(224,59,59,.3)'  },
+  4: { c:'#ff1a1a', bg:'rgba(255,26,26,.15)', border:'#ff1a1a',     off_c:'rgba(255,26,26,.4)',  off_bg:'transparent', off_border:'rgba(255,26,26,.3)'  },
+};
+
+function toggleSigma(k) {
+  const chk = document.getElementById('chk-s'+k);
+  const btn = document.getElementById('sig-btn-'+k);
+  if (!chk || !btn) return;
+  chk.checked = !chk.checked;
+  const on = chk.checked;
+  const cfg = SIGMA_BTN_COLORS[k];
+  btn.style.background    = on ? cfg.bg         : cfg.off_bg;
+  btn.style.borderColor   = on ? cfg.border      : cfg.off_border;
+  btn.style.color         = on ? cfg.c           : cfg.off_c;
+  recalcSigmaDisplay();
+}
+
+function initSigmaButtons() {
+  [1,2,3,4].forEach(k => {
+    const chk = document.getElementById('chk-s'+k);
+    const btn = document.getElementById('sig-btn-'+k);
+    if (!chk || !btn) return;
+    const on = chk.checked;
+    const cfg = SIGMA_BTN_COLORS[k];
+    btn.style.background  = on ? cfg.bg         : cfg.off_bg;
+    btn.style.borderColor = on ? cfg.border      : cfg.off_border;
+    btn.style.color       = on ? cfg.c           : cfg.off_c;
+  });
 }
 
 </script>
