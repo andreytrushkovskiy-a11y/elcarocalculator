@@ -1191,6 +1191,20 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 .econ-name{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);}
 .econ-sub{font-size:8px;color:rgba(255,255,255,.3);margin-top:2px;}
 
+
+/* ── TARGET DATES ── */
+.target-dates-wrap { margin-top:12px; }
+.target-dates-label { font-size:8px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.3);margin-bottom:8px; }
+.target-date-row { display:flex;align-items:center;gap:8px;margin-bottom:6px; }
+.target-date-tag { font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px;min-width:28px;text-align:center; }
+.tag-peak  { background:rgba(34,197,94,.15); color:#22c55e; border:1px solid rgba(34,197,94,.3); }
+.tag-bot   { background:rgba(239,68,68,.15); color:#ef4444; border:1px solid rgba(239,68,68,.3); }
+.target-date-input { flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:#fff;font-size:11px;font-family:'JetBrains Mono',monospace;outline:none; }
+.target-date-input:focus { border-color:rgba(255,106,0,.4); }
+.target-date-del { background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px;padding:0 2px;line-height:1; }
+.target-date-del:hover { color:#ef4444; }
+.add-target-btn { font-size:9px;font-weight:700;padding:5px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s; }
+.add-target-btn:hover { border-color:var(--orange);color:var(--orange); }
 </style>
 </head>
 <body>
@@ -1198,6 +1212,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 <!-- HEADER -->
 <div class="header">
   <div><img id="logo-img" style="width:40px;height:40px;object-fit:contain;"></div>
+        <div id="target-dates-info" style="margin-top:10px;"></div>
   <div>
     <div class="brand-main">ELCARO <span style="color:var(--orange)">CALCULATOR</span></div>
     <div class="brand-sub">WE KNOW <span>WHEN TO BUY</span></div>
@@ -1417,10 +1432,20 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
         <div class="edit-label" style="margin-bottom:8px;">SHOW SIGMA LEVELS</div>
         <div class="sigma-options">
-          <label class="sigma-opt"><input type="checkbox" id="chk-s1" checked> 1σ <span style="color:var(--green)">68%</span></label>
-          <label class="sigma-opt"><input type="checkbox" id="chk-s2" checked> 2σ <span style="color:var(--orange)">95%</span></label>
-          <label class="sigma-opt"><input type="checkbox" id="chk-s3"> 3σ <span style="color:var(--red)">99.7%</span></label>
-          <label class="sigma-opt"><input type="checkbox" id="chk-s4"> 4σ <span style="color:var(--purple)">99.99%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s1" checked onchange="recalcSigmaDisplay()"> <span style="color:#f5c800">1σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">68%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s2" checked onchange="recalcSigmaDisplay()"> <span style="color:#ff6a00">2σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">95%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s3" onchange="recalcSigmaDisplay()"> <span style="color:#e03b3b">3σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">99.7%</span></label>
+          <label class="sigma-opt"><input type="checkbox" id="chk-s4" onchange="recalcSigmaDisplay()"> <span style="color:#ff1a1a">4σ</span> <span style="color:rgba(255,255,255,.35);font-size:9px">99.99%</span></label>
+        </div>
+      </div>
+
+      <!-- Target Dates -->
+      <div class="target-dates-wrap" id="target-dates-wrap">
+        <div class="target-dates-label">📅 TARGET DATES (PEAKS / BOTTOMS)</div>
+        <div id="target-dates-list"></div>
+        <div style="display:flex;gap:6px;margin-top:4px;">
+          <button class="add-target-btn" onclick="addTargetDate('peak')">+ PEAK</button>
+          <button class="add-target-btn" onclick="addTargetDate('bot')">+ BOTTOM</button>
         </div>
       </div>
 
@@ -2771,6 +2796,7 @@ function calculate() {
   const dateShort = dateStr ? formatDateShort(dateStr) : 'Expiry';
 
   lastResult = { asset, dateLabel, dateShort, spot, call, put, straddle, sigma, be_lo, be_hi, levels, round };
+  setTimeout(() => updateTargetDateDisplay(), 50);
   // Track unique dates for TIMELINE unlock
   if (!window._calcDates) window._calcDates = new Set();
   window._calcDates.add(dateShort);
@@ -2960,6 +2986,35 @@ function renderViz4() {
   svg += `<text x="${PAD.left+116}" y="${legY+4}" font-size="9" fill="rgba(255,120,120,.9)">UPPER σ · sell/stop zone</text>`;
   svg += `<line x1="${PAD.left+260}" y1="${legY}" x2="${PAD.left+277}" y2="${legY}" stroke="rgba(30,180,80,.8)" stroke-width="2" stroke-dasharray="6,3"/>`;
   svg += `<text x="${PAD.left+281}" y="${legY+4}" font-size="9" fill="rgba(100,220,130,.9)">LOWER σ · buy zone</text>`;
+
+  // ── Peak/Bottom target date lines ──
+  if (window.targetDates && targetDates.length) {
+    const xDates = parsedHistory.map(h => h._date);
+    const xMin = xDates[0].getTime();
+    const xMax = xDates[xDates.length-1].getTime();
+    const xRange = xMax - xMin || 1;
+
+    targetDates.filter(t => t.date).forEach(t => {
+      const td = new Date(t.date + 'T12:00:00');
+      const tx = PAD.left + ((td.getTime() - xMin) / xRange) * plotW;
+      // Only draw if within chart bounds (allow slight overflow)
+      if (tx < PAD.left - 20 || tx > PAD.left + plotW + 20) return;
+      const isPeak = t.type === 'peak';
+      const lineColor = isPeak ? '#ef4444' : '#22c55e';
+      const labelColor = isPeak ? '#ef4444' : '#22c55e';
+      const labelY = isPeak ? PAD.top - 4 : PAD.top + plotH + 16;
+      const anchor = tx > PAD.left + plotW - 40 ? 'end' : tx < PAD.left + 40 ? 'start' : 'middle';
+      const icon = isPeak ? '▲' : '▼';
+      const dateStr = t.date.slice(5); // MM-DD
+
+      // Vertical line
+      svg += `<line x1="${tx}" y1="${PAD.top}" x2="${tx}" y2="${PAD.top + plotH}"
+        stroke="${lineColor}" stroke-width="1" stroke-dasharray="3,3" opacity="0.7"/>`;
+      // Label
+      svg += `<text x="${tx}" y="${labelY}" font-size="8" fill="${labelColor}"
+        text-anchor="${anchor}" font-weight="700" opacity="0.9">${icon} ${dateStr}</text>`;
+    });
+  }
 
   svg += '</svg>';
   wrap.innerHTML = svg;
@@ -6529,40 +6584,49 @@ function fgiColor(val) {
 function fgiRenderGauge(val) {
   const svg = document.getElementById('fgi-arc-svg');
   if (!svg) return;
-  const W = 240, H = 130;
-  const cx = 120, cy = 118, r = 95;
-  const startAngle = Math.PI;   // 9 o'clock (left)
-  const endAngle   = 0;         // 3 o'clock (right)
+  const W = 240, H = 145;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const cx = 120, cy = 120, r = 90;
 
-  // Background arc
-  const segments = [
-    { from: 0,   to: 25,  color: '#ef4444' },
-    { from: 25,  to: 45,  color: '#ff6a00' },
-    { from: 45,  to: 55,  color: '#f5c800' },
-    { from: 55,  to: 75,  color: '#86efac' },
-    { from: 75,  to: 100, color: '#22c55e' },
-  ];
+  // toAngle: 0 = left (PI = Extreme Fear), 100 = right (0 = Extreme Greed)
+  // In SVG: x = cx + r*cos(a), y = cy - r*sin(a)  [y-axis flipped]
+  const toAngle = v => Math.PI * (1 - v / 100);
 
-  const toAngle = v => Math.PI - (v / 100) * Math.PI;
   const arcPath = (a1, a2, rr) => {
+    // a1 > a2 always (going right), use sweep=0 in standard math coords
     const x1 = cx + rr * Math.cos(a1), y1 = cy - rr * Math.sin(a1);
     const x2 = cx + rr * Math.cos(a2), y2 = cy - rr * Math.sin(a2);
-    const large = Math.abs(a2 - a1) > Math.PI ? 1 : 0;
-    return `M ${x1} ${y1} A ${rr} ${rr} 0 ${large} 0 ${x2} ${y2}`;
+    return `M ${x1} ${y1} A ${rr} ${rr} 0 0 1 ${x2} ${y2}`;
   };
 
-  let paths = '';
+  const segments = [
+    { from: 0,   to: 25,  color: '#ef4444' },   // Extreme Fear — left
+    { from: 25,  to: 45,  color: '#ff6a00' },   // Fear
+    { from: 45,  to: 55,  color: '#f5c800' },   // Neutral — center
+    { from: 55,  to: 75,  color: '#86efac' },   // Greed
+    { from: 75,  to: 100, color: '#22c55e' },   // Extreme Greed — right
+  ];
+
+  // Background track
+  let paths = `<path d="${arcPath(toAngle(0), toAngle(100), r)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="20"/>`;
+
   segments.forEach(seg => {
-    const a1 = toAngle(seg.from);
-    const a2 = toAngle(seg.to);
-    paths += `<path d="${arcPath(a1, a2, r)}" fill="none" stroke="${seg.color}" stroke-width="18" stroke-linecap="round" opacity="0.85"/>`;
+    paths += `<path d="${arcPath(toAngle(seg.from), toAngle(seg.to), r)}" fill="none" stroke="${seg.color}" stroke-width="18" stroke-linecap="butt" opacity="0.9"/>`;
   });
 
-  // Needle line (no separate needle element, just redraw the SVG dot)
-  const needleAngle = val !== null ? toAngle(val) : toAngle(50);
-  const nx = cx + (r) * Math.cos(needleAngle);
-  const ny = cy - (r) * Math.sin(needleAngle);
-  paths += `<circle cx="${nx}" cy="${ny}" r="7" fill="white" stroke="#0f0f0f" stroke-width="2"/>`;
+  // Speedometer needle from center
+  const needleAngle = toAngle(val !== null ? val : 50);
+  const needleLen = r - 8;
+  const nx = cx + needleLen * Math.cos(needleAngle);
+  const ny = cy - needleLen * Math.sin(needleAngle);
+  // Needle tail (short, opposite direction)
+  const tailLen = 18;
+  const tx = cx - tailLen * Math.cos(needleAngle);
+  const ty = cy + tailLen * Math.sin(needleAngle);
+
+  paths += `<line x1="${tx}" y1="${ty}" x2="${nx}" y2="${ny}" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>`;
+  paths += `<circle cx="${cx}" cy="${cy}" r="6" fill="#0f0f0f" stroke="white" stroke-width="2"/>`;
+  paths += `<circle cx="${cx}" cy="${cy}" r="3" fill="white"/>`;
 
   // Zone labels
   paths += `<text x="${cx - r - 2}" y="${cy + 16}" font-size="8" fill="rgba(255,255,255,.3)" font-family="DM Sans,Outfit,sans-serif" text-anchor="middle">EXTREME\nFEAR</text>`;
@@ -6959,6 +7023,85 @@ function econRender() {
     '</div>';
   }).join('');
 }
+
+/* ═══════════════════════════════════════
+   TARGET DATES — peaks & bottoms
+═══════════════════════════════════════ */
+let targetDates = [];
+
+function addTargetDate(type) {
+  const id = Date.now();
+  targetDates.push({ id, type, date: '' });
+  renderTargetDates();
+}
+
+function removeTargetDate(id) {
+  targetDates = targetDates.filter(t => t.id !== id);
+  renderTargetDates();
+  if (window.lastResult) { updateTargetDateDisplay(); try { renderViz4(); } catch(e){} }
+}
+
+function renderTargetDates() {
+  const list = document.getElementById('target-dates-list');
+  if (!list) return;
+  if (!targetDates.length) { list.innerHTML = ''; return; }
+  list.innerHTML = targetDates.map(t => `
+    <div class="target-date-row" id="trow-${t.id}">
+      <span class="target-date-tag ${t.type === 'peak' ? 'tag-peak' : 'tag-bot'}">${t.type === 'peak' ? '▲' : '▼'}</span>
+      <input class="target-date-input" type="date" value="${t.date}"
+        onchange="targetDates.find(x=>x.id===${t.id}).date=this.value; if(window.lastResult){updateTargetDateDisplay();try{renderViz4();}catch(e){}}"
+        placeholder="YYYY-MM-DD" />
+      <button class="target-date-del" onclick="removeTargetDate(${t.id})">✕</button>
+    </div>
+  `).join('');
+}
+
+function updateTargetDateDisplay() {
+  if (!window.lastResult) return;
+  const spot = window.lastResult.spot;
+  const levels = window.lastResult.levels.filter(l => l.show);
+  // Show sigma levels at each target date in results
+  const infoEl = document.getElementById('target-dates-info');
+  if (!infoEl) return;
+  const filled = targetDates.filter(t => t.date);
+  if (!filled.length) { infoEl.innerHTML = ''; return; }
+  infoEl.innerHTML = filled.map(t => {
+    const label = t.type === 'peak'
+      ? `<span style="color:#22c55e">▲ PEAK ${t.date}</span>`
+      : `<span style="color:#ef4444">▼ BOTTOM ${t.date}</span>`;
+    const sigmas = levels.map(l =>
+      `<span style="font-size:9px;color:rgba(255,255,255,.4)">${l.k}σ </span>` +
+      `<span style="font-size:10px;font-weight:700;color:${l.k===1?'#f5c800':l.k===2?'#ff6a00':l.k===3?'#e03b3b':'#ff1a1a'}">${l.hi.toLocaleString()}</span>`
+    ).join(' · ');
+    return `<div style="padding:8px 10px;background:rgba(255,255,255,.03);border-radius:8px;margin-bottom:6px;border:1px solid rgba(255,255,255,.06);">
+      <div style="margin-bottom:4px;">${label}</div>
+      <div>${sigmas}</div>
+    </div>`;
+  }).join('');
+}
+
+
+/* ── Recalc sigma display from checkboxes without re-fetching ── */
+function recalcSigmaDisplay() {
+  if (!window.lastResult) return;
+  const { spot, straddle, round } = lastResult;
+  const showS = [1,2,3,4].map(k => document.getElementById('chk-s'+k).checked);
+  const levels = [1,2,3,4].map(k => ({
+    k, show: showS[k-1],
+    move: straddle * MULT[k],
+    lo: roundVal(spot - straddle * MULT[k], round),
+    hi: roundVal(spot + straddle * MULT[k], round),
+    prob: PROB[k], probFull: PROB_FULL[k], mult: MULT[k].toFixed(3)
+  }));
+  lastResult.levels = levels;
+  // Re-render all visualizations
+  try { renderViz1(); } catch(e) {}
+  try { renderViz2(); } catch(e) {}
+  try { renderViz3(); } catch(e) {}
+  try { renderViz4(); } catch(e) {}
+  updateTargetDateDisplay();
+}
+
 </script>
 
 </body>
