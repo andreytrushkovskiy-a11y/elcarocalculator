@@ -2861,9 +2861,17 @@ function renderViz4() {
   if (!wrap || !lastResult) return;
   const { levels } = lastResult;
 
-  // Use real history entries (oldest→newest) as X-axis points
-  if (!calcHistory || calcHistory.length < 2) {
-    wrap.innerHTML = '<div style="color:rgba(255,255,255,.3);padding:30px;text-align:center;font-size:12px;">Calculate more expiry dates to see timeline</div>';
+  // Require 5 calculations to show timeline (including peak/bottom)
+  if (!calcHistory || calcHistory.length < 5) {
+    const done = calcHistory ? calcHistory.length : 0;
+    const left = 5 - done;
+    wrap.innerHTML = `<div style="color:rgba(255,255,255,.3);padding:40px 20px;text-align:center;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;">📊 TIMELINE</div>
+      <div style="font-size:11px;line-height:1.8;">
+        ${done > 0 ? `<span style="color:var(--orange);font-weight:800">${done}/5</span> calculations done` : 'Calculate 5 expiry dates'}
+        <br><span style="font-size:9px;opacity:.5">${left} more needed to unlock timeline</span>
+      </div>
+    </div>`;
     return;
   }
   const histSorted = [...calcHistory].reverse(); // oldest first
@@ -2903,7 +2911,7 @@ function renderViz4() {
   // ── Draw SVG ──
   const W = Math.min(wrap.offsetWidth || 600, 700);
   const H = 320;
-  const PAD = { top: 30, right: 20, bottom: 60, left: 70 };
+  const PAD = { top: 30, right: 20, bottom: 75, left: 70 };
   const plotW = W - PAD.left - PAD.right;
   const plotH = H - PAD.top - PAD.bottom;
   const N = dataPoints.length;
@@ -3021,21 +3029,20 @@ function renderViz4() {
       if (tx < PAD.left - 5 || tx > PAD.left + plotW + 5) return;
       const isPeak = t.type === 'peak';
       const lineColor = isPeak ? '#ef4444' : '#22c55e';
-      const icon = isPeak ? '▲' : '▼';
-      const dateStr = t.date.slice(5); // MM-DD
-      const anchor = tx > PAD.left + plotW - 45 ? 'end' : tx < PAD.left + 45 ? 'start' : 'middle';
+      const label     = isPeak ? '▲ SELL' : '▼ BUY';
+      const dateStr   = t.date.slice(5); // MM-DD
+      const anchor    = tx > PAD.left + plotW - 55 ? 'end' : tx < PAD.left + 55 ? 'start' : 'middle';
+      // Offset PEAK vs BOTTOM so they don't overlap if on same date
+      const rowOffset = isPeak ? 0 : 20;
 
-      // Thin vertical line full height of plot
+      // Thin vertical dashed line full height
       svg += `<line x1="${tx.toFixed(1)}" y1="${PAD.top}" x2="${tx.toFixed(1)}" y2="${PAD.top + plotH}"
-        stroke="${lineColor}" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>`;
-      // Peak label ABOVE chart, Bottom label BELOW chart
-      if (isPeak) {
-        svg += `<text x="${tx.toFixed(1)}" y="${PAD.top - 6}" font-size="8.5" fill="${lineColor}"
-          text-anchor="${anchor}" font-weight="800" opacity="0.95">${icon} ${dateStr}</text>`;
-      } else {
-        svg += `<text x="${tx.toFixed(1)}" y="${PAD.top + plotH + 18}" font-size="8.5" fill="${lineColor}"
-          text-anchor="${anchor}" font-weight="800" opacity="0.95">${icon} ${dateStr}</text>`;
-      }
+        stroke="${lineColor}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.85"/>`;
+      // Both labels BELOW the line — label row then date row
+      svg += `<text x="${tx.toFixed(1)}" y="${PAD.top + plotH + 14 + rowOffset}"
+        font-size="8" fill="${lineColor}" text-anchor="${anchor}" font-weight="800" opacity="0.95">${label}</text>`;
+      svg += `<text x="${tx.toFixed(1)}" y="${PAD.top + plotH + 24 + rowOffset}"
+        font-size="7.5" fill="${lineColor}" text-anchor="${anchor}" font-weight="600" opacity="0.7">${dateStr}</text>`;
     });
   }
 
@@ -3322,14 +3329,19 @@ function renderSigmaCards(levels) {
   };
   const probLabel = {1:'≈68%',2:'≈95%',3:'≈99.7%',4:'≈99.99%'};
 
-  grid.style.gridTemplateColumns = `repeat(${vis.length},1fr)`;
+  const n = vis.length;
+  grid.style.gridTemplateColumns = `repeat(${n},1fr)`;
+  // Font shrinks when 3-4 cards to prevent overflow
+  const rangeFont = n >= 4 ? '12px' : n === 3 ? '15px' : '20px';
+  const tagFont   = n >= 4 ? '6px'  : n === 3 ? '7px'  : '8px';
+  const cardPad   = n >= 4 ? '10px 6px' : '16px';
   grid.innerHTML = vis.map(l => `
-    <div class="sigma-card ${colCls[l.k]}">
-      <div class="sc-zone-tag">${zoneName[l.k]}</div>
+    <div class="sigma-card ${colCls[l.k]}" style="padding:${cardPad};min-width:0;">
+      <div class="sc-zone-tag" style="font-size:${tagFont}">${zoneName[l.k]}</div>
       <div class="sc-prob">${probLabel[l.k]}</div>
       <div class="sc-state">${stateMsg[l.k]}</div>
       <div class="sc-divider"></div>
-      <div class="sc-range">
+      <div class="sc-range" style="font-size:${rangeFont};word-break:break-all;">
         <div class="hi">${fmtPrice(l.hi)}</div>
         <div class="lo">${fmtPrice(l.lo)}</div>
       </div>
