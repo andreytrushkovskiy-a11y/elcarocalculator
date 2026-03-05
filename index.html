@@ -352,7 +352,7 @@ body {
 
 /* Add card */
 .pf-add-card { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:18px; margin-bottom:16px; }
-.pf-add-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; gap:8px; align-items:end; }
+.pf-add-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr auto; gap:8px; align-items:end; }
 @media(max-width:800px){ .pf-add-grid{ grid-template-columns:1fr 1fr; } }
 .pf-add-input {
   width:100%; background:var(--bg3); border:1px solid rgba(255,255,255,.07);
@@ -1191,6 +1191,37 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 .econ-name{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);}
 .econ-sub{font-size:8px;color:rgba(255,255,255,.3);margin-top:2px;}
 
+
+/* ── AGENT ALLOCATION SLIDERS — gradient fill ── */
+.agent-alloc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  background: var(--border); /* overridden inline per slider */
+}
+.agent-alloc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid currentColor;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0,0,0,.4);
+}
+.agent-alloc-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  border: 2px solid currentColor;
+}
 
 /* ── TARGET DATES ── */
 .target-dates-wrap { margin-top:12px; }
@@ -2386,13 +2417,19 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <div>
         <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">BUY PRICE $</div>
         <div style="display:flex;gap:4px;">
-          <input class="pf-add-input" id="pf-add-price" placeholder="66,000" type="number" style="flex:1;">
+          <input class="pf-add-input" id="pf-add-price" placeholder="66,000" type="number" style="flex:1;" oninput="pfSyncUsd();pfSyncQty();">
           <button class="pf-fetch-price-btn" onclick="pfFetchAddPrice()" title="Get live price">⟳</button>
         </div>
       </div>
       <div>
         <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">QUANTITY</div>
-        <input class="pf-add-input" id="pf-add-qty" placeholder="0.5" type="number" step="any">
+        <input class="pf-add-input" id="pf-add-qty" placeholder="0.5" type="number" step="any"
+          oninput="pfSyncUsd()">
+      </div>
+      <div>
+        <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">VOLUME USD $</div>
+        <input class="pf-add-input" id="pf-add-usd" placeholder="33,000" type="number" step="any"
+          oninput="pfSyncQty()">
       </div>
       <div>
         <div style="font-size:8px;font-weight:700;color:var(--text2);margin-bottom:5px;">TYPE (auto-detect)</div>
@@ -5036,6 +5073,22 @@ async function pfFetchAddPrice() {
 }
 
 // ── Add / average asset ──
+
+function pfSyncUsd() {
+  const price = parseFloat(document.getElementById('pf-add-price').value) || 0;
+  const qty   = parseFloat(document.getElementById('pf-add-qty').value)   || 0;
+  const usdEl = document.getElementById('pf-add-usd');
+  if (usdEl && price && qty) usdEl.value = (price * qty).toFixed(2);
+  else if (usdEl && (!price || !qty)) usdEl.value = '';
+}
+
+function pfSyncQty() {
+  const price = parseFloat(document.getElementById('pf-add-price').value) || 0;
+  const usd   = parseFloat(document.getElementById('pf-add-usd').value)   || 0;
+  const qtyEl = document.getElementById('pf-add-qty');
+  if (qtyEl && price && usd) qtyEl.value = (usd / price).toFixed(8).replace(/\.?0+$/, '');
+  else if (qtyEl && (!price || !usd)) qtyEl.value = '';
+}
 function pfAddAsset() {
   const sym   = document.getElementById('pf-add-sym').value.trim().toUpperCase();
   const price = parseFloat(document.getElementById('pf-add-price').value) || 0;
@@ -5072,6 +5125,7 @@ function pfAddAsset() {
   document.getElementById('pf-add-sym').value   = '';
   document.getElementById('pf-add-price').value = '';
   document.getElementById('pf-add-qty').value   = '';
+  document.getElementById('pf-add-usd').value   = '';
   setTimeout(() => { fb.textContent = ''; }, 4000);
 }
 
@@ -6138,9 +6192,11 @@ function agentRefreshAllocUI() {
     if (slider && Math.abs(parseFloat(slider.value) - alloc) > 0.05) slider.value = alloc;
     if (pctEl)  pctEl.textContent  = alloc.toFixed(1) + '%';
     if (usdEl)  usdEl.textContent  = agentFmt(valUsd);
-    // Update bar fill via CSS variable
-    const bar = row.querySelector('.alloc-bar-fill');
-    if (bar) bar.style.width = Math.min(alloc * 2, 100) + '%';
+    // Update slider gradient fill
+    if (slider) {
+      const pct = Math.min(alloc * 2, 100);
+      slider.style.background = `linear-gradient(to right, ${a.color} ${pct}%, var(--border) ${pct}%)`;
+    }
   });
   // Also refresh total display
   agentRenderAllocTotal();
@@ -6174,11 +6230,9 @@ function agentRenderAllocRows() {
       <span class="agent-alloc-name" style="color:${a.color};font-size:11px;">${a.ticker}</span>
       <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
         <input type="range" min="0.1" max="99" step="0.1" value="${alloc.toFixed(1)}"
-          style="width:100%;accent-color:${a.color};"
+          class="agent-alloc-range"
+          style="color:${a.color};background:linear-gradient(to right, ${a.color} ${barW}%, var(--border) ${barW}%);"
           oninput="agentSliderMove('${a.ticker}', this.value)">
-        <div style="height:2px;background:var(--border);border-radius:1px;overflow:hidden;">
-          <div class="alloc-bar-fill" style="height:100%;width:${barW}%;background:${a.color};border-radius:1px;transition:width .2s;"></div>
-        </div>
       </div>
       <span class="alloc-pct" style="width:44px;font-size:12px;font-weight:800;color:var(--orange);text-align:right;">${alloc.toFixed(1)}%</span>
       <span class="alloc-usd" style="width:64px;font-size:10px;color:var(--text2);text-align:right;">${agentFmt(valUsd)}</span>
@@ -6392,7 +6446,7 @@ function agentSetTimeframe(tf) {
 function agentInitSignals() {
   agentEntryData = {};
   agentSelected.forEach(a => {
-    agentEntryData[a.ticker] = { buyZone:'', sellZone:'', bottomDate:'', topDate:'', confidence:7, alertBottom:false, alertTop:false };
+    agentEntryData[a.ticker] = { buyZone:'', sellZone:'', bottomDate:'', topDate:'', bottomPrice:'', topPrice:'', confidence:7, alertBottom:false, alertTop:false };
   });
   agentRenderSignals();
   const nav2 = document.getElementById('agent-nav-2');
@@ -6438,31 +6492,43 @@ function agentRenderSignals() {
         </div>
       </div>
 
-      <!-- Row 2: BOTTOM date + alert / TOP date + alert — compact -->
+      <!-- Row 2: BOTTOM / TOP — date + price + notify (always visible) -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-        <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.12);border-radius:8px;padding:8px;">
-          <div style="font-size:7px;font-weight:700;color:#6495ed;letter-spacing:.6px;margin-bottom:5px;">📅 BOTTOM DATE</div>
+
+        <!-- BOTTOM -->
+        <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.18);border-radius:8px;padding:8px;">
+          <div style="font-size:7px;font-weight:700;color:#6495ed;letter-spacing:.6px;margin-bottom:6px;">📅 BOTTOM (BUY)</div>
           <input type="date" value="${ed.bottomDate||''}" min="${todayStr}"
             onchange="agentEntryData['${a.ticker}'].bottomDate=this.value"
             oninput="agentEntryData['${a.ticker}'].bottomDate=this.value"
-            style="width:100%;background:rgba(100,149,237,.1);border:1px solid rgba(100,149,237,.35);border-radius:6px;color:#6495ed;font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:5px 6px;-webkit-appearance:none;">
-          ${tg ? `<label style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer;font-size:9px;color:#6495ed;font-weight:600;">
+            style="width:100%;background:rgba(100,149,237,.08);border:1px solid rgba(100,149,237,.3);border-radius:6px;color:#6495ed;font-size:11px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:4px 6px;-webkit-appearance:none;margin-bottom:5px;">
+          <div style="font-size:7px;color:rgba(100,149,237,.6);margin-bottom:3px;">PRICE TARGET $</div>
+          <input type="number" placeholder="e.g. 58000" value="${ed.bottomPrice||''}"
+            oninput="agentEntryData['${a.ticker}'].bottomPrice=this.value"
+            style="width:100%;background:rgba(100,149,237,.08);border:1px solid rgba(100,149,237,.3);border-radius:6px;color:#6495ed;font-size:11px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:4px 6px;margin-bottom:6px;">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:9px;color:#6495ed;font-weight:600;">
             <input type="checkbox" ${ed.alertBottom?'checked':''} onchange="agentEntryData['${a.ticker}'].alertBottom=this.checked"
-              style="accent-color:#6495ed;width:11px;height:11px;flex-shrink:0;">
+              style="accent-color:#6495ed;width:12px;height:12px;flex-shrink:0;cursor:pointer;">
             🔔 Notify
-          </label>` : ''}
+          </label>
         </div>
-        <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.12);border-radius:8px;padding:8px;">
-          <div style="font-size:7px;font-weight:700;color:var(--orange);letter-spacing:.6px;margin-bottom:5px;">📅 TOP DATE</div>
+
+        <!-- TOP -->
+        <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.18);border-radius:8px;padding:8px;">
+          <div style="font-size:7px;font-weight:700;color:var(--orange);letter-spacing:.6px;margin-bottom:6px;">📈 TOP (SELL)</div>
           <input type="date" value="${ed.topDate||''}" min="${todayStr}"
             onchange="agentEntryData['${a.ticker}'].topDate=this.value"
             oninput="agentEntryData['${a.ticker}'].topDate=this.value"
-            style="width:100%;background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.3);border-radius:6px;color:var(--orange);font-size:12px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:5px 6px;-webkit-appearance:none;">
-          ${tg ? `<label style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer;font-size:9px;color:var(--orange);font-weight:600;">
+            style="width:100%;background:rgba(255,106,0,.06);border:1px solid rgba(255,106,0,.25);border-radius:6px;color:var(--orange);font-size:11px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:4px 6px;-webkit-appearance:none;margin-bottom:5px;">
+          <div style="font-size:7px;color:rgba(255,106,0,.6);margin-bottom:3px;">PRICE TARGET $</div>
+          <input type="number" placeholder="e.g. 95000" value="${ed.topPrice||''}"
+            oninput="agentEntryData['${a.ticker}'].topPrice=this.value"
+            style="width:100%;background:rgba(255,106,0,.06);border:1px solid rgba(255,106,0,.25);border-radius:6px;color:var(--orange);font-size:11px;font-weight:700;outline:none;font-family:inherit;box-sizing:border-box;padding:4px 6px;margin-bottom:6px;">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:9px;color:var(--orange);font-weight:600;">
             <input type="checkbox" ${ed.alertTop?'checked':''} onchange="agentEntryData['${a.ticker}'].alertTop=this.checked"
-              style="accent-color:var(--orange);width:11px;height:11px;flex-shrink:0;">
+              style="accent-color:var(--orange);width:12px;height:12px;flex-shrink:0;cursor:pointer;">
             🔔 Notify
-          </label>` : ''}
+          </label>
         </div>
       </div>
 
@@ -6486,11 +6552,13 @@ async function agentRegisterSignalAlerts() {
   for (const a of agentSelected) {
     const ed = agentEntryData[a.ticker]||{};
     if (ed.alertBottom && ed.bottomDate) {
-      await registerAlertTelegram(a.ticker, ed.bottomDate, 'BUY', agentTimeframe, '📉 Expected BOTTOM — consider buying');
+      const bNote = '📉 Expected BOTTOM — consider buying' + (ed.bottomPrice ? ' @ $' + parseFloat(ed.bottomPrice).toLocaleString() : '');
+      await registerAlertTelegram(a.ticker, ed.bottomDate, 'BUY', agentTimeframe, bNote);
       count++;
     }
     if (ed.alertTop && ed.topDate) {
-      await registerAlertTelegram(a.ticker, ed.topDate, 'SELL', agentTimeframe, '📈 Expected TOP — consider taking profit');
+      const tNote = '📈 Expected TOP — consider taking profit' + (ed.topPrice ? ' @ $' + parseFloat(ed.topPrice).toLocaleString() : '');
+      await registerAlertTelegram(a.ticker, ed.topDate, 'SELL', agentTimeframe, tNote);
       count++;
     }
   }
