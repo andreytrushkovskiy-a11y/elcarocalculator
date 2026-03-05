@@ -7200,24 +7200,6 @@ function renderTargetDates() {
   }).join('');
 }
 
- style="-webkit-appearance:none;flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:#fff;font-size:11px;font-family:'JetBrains Mono',monospace;outline:none;" />
-      <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12);flex-shrink:0;">
-        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='4H';renderTargetDates();try{renderViz4();}catch(e){}"
-          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
-            background:${tf==='4H'?'rgba(255,106,0,.3)':'transparent'};
-            color:${tf==='4H'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">4H</button>
-        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='1D';renderTargetDates();try{renderViz4();}catch(e){}"
-          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
-            background:${tf==='1D'?'rgba(255,106,0,.3)':'transparent'};
-            color:${tf==='1D'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">1D</button>
-      </div>
-      <button class="target-date-del" onclick="window.targetDates=window.targetDates.filter(x=>x.id!==${t.id});renderTargetDates();try{renderViz4();}catch(e){}"
-        style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;flex-shrink:0;">✕</button>
-    </div>`;
-  }).join('');
-}
-
-
 function updateTargetDateDisplay() {
   if (!window.lastResult) return;
   const spot = window.lastResult.spot;
