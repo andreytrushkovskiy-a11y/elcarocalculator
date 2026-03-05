@@ -7161,16 +7161,6 @@ function addTargetDate(type) {
   const id = Date.now();
   window.targetDates.push({ id, type, date: '', tf: '1D' });
   renderTargetDates();
-  // Auto-focus the new date input so iOS opens picker immediately
-  setTimeout(() => {
-    const inputs = document.querySelectorAll('.target-date-input');
-    if (inputs.length) {
-      const last = inputs[inputs.length - 1];
-      last.focus();
-      // On iOS, showPicker() opens native calendar without double-tap
-      try { last.showPicker(); } catch(e) {}
-    }
-  }, 50);
 }
 
 function removeTargetDate(id) {
@@ -7183,33 +7173,110 @@ function renderTargetDates() {
   const list = document.getElementById('target-dates-list');
   if (!list) return;
   if (!window.targetDates.length) { list.innerHTML = ''; return; }
-  list.innerHTML = window.targetDates.map(t => {
-    const isPeak = t.type === 'peak';
-    const tagCls = isPeak ? 'tag-peak' : 'tag-bot';
-    const icon   = isPeak ? '▲' : '▼';
-    const tf     = t.tf || '1D';
-    return `
-    <div class="target-date-row" id="trow-${t.id}" style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-      <span class="target-date-tag ${tagCls}">${icon}</span>
-      <input class="target-date-input" type="date" value="${t.date}"
-        onchange="window.targetDates.find(x=>x.id===${t.id}).date=this.value;renderTargetDates();if(window.lastResult){try{renderViz4();}catch(e){}}"
-        oninput="window.targetDates.find(x=>x.id===${t.id}).date=this.value;if(window.lastResult){try{renderViz4();}catch(e){}}"
-        onfocus="if(!this.value)this.value=''"
-        style="-webkit-appearance:none;flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:5px 8px;color:${t.date?'#fff':'rgba(255,255,255,.3)'};font-size:11px;font-family:'JetBrains Mono',monospace;outline:none;" />
-      <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12);flex-shrink:0;">
-        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='4H';renderTargetDates();try{renderViz4();}catch(e){}"
-          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
-            background:${tf==='4H'?'rgba(255,106,0,.3)':'transparent'};
-            color:${tf==='4H'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">4H</button>
-        <button onclick="window.targetDates.find(x=>x.id===${t.id}).tf='1D';renderTargetDates();try{renderViz4();}catch(e){}"
-          style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
-            background:${tf==='1D'?'rgba(255,106,0,.3)':'transparent'};
-            color:${tf==='1D'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">1D</button>
-      </div>
-      <button class="target-date-del" onclick="window.targetDates=window.targetDates.filter(x=>x.id!==${t.id});renderTargetDates();try{renderViz4();}catch(e){}"
-        style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;flex-shrink:0;">✕</button>
-    </div>`;
-  }).join('');
+
+  // Rebuild only rows whose id changed (preserve DOM nodes where possible)
+  const existingIds = new Set([...list.querySelectorAll('[data-tdid]')].map(el => +el.dataset.tdid));
+  const newIds      = new Set(window.targetDates.map(t => t.id));
+
+  // Remove deleted rows
+  [...list.querySelectorAll('[data-tdid]')].forEach(el => {
+    if (!newIds.has(+el.dataset.tdid)) el.remove();
+  });
+
+  window.targetDates.forEach((t, i) => {
+    const isPeak  = t.type === 'peak';
+    const color   = isPeak ? '#ef4444' : '#22c55e';
+    const icon    = isPeak ? '▲' : '▼';
+    const tf      = t.tf || '1D';
+
+    // Format display label
+    let displayLabel = 'Select date';
+    if (t.date) {
+      const d = new Date(t.date + 'T12:00:00');
+      displayLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    if (existingIds.has(t.id)) {
+      // Row already in DOM — update only changed parts (no remount)
+      const row = list.querySelector(`[data-tdid="${t.id}"]`);
+      if (row) {
+        const lbl = row.querySelector('.td-display-lbl');
+        if (lbl) {
+          lbl.textContent = displayLabel;
+          lbl.style.color = t.date ? '#fff' : 'rgba(255,255,255,.3)';
+        }
+        // Update TF buttons
+        row.querySelectorAll('.td-tf-btn').forEach(btn => {
+          const isSel = btn.dataset.tf === tf;
+          btn.style.background = isSel ? 'rgba(255,106,0,.3)' : 'transparent';
+          btn.style.color      = isSel ? '#ff6a00' : 'rgba(255,255,255,.3)';
+        });
+      }
+    } else {
+      // New row — create and append in correct position
+      const row = document.createElement('div');
+      row.dataset.tdid = t.id;
+      row.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:6px;';
+
+      row.innerHTML = `
+        <span style="font-size:11px;color:${color};font-weight:800;flex-shrink:0;">${icon}</span>
+
+        <!-- Tap target shows formatted date; click opens hidden date input -->
+        <div style="position:relative;flex:1;min-width:0;">
+          <div class="td-display-lbl"
+            style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+              border-radius:7px;padding:5px 8px;
+              color:${t.date ? '#fff' : 'rgba(255,255,255,.3)'};
+              font-size:11px;font-family:'JetBrains Mono',monospace;
+              cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
+            onclick="this.parentNode.querySelector('.td-real-input').showPicker
+              ? this.parentNode.querySelector('.td-real-input').showPicker()
+              : this.parentNode.querySelector('.td-real-input').focus()"
+          >${displayLabel}</div>
+          <!-- Real date input hidden under the display label -->
+          <input class="td-real-input" type="date"
+            style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;"
+            onchange="tdCommit(${t.id}, this.value)" />
+        </div>
+
+        <!-- TF toggle -->
+        <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12);flex-shrink:0;">
+          <button class="td-tf-btn" data-tf="4H"
+            onclick="window.targetDates.find(x=>x.id===${t.id}).tf='4H';renderTargetDates();try{renderViz4();}catch(e){}"
+            style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
+              background:${tf==='4H'?'rgba(255,106,0,.3)':'transparent'};
+              color:${tf==='4H'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">4H</button>
+          <button class="td-tf-btn" data-tf="1D"
+            onclick="window.targetDates.find(x=>x.id===${t.id}).tf='1D';renderTargetDates();try{renderViz4();}catch(e){}"
+            style="padding:4px 8px;border:none;cursor:pointer;font-size:9px;font-weight:800;font-family:inherit;
+              background:${tf==='1D'?'rgba(255,106,0,.3)':'transparent'};
+              color:${tf==='1D'?'#ff6a00':'rgba(255,255,255,.3)'};transition:all .15s;">1D</button>
+        </div>
+
+        <!-- Delete -->
+        <button onclick="window.targetDates=window.targetDates.filter(x=>x.id!==${t.id});renderTargetDates();try{renderViz4();}catch(e){}"
+          style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;flex-shrink:0;">✕</button>
+      `;
+
+      // Insert at correct index
+      const existing = list.querySelectorAll('[data-tdid]');
+      if (existing.length > i) {
+        list.insertBefore(row, existing[i]);
+      } else {
+        list.appendChild(row);
+      }
+    }
+  });
+}
+
+// Two-step commit: called only when user explicitly selects a day in the picker
+function tdCommit(id, value) {
+  if (!value) return;                          // picker closed with no selection
+  const m = window.targetDates.find(x => x.id === id);
+  if (!m) return;
+  m.date = value;
+  renderTargetDates();                         // now safe to re-render — user confirmed
+  try { renderViz4(); } catch(e) {}
 }
 
 function updateTargetDateDisplay() {
