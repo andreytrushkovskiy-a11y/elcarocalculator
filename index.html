@@ -7159,7 +7159,7 @@ window.targetDates = [];
 
 function addTargetDate(type) {
   const id = Date.now();
-  window.targetDates.push({ id, type, date: '', tf: '1D' });
+  window.targetDates.push({ id, type, date: '', tf: '4H' });
   renderTargetDates();
 }
 
@@ -7186,7 +7186,7 @@ function renderTargetDates() {
   window.targetDates.forEach((t, i) => {
     const isPeak  = t.type === 'peak';
     const color   = isPeak ? '#ef4444' : '#22c55e';
-    const icon    = isPeak ? '▲' : '▼';
+    const icon    = isPeak ? '▼' : '▲';
     const tf      = t.tf || '1D';
 
     // Format display label
@@ -7229,13 +7229,11 @@ function renderTargetDates() {
               color:${t.date ? '#fff' : 'rgba(255,255,255,.3)'};
               font-size:11px;font-family:'JetBrains Mono',monospace;
               cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
-            onclick="this.parentNode.querySelector('.td-real-input').showPicker
-              ? this.parentNode.querySelector('.td-real-input').showPicker()
-              : this.parentNode.querySelector('.td-real-input').focus()"
+            onclick="var inp=this.parentNode.querySelector('.td-real-input');try{inp.showPicker();}catch(e){inp.focus();}"
           >${displayLabel}</div>
           <!-- Real date input hidden under the display label -->
           <input class="td-real-input" type="date"
-            style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;"
+            style="position:absolute;opacity:0;width:100%;height:100%;top:0;left:0;cursor:pointer;z-index:1;"
             onchange="tdCommit(${t.id}, this.value)" />
         </div>
 
