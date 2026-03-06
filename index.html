@@ -1246,6 +1246,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   transition: all 0.2s; box-shadow: 0 0 20px rgba(108,63,255,0.15);
 }
 .spin-trigger:active { transform: scale(0.98); }
+.spin-trigger:hover { box-shadow: 0 0 28px rgba(108,63,255,0.25); }
 .spin-icon-wrap { font-size: 36px; }
 .spin-info { flex: 1; }
 .spin-title { font-size: 14px; font-weight: 800; color: #9f7fff; margin-bottom: 3px; }
@@ -1361,7 +1362,9 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   font-family:'DM Sans',Outfit,sans-serif;
   border-bottom:2px solid transparent;
 }
-#oracle-panel .op-tab.active { color:#f5a623; border-bottom-color:#f5a623; }
+#oracle-panel .op-tab.active { color:#f5a623; border-bottom-color:#f5a623;
+}
+.op-tab:hover:not(.active) { color:#888; }
 #oracle-panel .op-tab .op-tab-icon { font-size:18px; display:block; margin-bottom:2px; }
 
 /* Oracle body */
@@ -1400,12 +1403,14 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 /* daily rewards */
 #oracle-panel .rewards-scroll {
   display:flex; gap:7px; padding:0 12px 12px; overflow-x:auto; scrollbar-width:none;
+  scroll-snap-type: x mandatory;
 }
 #oracle-panel .rewards-scroll::-webkit-scrollbar { display:none; }
 #oracle-panel .r-day {
   min-width:60px; background:#161616; border:1px solid #2a2a2a;
   border-radius:12px; padding:10px 6px; text-align:center; flex-shrink:0;
   font-family:'Space Mono',monospace;
+  scroll-snap-align: start;
 }
 #oracle-panel .r-day.done { border-color:#f5a623; background:linear-gradient(145deg,#1a1200,#111); }
 #oracle-panel .r-day.today { border-color:#ffd700; box-shadow:0 0 10px rgba(255,215,0,.2); }
@@ -1417,7 +1422,11 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   font-family:'DM Sans',Outfit,sans-serif; font-size:14px; font-weight:800;
   color:#000; cursor:pointer; letter-spacing:.5px; text-transform:uppercase;
   box-shadow:0 4px 16px rgba(245,166,35,.3);
+  transition:all .2s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
+.checkin-btn:hover:not(:disabled) { box-shadow:0 6px 26px rgba(245,166,35,.45); filter:brightness(1.06); }
+.checkin-btn:disabled { opacity:.5; cursor:default; }
+.checkin-btn:active:not(:disabled) { transform:scale(.98); }
 #oracle-panel .checkin-btn:disabled { opacity:.5; }
 /* chest grid */
 #oracle-panel .chest-grid {
@@ -1428,6 +1437,8 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   padding:14px 10px; text-align:center; cursor:pointer; transition:all .2s;
   position:relative;
 }
+#oracle-panel .chest-card:hover { background:#1e1e1e; transform:translateY(-1px); }
+#oracle-panel .chest-card:active { transform:scale(.97); }
 #oracle-panel .chest-card:active { transform:scale(.97); }
 #oracle-panel .chest-count {
   position:absolute; top:6px; right:6px;
@@ -1438,7 +1449,9 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .news-card {
   margin:0 12px 8px; background:#161616;
   border:1px solid #2a2a2a; border-radius:14px; padding:14px; cursor:pointer;
+  transition:border-color .2s;
 }
+.news-card:hover { border-color:#3a3a3a; }
 #oracle-panel .news-card.premium { border-color:rgba(245,166,35,.4); }
 #oracle-panel .news-tag { font-size:8px; color:#f5a623; font-family:'Space Mono',monospace; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px; }
 #oracle-panel .news-title { font-size:13px; font-weight:700; line-height:1.4; margin-bottom:5px; }
@@ -1449,6 +1462,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   background:#161616; border:1px solid #2a2a2a; border-radius:12px;
   padding:12px 14px; cursor:pointer; display:flex; align-items:center; gap:10px;
 }
+.forecast-item:hover { background:#1e1e1e; border-color:#3a3a3a; }
 /* profile */
 #oracle-panel .stats-grid {
   display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; padding:0 12px 12px;
@@ -5182,7 +5196,9 @@ function avgAddToHistory(result) {
     avgPrice: result.avgPrice,
     totalVol: result.totalVol,
     totalQty: result.totalQty,
-    legs: result.legs.length,
+    legsCount: result.legs.length,
+    legsData: result.legs.map(l => ({ price: l.price, qty: l.qty, vol: l.vol })),
+    spotPrice: (() => { const el = document.getElementById('avg-spot'); return el ? el.value : ''; })(),
     origLiq: result.origLiq,
     newLiq: result.newLiq,
   };
@@ -5216,9 +5232,50 @@ function avgRenderHistory() {
 function avgRestoreHistory(idx) {
   const h = avgHistory[idx];
   if (!h) return;
-  showToast('History entry #' + (idx+1) + ' · ' + h.asset + ' loaded');
-  // Scroll results into view
-  document.getElementById('avg-results').scrollIntoView({behavior:'smooth', block:'start'});
+
+  // Restore asset selection
+  if (h.asset) {
+    document.querySelectorAll('.avg-asset-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim() === h.asset);
+    });
+    avgCurrentAsset = h.asset;  // correct global var
+  }
+
+  // Restore position direction
+  if (h.position) avgSetPosition(h.position);
+
+  // Restore spot price
+  const spotEl = document.getElementById('avg-spot');
+  if (spotEl && h.spotPrice) spotEl.value = h.spotPrice;
+
+  // Restore legs from legsData array
+  const legsArr = h.legsData || [];
+  if (legsArr.length) {
+    const legWrap = document.getElementById('avg-legs-wrap');
+    if (legWrap) {
+      legWrap.innerHTML = '';
+      legsArr.forEach((leg, i) => {
+        avgAddLeg();
+        const legEls = legWrap.querySelectorAll('.avg-leg-row');
+        const legEl = legEls[legEls.length - 1];
+        if (legEl) {
+          const priceEl = legEl.querySelector('.avg-leg-price');
+          const qtyEl   = legEl.querySelector('.avg-leg-qty');
+          const volEl   = legEl.querySelector('.avg-leg-vol');
+          if (priceEl) priceEl.value = leg.price || '';
+          if (qtyEl)   qtyEl.value   = leg.qty   || '';
+          if (volEl)   volEl.value   = leg.vol   || '';
+        }
+      });
+    }
+  }
+
+  // Re-run calculation with restored data
+  setTimeout(() => {
+    avgCalculate();
+    document.getElementById('avg-results')?.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 50);
+  showToast('✅ Entry #' + (idx+1) + ' · ' + h.asset + ' restored');
 }
 
 function avgClearHistory() {
@@ -5375,6 +5432,7 @@ function pfAddAsset() {
   document.getElementById('pf-add-sym').value   = '';
   document.getElementById('pf-add-price').value = '';
   document.getElementById('pf-add-qty').value   = '';
+  const usdCl = document.getElementById('pf-add-usd'); if (usdCl) usdCl.value = '';
   document.getElementById('pf-add-usd').value   = '';
   setTimeout(() => { fb.textContent = ''; }, 4000);
 }
@@ -5949,13 +6007,26 @@ function pfCheckAlerts() {
 
 // Request notification permission on first use
 function pfRequestNotifications() {
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
+  // Only request on direct user gesture — Telegram WebApp / mobile blocks auto-requests
+  if (!('Notification' in window)) {
+    showToast('ℹ️ Notifications not supported on this device');
+    return;
   }
+  if (Notification.permission === 'granted') {
+    showToast('✅ Notifications already enabled!');
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    showToast('⚠ Notifications blocked — enable in browser settings');
+    return;
+  }
+  Notification.requestPermission().then(p => {
+    showToast(p === 'granted' ? '✅ Notifications enabled!' : '⚠ Notifications not granted');
+  });
 }
 
-// Init on load
-setTimeout(() => { pfCheckAlerts(); pfRequestNotifications(); }, 1000);
+// Init on load — only pfCheckAlerts, not notification request (needs user gesture)
+setTimeout(() => { pfCheckAlerts(); }, 1000);
 
 // ═══════════════════════════════════════════════════════════════════
 // ══ INVESTMENT AGENT ════════════════════════════════════════════════
@@ -6496,7 +6567,7 @@ function agentRenderAllocRows() {
 function agentGoStep(n) {
   if (n === 1 && !agentSelected.length) return;
   if (n === 2 && !agentAnalysis) return;
-  if (n === 3 && !Object.keys(agentEntryData).length) return;
+  if (n === 3 && !agentAnalysis) return;  // need analysis before signals
   agentStep = n;
   for (let i=0; i<4; i++) {
     const el = document.getElementById('agent-step-'+i);
@@ -6560,7 +6631,7 @@ Respond ONLY in valid JSON with this exact structure:
     // Find JSON block
     const m = clean.match(/\{[\s\S]*\}/);
     if (m) analysis = JSON.parse(m[0]);
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error('Analysis error:', e); showToast('⚠ AI unavailable — using estimate'); }
 
   if (!analysis) {
     analysis = {
@@ -6580,6 +6651,7 @@ Respond ONLY in valid JSON with this exact structure:
 
   agentAnalysis = analysis;
   agentRenderAnalysis(analysis);
+  showToast('✅ Portfolio analysis complete!');
   document.getElementById('agent-analyzing').style.display = 'none';
   document.getElementById('agent-analysis-results').style.display = 'block';
 
@@ -6797,21 +6869,36 @@ function agentRenderSignals() {
 // Register agent signal alerts to Telegram server
 async function agentRegisterSignalAlerts() {
   const chat_id = getTgChatId ? getTgChatId() : null;
-  if (!chat_id) return 0;
+
+  // Count alerts configured
+  let configured = 0;
+  for (const a of agentSelected) {
+    const ed = agentEntryData[a.ticker]||{};
+    if (ed.alertBottom && ed.bottomDate) configured++;
+    if (ed.alertTop && ed.topDate) configured++;
+  }
+
+  if (!configured) { showToast('⚠ No alerts configured — set dates + enable 🔔'); return 0; }
+  if (!chat_id) {
+    // Outside Telegram — show what would be registered
+    showToast(`✅ ${configured} alert(s) ready — open in Telegram to activate`);
+    return configured;
+  }
+
   let count = 0;
+  showToast('⏳ Registering alerts...');
   for (const a of agentSelected) {
     const ed = agentEntryData[a.ticker]||{};
     if (ed.alertBottom && ed.bottomDate) {
       const bNote = '📉 Expected BOTTOM — consider buying' + (ed.bottomPrice ? ' @ $' + parseFloat(ed.bottomPrice).toLocaleString() : '');
-      await registerAlertTelegram(a.ticker, ed.bottomDate, 'BUY', agentTimeframe, bNote);
-      count++;
+      try { await registerAlertTelegram(a.ticker, ed.bottomDate, 'BUY', agentTimeframe, bNote); count++; } catch(e) {}
     }
     if (ed.alertTop && ed.topDate) {
       const tNote = '📈 Expected TOP — consider taking profit' + (ed.topPrice ? ' @ $' + parseFloat(ed.topPrice).toLocaleString() : '');
-      await registerAlertTelegram(a.ticker, ed.topDate, 'SELL', agentTimeframe, tNote);
-      count++;
+      try { await registerAlertTelegram(a.ticker, ed.topDate, 'SELL', agentTimeframe, tNote); count++; } catch(e) {}
     }
   }
+  showToast(`✅ ${count} alert(s) registered in Telegram!`);
   return count;
 }
 
@@ -6861,7 +6948,8 @@ Split each position into 3-5 tranches. Respond ONLY in valid JSON:
     const txt = data.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
     const m   = txt.replace(/```json|```/g,'').match(/\{[\s\S]*\}/);
     if (m) plan = JSON.parse(m[0]);
-  } catch(e) { console.error(e); }
+    if (plan) showToast('✅ Investment plan generated by ORACLE AI!');
+  } catch(e) { console.error('Plan generation error:', e); showToast('⚠ AI unavailable — using fallback plan'); }
 
   if (!plan) plan = agentBuildFallbackPlan();
 
@@ -6873,7 +6961,6 @@ Split each position into 3-5 tranches. Respond ONLY in valid JSON:
   const nav3 = document.getElementById('agent-nav-3');
   if (nav3) nav3.disabled = false;
 }
-
 function agentBuildFallbackPlan() {
   const reserve    = agentBudget * 0.1;
   const deployable = agentBudget - reserve;
@@ -7145,8 +7232,9 @@ function fgiRenderGauge(val) {
     <div style="font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:10px;">API KEY</div>
     <div style="display:flex;gap:8px;margin-bottom:10px;">
       <input id="ai-key-input" type="password" placeholder="sk-ant-api03-..."
-        style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.04);color:#fff;font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;"
-        onkeydown="if(event.key==='Enter') elcaroSetApiKey(this.value)" />
+        style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.04);color:#fff;font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;transition:border-color .2s;"
+        onkeydown="if(event.key==='Enter') elcaroSetApiKey(this.value)"
+        oninput="this.style.borderColor=this.value.startsWith('sk-ant-')?'rgba(0,200,150,.5)':this.value.length>0?'rgba(255,80,80,.4)':'rgba(255,106,0,.25)'" />
       <button onclick="elcaroSetApiKey(document.getElementById('ai-key-input').value)"
         style="padding:10px 18px;border-radius:10px;border:none;background:#ff6a00 !important;color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;white-space:nowrap;">
         SAVE
@@ -7283,6 +7371,30 @@ function fgiRenderGauge(val) {
   setTimeout(() => { updateKeyStatus(); initSigmaButtons(); }, 200);
 })();
 
+
+function elcaroSetApiKey(key) {
+  key = (key || '').trim();
+  if (!key) { showToast('⚠ Paste your API key first'); return; }
+  if (!key.startsWith('sk-ant-')) { showToast('⚠ Key must start with sk-ant-'); return; }
+  window.ELCARO_API_KEY = key;
+  localStorage.setItem('elcaro_api_key', key);
+  updateKeyStatus();
+  const inp = document.getElementById('ai-key-input');
+  if (inp) inp.value = '';
+  showToast('✅ API key saved!');
+}
+
+function elcaroSetApiKey(key) {
+  key = (key || '').trim();
+  if (!key) { showToast('⚠ Paste your API key first'); return; }
+  if (!key.startsWith('sk-ant-')) { showToast('⚠ Key must start with sk-ant-'); return; }
+  window.ELCARO_API_KEY = key;
+  localStorage.setItem('elcaro_api_key', key);
+  updateKeyStatus();
+  const inp = document.getElementById('ai-key-input');
+  if (inp) inp.value = '';
+  showToast('✅ API key saved!');
+}
 
 function elcaroClearApiKey() {
   window.ELCARO_API_KEY = '';
@@ -7860,7 +7972,7 @@ function initSigmaButtons() {
           </div>
           <div style="font-size:14px;font-weight:800;margin-bottom:4px;">ORACLE LIVE TRADING SESSION</div>
           <div style="font-size:10px;color:#888;font-family:'Space Mono',monospace;margin-bottom:12px;">BTC + GOLD analysis · 47 viewers</div>
-          <button style="background:#ff4757;border:none;border-radius:10px;padding:10px 18px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;">GET ACCESS — $14.99/mo</button>
+          <button onclick="event.stopPropagation();showToast('🔴 Redirecting to ORACLE LIVE — $14.99/mo')" style="background:#ff4757;border:none;border-radius:10px;padding:10px 18px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;transition:opacity .15s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'" onclick="event.stopPropagation();showToast('🔴 Live access — open ORACLE Premium at $14.99/mo')">GET ACCESS — $14.99/mo</button>
           <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:6px;">Free replay on YouTube in 7 days</div>
         </div>
         <div class="o-section" style="padding-bottom:8px;">
@@ -7923,17 +8035,17 @@ function initSigmaButtons() {
 
         <div class="o-section">EARN MORE COINS</div>
         <div class="forecast-list" style="padding-bottom:16px;">
-          <div class="forecast-item" onclick="OC.coins+=50;oracleRenderVaultCoins();oracleRenderProfile();showToast('📢 Shared! +50⬡')">
+          <div class="forecast-item" style="cursor:pointer;" onclick="OC.coins+=50;OC.inventory.bronze=(OC.inventory.bronze||0)+1;oracleRenderVaultCoins();oracleRenderInventory();oracleRenderProfile();const url='https://t.me/share/url?url=https://elcaro.ninja&text=Check out ELCARO Oracle — AI trading signals!';if(window.Telegram?.WebApp)window.Telegram.WebApp.openTelegramLink(url);else window.open(url,'_blank');showToast('📢 Shared! +50⬡ + Bronze Chest added!')">
             <div style="font-size:20px;">📢</div>
             <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Share to Social Media</div><div style="font-size:9px;color:#888;font-family:'Space Mono',monospace;margin-top:2px;">TELEGRAM / X / INSTAGRAM</div></div>
             <div style="text-align:right;"><div style="font-size:10px;color:#ffd700;font-family:'Space Mono',monospace;">+50⬡</div><div style="font-size:8px;color:#cd7f32;margin-top:1px;">+BRONZE</div></div>
           </div>
-          <div class="forecast-item" onclick="OC.coins+=10;oracleRenderVaultCoins();oracleRenderProfile();showToast('💬 Comment posted! +10⬡')">
+          <div class="forecast-item" style="cursor:pointer;" onclick="OC.coins+=10;oracleRenderVaultCoins();oracleRenderProfile();showToast('💬 Comment registered! +10⬡')">
             <div style="font-size:20px;">💬</div>
             <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Write a Comment</div><div style="font-size:9px;color:#888;font-family:'Space Mono',monospace;margin-top:2px;">ON ANY SIGNAL POST</div></div>
             <div style="font-size:10px;color:#ffd700;font-family:'Space Mono',monospace;">+10⬡</div>
           </div>
-          <div class="forecast-item" onclick="OC.coins+=500;OC.inventory.silver=(OC.inventory.silver||0)+1;oracleRenderVaultCoins();oracleRenderProfile();oracleRenderInventory();showToast('👥 Friend referred! +500⬡ + Silver Chest')">
+          <div class="forecast-item" style="cursor:pointer;" onclick="OC.coins+=500;OC.inventory.silver=(OC.inventory.silver||0)+1;oracleRenderVaultCoins();oracleRenderProfile();oracleRenderInventory();navigator.clipboard?.writeText('https://elcaro.ninja?ref=oracle').catch(()=>{});showToast('👥 Referral link copied! +500⬡ + Silver Chest 🥈')">
             <div style="font-size:20px;">👥</div>
             <div style="flex:1;"><div style="font-size:12px;font-weight:700;">Refer a Friend</div><div style="font-size:9px;color:#888;font-family:'Space Mono',monospace;margin-top:2px;">THEY MUST REGISTER</div></div>
             <div style="text-align:right;"><div style="font-size:10px;color:#ffd700;font-family:'Space Mono',monospace;">+500⬡</div><div style="font-size:8px;color:#C0C0C0;margin-top:1px;">+SILVER</div></div>
@@ -7946,7 +8058,7 @@ function initSigmaButtons() {
 </div><!-- /oracle-overlay -->
 
 <!-- ══ SLOT MACHINE MODAL ══ (original markup) -->
-<div class="modal-overlay" id="spin-modal">
+<div class="modal-overlay" id="spin-modal" onclick="if(event.target===this)closeSpin()">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">🎰 ORACLE SLOT MACHINE</div>
@@ -8111,10 +8223,24 @@ function oracleOpen() {
 function oracleClose() {
   document.getElementById('oracle-overlay').classList.remove('open');
   document.body.style.overflow = '';
-  // close any sub-modal
+  // Close slot machine and chest modals if open
+  const spinModal = document.getElementById('spin-modal');
+  if (spinModal) spinModal.classList.remove('open');
+  const chestModal = document.getElementById('op-chest-modal');
+  if (chestModal) chestModal.style.display = 'none';
   oracleModalClose();
 }
-document.addEventListener('keydown', e => { if(e.key==='Escape') oracleClose(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    // Close in order: chest modal → spin modal → oracle panel
+    const chest = document.getElementById('op-chest-modal');
+    if (chest && chest.style.display === 'flex') { orcChestModalClose(); return; }
+    const spin = document.getElementById('spin-modal');
+    if (spin && spin.classList.contains('open')) { closeSpin(); return; }
+    const oracle = document.getElementById('oracle-overlay');
+    if (oracle && oracle.classList.contains('open')) { oracleClose(); return; }
+  }
+});
 
 // ── Tab switching ──────────────────────────────────
 function oracleTab(name, el) {
@@ -8127,12 +8253,28 @@ function oracleTab(name, el) {
 function oracleRenderAll() {
   oracleRenderVaultCoins();
   oracleRenderTab('vault');
+  // Pre-populate profile stats so coins show correctly on first visit
+  const statsMap = {
+    'oracle-stat-coins': OC.coins.toLocaleString(),
+    'oracle-stat-streak': OC.streak,
+    'oracle-stat-chests': Object.values(OC.inventory).reduce((a,b)=>a+b,0),
+    'oracle-stat-forecasts': OC.ownedForecasts.length,
+    'oracle-stat-days': OC.daysActive,
+    'oracle-stat-acc': OC.accuracy+'%',
+  };
+  Object.entries(statsMap).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
 }
 function oracleRenderTab(name) {
   if (name==='vault')   { oracleRenderVault(); }
   if (name==='market')  { oracleRenderMarket(); }
-  if (name==='news')    { oracleRenderNews(); }
+  if (name==='news')    { oracleRenderNews(); oracleUpdateNewsStatus(); }
   if (name==='profile') { oracleRenderProfile(); }
+}
+
+function oracleUpdateNewsStatus() {
+  const el = document.getElementById('op-news-status');
+  if (el) el.textContent = OC.premiumNews ? '⭐ PREMIUM ACTIVE' : '';
+  if (el && OC.premiumNews) el.style.color = '#f5a623';
 }
 
 // ── Coins display ──────────────────────────────────
@@ -8197,9 +8339,13 @@ function oracleCheckin() {
   OC.rewardDay = Math.min(OC.rewardDay+1, 30);
   OC.daysActive++;
   const btn = document.getElementById('oracle-checkin-btn');
-  if (btn) { btn.disabled=true; btn.textContent='✓ CHECKED IN TODAY — COME BACK TOMORROW'; }
+  if (btn) { btn.disabled=true; btn.textContent='✓ CHECKED IN — COME BACK TOMORROW'; }
   oracleRenderVault();
-  showToast('⬡ +'+earned+' ORACLE COINS CLAIMED!');
+  // Sync profile if open
+  if (document.getElementById('op-profile')?.classList.contains('active')) {
+    oracleRenderProfile();
+  }
+  showToast('⬡ +'+earned+' ORACLE COINS CLAIMED! Streak: '+OC.streak+' days 🔥');
 }
 
 // ── Inventory (My Chests) ──────────────────────────
@@ -8227,12 +8373,24 @@ function oracleRenderInventory() {
 let spinUsed = false;
 
 function openSpin() {
-  document.getElementById('spin-modal').classList.add('open');
+  // Reset state
   document.getElementById('spin-result').textContent = '';
   document.getElementById('jackpot-banner').classList.remove('show');
+  document.getElementById('jackpot-banner').style.opacity = '1';
+  document.getElementById('jackpot-banner').style.transition = '';
+  // Reset reels to default
+  document.getElementById('reel1-icon').textContent = '₿';
+  document.getElementById('reel1-val').textContent  = 'BTC';
+  document.getElementById('reel2-icon').textContent = '📅';
+  document.getElementById('reel2-val').textContent  = '4H';
+  document.getElementById('reel3-icon').textContent = '✖';
+  document.getElementById('reel3-val').textContent  = 'x2';
+  // Remove spinning class just in case
+  ['reel1','reel2','reel3'].forEach(id => document.getElementById(id)?.classList.remove('spinning'));
   const btn = document.getElementById('spin-btn');
   btn.disabled = false;
-  btn.textContent = spinUsed ? '🎰 SPIN — 500⬡ or $1' : '🎰 SPIN NOW — FREE';
+  btn.textContent = spinUsed ? '🎰 SPIN AGAIN — 500⬡' : '🎰 SPIN NOW — FREE';
+  document.getElementById('spin-modal').classList.add('open');
 }
 
 function closeSpin() {
@@ -8346,6 +8504,20 @@ function doSpin() {
     if (btn) { btn.disabled = false; btn.textContent = '🎰 SPIN AGAIN — 500⬡'; }
     oracleRenderVaultCoins();
     oracleRenderInventory();
+    // Update profile if open
+    if (document.getElementById('op-profile')?.classList.contains('active')) {
+      oracleRenderProfile();
+    }
+    // Achievement: Lucky Oracle — jackpot hit
+    if (isJackpot) {
+      const achEl = document.getElementById('oracle-stat-streak');
+      // Flash jackpot banner for 4 seconds then fade
+      setTimeout(()=>{
+        const jb=document.getElementById('jackpot-banner');
+        if(jb){ jb.style.transition='opacity 1s'; jb.style.opacity='0';
+          setTimeout(()=>{ jb.classList.remove('show'); jb.style.opacity='1'; jb.style.transition=''; }, 1000); }
+      }, 4000);
+    }
   }, 2000);
 }
 
@@ -8361,11 +8533,10 @@ function orcChestPreview(type) {
   document.getElementById('op-cm-name').textContent = d.name+' CHEST';
   document.getElementById('op-cm-desc').textContent = d.desc;
   document.getElementById('op-cm-sell-price').textContent = orcFmt(d.coinValue)+'⬡';
-  document.getElementById('op-cm-actions').style.display = qty>0?'flex':'none';
-  document.getElementById('op-cm-nochest').style.display = qty>0?'none':'block';
-  document.getElementById('op-cm-result').style.display = 'none';
-  document.getElementById('op-cm-actions').style.display = qty>0?'flex':'none';
-  if (modal) modal.style.display='flex';
+  document.getElementById('op-cm-actions').style.display = qty>0 ? 'flex' : 'none';
+  document.getElementById('op-cm-nochest').style.display  = qty>0 ? 'none' : 'block';
+  document.getElementById('op-cm-result').style.display   = 'none';
+  if (modal) modal.style.display = 'flex';
 }
 function orcChestModalClose() {
   const m=document.getElementById('op-chest-modal'); if(m) m.style.display='none';
@@ -8404,7 +8575,11 @@ function orcOpenChest() {
   `;
   oracleRenderVaultCoins();
   oracleRenderInventory();
-  showToast(`📦 Chest opened! ${count} forecast(s) received!`);
+  // Sync profile stats if profile tab is active
+  if (document.getElementById('op-profile')?.classList.contains('active')) {
+    oracleRenderProfile();
+  }
+  showToast(`📦 ${d.icon} Chest opened! ${count} forecast${count>1?'s':''} + ${bonus}⬡ received!`);
 }
 function orcSellChest() {
   const type=OC.activeChest, d=CHEST_DATA[type];
@@ -8414,9 +8589,16 @@ function orcSellChest() {
   orcChestModalClose();
   oracleRenderVaultCoins();
   oracleRenderInventory();
-  // Add to market listings
-  OC.marketListings.push({type:'chest', chestType:type, price:Math.round(d.coinValue*0.8), seller:'@you', id:Date.now()});
-  showToast(`💰 ${d.name} chest sold for ${orcFmt(d.coinValue)}⬡!`);
+  oracleRenderProfile();
+  // Add to market listings  
+  const sellerHandle = window.Telegram?.WebApp?.initDataUnsafe?.user?.username
+    ? '@'+window.Telegram.WebApp.initDataUnsafe.user.username : '@you';
+  OC.marketListings.push({type:'chest', chestType:type, price:Math.round(d.coinValue*0.8), seller:sellerHandle, id:'sell_'+Date.now()});
+  // Re-render market if visible
+  if (document.getElementById('op-market')?.classList.contains('active')) {
+    oracleRenderMarketChests();
+  }
+  showToast(`💰 ${d.icon} ${d.name} chest sold for ${orcFmt(d.coinValue)}⬡ — listed on Market!`);
 }
 function orcSaveChest() {
   orcChestModalClose();
@@ -8507,7 +8689,19 @@ function orcBuyForecast(id) {
   OC.forecasts++;
   oracleRenderVaultCoins();
   oracleRenderMarketForecasts();
-  showToast(`✅ ${item.asset} ${item.tf} forecast purchased!`);
+  // Pulse the purchased row green briefly
+  setTimeout(()=>{
+    const rows = document.querySelectorAll('#op-mkt-forecasts .forecast-item');
+    rows.forEach(row => {
+      if (row.textContent.includes(item.asset) && row.textContent.includes('OWNED')) {
+        row.style.transition = 'background .3s';
+        row.style.background = 'rgba(0,200,150,.12)';
+        setTimeout(()=>row.style.background='', 1200);
+      }
+    });
+  }, 50);
+  oracleRenderProfile();
+  showToast(`✅ ${item.asset} ${item.tf} forecast purchased! See Profile → MY FORECASTS`);
 }
 
 const STATIC_CHESTS = [
@@ -8535,16 +8729,17 @@ function oracleRenderMarketChests() {
 
 function orcBuyChestMarket(id) {
   const all=[...STATIC_CHESTS,...OC.marketListings];
-  const item=all.find(i=>i.id===id||i.id==id); if(!item) return;
+  const item=all.find(i=>String(i.id)===String(id)); if(!item) return;
   if (OC.coins < item.price) { showToast('⚠ Not enough coins!'); return; }
   OC.coins -= item.price;
   OC.inventory[item.chestType]=(OC.inventory[item.chestType]||0)+1;
   // Remove from user listings if it's theirs
-  OC.marketListings=OC.marketListings.filter(i=>i.id!==item.id);
+  OC.marketListings=OC.marketListings.filter(i=>String(i.id)!==String(id));
   oracleRenderVaultCoins();
   oracleRenderMarketChests();
   oracleRenderInventory();
-  showToast(`${CHEST_DATA[item.chestType].icon} ${CHEST_DATA[item.chestType].name} chest purchased!`);
+  const d=CHEST_DATA[item.chestType];
+  showToast(`${d.icon} ${d.name} chest added to inventory! Open it in Vault.`);
 }
 
 // ── Sell owned forecast on market ─────────────────
@@ -8561,7 +8756,11 @@ function orcSellForecast(idx) {
   });
   oracleRenderProfile();
   oracleRenderVaultCoins();
-  showToast(`💰 Forecast listed for ${price}⬡!`);
+  // Re-render market if it's visible
+  if (document.getElementById('op-market')?.classList.contains('active')) {
+    oracleRenderMarket();
+  }
+  showToast(`💰 ${f.asset.sym} forecast listed for ${price}⬡!`);
 }
 
 // ══════════════════════════════════════════════════
@@ -8579,13 +8778,13 @@ function oracleRenderNews() {
   ];
   wrap.innerHTML=news.map(n=>{
     const locked=n.premium && !OC.premiumNews;
-    return `<div class="news-card${n.premium?' premium':''}" onclick="${locked?`orcUnlockNews(event)`:'showToast(\'📰 Reading full article\')'}" style="cursor:pointer;">
+    return `<div class="news-card${n.premium?' premium':''}" onclick="${locked?'orcUnlockNews(event)':"showToast('📰 Reading full article')"}" style="cursor:pointer;${locked?'':''}">
       <div class="news-tag">${n.tag}</div>
       <div class="news-title" ${locked?'style="filter:blur(4px);user-select:none;"':''}>${n.title}</div>
       <div class="news-time">${n.time}</div>
       ${locked?`<div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #2a2a2a;">
         <div style="font-size:10px;color:#888;">🔒 Premium members only</div>
-        <button onclick="orcUnlockNews(event)" style="background:#f5a623;color:#000;border:none;border-radius:7px;padding:5px 10px;font-size:10px;font-weight:800;cursor:pointer;">UNLOCK 3000⬡</button>
+        <button onclick="event.stopPropagation();orcUnlockNews(event)" style="background:#f5a623;color:#000;border:none;border-radius:7px;padding:5px 10px;font-size:10px;font-weight:800;cursor:pointer;transition:opacity .15s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">UNLOCK 3000⬡</button>
       </div>`:''}
     </div>`;
   }).join('');
@@ -8598,7 +8797,11 @@ function orcUnlockNews(e) {
   OC.premiumNews = true;
   oracleRenderVaultCoins();
   oracleRenderNews();
-  showToast('⭐ Premium News unlocked! All articles accessible!');
+  oracleUpdateNewsStatus();
+  // Switch the Free/Premium tab styles
+  const freTab = document.querySelector('#op-news .market-tab.active');
+  if (freTab) freTab.classList.remove('active');
+  showToast('⭐ Premium News unlocked! All articles now accessible!');
 }
 
 // ══════════════════════════════════════════════════
