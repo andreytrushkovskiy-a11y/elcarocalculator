@@ -45,6 +45,16 @@
   --green:  #00c896;
   --red:    #ff3b5c;
   --purple: #8b5cf6;
+  --cyan:   #00e5ff;
+  --card:   #131313;
+  --card2:  #1c1c1c;
+  --gold:   #ffd700;
+  --gold2:  #ffb300;
+  --silver2:#b8b8b8;
+  --bronze2:#cd7f32;
+  --emerald:#00e676;
+  --emerald2:#00c853;
+  --text3:  #3a3a3a;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
 /* ══ FORCE DARK THEME — overrides Telegram Mini App light mode ══ */
@@ -2472,6 +2482,1496 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 .guild-share-forecast-row { display:flex; gap:5px; overflow-x:auto; scrollbar-width:none; padding:0 12px 8px; }
 .gsf-chip { flex:none; background:#111; border:1px solid #222; border-radius:10px; padding:7px 10px; font-size:9px; font-family:'Space Mono',monospace; cursor:pointer; white-space:nowrap; }
 .gsf-chip:hover { border-color:#00e676; color:#00e676; }
+
+/* ══════════════════════════════════════════════
+   GUILD SECTION CSS
+══════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap');
+
+#guild-section {
+  --silver: #b8b8b8;
+  --bronze: #cd7f32;
+  --cyan:   #00e5ff;
+  --card:   #131313;
+  --card2:  #1c1c1c;
+  --emerald:#00e676;
+  --emerald2:#00c853;
+  --gold:   #ffd700;
+  --text2:  #555;
+  --text3:  #3a3a3a;
+  --bg3:    #161616;
+  --border: #1c1c1c;
+}
+
+/* ══ GUILD MODULE CSS ══ */
+
+/* ═══════════════════════════════════
+   CSS VARIABLES — вставь свои значения
+   если у тебя уже есть --bg, --orange итд
+═══════════════════════════════════ */
+
+
+
+
+
+
+/* ─── Скролл ─── */
+.guild-scrollable { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 16px; }
+.guild-scrollable::-webkit-scrollbar { display: none; }
+
+/* ─── Метка секции ─── */
+.g-label {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  color: var(--text2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.g-label-action {
+  font-size: 9px;
+  color: var(--emerald);
+  cursor: pointer;
+  letter-spacing: 0;
+}
+
+/* ═══════════════════════════════════
+   1. GUILD HERO — карточка гильдии
+═══════════════════════════════════ */
+.guild-hero {
+  margin: 0 12px 10px;
+  background: linear-gradient(135deg, #020e05, #01120a);
+  border: 1px solid rgba(0, 230, 118, .25);
+  border-radius: 20px;
+  padding: 22px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.guild-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% -10%, rgba(0,230,118,.1), transparent 60%);
+  pointer-events: none;
+}
+.gh-emblem {
+  font-size: 52px;
+  display: block;
+  text-align: center;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 16px rgba(0, 230, 118, .5));
+}
+.gh-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  text-align: center;
+  color: var(--emerald);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.gh-motto {
+  font-size: 10px;
+  text-align: center;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+.gh-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.ghs {
+  background: rgba(0, 0, 0, .35);
+  border: 1px solid rgba(0, 230, 118, .08);
+  border-radius: 12px;
+  padding: 12px 4px;
+  text-align: center;
+}
+.ghs-val {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--emerald);
+  font-family: 'Space Mono', monospace;
+  line-height: 1;
+}
+.ghs-lbl {
+  font-size: 8px;
+  color: rgba(0, 230, 118, .4);
+  font-family: 'Space Mono', monospace;
+  margin-top: 3px;
+  letter-spacing: .5px;
+}
+/* Кнопки действий гильдии */
+.guild-action-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px 10px;
+}
+.guild-action-btn {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 6px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  transition: all .2s;
+}
+.guild-action-btn:active { transform: scale(.97); }
+
+/* ═══════════════════════════════════
+   2. TREASURY — казна гильдии
+═══════════════════════════════════ */
+.treasury-card {
+  margin: 0 12px 10px;
+  background: var(--card);
+  border: 1px solid rgba(0, 230, 118, .15);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.treasury-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.treasury-head-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--emerald);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+}
+.treasury-timer {
+  font-size: 9px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  background: var(--bg3);
+  padding: 3px 9px;
+  border-radius: 7px;
+}
+.treasury-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+.treasury-cell {
+  padding: 16px 8px;
+  text-align: center;
+  background: var(--card);
+}
+.tc-icon { font-size: 22px; display: block; margin-bottom: 6px; }
+.tc-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold);
+  font-family: 'Space Mono', monospace;
+  line-height: 1;
+}
+.tc-lbl {
+  font-size: 8px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  margin-top: 3px;
+}
+.treasury-cta {
+  display: block;
+  width: calc(100% - 24px);
+  margin: 12px;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  border: none;
+  border-radius: 12px;
+  padding: 13px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #000;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+}
+.treasury-cta:active { transform: scale(.98); }
+.treasury-cta.locked {
+  background: var(--bg3);
+  color: var(--text2);
+  cursor: default;
+}
+
+/* ═══════════════════════════════════
+   3. CONTRIBUTE — кнопки взноса
+═══════════════════════════════════ */
+.contribute-card {
+  margin: 0 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+}
+.contribute-title {
+  font-size: 9px;
+  color: var(--emerald);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+.contribute-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.contrib-btn {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 13px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.contrib-btn:active { transform: scale(.97); }
+.cb-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+.cb-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+.cb-sub { font-size: 8px; color: var(--text2); font-family: 'Space Mono', monospace; }
+/* Цвета кнопок взноса */
+.cb-coins { border-color: rgba(0,230,118,.2); background: rgba(0,230,118,.04); }
+.cb-coins .cb-name { color: var(--emerald); }
+.cb-chest { border-color: rgba(205,127,50,.2); background: rgba(205,127,50,.04); }
+.cb-chest .cb-name { color: var(--bronze); }
+.cb-forecast { border-color: rgba(0,229,255,.15); background: rgba(0,229,255,.04); }
+.cb-forecast .cb-name { color: var(--cyan); }
+
+/* ═══════════════════════════════════
+   4. MEMBERS — список участников
+═══════════════════════════════════ */
+.member-item {
+  margin: 0 12px 7px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.member-item.you {
+  border-color: rgba(0, 229, 255, .2);
+  background: rgba(0, 229, 255, .02);
+}
+.mi-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.mi-info { flex: 1; }
+.mi-name {
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mi-role {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  margin-top: 2px;
+}
+.mi-score-wrap { text-align: right; }
+.mi-score {
+  font-size: 22px;
+  font-weight: 900;
+  font-family: 'Unbounded', sans-serif;
+  line-height: 1;
+}
+.mi-score-lbl {
+  font-size: 7px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  margin-top: 2px;
+  letter-spacing: .5px;
+}
+/* Цвета ранков */
+.rank-master   { color: var(--orange); }
+.rank-gold     { color: var(--gold); }
+.rank-silver   { color: var(--silver); }
+.rank-bronze   { color: var(--bronze); }
+.rank-initiate { color: var(--text2); }
+.rank-cyan     { color: var(--cyan); }
+
+/* ═══════════════════════════════════
+   5. GUILD CHAT — чат комната
+═══════════════════════════════════ */
+.guild-chat {
+  margin: 0 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.gchat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.gchat-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+}
+.gchat-online {
+  font-size: 8px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  background: var(--bg3);
+  padding: 3px 9px;
+  border-radius: 7px;
+}
+.gchat-messages {
+  padding: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gchat-messages::-webkit-scrollbar { display: none; }
+/* Сообщение */
+.chat-msg {
+  display: flex;
+  gap: 9px;
+}
+.chat-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: var(--bg3);
+}
+.chat-
+.chat-from {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 3px;
+}
+.chat-text {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.45;
+}
+.chat-time {
+  font-size: 8px;
+  color: var(--text3);
+  font-family: 'Space Mono', monospace;
+  margin-top: 3px;
+}
+/* Системное сообщение */
+.chat-msg.system .chat-text {
+  color: var(--emerald);
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  font-style: italic;
+}
+.chat-msg.system .chat-from {
+  color: var(--text3);
+  font-size: 8px;
+}
+/* Инпут */
+.gchat-input-row {
+  display: flex;
+  gap: 7px;
+  padding: 9px 12px;
+  border-top: 1px solid var(--border);
+}
+.gchat-input {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+}
+.gchat-input::placeholder { color: var(--text3); }
+.gchat-send {
+  background: var(--emerald);
+  border: none;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.gchat-send:active { transform: scale(.95); }
+
+/* ═══════════════════════════════════
+   6. GUILD LEADERBOARD
+═══════════════════════════════════ */
+.leaderboard-item {
+  margin: 0 12px 7px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.leaderboard-item:active { transform: scale(.99); }
+.leaderboard-item.my-guild {
+  border-color: rgba(0, 230, 118, .25);
+  background: rgba(0, 230, 118, .02);
+}
+.lb-rank {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: 'Unbounded', sans-serif;
+  width: 30px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.lb-emblem { font-size: 24px; }
+.lb-info { flex: 1; }
+.lb-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.lb-meta {
+  font-size: 9px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+}
+/* Создать гильдию */
+.create-guild-btn {
+  margin: 0 12px 12px;
+  background: var(--card);
+  border: 1px solid rgba(0, 230, 118, .2);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.create-guild-btn:active { transform: scale(.99); }
+.create-icon {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 230, 118, .06);
+  border: 1px solid rgba(0, 230, 118, .15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.create-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--emerald);
+  margin-bottom: 2px;
+}
+.create-meta {
+  font-size: 9px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+}
+
+/* ═══════════════════════════════════
+   MODALS
+═══════════════════════════════════ */
+
+
+
+
+
+
+
+
+
+
+
+/* ── Treasury Modal ── */
+.tm-
+.tm-emblem {
+  font-size: 52px;
+  text-align: center;
+  display: block;
+  margin: 4px 0 14px;
+  filter: drop-shadow(0 0 14px rgba(0, 230, 118, .4));
+}
+.tm-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.tm-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg3);
+  border-radius: 13px;
+  padding: 14px;
+}
+.tm-item-icon { font-size: 28px; }
+.tm-item-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.tm-item-desc {
+  font-size: 10px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+}
+.tm-distribute {
+  width: 100%;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  border: none;
+  border-radius: 13px;
+  padding: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all .2s;
+}
+.tm-distribute:active { transform: scale(.98); }
+
+/* ── Contribute Modal ── */
+.contrib-modal-
+.contrib-modal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.comb-btn {
+  border-radius: 14px;
+  padding: 16px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  border: 1px solid;
+}
+.comb-btn:active { transform: scale(.97); }
+.comb-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+.comb-name { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+.comb-desc { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; }
+.comb-coins  { background: rgba(0,230,118,.05); border-color: rgba(0,230,118,.25); }
+.comb-coins  .comb-name { color: var(--emerald); }
+.comb-chest  { background: rgba(205,127,50,.05); border-color: rgba(205,127,50,.25); }
+.comb-chest  .comb-name { color: var(--bronze); }
+.comb-fcast  { background: rgba(0,229,255,.05); border-color: rgba(0,229,255,.2); }
+.comb-fcast  .comb-name { color: var(--cyan); }
+
+/* ── Member Profile Modal ── */
+.member-modal-
+.mmb-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--bg3);
+  border-radius: 14px;
+}
+.mmb-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.mmb-name { font-size: 17px; font-weight: 800; margin-bottom: 2px; }
+.mmb-rank { font-size: 10px; font-family: 'Space Mono', monospace; }
+.mmb-score-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 2px solid var(--cyan);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(0,229,255,.2);
+}
+.mmb-score-num { font-size: 20px; font-weight: 900; font-family: 'Unbounded', sans-serif; color: var(--cyan); line-height: 1; }
+.mmb-score-lbl { font-size: 7px; color: var(--text2); font-family: 'Space Mono', monospace; }
+.mmb-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.mmb-stat { background: var(--bg3); border-radius: 12px; padding: 12px 6px; text-align: center; }
+.mmb-stat-val { font-size: 18px; font-weight: 800; }
+.mmb-stat-lbl { font-size: 8px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; }
+.mmb-accuracy { background: var(--bg3); border-radius: 13px; padding: 13px 14px; margin-bottom: 14px; }
+.mmb-acc-title { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 10px; }
+.mmb-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.mmb-bar-lbl { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; width: 36px; flex-shrink: 0; }
+.mmb-bar { flex: 1; height: 5px; background: var(--border2); border-radius: 3px; overflow: hidden; }
+.mmb-bar-fill { height: 100%; border-radius: 3px; }
+.mmb-bar-pct { font-size: 9px; font-family: 'Space Mono', monospace; width: 28px; text-align: right; flex-shrink: 0; }
+.mmb-actions { display: flex; gap: 8px; }
+.mmb-kick { flex: 1; background: rgba(255,61,87,.08); border: 1px solid rgba(255,61,87,.2); border-radius: 12px; padding: 12px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--red); cursor: pointer; }
+.mmb-promote { flex: 1; background: rgba(245,166,35,.08); border: 1px solid rgba(245,166,35,.2); border-radius: 12px; padding: 12px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--orange); cursor: pointer; }
+
+/* ── Create Guild Modal ── */
+.create-modal-
+.cmb-field { margin-bottom: 14px; }
+.cmb-field-lbl { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 6px; }
+.cmb-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s;
+}
+.cmb-input:focus { border-color: var(--emerald); }
+.cmb-emblems { display: flex; gap: 8px; flex-wrap: wrap; }
+.cmb-emblem {
+  width: 44px;
+  height: 44px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.cmb-emblem.selected { border-color: var(--emerald); background: rgba(0,230,118,.08); box-shadow: 0 0 10px rgba(0,230,118,.2); }
+.cmb-cost-note {
+  background: var(--bg3);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 11px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.cmb-create {
+  width: 100%;
+  background: linear-gradient(135deg, var(--emerald2), var(--emerald));
+  border: none;
+  border-radius: 13px;
+  padding: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #000;
+  cursor: pointer;
+  transition: all .2s;
+}
+.cmb-create:active { transform: scale(.98); }
+
+/* ─── TOAST ─── */
+
+
+/* ── Guild overlay modals ── */
+.guild-overlay {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.7);
+  z-index:9000; align-items:flex-end; justify-content:center;
+}
+.guild-overlay.open { display:flex; }
+.guild-sheet {
+  background:#131313; border-radius:22px 22px 0 0;
+  border:1px solid rgba(255,255,255,.07);
+  padding:20px; width:100%; max-width:520px;
+  max-height:85vh; overflow-y:auto;
+  animation:slideUp .25s ease;
+}
+@keyframes slideUp { from{transform:translateY(60px);opacity:0} to{transform:none;opacity:1} }
+.gsheet-handle { width:36px; height:4px; background:#333; border-radius:2px; margin:0 auto 16px; }
+.gsheet-title { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; margin-bottom:4px; }
+.gsheet-sub { font-size:10px; color:#555; font-family:'Space Mono',monospace; margin-bottom:16px; }
+
+
+/* ══ ORACLE PANEL MODULE CSS ══ */
+#op-oracle { display:flex; flex-direction:column; height:100%; overflow:hidden; }
+#op-oracle .oracle-scrollable { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:16px; }
+#op-oracle .oracle-scrollable::-webkit-scrollbar { display:none; }
+#oc-modal-bet .bet-amt.selected { border-color:var(--orange)!important; color:var(--orange)!important; background:rgba(245,166,35,.08)!important; }
+#op-oracle /* ══ ORACLE MODULE CSS ══ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Unbounded:wght@400;700;900&display=swap');
+
+/* ═══════════════════════════════════
+   CSS VARIABLES
+═══════════════════════════════════ */
+
+
+/* ─── Reset ─── */
+
+
+
+
+/* ─── Скролл ─── */
+.oracle-scrollable { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 16px; }
+#op-oracle .oracle-scrollable::-webkit-scrollbar { display: none; }
+#op-oracle /* ─── Tabs ─── */
+.oracle-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px 12px;
+  flex-shrink: 0;
+}
+#op-oracle .oracle-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: .5px;
+  color: var(--text2);
+}
+#op-oracle .oracle-tab.active { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,.04); }
+#op-oracle /* ─── Метка секции ─── */
+.o-label {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  color: var(--text2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#op-oracle .o-label-action { font-size: 9px; color: var(--green); cursor: pointer; }
+#op-oracle /* ═══════════════════════════════════
+   ТАБ 1: PROPHECIES
+   Oracle Foresight Markets
+═══════════════════════════════════ */
+
+/* Карточка прогноза */
+.prophecy-card {
+  margin: 0 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+#op-oracle .prophecy-card:hover { border-color: var(--border2); }
+#op-oracle /* Шапка карточки */
+.pc-header { padding: 16px 16px 0; }
+#op-oracle .pc-asset-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+#op-oracle .pc-icon { font-size: 28px; line-height: 1; }
+#op-oracle .pc-name {
+  font-size: 16px;
+  font-weight: 800;
+  font-family: 'Unbounded', sans-serif;
+  flex: 1;
+  letter-spacing: .3px;
+}
+#op-oracle .pc-tf-badge {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  padding: 4px 10px;
+  border-radius: 10px;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+#op-oracle .pc-question {
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+#op-oracle .pc-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+#op-oracle .pc-expire {
+  font-size: 9px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+}
+#op-oracle .pc-tag {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid;
+}
+#op-oracle /* Позиция оракула */
+.pc-oracle-pos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(245,166,35,.03);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  color: var(--text2);
+}
+#op-oracle .pc-oracle-pos strong { font-size: 11px; }
+#op-oracle .oracle-bull { color: var(--green); }
+#op-oracle .oracle-bear { color: var(--red); }
+#op-oracle .pc-confidence { margin-left: auto; font-size: 8px; color: var(--text2); }
+#op-oracle /* Пулы и бар */
+.pc-
+.pc-pools {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 12px;
+}
+#op-oracle .pool-item { text-align: center; }
+#op-oracle .pool-val {
+  font-size: 18px;
+  font-weight: 900;
+  font-family: 'Unbounded', sans-serif;
+  line-height: 1;
+}
+#op-oracle .pool-lbl {
+  font-size: 8px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  margin-top: 3px;
+  letter-spacing: .5px;
+}
+#op-oracle .pc-bar-wrap {
+  height: 8px;
+  background: var(--border2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  position: relative;
+}
+#op-oracle .pc-bar-yes {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--green), var(--green2));
+  transition: width .8s cubic-bezier(.34, 1.56, .64, 1);
+}
+#op-oracle .pc-odds-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 12px;
+  color: var(--text2);
+}
+#op-oracle /* Кнопки ставки */
+.pc-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+#op-oracle .pc-btn {
+  border: 1px solid;
+  border-radius: 13px;
+  padding: 14px 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  line-height: 1.3;
+}
+#op-oracle .pc-btn:active { transform: scale(.97); }
+#op-oracle .pc-btn-yes { background: rgba(0,229,160,.07); color: var(--green); border-color: rgba(0,229,160,.2); }
+#op-oracle .pc-btn-no { background: rgba(255,61,87,.07);  color: var(--red);   border-color: rgba(255,61,87,.2); }
+#op-oracle .pc-btn-yes:hover { background: rgba(0,229,160,.14); }
+#op-oracle .pc-btn-no:hover { background: rgba(255,61,87,.14); }
+#op-oracle .pc-footer-note {
+  font-size: 9px;
+  text-align: center;
+  color: var(--text3);
+  font-family: 'Space Mono', monospace;
+  padding: 4px 0 0;
+}
+#op-oracle /* Мои ставки */
+.my-bet-row {
+  margin: 0 12px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#op-oracle .mbi-icon { font-size: 22px; }
+#op-oracle .mbi-info { flex: 1; }
+#op-oracle .mbi-name { font-size: 13px; font-weight: 700; }
+#op-oracle .mbi-meta { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; }
+#op-oracle .mbi-status { font-size: 8px; font-family: 'Space Mono', monospace; margin-top: 2px; }
+#op-oracle .mbi-pnl-pos { font-size: 15px; font-weight: 800; color: var(--green); font-family: 'Space Mono', monospace; }
+#op-oracle .mbi-pnl-neg { font-size: 15px; font-weight: 800; color: var(--red);   font-family: 'Space Mono', monospace; }
+#op-oracle .bet-side-yes { color: var(--green); font-weight: 700; }
+#op-oracle .bet-side-no { color: var(--red);   font-weight: 700; }
+#op-oracle /* Итоговая строка P&L */
+.pnl-summary {
+  margin: 0 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+}
+#op-oracle .pnl-val { font-size: 22px; font-weight: 900; font-family: 'Space Mono', monospace; }
+#op-oracle .pnl-sub { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 3px; }
+#op-oracle /* ═══════════════════════════════════
+   ТАБ 2: LEADERBOARD
+═══════════════════════════════════ */
+.lb-row {
+  margin: 0 12px 7px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#op-oracle .lb-row.me { border-color: rgba(0,229,255,.2); background: rgba(0,229,255,.02); }
+#op-oracle .lb-pos {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: 'Unbounded', sans-serif;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+#op-oracle .lb-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+#op-oracle .lb-info { flex: 1; }
+#op-oracle .lb-name { font-size: 13px; font-weight: 700; }
+#op-oracle .lb-sub { font-size: 9px; font-family: 'Space Mono', monospace; margin-top: 2px; }
+#op-oracle .lb-score-wrap { text-align: right; }
+#op-oracle .lb-score { font-size: 24px; font-weight: 900; font-family: 'Unbounded', sans-serif; line-height: 1; }
+#op-oracle .lb-score-lbl { font-size: 7px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; }
+#op-oracle /* ═══════════════════════════════════
+   ТАБ 3: MARKETPLACE
+═══════════════════════════════════ */
+.market-filters { display: flex; gap: 6px; padding: 0 12px 10px; }
+#op-oracle .mf-btn {
+  padding: 7px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--text2);
+}
+#op-oracle .mf-btn.active { border-color: var(--orange); color: var(--orange); background: rgba(245,166,35,.04); }
+#op-oracle .market-item {
+  margin: 0 12px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+#op-oracle .market-item:active { transform: scale(.99); }
+#op-oracle .mi-asset-icon { font-size: 24px; width: 42px; height: 42px; background: var(--bg3); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#op-oracle .mi-info { flex: 1; }
+#op-oracle .mi-name { font-size: 13px; font-weight: 700; }
+#op-oracle .mi-meta { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; }
+#op-oracle .mi-price-wrap { text-align: right; }
+#op-oracle .mi-price { font-size: 15px; font-weight: 800; color: var(--gold); font-family: 'Space Mono', monospace; }
+#op-oracle .mi-seller { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; }
+#op-oracle .tf-pill {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  margin-right: 4px;
+}
+#op-oracle .mult-pill {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  background: rgba(245,166,35,.1);
+  color: var(--gold);
+  border: 1px solid rgba(245,166,35,.2);
+}
+#op-oracle .rarity-wood { border-color: rgba(154,111,32,.4);  color: #c8961e; background: rgba(154,111,32,.06); }
+#op-oracle .rarity-bronze { border-color: rgba(205,127,50,.4);  color: var(--bronze); background: rgba(205,127,50,.06); }
+#op-oracle .rarity-silver { border-color: rgba(184,184,204,.3); color: var(--silver); background: rgba(184,184,204,.06); }
+#op-oracle .rarity-gold { border-color: rgba(255,215,0,.4);   color: var(--gold);   background: rgba(255,215,0,.06); }
+#op-oracle .rarity-diamond { border-color: rgba(137,212,245,.4); color: var(--diamond);background: rgba(137,212,245,.06); }
+#op-oracle /* ═══════════════════════════════════
+   ТАБ 4: TRADERS
+═══════════════════════════════════ */
+.trader-card {
+  margin: 0 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+#op-oracle /* Шапка трейдера */
+.tc-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 12px;
+}
+#op-oracle .tc-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+}
+#op-oracle .tc-info { flex: 1; }
+#op-oracle .tc-name { font-size: 16px; font-weight: 800; }
+#op-oracle .tc-handle { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 1px; }
+#op-oracle .tc-verified { color: var(--orange); font-size: 12px; }
+#op-oracle .tc-os-wrap { text-align: right; }
+#op-oracle .tc-os-num { font-size: 26px; font-weight: 900; font-family: 'Unbounded', sans-serif; line-height: 1; }
+#op-oracle .tc-os-lbl { font-size: 7px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; letter-spacing: .5px; }
+#op-oracle /* Live статус */
+.live-status-bar {
+  margin: 0 14px 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+}
+#op-oracle .lsb-buy { background: rgba(0,229,160,.04); border-color: rgba(0,229,160,.18); }
+#op-oracle .lsb-sell { background: rgba(255,61,87,.04);  border-color: rgba(255,61,87,.18); }
+#op-oracle .lsb-watch { background: rgba(255,255,255,.02); border-color: var(--border); }
+#op-oracle .live-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+#op-oracle .ld-buy { background: var(--green); box-shadow: 0 0 7px var(--green); animation: livepulse .9s infinite; }
+#op-oracle .ld-sell { background: var(--red);   box-shadow: 0 0 7px var(--red);   animation: livepulse .9s infinite; }
+#op-oracle .ld-idle { background: var(--text3); }
+@keyframes livepulse { 0%,100%{opacity:1}
+ 50%{opacity:.2}
+ }
+#op-oracle .lsb-action-buy { color: var(--green); font-weight: 800; }
+#op-oracle .lsb-action-sell { color: var(--red);   font-weight: 800; }
+#op-oracle .lsb-action-watch { color: var(--text2); }
+#op-oracle .lsb-detail { color: var(--text2); }
+#op-oracle .lsb-time { margin-left: auto; font-size: 8px; color: var(--text2); white-space: nowrap; }
+#op-oracle .live-cost-row {
+  padding: 0 14px 10px;
+  font-size: 9px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#op-oracle /* Статистика трейдера */
+.tc-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+#op-oracle .tc-stat { padding: 11px 6px; text-align: center; background: var(--card); }
+#op-oracle .tc-stat-val { font-size: 14px; font-weight: 800; font-family: 'Space Mono', monospace; }
+#op-oracle .tc-stat-lbl { font-size: 8px; color: var(--text2); font-family: 'Space Mono', monospace; margin-top: 2px; letter-spacing: .3px; }
+#op-oracle /* Accuracy breakdown */
+.tc-accuracy { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+#op-oracle .tca-title { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 9px; }
+#op-oracle .tca-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+#op-oracle .tca-lbl { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; width: 36px; flex-shrink: 0; }
+#op-oracle .tca-bar { flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+#op-oracle .tca-fill { height: 100%; border-radius: 2px; }
+#op-oracle .tca-pct { font-size: 9px; font-family: 'Space Mono', monospace; width: 28px; text-align: right; flex-shrink: 0; }
+#op-oracle /* Кнопки трейдера */
+.tc-actions { display: flex; gap: 8px; padding: 12px 14px; }
+#op-oracle .tc-btn {
+  flex: 1;
+  border-radius: 12px;
+  padding: 12px 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  border: 1px solid;
+}
+#op-oracle .tc-btn:active { transform: scale(.97); }
+#op-oracle .tc-btn-sub { background: rgba(124,77,255,.08); border-color: rgba(124,77,255,.25); color: var(--purple2); }
+#op-oracle .tc-btn-sub-done { background: rgba(124,77,255,.18); border-color: rgba(124,77,255,.4);  color: var(--purple2); }
+#op-oracle .tc-btn-copy { background: rgba(0,229,160,.07); border-color: rgba(0,229,160,.22); color: var(--green); }
+#op-oracle /* ═══════════════════════════════════
+   MODALS — общие стили
+═══════════════════════════════════ */
+
+
+
+
+
+
+
+
+
+
+
+
+/* ─── BET MODAL ─── */
+.bet-
+.bet-asset-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 14px;
+  background: var(--bg3);
+  border-radius: 14px;
+}
+#op-oracle .bet-asset-icon { font-size: 38px; line-height: 1; }
+#op-oracle .bet-asset-name { font-size: 18px; font-weight: 800; margin-bottom: 2px; }
+#op-oracle .bet-asset-tf { font-size: 11px; color: var(--cyan); font-family: 'Space Mono', monospace; }
+#op-oracle .bet-question {
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+#op-oracle .bet-oracle-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: rgba(245,166,35,.04);
+  border: 1px solid rgba(245,166,35,.1);
+  border-radius: 10px;
+  font-size: 10px;
+  color: var(--orange);
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 12px;
+}
+#op-oracle .bet-pool-bar { height: 8px; background: var(--border2); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+#op-oracle .bet-pool-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green2)); border-radius: 4px; }
+#op-oracle .bet-pool-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 16px;
+}
+#op-oracle .bet-amounts-lbl { font-size: 9px; color: var(--text2); font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 8px; }
+#op-oracle .bet-amounts { display: flex; gap: 7px; margin-bottom: 14px; flex-wrap: wrap; }
+#op-oracle .bet-amt {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--text2);
+}
+#op-oracle .bet-amt:active { transform: scale(.97); }
+#op-oracle .bet-amt.selected { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,.05); }
+#op-oracle .bet-calc {
+  background: var(--bg3);
+  border-radius: 13px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+#op-oracle .calc-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+#op-oracle .calc-row:last-child { margin-bottom: 0; }
+#op-oracle .calc-lbl { color: var(--text2); }
+#op-oracle .calc-val { font-weight: 700; }
+#op-oracle .bet-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+#op-oracle .bet-yes {
+  background: rgba(0,229,160,.08);
+  border: 1px solid rgba(0,229,160,.2);
+  border-radius: 13px;
+  padding: 14px 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  line-height: 1.3;
+}
+#op-oracle .bet-no {
+  background: rgba(255,61,87,.08);
+  border: 1px solid rgba(255,61,87,.2);
+  border-radius: 13px;
+  padding: 14px 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--red);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  line-height: 1.3;
+}
+#op-oracle .bet-yes:active, #op-oracle .bet-no:active { transform: scale(.97); }
+#op-oracle /* ─── COPY TRADE MODAL ─── */
+.ct-
+.ct-trader-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--bg3);
+  border-radius: 14px;
+}
+#op-oracle .ct-trader-av {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+}
+#op-oracle .ct-trader-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+#op-oracle .ct-trader-rank { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; }
+#op-oracle .ct-status-box {
+  border-radius: 13px;
+  padding: 14px;
+  border: 1px solid;
+  margin-bottom: 10px;
+}
+#op-oracle .ct-sb-buy { background: rgba(0,229,160,.04); border-color: rgba(0,229,160,.18); }
+#op-oracle .ct-sb-sell { background: rgba(255,61,87,.04);  border-color: rgba(255,61,87,.18); }
+#op-oracle .ct-sb-watch { background: var(--bg3); border-color: var(--border); }
+#op-oracle .ct-action-row { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
+#op-oracle .ct-action-label { font-size: 18px; font-weight: 800; }
+#op-oracle .ct-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+#op-oracle .ct-tag {
+  border-radius: 9px;
+  padding: 5px 11px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  border: 1px solid;
+}
+#op-oracle .ct-tag-green { background: rgba(0,229,160,.07); border-color: rgba(0,229,160,.2); color: var(--green); }
+#op-oracle .ct-tag-red { background: rgba(255,61,87,.07);  border-color: rgba(255,61,87,.2); color: var(--red); }
+#op-oracle .ct-tag-cyan { background: rgba(0,229,255,.06);  border-color: rgba(0,229,255,.15); color: var(--cyan); }
+#op-oracle .ct-tag-gold { background: rgba(255,215,0,.05);  border-color: rgba(255,215,0,.15); color: var(--gold); }
+#op-oracle .ct-cost-note {
+  font-size: 11px;
+  color: var(--text2);
+  font-family: 'Space Mono', monospace;
+  text-align: center;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+#op-oracle .ct-breakdown {
+  background: var(--bg3);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+#op-oracle .ct-brk-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+#op-oracle .ct-brk-row:last-child { margin-bottom: 0; }
+#op-oracle .ct-confirm {
+  width: 100%;
+  background: linear-gradient(135deg, var(--green2), var(--green));
+  border: none;
+  border-radius: 13px;
+  padding: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #000;
+  cursor: pointer;
+  transition: all .2s;
+}
+#op-oracle .ct-confirm:active { transform: scale(.98); }
+#op-oracle /* ─── SUBSCRIBE MODAL ─── */
+.sub-
+.sub-trader-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: var(--bg3);
+  border-radius: 14px;
+  margin-bottom: 14px;
+}
+#op-oracle .sub-benefits { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+#op-oracle .sub-benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg3);
+  border-radius: 11px;
+  font-size: 12px;
+  color: var(--text2);
+}
+#op-oracle .sub-benefit-icon { font-size: 18px; flex-shrink: 0; }
+#op-oracle .sub-cta {
+  width: 100%;
+  background: linear-gradient(135deg, var(--purple), var(--purple2));
+  border: none;
+  border-radius: 13px;
+  padding: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  transition: all .2s;
+}
+#op-oracle .sub-cta:active { transform: scale(.98); }
+#op-oracle .sub-note {
+  text-align: center;
+  font-size: 9px;
+  color: var(--text3);
+  font-family: 'Space Mono', monospace;
+  margin-top: 10px;
+}
+#op-oracle /* ─── MARKET BUY MODAL ─── */
+.mkt-
+.mkt-item-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: var(--bg3);
+  border-radius: 14px;
+  margin-bottom: 14px;
+}
+#op-oracle .mkt-icon-big { font-size: 36px; }
+#op-oracle .mkt-info-name { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
+#op-oracle .mkt-info-meta { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; }
+#op-oracle .mkt-details {
+  background: var(--bg3);
+  border-radius: 13px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+#op-oracle .mkt-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+#op-oracle .mkt-detail-row:last-child { margin-bottom: 0; }
+#op-oracle .mkt-buy {
+  width: 100%;
+  background: linear-gradient(135deg, var(--orange2), var(--orange));
+  border: none;
+  border-radius: 13px;
+  padding: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #000;
+  cursor: pointer;
+  transition: all .2s;
+}
+#op-oracle .mkt-buy:active { transform: scale(.98); }
+
+
 </style>
 </head>
 <body>
@@ -2495,7 +3995,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
     transition:background .2s;" title="ORACLE — Vault, Market, News, Profile"
     onmouseover="this.style.background='rgba(255,106,0,.2)'"
     onmouseout="this.style.background='rgba(255,106,0,.1)'">
-    <span style="font-size:15px;">👁</span> ORACLE
+    <span style="font-size:15px;">👁</span> ELCARO
   </button>
 </div>
 <script>
@@ -2535,6 +4035,9 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2a5 5 0 0 1 5 5c0 2.76-2.24 5-5 5S7 9.76 7 7a5 5 0 0 1 5-5z"/><path d="M2 21c0-4.42 4.48-8 10-8s10 3.58 10 8"/></svg>
       AGENT
       <span style="position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
+    </button>
+    <button class="mode-btn" id="mode-guild" onclick="setMode('guild')" title="Guild">
+      🛡️ GUILD
     </button>
     <!-- MARKET DATA button in main nav -->
     <button class="mode-btn" id="mode-market-group" onclick="setMode('chart')"
@@ -5284,7 +6787,7 @@ function setMode(mode) {
   const isPositionMode = positionModes.includes(mode);
 
   // Top-level nav buttons
-  ['straddle','portfolio','agent','position-group'].forEach(m => {
+  ['straddle','portfolio','agent','position-group','guild'].forEach(m => {
     const el = document.getElementById('mode-'+m);
     if (!el) return;
     const active = m === mode || (m === 'position-group' && isPositionMode);
@@ -5319,6 +6822,7 @@ function setMode(mode) {
   document.getElementById('gpr-section').style.display  = mode === 'gpr'  ? 'block' : 'none';
   document.getElementById('econ-section').style.display       = mode === 'econ'        ? 'block' : 'none';
   document.getElementById('ai-settings-section').style.display = mode === 'ai-settings' ? 'block' : 'none';
+  document.getElementById('guild-section').style.display      = mode === 'guild'       ? 'block' : 'none';
   if (mode === 'ai-settings') updateKeyStatus();
   if (mode === 'fgi')  fgiLoad();
   if (mode === 'geo')  geoLoad();
@@ -8867,7 +10371,7 @@ function initSigmaButtons() {
     <!-- Header -->
     <div class="op-header">
       <div class="op-logo">ƎLC<span>A</span>ЯO
-        <span style="color:#555;font-size:10px;font-weight:400;letter-spacing:0;margin-left:4px;">ORACLE</span>
+        <span style="color:#555;font-size:10px;font-weight:400;letter-spacing:0;margin-left:4px;">ELCARO</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="background:rgba(255,166,35,.1);border:1px solid rgba(255,166,35,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#ffd700;font-family:'Space Mono',monospace;">
@@ -8883,16 +10387,19 @@ function initSigmaButtons() {
         <span class="op-tab-icon">⬡</span>VAULT
       </div>
       <div class="op-tab" onclick="oracleTab('quests',this)">
-        <span class="op-tab-icon">⚔️</span>QUESTS
+        <span class="op-tab-icon">📜</span>QUESTS
       </div>
       <div class="op-tab" onclick="oracleTab('prophecies',this)">
-        <span class="op-tab-icon">🔮</span>ARENA
-      </div>
-      <div class="op-tab" onclick="oracleTab('guild',this)">
-        <span class="op-tab-icon">🛡️</span>GUILD
+        <span class="op-tab-icon">⚔️</span>ARENA
       </div>
       <div class="op-tab" onclick="oracleTab('traders',this)">
         <span class="op-tab-icon">👁</span>TRADERS
+      </div>
+      <div class="op-tab" onclick="oracleTab('news',this)">
+        <span class="op-tab-icon">📰</span>NEWS
+      </div>
+      <div class="op-tab" onclick="oracleTab('oracle',this)">
+        <span class="op-tab-icon">🔮</span>ORACLE
       </div>
       <div class="op-tab" onclick="oracleTab('profile',this)">
         <span class="op-tab-icon">👤</span>PROFILE
@@ -9401,6 +10908,491 @@ function initSigmaButtons() {
       </div>
 
       <!-- ══ PROFILE ══ -->
+      <!-- ══ NEWS ══ -->
+      <div class="op-screen" id="op-news">
+        <div class="scrollable-op">
+          <div class="live-card" onclick="showToast('🔴 Redirecting to ORACLE LIVE...')">
+            <div style="display:inline-flex;align-items:center;gap:5px;background:#ff4757;color:#fff;border-radius:7px;padding:3px 8px;font-size:9px;font-weight:800;margin-bottom:8px;letter-spacing:1px;font-family:'Space Mono',monospace;">
+              <div style="width:5px;height:5px;background:#fff;border-radius:50%;animation:pulse 1s infinite;"></div> LIVE NOW
+            </div>
+            <div style="font-size:14px;font-weight:800;margin-bottom:4px;">ORACLE LIVE TRADING SESSION</div>
+            <div style="font-size:10px;color:#888;font-family:'Space Mono',monospace;margin-bottom:12px;">BTC + GOLD analysis · 47 viewers</div>
+            <button style="background:#ff4757;border:none;border-radius:10px;padding:10px 18px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;">GET ACCESS — $14.99/mo</button>
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:6px;">Free replay on YouTube in 7 days</div>
+          </div>
+          <div class="o-section" style="padding-bottom:8px;">
+            NEWS FEED
+            <span id="op-news-status" style="margin-left:8px;font-size:8px;color:#888;"></span>
+          </div>
+          <div style="padding:0 12px 8px;display:flex;gap:6px;">
+            <div style="flex:1;text-align:center;padding:7px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;">FREE</div>
+            <div style="flex:1;text-align:center;padding:7px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;cursor:pointer;font-family:'Space Mono',monospace;" onclick="orcUnlockNews(event)">PREMIUM ⭐</div>
+          </div>
+          <div id="op-news-list"></div>
+          <div style="margin:4px 12px 16px;background:linear-gradient(135deg,#0f0a1e,#1a0a2e);border:1px solid rgba(108,63,255,.35);border-radius:14px;padding:14px;cursor:pointer;" onclick="orcUnlockNews(event)">
+            <div style="font-size:12px;font-weight:700;color:#9f7fff;margin-bottom:3px;">⭐ UPGRADE TO ORACLE PREMIUM</div>
+            <div style="font-size:9px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">Unlimited signals · Live sessions · Priority analysis</div>
+            <div style="font-size:18px;font-weight:800;color:#fff;">3,000⬡ <span style="font-size:10px;color:#555;font-weight:400;">or $14.99/mo</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PROFILE ══ -->
+      <div class="op-screen" id="op-oracle">
+        <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+  <div class="oracle-tabs">
+    <div class="oracle-tab active" id="oc-ot-prophecies" onclick="ocSwitchTab('prophecies')">PROPHECIES</div>
+    <div class="oracle-tab"        id="oc-ot-mybets"     onclick="ocSwitchTab('mybets')">MY BETS</div>
+    <div class="oracle-tab"        id="oc-ot-leaderboard"onclick="ocSwitchTab('leaderboard')">TOP ORACLES</div>
+    <div class="oracle-tab"        id="oc-ot-market"     onclick="ocSwitchTab('market')">MARKETPLACE</div>
+    <div class="oracle-tab"        id="oc-ot-traders"    onclick="ocSwitchTab('traders')">TRADERS</div>
+  </div>
+
+  <!-- ───────────────────────────────
+       СКРОЛЛ
+  ─────────────────────────────────── -->
+  <div class="oracle-scrollable" id="oc-oracle-scroll" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px;">
+
+    <!-- ══════ VIEW: PROPHECIES ══════ -->
+    <div id="oc-view-prophecies">
+      <div class="o-label">ORACLE FORESIGHT MARKETS <span class="o-label-action">3 ACTIVE</span></div>
+
+      <!-- BTC 4H -->
+      <div class="prophecy-card">
+        <div class="pc-header">
+          <div class="pc-asset-row">
+            <div class="pc-icon">₿</div>
+            <div class="pc-name">BITCOIN</div>
+            <div class="pc-tf-badge" style="background:rgba(0,229,255,.07);color:var(--cyan);border-color:rgba(0,229,255,.2)">4H</div>
+          </div>
+          <div class="pc-question">Will BTC complete a Bull cycle in the 4H timeframe before May 3rd?</div>
+          <div class="pc-meta">
+            <div class="pc-expire">⏳ Closes: May 03 '26 · 12:30 UTC</div>
+            <div class="pc-tag" style="background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.15);color:var(--cyan)">BULL SIGNAL</div>
+          </div>
+        </div>
+        <div class="pc-oracle-pos">
+          <span>👁 ORACLE:</span>
+          <strong class="oracle-bull">BULL — WILL WORK</strong>
+          <span class="pc-confidence">CONFIDENCE 78%</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-pools">
+            <div class="pool-item"><div class="pool-val" style="color:var(--green)">31,200</div><div class="pool-lbl">YES POOL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">78,400</div><div class="pool-lbl">TOTAL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--red)">47,200</div><div class="pool-lbl">NO POOL ⬡</div></div>
+          </div>
+          <div class="pc-bar-wrap"><div class="pc-bar-yes" style="width:40%"></div></div>
+          <div class="pc-odds-row">
+            <span style="color:var(--green)">YES 2.41x</span>
+            <span>58 days left</span>
+            <span style="color:var(--red)">NO 1.58x</span>
+          </div>
+          <div class="pc-buttons">
+            <div class="pc-btn pc-btn-yes" onclick="ocOpenBet({asset:'BTC',icon:'₿',tf:'4H',dir:'Bull',q:'Will this BTC 4H Bull forecast play out?',yesPool:'31,200',totalPool:'78,400',yesPct:40,oraclePos:'BULL — WILL WORK',oracleBull:true})">✓ YES — WILL WORK</div>
+            <div class="pc-btn pc-btn-no"  onclick="ocOpenBet({asset:'BTC',icon:'₿',tf:'4H',dir:'Bear',q:'Will this BTC 4H Bull forecast play out?',yesPool:'31,200',totalPool:'78,400',yesPct:40,oraclePos:'BULL — WILL WORK',oracleBull:true})">✗ NO — WON'T</div>
+          </div>
+          <div class="pc-footer-note">Platform takes 10% fee · Winners share the pool</div>
+        </div>
+      </div>
+
+      <!-- GOLD 1M -->
+      <div class="prophecy-card">
+        <div class="pc-header">
+          <div class="pc-asset-row">
+            <div class="pc-icon">⬡</div>
+            <div class="pc-name">GOLD / XAU</div>
+            <div class="pc-tf-badge" style="background:rgba(255,215,0,.07);color:var(--gold);border-color:rgba(255,215,0,.2)">1M</div>
+          </div>
+          <div class="pc-question">Will GOLD reach $2,500 by end of the monthly cycle?</div>
+          <div class="pc-meta">
+            <div class="pc-expire">⏳ Closes: Jun 30 '26 · 00:00 UTC</div>
+            <div class="pc-tag" style="background:rgba(255,215,0,.06);border-color:rgba(255,215,0,.2);color:var(--gold)">LEGACY TF</div>
+          </div>
+        </div>
+        <div class="pc-oracle-pos">
+          <span>👁 ORACLE:</span>
+          <strong class="oracle-bull">BULL — YES</strong>
+          <span class="pc-confidence">CONFIDENCE 71%</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-pools">
+            <div class="pool-item"><div class="pool-val" style="color:var(--green)">142,000</div><div class="pool-lbl">YES POOL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">210,000</div><div class="pool-lbl">TOTAL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--red)">68,000</div><div class="pool-lbl">NO POOL ⬡</div></div>
+          </div>
+          <div class="pc-bar-wrap"><div class="pc-bar-yes" style="width:68%"></div></div>
+          <div class="pc-odds-row">
+            <span style="color:var(--green)">YES 1.42x</span>
+            <span>116 days left</span>
+            <span style="color:var(--red)">NO 2.96x</span>
+          </div>
+          <div class="pc-buttons">
+            <div class="pc-btn pc-btn-yes" onclick="ocOpenBet({asset:'GOLD',icon:'⬡',tf:'1M',dir:'Bull',q:'Will GOLD reach $2,500 by end of monthly cycle?',yesPool:'142,000',totalPool:'210,000',yesPct:68,oraclePos:'BULL — YES',oracleBull:true})">✓ YES — WILL HIT</div>
+            <div class="pc-btn pc-btn-no"  onclick="ocOpenBet({asset:'GOLD',icon:'⬡',tf:'1M',dir:'Bear',q:'Will GOLD reach $2,500 by end of monthly cycle?',yesPool:'142,000',totalPool:'210,000',yesPct:68,oraclePos:'BULL — YES',oracleBull:true})">✗ NO — WON'T</div>
+          </div>
+          <div class="pc-footer-note">Platform takes 10% fee · Winners share the pool</div>
+        </div>
+      </div>
+
+      <!-- SPX 1W -->
+      <div class="prophecy-card">
+        <div class="pc-header">
+          <div class="pc-asset-row">
+            <div class="pc-icon">📊</div>
+            <div class="pc-name">S&P 500</div>
+            <div class="pc-tf-badge" style="background:rgba(92,107,192,.08);color:var(--indigo);border-color:rgba(92,107,192,.2)">1W</div>
+          </div>
+          <div class="pc-question">Will S&P500 drop 5%+ in current weekly Bear phase?</div>
+          <div class="pc-meta">
+            <div class="pc-expire">⏳ Closes: Mar 14 '26 · 23:59 UTC</div>
+            <div class="pc-tag" style="background:rgba(255,61,87,.06);border-color:rgba(255,61,87,.15);color:var(--red)">BEAR SIGNAL</div>
+          </div>
+        </div>
+        <div class="pc-oracle-pos">
+          <span>👁 ORACLE:</span>
+          <strong class="oracle-bear">BEAR — YES, WILL DROP</strong>
+          <span class="pc-confidence">CONFIDENCE 65%</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-pools">
+            <div class="pool-item"><div class="pool-val" style="color:var(--green)">89,000</div><div class="pool-lbl">YES POOL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">195,000</div><div class="pool-lbl">TOTAL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--red)">106,000</div><div class="pool-lbl">NO POOL ⬡</div></div>
+          </div>
+          <div class="pc-bar-wrap"><div class="pc-bar-yes" style="width:46%"></div></div>
+          <div class="pc-odds-row">
+            <span style="color:var(--green)">YES 2.10x</span>
+            <span>9 days left</span>
+            <span style="color:var(--red)">NO 1.76x</span>
+          </div>
+          <div class="pc-buttons">
+            <div class="pc-btn pc-btn-yes" onclick="ocOpenBet({asset:'SPX',icon:'📊',tf:'1W',dir:'Bear',q:'Will S&P500 drop 5%+ in current weekly Bear phase?',yesPool:'89,000',totalPool:'195,000',yesPct:46,oraclePos:'BEAR — YES, WILL DROP',oracleBull:false})">✓ YES — WILL DROP</div>
+            <div class="pc-btn pc-btn-no"  onclick="ocOpenBet({asset:'SPX',icon:'📊',tf:'1W',dir:'Bull',q:'Will S&P500 drop 5%+ in current weekly Bear phase?',yesPool:'89,000',totalPool:'195,000',yesPct:46,oraclePos:'BEAR — YES, WILL DROP',oracleBull:false})">✗ NO — WON'T</div>
+          </div>
+          <div class="pc-footer-note">Requires active subscription for index assets</div>
+        </div>
+      </div>
+    </div><!-- end prophecies -->
+
+    <!-- ══════ VIEW: MY BETS ══════ -->
+    <div id="oc-view-mybets" style="display:none">
+      <div class="o-label">ACTIVE BETS <span class="o-label-action">+1,240⬡ PENDING</span></div>
+
+      <div class="my-bet-row">
+        <div class="mbi-icon">₿</div>
+        <div class="mbi-info">
+          <div class="mbi-name">BTC 4H — Bull</div>
+          <div class="mbi-meta">BET: 500⬡ · SIDE: <span class="bet-side-yes">YES</span></div>
+          <div class="mbi-status" style="color:var(--text3)">Closes: May 03 '26</div>
+        </div>
+        <div style="text-align:right">
+          <div class="mbi-pnl-pos">+810⬡</div>
+          <div style="font-size:8px;color:var(--text2);font-family:'Space Mono',monospace">IF WIN</div>
+        </div>
+      </div>
+
+      <div class="my-bet-row">
+        <div class="mbi-icon">📊</div>
+        <div class="mbi-info">
+          <div class="mbi-name">SPX 1W — Bear</div>
+          <div class="mbi-meta">BET: 1,000⬡ · SIDE: <span class="bet-side-yes">YES</span></div>
+          <div class="mbi-status" style="color:var(--text3)">Closes: Mar 14 '26</div>
+        </div>
+        <div style="text-align:right">
+          <div class="mbi-pnl-pos">+1,890⬡</div>
+          <div style="font-size:8px;color:var(--text2);font-family:'Space Mono',monospace">IF WIN</div>
+        </div>
+      </div>
+
+      <div class="o-label">CLOSED BETS</div>
+
+      <div class="my-bet-row" style="opacity:.7">
+        <div class="mbi-icon">⬡</div>
+        <div class="mbi-info">
+          <div class="mbi-name">GOLD 1D — Bull</div>
+          <div class="mbi-meta">BET: 200⬡ · SIDE: <span class="bet-side-yes">YES</span></div>
+          <div class="mbi-status" style="color:var(--green)">✓ WON · Feb 22 '26</div>
+        </div>
+        <div style="text-align:right">
+          <div class="mbi-pnl-pos">+184⬡</div>
+          <div style="font-size:8px;color:var(--green);font-family:'Space Mono',monospace">PAID OUT</div>
+        </div>
+      </div>
+
+      <div class="my-bet-row" style="opacity:.7">
+        <div class="mbi-icon">₿</div>
+        <div class="mbi-info">
+          <div class="mbi-name">BTC 1H — Bear</div>
+          <div class="mbi-meta">BET: 300⬡ · SIDE: <span class="bet-side-no">NO</span></div>
+          <div class="mbi-status" style="color:var(--red)">✗ LOST · Feb 10 '26</div>
+        </div>
+        <div style="text-align:right">
+          <div class="mbi-pnl-neg">-300⬡</div>
+          <div style="font-size:8px;color:var(--red);font-family:'Space Mono',monospace">LOST</div>
+        </div>
+      </div>
+
+      <div class="pnl-summary">
+        <div class="pnl-val" style="color:var(--gold)">+184⬡</div>
+        <div class="pnl-sub">NET CLOSED P&L · WIN RATE 3/4 (75%)</div>
+      </div>
+    </div>
+
+    <!-- ══════ VIEW: LEADERBOARD ══════ -->
+    <div id="oc-view-leaderboard" style="display:none">
+      <div class="o-label">ORACLE SCORE LEADERBOARD</div>
+
+      <div class="lb-row">
+        <div class="lb-pos" style="color:var(--gold)">#1</div>
+        <div class="lb-avatar" style="background:linear-gradient(135deg,#030e08,#010c06)">🌿</div>
+        <div class="lb-info">
+          <div class="lb-name">diamond_seer</div>
+          <div class="lb-sub" style="color:var(--diamond)">Diamond Oracle · 512 forecasts</div>
+        </div>
+        <div class="lb-score-wrap"><div class="lb-score" style="color:var(--cyan)">94</div><div class="lb-score-lbl">SCORE</div></div>
+      </div>
+
+      <div class="lb-row">
+        <div class="lb-pos" style="color:var(--silver)">#2</div>
+        <div class="lb-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800)">🧿</div>
+        <div class="lb-info">
+          <div class="lb-name">oracle_x ✦</div>
+          <div class="lb-sub" style="color:var(--gold)">Gold Oracle · 284 forecasts</div>
+        </div>
+        <div class="lb-score-wrap"><div class="lb-score" style="color:var(--green)">87</div><div class="lb-score-lbl">SCORE</div></div>
+      </div>
+
+      <div class="lb-row">
+        <div class="lb-pos" style="color:var(--bronze)">#3</div>
+        <div class="lb-avatar" style="background:var(--bg3)">🌙</div>
+        <div class="lb-info">
+          <div class="lb-name">silver_prophet</div>
+          <div class="lb-sub" style="color:var(--silver)">Silver Seer · 156 forecasts</div>
+        </div>
+        <div class="lb-score-wrap"><div class="lb-score" style="color:var(--silver)">79</div><div class="lb-score-lbl">SCORE</div></div>
+      </div>
+
+      <div class="lb-row">
+        <div class="lb-pos" style="color:var(--text2)">#4</div>
+        <div class="lb-avatar" style="background:var(--bg3)">⚡</div>
+        <div class="lb-info">
+          <div class="lb-name">algo_king</div>
+          <div class="lb-sub" style="color:var(--silver)">Silver Seer · 98 forecasts</div>
+        </div>
+        <div class="lb-score-wrap"><div class="lb-score" style="color:var(--purple2)">71</div><div class="lb-score-lbl">SCORE</div></div>
+      </div>
+
+      <div class="lb-row me">
+        <div class="lb-pos" style="color:var(--cyan)">#47</div>
+        <div class="lb-avatar" style="background:linear-gradient(135deg,#060a10,#0a1020);border:2px solid rgba(0,229,255,.2)">⚡</div>
+        <div class="lb-info">
+          <div class="lb-name">YOU</div>
+          <div class="lb-sub" style="color:var(--silver)">Silver Seer · 12 forecasts</div>
+        </div>
+        <div class="lb-score-wrap"><div class="lb-score" style="color:var(--cyan)">71</div><div class="lb-score-lbl">YOUR SCORE</div></div>
+      </div>
+
+      <div class="lb-row">
+        <div class="lb-pos" style="color:var(--text2)">#48</div>
+        <div class="lb-avatar" style="background:var(--bg3)">🔮</div>
+        <div class="lb-info">
+          <div class="lb-name">prophecy_23</div>
+          <div class="lb-sub" style="color:var(--bronze)">Bronze Seer · 34 forecasts</div>
+        </div>
+        <div class="lb-score-wrap"><div class="lb-score" style="color:var(--bronze)">68</div><div class="lb-score-lbl">SCORE</div></div>
+      </div>
+    </div>
+
+    <!-- ══════ VIEW: MARKETPLACE ══════ -->
+    <div id="oc-view-market" style="display:none">
+      <div class="o-label">P2P MARKETPLACE</div>
+      <div class="market-filters">
+        <div class="mf-btn active" onclick="ocFilterMarket(this,'all')">ALL</div>
+        <div class="mf-btn" onclick="ocFilterMarket(this,'forecast')">FORECASTS</div>
+        <div class="mf-btn" onclick="ocFilterMarket(this,'chest')">CHESTS</div>
+      </div>
+
+      <!-- forecast items -->
+      <div class="market-item" data-type="forecast" onclick="ocOpenMarket({icon:'N',name:'NVDA 4H',meta:'4H · Bull · ×2 multiplier',seller:'@quant_97',price:'280',type:'forecast',rarity:''})">
+        <div class="mi-asset-icon">N</div>
+        <div class="mi-info">
+          <div class="mi-name">NVDA 4H Bull <span class="mult-pill">×2</span></div>
+          <div class="mi-meta"><span class="tf-pill" style="background:rgba(0,229,255,.06);color:var(--cyan);border:1px solid rgba(0,229,255,.15)">4H</span> · Never opened · Expires May '26</div>
+        </div>
+        <div class="mi-price-wrap"><div class="mi-price">280⬡</div><div class="mi-seller">@quant_97</div></div>
+      </div>
+
+      <div class="market-item" data-type="forecast" onclick="ocOpenMarket({icon:'₿',name:'BTC 1D',meta:'1D · Bull · ×3 multiplier',seller:'@seer_22',price:'540',type:'forecast',rarity:''})">
+        <div class="mi-asset-icon">₿</div>
+        <div class="mi-info">
+          <div class="mi-name">BTC 1D Bull <span class="mult-pill">×3</span></div>
+          <div class="mi-meta"><span class="tf-pill" style="background:rgba(0,229,255,.06);color:var(--cyan);border:1px solid rgba(0,229,255,.15)">1D</span> · Never opened · Expires Jun '26</div>
+        </div>
+        <div class="mi-price-wrap"><div class="mi-price">540⬡</div><div class="mi-seller">@seer_22</div></div>
+      </div>
+
+      <div class="market-item" data-type="forecast" onclick="ocOpenMarket({icon:'⬡',name:'GOLD 1W',meta:'1W · Bear · ×4 multiplier',seller:'@legend',price:'890',type:'forecast',rarity:''})">
+        <div class="mi-asset-icon">⬡</div>
+        <div class="mi-info">
+          <div class="mi-name">GOLD 1W Bear <span class="mult-pill">×4</span></div>
+          <div class="mi-meta"><span class="tf-pill" style="background:rgba(0,229,255,.06);color:var(--cyan);border:1px solid rgba(0,229,255,.15)">1W</span> · Never opened · Expires Apr '26</div>
+        </div>
+        <div class="mi-price-wrap"><div class="mi-price">890⬡</div><div class="mi-seller">@legend</div></div>
+      </div>
+
+      <!-- chest items -->
+      <div class="market-item" data-type="chest" onclick="ocOpenMarket({icon:'🏆',name:'Gold Chest',meta:'5-7 forecasts · Very rare · Unopened',seller:'@diamond_seer',price:'4,500',type:'chest',rarity:'rarity-gold'})">
+        <div class="mi-asset-icon" style="font-size:24px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2)">🏆</div>
+        <div class="mi-info">
+          <div class="mi-name"><span class="tf-pill rarity-gold">GOLD CHEST</span></div>
+          <div class="mi-meta">5-7 forecasts · Very rare · Unopened</div>
+        </div>
+        <div class="mi-price-wrap"><div class="mi-price">4,500⬡</div><div class="mi-seller">@diamond_seer</div></div>
+      </div>
+
+      <div class="market-item" data-type="chest" onclick="ocOpenMarket({icon:'💎',name:'Diamond Chest',meta:'8-12 forecasts · Legendary · Unopened',seller:'@legend',price:'14,000',type:'chest',rarity:'rarity-diamond'})">
+        <div class="mi-asset-icon" style="font-size:24px;background:rgba(137,212,245,.06);border:1px solid rgba(137,212,245,.2)">💎</div>
+        <div class="mi-info">
+          <div class="mi-name"><span class="tf-pill rarity-diamond">DIAMOND CHEST</span></div>
+          <div class="mi-meta">8-12 forecasts · Legendary · Unopened</div>
+        </div>
+        <div class="mi-price-wrap"><div class="mi-price">14,000⬡</div><div class="mi-seller">@legend</div></div>
+      </div>
+
+      <div class="market-item" data-type="chest" onclick="ocOpenMarket({icon:'🪙',name:'Silver Chest',meta:'3-5 forecasts · Uncommon · Unopened',seller:'@seer_x7',price:'1,800',type:'chest',rarity:'rarity-silver'})">
+        <div class="mi-asset-icon" style="font-size:24px;background:rgba(184,184,204,.05);border:1px solid rgba(184,184,204,.15)">🪙</div>
+        <div class="mi-info">
+          <div class="mi-name"><span class="tf-pill rarity-silver">SILVER CHEST</span></div>
+          <div class="mi-meta">3-5 forecasts · Uncommon · Unopened</div>
+        </div>
+        <div class="mi-price-wrap"><div class="mi-price">1,800⬡</div><div class="mi-seller">@seer_x7</div></div>
+      </div>
+    </div>
+
+    <!-- ══════ VIEW: TRADERS ══════ -->
+    <div id="oc-view-traders" style="display:none">
+      <div class="o-label">VERIFIED TRADERS <span class="o-label-action">3 LIVE NOW</span></div>
+
+      <!-- oracle_x -->
+      <div class="trader-card">
+        <div class="tc-top">
+          <div class="tc-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800);border-color:rgba(245,166,35,.3)">🧿</div>
+          <div class="tc-info">
+            <div class="tc-name">oracle_x <span class="tc-verified">✦</span></div>
+            <div class="tc-handle">@oracle_x · Gold Oracle Rank</div>
+          </div>
+          <div class="tc-os-wrap">
+            <div class="tc-os-num" style="color:var(--green)">87</div>
+            <div class="tc-os-lbl">ORACLE SCORE</div>
+          </div>
+        </div>
+        <div class="live-status-bar lsb-buy">
+          <div class="live-dot ld-buy"></div>
+          <span class="lsb-action-buy">BUYING</span>
+          <span class="lsb-detail">· BTC · LONG · 4H</span>
+          <span class="lsb-time">5 MIN AGO</span>
+        </div>
+        <div class="live-cost-row">🔒 Unlock live status: <strong style="color:var(--gold)">50⬡</strong>/view · Trader earns 40⬡ · Platform: 10⬡</div>
+        <div class="tc-stats">
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--green)">87%</div><div class="tc-stat-lbl">ACCURACY</div></div>
+          <div class="tc-stat"><div class="tc-stat-val">284</div><div class="tc-stat-lbl">FORECASTS</div></div>
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--gold)">Gold</div><div class="tc-stat-lbl">RANK</div></div>
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--text2)">12</div><div class="tc-stat-lbl">FOLLOWERS</div></div>
+        </div>
+        <div class="tc-accuracy">
+          <div class="tca-title">ACCURACY BY ASSET</div>
+          <div class="tca-row"><span class="tca-lbl">BTC</span><div class="tca-bar"><div class="tca-fill" style="width:92%;background:var(--green)"></div></div><span class="tca-pct" style="color:var(--green)">92%</span></div>
+          <div class="tca-row"><span class="tca-lbl">GOLD</span><div class="tca-bar"><div class="tca-fill" style="width:84%;background:var(--gold)"></div></div><span class="tca-pct" style="color:var(--gold)">84%</span></div>
+          <div class="tca-row"><span class="tca-lbl">ETH</span><div class="tca-bar"><div class="tca-fill" style="width:78%;background:var(--cyan)"></div></div><span class="tca-pct" style="color:var(--cyan)">78%</span></div>
+        </div>
+        <div class="tc-actions">
+          <div class="tc-btn tc-btn-sub-done" onclick="showToast('✓ Already subscribed to @oracle_x')">✓ SUBSCRIBED</div>
+          <div class="tc-btn tc-btn-copy" onclick="ocOpenCopy({handle:'oracle_x',icon:'🧿',avatarBg:'linear-gradient(135deg,#1a0e00,#2a1800)',rank:'Gold Oracle · Score: 87',action:'BUYING',asset:'BTC',pos:'LONG',tf:'4H',timeAgo:'5 MIN AGO',mode:'buy'})">👁 COPY TRADE — 50⬡</div>
+        </div>
+      </div>
+
+      <!-- diamond_seer -->
+      <div class="trader-card">
+        <div class="tc-top">
+          <div class="tc-avatar" style="background:linear-gradient(135deg,#030e08,#010c06);border-color:rgba(0,229,160,.2)">🌿</div>
+          <div class="tc-info">
+            <div class="tc-name">diamond_seer</div>
+            <div class="tc-handle">@diamond_seer · Diamond Oracle</div>
+          </div>
+          <div class="tc-os-wrap">
+            <div class="tc-os-num" style="color:var(--cyan)">94</div>
+            <div class="tc-os-lbl">ORACLE SCORE</div>
+          </div>
+        </div>
+        <div class="live-status-bar lsb-sell">
+          <div class="live-dot ld-sell"></div>
+          <span class="lsb-action-sell">SELLING</span>
+          <span class="lsb-detail">· GOLD · SHORT · 1D</span>
+          <span class="lsb-time">12 MIN AGO</span>
+        </div>
+        <div class="live-cost-row">🔒 Unlock live status: <strong style="color:var(--gold)">50⬡</strong>/view · Trader earns 40⬡ · Platform: 10⬡</div>
+        <div class="tc-stats">
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--cyan)">94%</div><div class="tc-stat-lbl">ACCURACY</div></div>
+          <div class="tc-stat"><div class="tc-stat-val">512</div><div class="tc-stat-lbl">FORECASTS</div></div>
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--diamond)">Diamond</div><div class="tc-stat-lbl">RANK</div></div>
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--text2)">31</div><div class="tc-stat-lbl">FOLLOWERS</div></div>
+        </div>
+        <div class="tc-accuracy">
+          <div class="tca-title">ACCURACY BY ASSET</div>
+          <div class="tca-row"><span class="tca-lbl">GOLD</span><div class="tca-bar"><div class="tca-fill" style="width:96%;background:var(--gold)"></div></div><span class="tca-pct" style="color:var(--gold)">96%</span></div>
+          <div class="tca-row"><span class="tca-lbl">SPX</span><div class="tca-bar"><div class="tca-fill" style="width:91%;background:var(--green)"></div></div><span class="tca-pct" style="color:var(--green)">91%</span></div>
+          <div class="tca-row"><span class="tca-lbl">BNB</span><div class="tca-bar"><div class="tca-fill" style="width:88%;background:var(--cyan)"></div></div><span class="tca-pct" style="color:var(--cyan)">88%</span></div>
+        </div>
+        <div class="tc-actions">
+          <div class="tc-btn tc-btn-sub" id="oc-sub-diamond" onclick="ocSubscribe('diamond_seer','oc-sub-diamond')">SUBSCRIBE</div>
+          <div class="tc-btn tc-btn-copy" onclick="ocOpenCopy({handle:'diamond_seer',icon:'🌿',avatarBg:'linear-gradient(135deg,#030e08,#010c06)',rank:'Diamond Oracle · Score: 94',action:'SELLING',asset:'GOLD',pos:'SHORT',tf:'1D',timeAgo:'12 MIN AGO',mode:'sell'})">👁 COPY TRADE — 50⬡</div>
+        </div>
+      </div>
+
+      <!-- algo_king -->
+      <div class="trader-card">
+        <div class="tc-top">
+          <div class="tc-avatar" style="background:linear-gradient(135deg,#080020,#100030);border-color:rgba(124,77,255,.2)">⚡</div>
+          <div class="tc-info">
+            <div class="tc-name">algo_king</div>
+            <div class="tc-handle">@algo_king · Silver Seer</div>
+          </div>
+          <div class="tc-os-wrap">
+            <div class="tc-os-num" style="color:var(--purple2)">71</div>
+            <div class="tc-os-lbl">ORACLE SCORE</div>
+          </div>
+        </div>
+        <div class="live-status-bar lsb-watch">
+          <div class="live-dot ld-idle"></div>
+          <span class="lsb-action-watch">WATCHING</span>
+          <span class="lsb-detail" style="color:var(--text3)">· No active position right now</span>
+          <span class="lsb-time">—</span>
+        </div>
+        <div class="live-cost-row">🔒 Unlock live status: <strong style="color:var(--gold)">50⬡</strong>/view · Trader earns 40⬡ · Platform: 10⬡</div>
+        <div class="tc-stats">
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--purple2)">71%</div><div class="tc-stat-lbl">ACCURACY</div></div>
+          <div class="tc-stat"><div class="tc-stat-val">98</div><div class="tc-stat-lbl">FORECASTS</div></div>
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--silver)">Silver</div><div class="tc-stat-lbl">RANK</div></div>
+          <div class="tc-stat"><div class="tc-stat-val" style="color:var(--text2)">8</div><div class="tc-stat-lbl">FOLLOWERS</div></div>
+        </div>
+        <div class="tc-accuracy">
+          <div class="tca-title">ACCURACY BY ASSET</div>
+          <div class="tca-row"><span class="tca-lbl">ETH</span><div class="tca-bar"><div class="tca-fill" style="width:78%;background:var(--purple2)"></div></div><span class="tca-pct" style="color:var(--purple2)">78%</span></div>
+          <div class="tca-row"><span class="tca-lbl">SOL</span><div class="tca-bar"><div class="tca-fill" style="width:68%;background:var(--cyan)"></div></div><span class="tca-pct" style="color:var(--cyan)">68%</span></div>
+          <div class="tca-row"><span class="tca-lbl">BTC</span><div class="tca-bar"><div class="tca-fill" style="width:62%;background:var(--text2)"></div></div><span class="tca-pct" style="color:var(--text2)">62%</span></div>
+        </div>
+        <div class="tc-actions">
+          <div class="tc-btn tc-btn-sub" id="oc-sub-algo" onclick="ocSubscribe('algo_king','oc-sub-algo')">SUBSCRIBE</div>
+          <div class="tc-btn tc-btn-copy" onclick="ocOpenCopy({handle:'algo_king',icon:'⚡',avatarBg:'linear-gradient(135deg,#080020,#100030)',rank:'Silver Seer · Score: 71',action:'WATCHING',asset:'—',pos:'—',tf:'—',timeAgo:'—',mode:'watch'})">👁 VIEW STATUS — 50⬡</div>
+        </div>
+      </div>
+
+    </div><!-- end traders -->
+
+  </div><!-- end oracle-scrollable -->
+        </div>
+      </div>
       <div class="op-screen" id="op-profile">
         <div class="scrollable-op">
 
@@ -9902,7 +11894,9 @@ function oracleRenderTab(name) {
   if (name==='prophecies')  { opRenderArenaDuels(); }
   if (name==='guild')       { opRenderGuild(); }
   if (name==='traders')     { opRenderTraders(); }
-  if (name==='profile')     { opRenderProfile(); }
+  if (name==='news')        { oracleRenderNews(); oracleUpdateNewsStatus(); }
+  if (name==='oracle')      { ocSwitchTab('prophecies'); }
+      if (name==='profile')     { opRenderProfile(); }
 }
 
 function oracleUpdateNewsStatus() {
@@ -11562,6 +13556,715 @@ window.oracleRenderAll = function() {
     renderSeasonalEvents();
   }, 100);
 };
+
+// ══════════════════════════════════════════════
+//  GUILD MODULE JS
+// ══════════════════════════════════════════════
+const guildState = {
+  name:       'Oracle Covenant',
+  emblem:     '🔮',
+  members:    8,
+  maxMembers: 10,
+  coins:      12400,
+  rank:       14,
+  avgScore:   83,
+  isLeader:   false,
+  treasury: { coins: 4200, chests: 3, forecasts: 7 }
+};
+
+let currentGuildMember = '';
+let guildSelectedEmblem = '🔮';
+
+function guildOpenModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('open');
+}
+function guildCloseModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('open');
+}
+
+function guildDistribute() {
+  const perMember = Math.floor(guildState.treasury.coins / guildState.members);
+  guildState.treasury.coins = 0;
+  guildState.treasury.chests = 0;
+  guildState.treasury.forecasts = 0;
+  document.getElementById('gtc-coins').textContent = '0';
+  document.getElementById('gtc-chests').textContent = '0';
+  document.getElementById('gtc-forecasts').textContent = '0';
+  guildCloseModal('guild-treasury-modal');
+  showToast('🔮 Treasury distributed! Each member received ' + perMember + '⬡ + rewards!');
+  guildAddSystemMsg('🔮 Treasury distributed! ' + perMember + '⬡ + Bronze Chest per member.');
+}
+
+function guildContribute(what) {
+  guildCloseModal('guild-contrib-modal');
+  if (what.includes('100⬡')) {
+    guildState.treasury.coins += 100;
+    document.getElementById('gtc-coins').textContent = guildState.treasury.coins.toLocaleString();
+  } else if (what.includes('Chest')) {
+    guildState.treasury.chests++;
+    document.getElementById('gtc-chests').textContent = guildState.treasury.chests;
+  } else {
+    guildState.treasury.forecasts++;
+    document.getElementById('gtc-forecasts').textContent = guildState.treasury.forecasts;
+  }
+  showToast('✅ ' + what + ' contributed to guild treasury!');
+  guildAddSystemMsg('⬡ YOU contributed ' + what + ' to the guild treasury.');
+}
+
+function guildSendMessage() {
+  const input = document.getElementById('guild-gchat-input');
+  const text = (input.value || '').trim();
+  if (!text) return;
+  input.value = '';
+  const msgs = document.getElementById('guild-gchat-msgs');
+  const div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.innerHTML =
+    '<div class="chat-avatar" style="background:linear-gradient(135deg,#060a10,#0a1020)">⚡</div>' +
+    '<div class="chat-body">' +
+      '<div class="chat-from" style="color:var(--cyan)">YOU</div>' +
+      '<div class="chat-text">' + text.replace(/</g,'&lt;') + '</div>' +
+      '<div class="chat-time">Just now</div>' +
+    '</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  showToast('💬 Message sent to Oracle Covenant');
+}
+
+function guildAddSystemMsg(text) {
+  const msgs = document.getElementById('guild-gchat-msgs');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg system';
+  div.innerHTML =
+    '<div class="chat-body">' +
+      '<div class="chat-from">SYSTEM</div>' +
+      '<div class="chat-text">' + text + '</div>' +
+      '<div class="chat-time">Just now</div>' +
+    '</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function guildOpenMemberModal(handle, icon, avatarBg, rank, score, btc, gold, eth, rankLabel, streak) {
+  currentGuildMember = handle;
+  document.getElementById('gmm-avatar').textContent = icon;
+  document.getElementById('gmm-avatar').style.background = avatarBg;
+  document.getElementById('gmm-name').textContent = '@' + handle;
+  document.getElementById('gmm-rank').textContent = rankLabel;
+  document.getElementById('gmm-streak').textContent = streak;
+  document.getElementById('gmm-score').textContent = score;
+  document.getElementById('gmm-btc').textContent = btc + '%';
+  document.getElementById('gmm-btc-bar').style.width = btc + '%';
+  document.getElementById('gmm-gold').textContent = gold + '%';
+  document.getElementById('gmm-gold-bar').style.width = gold + '%';
+  document.getElementById('gmm-eth').textContent = eth + '%';
+  document.getElementById('gmm-eth-bar').style.width = eth + '%';
+  guildOpenModal('guild-member-modal');
+}
+
+function guildSelectEmblem(el) {
+  document.querySelectorAll('.cmb-emblem').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  guildSelectedEmblem = el.textContent;
+}
+
+function guildCreate() {
+  const name = (document.getElementById('guild-name-input').value || '').trim();
+  const motto = (document.getElementById('guild-motto-input').value || '').trim();
+  if (!name) { showToast('⚠ Enter a guild name!'); return; }
+  guildCloseModal('guild-create-modal');
+  showToast(guildSelectedEmblem + ' Guild "' + name + '" created! You are Guild Master 👑');
+}
+</script>
+
+<!-- ══════════════════════════════════════════════
+     GUILD SECTION
+══════════════════════════════════════════════ -->
+<div id="guild-section" style="display:none;max-width:900px;margin:0 auto;padding-bottom:20px;">
+
+  <!-- GUILD HERO -->
+  <div class="g-label">MY GUILD</div>
+  <div class="guild-hero">
+    <span class="gh-emblem">🔮</span>
+    <div class="gh-name">ORACLE COVENANT</div>
+    <div class="gh-motto">"Those who see the future, shape it."</div>
+    <div class="gh-stats">
+      <div class="ghs"><div class="ghs-val" id="gs-members">8</div><div class="ghs-lbl">MEMBERS</div></div>
+      <div class="ghs"><div class="ghs-val" id="gs-coins">12,400</div><div class="ghs-lbl">GUILD OC</div></div>
+      <div class="ghs"><div class="ghs-val" id="gs-rank">#14</div><div class="ghs-lbl">RANK</div></div>
+      <div class="ghs"><div class="ghs-val" id="gs-score">83%</div><div class="ghs-lbl">AVG SCORE</div></div>
+    </div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="guild-action-row">
+    <div class="guild-action-btn" onclick="showToast('📋 Guild rules: contribute weekly, keep score 40+')">📋 RULES</div>
+    <div class="guild-action-btn" style="color:var(--cyan)" onclick="showToast('📊 Guild #14 of 2,840 guilds this season')">📊 RANKINGS</div>
+    <div class="guild-action-btn" onclick="showToast('🔗 Invite link copied! Share to recruit members')">🔗 INVITE</div>
+  </div>
+
+  <!-- TREASURY -->
+  <div class="g-label">GUILD TREASURY</div>
+  <div class="treasury-card">
+    <div class="treasury-head">
+      <div class="treasury-head-title">📅 WEEKLY TREASURY</div>
+      <div class="treasury-timer" id="guild-treasury-timer">⏰ Opens: SUN 00:00 UTC</div>
+    </div>
+    <div class="treasury-grid">
+      <div class="treasury-cell"><span class="tc-icon">⬡</span><div class="tc-val" id="gtc-coins">4,200</div><div class="tc-lbl">COINS</div></div>
+      <div class="treasury-cell"><span class="tc-icon">📦</span><div class="tc-val" id="gtc-chests">3</div><div class="tc-lbl">CHESTS</div></div>
+      <div class="treasury-cell"><span class="tc-icon">📄</span><div class="tc-val" id="gtc-forecasts">7</div><div class="tc-lbl">FORECASTS</div></div>
+    </div>
+    <button class="treasury-cta locked" id="guild-treasury-btn" onclick="guildOpenModal('guild-treasury-modal')">
+      🔒 OPEN TREASURY — Guild Leader Only
+    </button>
+  </div>
+
+  <!-- CONTRIBUTE -->
+  <div class="g-label">CONTRIBUTE TO TREASURY</div>
+  <div class="contribute-card">
+    <div class="contribute-title">YOUR WEEKLY CONTRIBUTION</div>
+    <div class="contribute-grid">
+      <div class="contrib-btn cb-coins" onclick="guildOpenModal('guild-contrib-modal')"><span class="cb-icon">⬡</span><div class="cb-name">+100 OC</div><div class="cb-sub">COINS</div></div>
+      <div class="contrib-btn cb-chest" onclick="guildOpenModal('guild-contrib-modal')"><span class="cb-icon">📦</span><div class="cb-name">ANY CHEST</div><div class="cb-sub">FROM VAULT</div></div>
+      <div class="contrib-btn cb-forecast" onclick="guildOpenModal('guild-contrib-modal')"><span class="cb-icon">📄</span><div class="cb-name">FORECAST</div><div class="cb-sub">UNUSED</div></div>
+    </div>
+  </div>
+
+  <!-- MEMBERS -->
+  <div class="g-label">GUILD MEMBERS <span class="g-label-action">8/10</span></div>
+
+  <div class="member-item" onclick="guildOpenMemberModal('oracle_x','🧿','linear-gradient(135deg,#1a0e00,#2a1800)','GUILD MASTER · Gold Oracle','87','92','84','78','🥇 Gold Oracle','30 🔥 streak')">
+    <div class="mi-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800);border:2px solid rgba(245,166,35,.3)">🧿</div>
+    <div class="mi-info"><div class="mi-name">oracle_x <span style="font-size:13px">👑</span></div><div class="mi-role rank-master">GUILD MASTER · Gold Oracle · 30-day streak 🔥</div></div>
+    <div class="mi-score-wrap"><div class="mi-score" style="color:var(--green)">87</div><div class="mi-score-lbl">ORACLE SCORE</div></div>
+  </div>
+
+  <div class="member-item" onclick="guildOpenMemberModal('silver_prophet','🌙','var(--bg3)','Silver Seer','74','81','70','65','🥈 Silver Seer','12 🔥 streak')">
+    <div class="mi-avatar" style="background:var(--bg3)">🌙</div>
+    <div class="mi-info"><div class="mi-name">silver_prophet</div><div class="mi-role rank-silver">Silver Seer · 12-day streak 🔥</div></div>
+    <div class="mi-score-wrap"><div class="mi-score" style="color:var(--silver2)">74</div><div class="mi-score-lbl">ORACLE SCORE</div></div>
+  </div>
+
+  <div class="member-item you">
+    <div class="mi-avatar" style="background:linear-gradient(135deg,#060a10,#0a1020);border:2px solid rgba(0,229,255,.2)">⚡</div>
+    <div class="mi-info"><div class="mi-name">YOU <span style="font-size:10px;color:var(--cyan)">← you</span></div><div class="mi-role rank-cyan">Silver Seer · 5-day streak 🔥 · Contributed ✓</div></div>
+    <div class="mi-score-wrap"><div class="mi-score" style="color:var(--cyan)">71</div><div class="mi-score-lbl">ORACLE SCORE</div></div>
+  </div>
+
+  <div class="member-item" onclick="guildOpenMemberModal('seer_x7','🦅','var(--bg3)','Bronze Oracle','58','65','52','55','🥉 Bronze Oracle','7 🔥 streak')">
+    <div class="mi-avatar" style="background:var(--bg3)">🦅</div>
+    <div class="mi-info"><div class="mi-name">seer_x7</div><div class="mi-role rank-bronze">Bronze Oracle · 7-day streak 🔥</div></div>
+    <div class="mi-score-wrap"><div class="mi-score" style="color:var(--bronze2)">58</div><div class="mi-score-lbl">ORACLE SCORE</div></div>
+  </div>
+
+  <div class="member-item" onclick="guildOpenMemberModal('initiate_03','🔮','var(--bg3)','Initiate','42','48','38','40','🌱 Initiate','2 days streak')">
+    <div class="mi-avatar" style="background:var(--bg3)">🔮</div>
+    <div class="mi-info"><div class="mi-name">initiate_03</div><div class="mi-role rank-initiate">Initiate · 2-day streak</div></div>
+    <div class="mi-score-wrap"><div class="mi-score" style="color:var(--text2)">42</div><div class="mi-score-lbl">ORACLE SCORE</div></div>
+  </div>
+
+  <!-- GUILD CHAT -->
+  <div class="g-label">GUILD CHAMBER <span class="g-label-action" id="guild-online-count">5 ONLINE</span></div>
+  <div class="guild-chat">
+    <div class="gchat-header">
+      <div class="gchat-title">💬 ORACLE COVENANT CHAT</div>
+      <div class="gchat-online" id="guild-chat-online">5 online</div>
+    </div>
+    <div class="gchat-messages" id="guild-gchat-msgs">
+      <div class="chat-msg system"><div class="chat-body"><div class="chat-from">SYSTEM</div><div class="chat-text">🔮 oracle_x opened the weekly treasury! 3 Bronze Chests + 4,200⬡ distributed.</div><div class="chat-time">2h ago</div></div></div>
+      <div class="chat-msg"><div class="chat-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800)">🧿</div><div class="chat-body"><div class="chat-from" style="color:var(--orange)">oracle_x 👑</div><div class="chat-text">BTC looking strong on 4H — my long is up +8%. Treasury opened, check your rewards 🔥</div><div class="chat-time">1h ago</div></div></div>
+      <div class="chat-msg"><div class="chat-avatar" style="background:var(--bg3)">🌙</div><div class="chat-body"><div class="chat-from" style="color:var(--silver2)">silver_prophet</div><div class="chat-text">Gold 1D setup looks clean. Contributing 2 forecasts to next treasury 💎</div><div class="chat-time">45m ago</div></div></div>
+      <div class="chat-msg system"><div class="chat-body"><div class="chat-from">SYSTEM</div><div class="chat-text">📄 silver_prophet contributed 2 GOLD 1D forecasts to treasury.</div><div class="chat-time">44m ago</div></div></div>
+      <div class="chat-msg"><div class="chat-avatar" style="background:var(--bg3)">🦅</div><div class="chat-body"><div class="chat-from" style="color:var(--bronze2)">seer_x7</div><div class="chat-text">Anyone watching SPX this week? Bear signal looks massive 👀</div><div class="chat-time">20m ago</div></div></div>
+    </div>
+    <div class="gchat-input-row">
+      <input class="gchat-input" id="guild-gchat-input" placeholder="Message guild..." onkeydown="if(event.key==='Enter')guildSendMessage()">
+      <button class="gchat-send" onclick="guildSendMessage()">➤</button>
+    </div>
+  </div>
+
+  <!-- RANKINGS -->
+  <div class="g-label">GUILD RANKINGS</div>
+  <div class="leaderboard-item" onclick="showToast('🏛️ IRON COVENANT — #1 ranked guild this season')"><div class="lb-rank" style="color:var(--gold)">#1</div><div class="lb-emblem">🏛️</div><div class="lb-info"><div class="lb-name">IRON COVENANT</div><div class="lb-meta">10 MEMBERS · AVG SCORE: 91 · 18,200⬡</div></div></div>
+  <div class="leaderboard-item" onclick="showToast('🔱 TRIDENT ORDER — #2 ranked guild')"><div class="lb-rank" style="color:var(--silver2)">#2</div><div class="lb-emblem">🔱</div><div class="lb-info"><div class="lb-name">TRIDENT ORDER</div><div class="lb-meta">9 MEMBERS · AVG SCORE: 88 · 15,800⬡</div></div></div>
+  <div class="leaderboard-item" onclick="showToast('⚔️ VOID PACT — #3 ranked guild')"><div class="lb-rank" style="color:var(--bronze2)">#3</div><div class="lb-emblem">⚔️</div><div class="lb-info"><div class="lb-name">VOID PACT</div><div class="lb-meta">10 MEMBERS · AVG SCORE: 85 · 14,200⬡</div></div></div>
+  <div class="leaderboard-item my-guild"><div class="lb-rank" style="color:var(--emerald)">#14</div><div class="lb-emblem">🔮</div><div class="lb-info"><div class="lb-name">ORACLE COVENANT <span style="font-size:9px;color:var(--cyan)">← you</span></div><div class="lb-meta">8 MEMBERS · AVG SCORE: 83 · 12,400⬡</div></div></div>
+
+  <!-- CREATE GUILD -->
+  <div class="create-guild-btn" onclick="guildOpenModal('guild-create-modal')">
+    <div class="create-icon">✚</div>
+    <div><div class="create-name">CREATE NEW GUILD</div><div class="create-meta">COST: 1,000⬡ · MAX 10 MEMBERS · LEADER ROLE</div></div>
+  </div>
+
+</div><!-- end guild-section -->
+
+<!-- ══ GUILD MODALS ══ -->
+
+<!-- TREASURY MODAL -->
+<div class="guild-overlay" id="guild-treasury-modal" onclick="if(event.target===this)guildCloseModal('guild-treasury-modal')">
+  <div class="guild-sheet">
+    <div class="gsheet-handle"></div>
+    <div class="gsheet-title">🔮 OPEN WEEKLY TREASURY</div>
+    <div class="gsheet-sub">DISTRIBUTE TO ALL GUILD MEMBERS</div>
+    <div style="background:#0a1a0d;border:1px solid rgba(0,230,118,.2);border-radius:16px;padding:16px;margin-bottom:14px;">
+      <span style="font-size:40px;display:block;text-align:center;margin-bottom:10px;filter:drop-shadow(0 0 12px rgba(0,230,118,.4))">🔮</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div style="text-align:center;background:rgba(0,0,0,.3);border-radius:10px;padding:12px 4px"><div style="font-size:20px;font-weight:900;color:var(--gold);font-family:'Space Mono',monospace" id="gtm-coins">4,200</div><div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:2px">COINS</div></div>
+        <div style="text-align:center;background:rgba(0,0,0,.3);border-radius:10px;padding:12px 4px"><div style="font-size:20px;font-weight:900;color:var(--orange);font-family:'Space Mono',monospace" id="gtm-chests">3</div><div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:2px">CHESTS</div></div>
+        <div style="text-align:center;background:rgba(0,0,0,.3);border-radius:10px;padding:12px 4px"><div style="font-size:20px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace" id="gtm-forecasts">7</div><div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:2px">FORECASTS</div></div>
+      </div>
+      <button onclick="guildDistribute()" style="width:100%;background:linear-gradient(135deg,#00c853,#00e676);border:none;border-radius:13px;padding:14px;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        🔮 DISTRIBUTE TO ALL MEMBERS
+      </button>
+    </div>
+    <button onclick="guildCloseModal('guild-treasury-modal')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">CLOSE</button>
+  </div>
+</div>
+
+<!-- CONTRIBUTE MODAL -->
+<div class="guild-overlay" id="guild-contrib-modal" onclick="if(event.target===this)guildCloseModal('guild-contrib-modal')">
+  <div class="guild-sheet">
+    <div class="gsheet-handle"></div>
+    <div class="gsheet-title">⬡ CONTRIBUTE TO TREASURY</div>
+    <div class="gsheet-sub">CHOOSE WHAT TO DONATE THIS WEEK</div>
+    <div class="contrib-modal-grid">
+      <div class="comb-btn" onclick="guildContribute('100⬡ Coins')" style="background:rgba(255,106,0,.06);border-color:rgba(255,106,0,.3);color:var(--orange)"><span class="comb-icon">⬡</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">100 OC</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ORACLE COINS</div></div>
+      <div class="comb-btn" onclick="guildContribute('Bronze Chest')" style="background:rgba(205,127,50,.06);border-color:rgba(205,127,50,.3);color:var(--bronze2)"><span class="comb-icon">📦</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">BRONZE</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ANY CHEST</div></div>
+      <div class="comb-btn" onclick="guildContribute('Forecast')" style="background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.3);color:var(--cyan)"><span class="comb-icon">📄</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">FORECAST</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">UNUSED</div></div>
+    </div>
+    <button onclick="guildCloseModal('guild-contrib-modal')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;margin-top:6px;">CANCEL</button>
+  </div>
+</div>
+
+<!-- MEMBER MODAL -->
+<div class="guild-overlay" id="guild-member-modal" onclick="if(event.target===this)guildCloseModal('guild-member-modal')">
+  <div class="guild-sheet">
+    <div class="gsheet-handle"></div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+      <div id="gmm-avatar" style="width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;"></div>
+      <div><div id="gmm-name" style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:3px;"></div><div id="gmm-rank" style="font-size:10px;color:#555;font-family:'Space Mono',monospace;"></div><div id="gmm-streak" style="font-size:10px;color:var(--orange);font-family:'Space Mono',monospace;margin-top:2px;"></div></div>
+      <div style="margin-left:auto;text-align:center;"><div id="gmm-score" style="font-size:36px;font-weight:900;color:var(--emerald);font-family:'Space Mono',monospace;line-height:1;"></div><div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:2px;">ORACLE SCORE</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;"><span style="color:#555">BTC ACCURACY</span><span id="gmm-btc" style="color:#f7931a;font-weight:700;"></span></div><div style="background:#1a1a1a;border-radius:4px;height:5px;"><div id="gmm-btc-bar" style="height:5px;border-radius:4px;background:#f7931a;"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;"><span style="color:#555">GOLD ACCURACY</span><span id="gmm-gold" style="color:#ffd700;font-weight:700;"></span></div><div style="background:#1a1a1a;border-radius:4px;height:5px;"><div id="gmm-gold-bar" style="height:5px;border-radius:4px;background:#ffd700;"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;"><span style="color:#555">ETH ACCURACY</span><span id="gmm-eth" style="color:#627eea;font-weight:700;"></span></div><div style="background:#1a1a1a;border-radius:4px;height:5px;"><div id="gmm-eth-bar" style="height:5px;border-radius:4px;background:#627eea;"></div></div></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="showToast('🔔 Subscribed to @'+currentGuildMember+'!')" style="flex:1;padding:12px;border-radius:12px;border:1px solid rgba(0,230,118,.3);background:rgba(0,230,118,.06);color:var(--emerald);font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">🔔 FOLLOW</button>
+      <button onclick="guildCloseModal('guild-member-modal')" style="flex:1;padding:12px;border-radius:12px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE GUILD MODAL -->
+<div class="guild-overlay" id="guild-create-modal" onclick="if(event.target===this)guildCloseModal('guild-create-modal')">
+  <div class="guild-sheet">
+    <div class="gsheet-handle"></div>
+    <div class="gsheet-title">✚ CREATE NEW GUILD</div>
+    <div class="gsheet-sub">COST: 1,000⬡ · YOU BECOME GUILD MASTER</div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#555;margin-bottom:6px;">GUILD NAME</div>
+      <input id="guild-name-input" type="text" placeholder="Enter guild name..." maxlength="24" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.04);color:#fff;font-size:13px;font-family:'Syne',sans-serif;outline:none;box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#555;margin-bottom:6px;">GUILD MOTTO</div>
+      <input id="guild-motto-input" type="text" placeholder="Your guild's battle cry..." maxlength="48" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.04);color:#fff;font-size:12px;font-family:'Space Mono',monospace;outline:none;box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#555;margin-bottom:8px;">CHOOSE EMBLEM</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;">
+        <div class="cmb-emblem selected" onclick="guildSelectEmblem(this)">🔮</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🛡️</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">⚔️</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🦅</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🔱</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🌙</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">⚡</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🏛️</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🌟</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🐉</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🦁</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">👁</div>
+      </div>
+    </div>
+    <button onclick="guildCreate()" class="cmb-create">✚ CREATE GUILD — 1,000⬡</button>
+    <button onclick="guildCloseModal('guild-create-modal')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;margin-top:8px;">CANCEL</button>
+  </div>
+</div>
+
+
+<!-- ══ OC MODALS ══ -->
+<div class="oc-overlay" id="oc-modal-bet" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+  <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
+    <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
+    <div style="padding:16px 18px 0;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div id="oc-bet-icon" style="font-size:24px;width:44px;height:44px;background:#181818;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid #252525;">₿</div>
+        <div><div id="oc-bet-asset-name" style="font-size:14px;font-weight:800;"></div><div id="oc-bet-asset-tf" style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-top:2px;"></div></div>
+      </div>
+      <div id="oc-bet-question" style="font-size:11px;color:#aaa;margin-bottom:10px;line-height:1.5;"></div>
+      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:7px;">👁 ORACLE: <span id="oc-bet-oracle-pos" style="color:var(--green);"></span></div>
+      <div style="height:5px;background:#181818;border-radius:3px;overflow:hidden;margin-bottom:5px;"><div id="oc-bet-bar" style="height:100%;background:var(--green);width:40%;transition:width .3s;"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:14px;"><span id="oc-bet-yes-pct" style="color:var(--green);"></span><span id="oc-bet-no-pct" style="color:var(--red);"></span></div>
+      <div style="display:flex;gap:5px;margin-bottom:11px;">
+        <div class="bet-amt" onclick="ocSelectAmt(this,100)"  style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">100⬡</div>
+        <div class="bet-amt selected" onclick="ocSelectAmt(this,500)"  style="flex:1;background:rgba(245,166,35,.08);border:1px solid var(--orange);border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:var(--orange);">500⬡</div>
+        <div class="bet-amt" onclick="ocSelectAmt(this,1000)" style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">1K⬡</div>
+        <div class="bet-amt" onclick="ocSelectAmt(this,5000)" style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">5K⬡</div>
+      </div>
+      <div style="background:#181818;border-radius:12px;padding:12px;margin-bottom:11px;border:1px solid #222;">
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">YOUR BET</span><span id="oc-calc-bet" style="color:#ccc;">500⬡</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">ODDS</span><span id="oc-calc-odds" style="color:#ffd700;">2.41x</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">TOTAL POOL</span><span id="oc-calc-pool" style="color:#444;"></span></div>
+        <div style="border-top:1px solid #222;margin:7px 0;"></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;"><span style="color:#777;">IF WIN</span><span id="oc-calc-payout" style="color:var(--green);">+1,085⬡</span></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <div id="oc-bet-btn-yes" onclick="ocPlaceBet('YES')" style="flex:1;background:linear-gradient(135deg,#00e676,#00c853);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;">✓ YES</div>
+        <div id="oc-bet-btn-no"  onclick="ocPlaceBet('NO')"  style="flex:1;background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#fff;cursor:pointer;text-align:center;">✗ NO</div>
+      </div>
+      <div onclick="ocModal('oc-modal-bet',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+    </div>
+  </div>
+</div>
+
+<div class="oc-overlay" id="oc-modal-copy" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+  <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
+    <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
+    <div style="padding:16px 18px 0;">
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:4px;">👁 ORACLE COPY TRADE</div>
+      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:14px;">SEE WHAT THIS TRADER IS DOING RIGHT NOW</div>
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+        <div id="oc-ct-av" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"></div>
+        <div><div id="oc-ct-name" style="font-size:14px;font-weight:800;"></div><div id="oc-ct-rank" style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-top:2px;"></div></div>
+      </div>
+      <div id="oc-ct-status-box" style="background:#181818;border-radius:12px;padding:12px;margin-bottom:11px;border:1px solid #222;">
+        <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:8px;">CURRENT LIVE STATUS</div>
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px;">
+          <div id="oc-ct-dot" style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+          <div id="oc-ct-action" style="font-size:15px;font-weight:800;color:var(--green);"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;">
+          <div id="oc-ct-tag-asset" style="background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.2);border-radius:7px;padding:4px 8px;font-size:9px;font-weight:700;color:var(--green);"></div>
+          <div id="oc-ct-tag-pos"   style="background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.2);border-radius:7px;padding:4px 8px;font-size:9px;font-weight:700;color:var(--green);"></div>
+          <div id="oc-ct-tag-tf"    style="background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.2);border-radius:7px;padding:4px 8px;font-size:9px;font-weight:700;color:var(--cyan);"></div>
+          <div id="oc-ct-tag-time"  style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.15);border-radius:7px;padding:4px 8px;font-size:9px;font-weight:700;color:#ffd700;"></div>
+        </div>
+      </div>
+      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:4px;">This view costs 50⬡ · Trader earns 40⬡</div>
+      <div style="font-size:9px;color:#333;font-family:'Space Mono',monospace;margin-bottom:12px;">Balance after: <span id="oc-ct-balance-after" style="color:#666;"></span></div>
+      <div onclick="ocConfirmCopy()" style="background:linear-gradient(135deg,#00e5ff,#0097a7);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">✓ CONFIRM — PAY 50⬡</div>
+      <div onclick="ocModal('oc-modal-copy',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+    </div>
+  </div>
+</div>
+
+<div class="oc-overlay" id="oc-modal-subscribe" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+  <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
+    <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
+    <div style="padding:16px 18px 0;">
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:14px;">🔔 SUBSCRIBE TO TRADER</div>
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+        <div id="oc-sub-av" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"></div>
+        <div><div id="oc-sub-name" style="font-size:14px;font-weight:800;"></div><div id="oc-sub-rank-desc" style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-top:2px;"></div></div>
+      </div>
+      <div style="background:#181818;border-radius:12px;padding:12px;margin-bottom:11px;border:1px solid #222;">
+        <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:8px;">SUBSCRIPTION INCLUDES:</div>
+        <div style="font-size:11px;color:#bbb;margin-bottom:5px;">🔔 Signal notifications</div>
+        <div style="font-size:11px;color:#bbb;margin-bottom:5px;">📊 Full accuracy history</div>
+        <div style="font-size:11px;color:#bbb;">👁 Priority copy trade access</div>
+      </div>
+      <div id="oc-sub-modal-sub" onclick="ocConfirmSub()" style="background:linear-gradient(135deg,var(--orange),#e65100);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">FOLLOW @TRADER</div>
+      <div onclick="ocModal('oc-modal-subscribe',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+    </div>
+  </div>
+</div>
+
+<div class="oc-overlay" id="oc-modal-market" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+  <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
+    <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
+    <div style="padding:16px 18px 0;">
+      <div id="oc-mkt-modal-title" style="font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:14px;">🛒 BUY FORECAST</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div id="oc-mkt-icon" style="width:48px;height:48px;background:#181818;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #222;"></div>
+        <div><div id="oc-mkt-name" style="font-size:14px;font-weight:800;"></div><div id="oc-mkt-meta" style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-top:2px;"></div><div id="oc-mkt-seller" style="font-size:9px;color:var(--orange);font-family:'Space Mono',monospace;margin-top:3px;"></div></div>
+      </div>
+      <div style="background:#181818;border-radius:12px;padding:12px;margin-bottom:11px;border:1px solid #222;">
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">PRICE</span><span id="oc-mkt-price" style="color:#ffd700;font-weight:700;"></span></div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">SELLER GETS</span><span id="oc-mkt-seller-gets" style="color:#666;"></span></div>
+        <div style="border-top:1px solid #222;margin:7px 0;"></div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;"><span style="color:#444;">BALANCE AFTER</span><span id="oc-mkt-balance-after" style="color:#ccc;"></span></div>
+      </div>
+      <div onclick="ocConfirmBuy()" style="background:linear-gradient(135deg,#ffd700,#ff8f00);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">🛒 BUY — <span id="oc-mkt-buy-label"></span></div>
+      <div onclick="ocModal('oc-modal-market',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══ ORACLE PANEL MODULE ══ */
+function ocModal(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = show ? 'flex' : 'none';
+}
+/* ══ ORACLE MODULE ══ */
+/* ════════════════════════════════════
+   STATE — подключи к своей системе
+════════════════════════════════════ */
+const ocState = {
+  myCoins:     1247,
+  subscribedTraders: ['oracle_x'],
+  activeBets:  [],
+  betAmt:      500,
+  betOdds:     2.41,
+  currentBet:  null,
+  currentCopy: null,
+  currentSubHandle: null,
+  currentSubBtnId: null,
+  currentMarket: null,
+};
+
+const ASSET_ICONS = { BTC:'₿', ETH:'Ξ', SOL:'◎', GOLD:'⬡', SPX:'📊', NVDA:'N', TSLA:'T', BNB:'B', XRP:'✕' };
+
+/* ════════════════════════════════════
+   TAB SWITCHING
+════════════════════════════════════ */
+function ocSwitchTab(tabName) {
+  const tabs = ['prophecies','mybets','leaderboard','market','traders'];
+  tabs.forEach(t => {
+    document.getElementById('oc-ot-' + t).classList.toggle('active', t === tabName);
+    const v = document.getElementById('oc-view-' + t);
+    if (v) v.style.display = (t === tabName) ? 'block' : 'none';
+  });
+  document.getElementById('oc-oracle-scroll').scrollTop = 0;
+}
+
+/* ════════════════════════════════════
+   MARKET FILTER
+════════════════════════════════════ */
+function ocFilterMarket(btn, type) {
+  document.querySelectorAll('#op-oracle .mf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#op-oracle .market-item').forEach(item => {
+    item.style.display = (type === 'all' || item.dataset.type === type) ? 'flex' : 'none';
+  });
+}
+
+/* ════════════════════════════════════
+   BET MODAL
+════════════════════════════════════ */
+function ocOpenBet(data) {
+  ocState.currentBet = data;
+  ocState.betAmt = 500;
+
+  // Сбрасываем выбор суммы
+  document.querySelectorAll('#oc-modal-bet .bet-amt').forEach(a => a.classList.remove('selected'));
+  document.querySelectorAll('#oc-modal-bet .bet-amt')[1].classList.add('selected');
+
+  // Расчёт одсов
+  const noPool  = 100 - data.yesPct;
+  const yesOdds = +(100 / data.yesPct).toFixed(2);
+  ocState.betOdds = yesOdds;
+
+  // Заполняем модальное окно
+  document.getElementById('oc-bet-icon').textContent        = data.icon;
+  document.getElementById('oc-bet-asset-name').textContent  = data.asset === 'SPX' ? 'S&P 500' : data.asset;
+  document.getElementById('oc-bet-asset-tf').textContent    = `${data.tf} · ${data.dir.toUpperCase()} SIGNAL`;
+  document.getElementById('oc-bet-question').textContent    = data.q;
+  document.getElementById('oc-bet-oracle-pos').textContent  = data.oraclePos;
+  document.getElementById('oc-bet-oracle-pos').style.color  = data.oracleBull ? 'var(--green)' : 'var(--red)';
+  document.getElementById('oc-bet-bar').style.width         = data.yesPct + '%';
+  document.getElementById('oc-bet-yes-pct').textContent     = `YES ${data.yesPct}%`;
+  document.getElementById('oc-bet-no-pct').textContent      = `NO ${noPool}%`;
+  document.getElementById('oc-calc-pool').textContent       = data.totalPool + '⬡';
+
+  // Лейблы кнопок
+  const isDropSignal = data.dir === 'Bear';
+  document.getElementById('oc-bet-btn-yes').textContent = isDropSignal ? '✓ YES — WILL DROP' : '✓ YES — WILL WORK';
+  document.getElementById('oc-bet-btn-no').textContent  = isDropSignal ? '✗ NO — WON\'T DROP' : '✗ NO — WON\'T WORK';
+
+  updateBetCalc();
+  ocModal('oc-modal-bet',1);
+}
+
+function ocSelectAmt(el, amt) {
+  document.querySelectorAll('#oc-modal-bet .bet-amt').forEach(a => a.classList.remove('selected'));
+  el.classList.add('selected');
+  ocState.betAmt = amt;
+  updateBetCalc();
+}
+
+function updateBetCalc() {
+  const payout = Math.round(ocState.betAmt * ocState.betOdds * 0.9);
+  document.getElementById('oc-calc-bet').textContent    = ocState.betAmt.toLocaleString() + '⬡';
+  document.getElementById('oc-calc-odds').textContent   = ocState.betOdds.toFixed(2) + 'x';
+  document.getElementById('oc-calc-payout').textContent = payout.toLocaleString() + '⬡';
+}
+
+function ocPlaceBet(side) {
+  if (ocState.myCoins < ocState.betAmt) {
+    showToast('⚠️ Not enough Oracle Coins!');
+    return;
+  }
+  ocState.myCoins -= ocState.betAmt;
+  const payout = Math.round(ocState.betAmt * ocState.betOdds * 0.9);
+  const asset  = ocState.currentBet ? ocState.currentBet.asset : '?';
+  const tf     = ocState.currentBet ? ocState.currentBet.tf    : '?';
+  ocState.activeBets.push({ asset, tf, side, amt: ocState.betAmt, payout });
+  ocModal('oc-modal-bet',0);
+  showToast(`🔮 Bet placed! ${ocState.betAmt.toLocaleString()}⬡ on ${side} — ${asset} ${tf} · If win: +${payout.toLocaleString()}⬡`);
+}
+
+/* ════════════════════════════════════
+   COPY TRADE MODAL
+════════════════════════════════════ */
+function ocOpenCopy(data) {
+  ocState.currentCopy = data;
+
+  document.getElementById('oc-ct-av').textContent          = data.icon;
+  document.getElementById('oc-ct-av').style.background     = data.avatarBg;
+  document.getElementById('oc-ct-name').textContent        = '@' + data.handle;
+  document.getElementById('oc-ct-rank').textContent        = data.rank;
+  document.getElementById('oc-ct-action').textContent      = data.action;
+  document.getElementById('oc-ct-tag-asset').textContent   = (ASSET_ICONS[data.asset] || '') + ' ' + data.asset;
+  document.getElementById('oc-ct-tag-pos').textContent     = data.pos + ' POSITION';
+  document.getElementById('oc-ct-tag-tf').textContent      = data.tf + ' TIMEFRAME';
+  document.getElementById('oc-ct-tag-time').textContent    = data.timeAgo;
+  document.getElementById('oc-ct-balance-after').textContent = (ocState.myCoins - 50).toLocaleString() + '⬡';
+
+  // Стили по режиму
+  const box = document.getElementById('oc-ct-status-box');
+  const dot = document.getElementById('oc-ct-dot');
+  box.className = 'ct-status-box';
+  dot.className = 'live-dot';
+
+  if (data.mode === 'buy') {
+    box.classList.add('ct-sb-buy');
+    dot.classList.add('ld-buy');
+    document.getElementById('oc-ct-action').style.color = 'var(--green)';
+    document.getElementById('oc-ct-tag-asset').className = 'ct-tag ct-tag-green';
+    document.getElementById('oc-ct-tag-pos').className   = 'ct-tag ct-tag-green';
+  } else if (data.mode === 'sell') {
+    box.classList.add('ct-sb-sell');
+    dot.classList.add('ld-sell');
+    document.getElementById('oc-ct-action').style.color = 'var(--red)';
+    document.getElementById('oc-ct-tag-asset').className = 'ct-tag ct-tag-red';
+    document.getElementById('oc-ct-tag-pos').className   = 'ct-tag ct-tag-red';
+  } else {
+    box.classList.add('ct-sb-watch');
+    dot.classList.add('ld-idle');
+    document.getElementById('oc-ct-action').style.color = 'var(--text2)';
+    document.getElementById('oc-ct-tag-asset').className = 'ct-tag ct-tag-cyan';
+    document.getElementById('oc-ct-tag-pos').className   = 'ct-tag ct-tag-cyan';
+  }
+
+  ocModal('oc-modal-copy',1);
+}
+
+function ocConfirmCopy() {
+  if (ocState.myCoins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
+  ocState.myCoins -= 50;
+  const d = ocState.currentCopy;
+  ocModal('oc-modal-copy',0);
+  showToast(`👁 Status unlocked! @${d.handle} is ${d.action} ${d.asset} ${d.pos} ${d.tf}`);
+}
+
+/* ════════════════════════════════════
+   SUBSCRIBE MODAL
+════════════════════════════════════ */
+function ocSubscribe(handle, btnId) {
+  if (ocState.subscribedTraders.includes(handle)) {
+    showToast(`✓ Already subscribed to @${handle}`);
+    return;
+  }
+  ocState.currentSubHandle = handle;
+  ocState.currentSubBtnId  = btnId;
+  document.getElementById('oc-sub-modal-sub').textContent   = `FOLLOW @${handle.toUpperCase()}`;
+  document.getElementById('oc-sub-name').textContent        = '@' + handle;
+
+  // Находим аватар и ранк из карточки трейдера
+  const rankMap = {
+    'diamond_seer': { icon:'🌿', rank:'Diamond Oracle · Score: 94', bg:'linear-gradient(135deg,#030e08,#010c06)' },
+    'algo_king':    { icon:'⚡',  rank:'Silver Seer · Score: 71',   bg:'linear-gradient(135deg,#080020,#100030)' },
+  };
+  const info = rankMap[handle] || { icon:'👤', rank:'Oracle Trader', bg:'var(--bg3)' };
+  document.getElementById('oc-sub-av').textContent      = info.icon;
+  document.getElementById('oc-sub-av').style.background = info.bg;
+  document.getElementById('oc-sub-rank-desc').textContent = info.rank;
+
+  ocModal('oc-modal-subscribe',1);
+}
+
+function ocConfirmSub() {
+  if (ocState.currentSubHandle) {
+    ocState.subscribedTraders.push(ocState.currentSubHandle);
+    // Обновляем кнопку в карточке
+    const btn = document.getElementById(ocState.currentSubBtnId);
+    if (btn) {
+      btn.textContent = '✓ SUBSCRIBED';
+      btn.className   = 'tc-btn tc-btn-sub-done';
+    }
+  }
+  ocModal('oc-modal-subscribe',0);
+  showToast(`✓ Subscribed to @${ocState.currentSubHandle}! Notifications enabled`);
+}
+
+/* ════════════════════════════════════
+   MARKETPLACE MODAL
+════════════════════════════════════ */
+function ocOpenMarket(data) {
+  ocState.currentMarket = data;
+  const price     = parseInt(data.price.replace(',',''));
+  const sellerGet = Math.round(price * 0.9);
+
+  document.getElementById('oc-mkt-modal-title').textContent   = data.type === 'chest' ? 'BUY CHEST' : 'BUY FORECAST';
+  document.getElementById('oc-mkt-icon').textContent          = data.icon;
+  document.getElementById('oc-mkt-name').textContent          = data.name;
+  document.getElementById('oc-mkt-meta').textContent          = data.meta;
+  document.getElementById('oc-mkt-seller').textContent        = data.seller;
+  document.getElementById('oc-mkt-price').textContent         = data.price + '⬡';
+  document.getElementById('oc-mkt-seller-gets').textContent   = sellerGet.toLocaleString() + '⬡';
+  document.getElementById('oc-mkt-balance-after').textContent = (ocState.myCoins - price).toLocaleString() + '⬡';
+  document.getElementById('oc-mkt-buy-label').textContent     = data.price + '⬡';
+
+  ocModal('oc-modal-market',1);
+}
+
+function ocConfirmBuy() {
+  const d     = ocState.currentMarket;
+  const price = parseInt(d.price.replace(',',''));
+  if (ocState.myCoins < price) { showToast('⚠️ Not enough Oracle Coins!'); return; }
+  ocState.myCoins -= price;
+  ocModal('oc-modal-market',0);
+  showToast(`🛒 Purchased ${d.name} from ${d.seller} for ${d.price}⬡!`);
+}
+
+/* ════════════════════════════════════
+   MODAL HELPERS
+════════════════════════════════════ */
+
+
+
+// Закрыть по клику вне шторки
+document.querySelectorAll('.oc-overlay').forEach(o => { o.addEventListener('click', e => { if(e.target===o) ocModal(o.id,0); }); });
+
+/* ════════════════════════════════════
+   TOAST
+════════════════════════════════════ */
+
+
+
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
+// Показываем prophecies по умолчанию
+
+
 </script>
 </body>
 </html>
