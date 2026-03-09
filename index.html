@@ -8300,19 +8300,26 @@ function fgiRenderGauge(val) {
 
 <!-- ══ ECONOMIC CALENDAR ══ -->
 <div id="econ-section" style="display:none;max-width:900px;margin:0 auto;">
-  <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.35);margin-bottom:10px;display:flex;align-items:center;gap:8px;">
     <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     ECONOMIC CALENDAR
     <span id="econ-tz" style="font-size:8px;color:rgba(255,255,255,.2);font-weight:400;margin-left:auto;"></span>
   </div>
-  <div style="display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap;">
-    <button class="econ-pill active" data-imp="all"  onclick="econFilter('all')">ALL</button>
-    <button class="econ-pill" data-imp="high"        onclick="econFilter('high')">🔴 HIGH</button>
-    <button class="econ-pill" data-imp="med"         onclick="econFilter('med')">🟡 MEDIUM</button>
-    <button class="econ-pill" data-imp="low"         onclick="econFilter('low')">⚪ LOW</button>
+  <!-- TradingView Economic Calendar widget — real-time, 0 tokens, local timezone auto-detected -->
+  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:560px;">
+    <div class="tradingview-widget-container" style="height:100%;width:100%;">
+      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%;"></div>
+      <div class="tradingview-widget-copyright" style="background:#0f0f0f;">
+        <a href="https://www.tradingview.com/economic-calendar/" rel="noopener nofollow" target="_blank">
+          <span style="color:#444;font-size:9px;">Economic Calendar by TradingView</span>
+        </a>
+      </div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+      {"colorTheme":"dark","isTransparent":true,"locale":"en","countryFilter":"us,eu,gb,jp,cn","importanceFilter":"0,1","width":"100%","height":"100%"}
+      </script>
+    </div>
   </div>
-  <div id="econ-list" style="display:flex;flex-direction:column;gap:6px;min-height:60px;"></div>
-  <div style="font-size:8px;color:rgba(255,255,255,.15);margin-top:10px;text-align:center;">FED · ECB · BoE · BoJ · CPI · NFP · GDP · All times local timezone</div>
+  <div style="font-size:8px;color:rgba(255,255,255,.15);margin-top:8px;text-align:center;">FED · ECB · BoE · BoJ · CPI · NFP · GDP · All times local timezone · Powered by TradingView</div>
 </div>
 
 <div id="fgi-section" style="display:none;max-width:900px;margin:0 auto;">
@@ -8408,7 +8415,12 @@ function extractJSON(str, startChar) {
   return null;
 }
 
-/* ── FIX: multi-turn aiChat — handles web_search tool_use rounds ── */
+/* ── Date helper — inject current date into prompts so Claude anchors search to TODAY ── */
+function todayStr() {
+  return new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+}
+
+/* ── FIX: multi-turn aiChat — handles web_search tool_use rounds, reduced tokens ── */
 async function aiChat(prompt, useSearch) {
   const key = window.ELCARO_API_KEY || '';
   if (!key) throw new Error('no_key');
@@ -8422,9 +8434,9 @@ async function aiChat(prompt, useSearch) {
   };
   const tools = useSearch ? [{ type: 'web_search_20250305', name: 'web_search' }] : undefined;
 
-  /* Up to 6 turns to let Claude finish all search rounds */
-  for (let turn = 0; turn < 6; turn++) {
-    const body = { model: 'claude-sonnet-4-20250514', max_tokens: 2000, messages };
+  /* Up to 5 turns to let Claude finish all search rounds */
+  for (let turn = 0; turn < 5; turn++) {
+    const body = { model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages };
     if (tools) body.tools = tools;
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -8447,9 +8459,7 @@ async function aiChat(prompt, useSearch) {
     const toolResults = toolUseBlocks.map(tu => ({
       type: 'tool_result',
       tool_use_id: tu.id,
-      content: tu.input?.query
-        ? 'Web search for "' + tu.input.query + '" completed successfully. Please use the search results to answer the user.'
-        : 'Search completed.'
+      content: 'Search completed. Return only JSON as instructed.'
     }));
     messages.push({ role: 'user', content: toolResults });
   }
@@ -8494,7 +8504,14 @@ async function geoLoad(force) {
   }
   el.innerHTML = '<div style="text-align:center;padding:30px;color:rgba(255,255,255,.3);font-size:12px;animation:pulse 1.2s infinite;">⏳ Loading live geopolitical feed…</div>';
   try {
-    const txt = await aiChat('Search for the 12 most important current geopolitical and macro news stories affecting global markets right now. Return ONLY a raw JSON array (no markdown, no explanation): [{"title":"...","source":"Reuters|BBC|FT|AP|Bloomberg","cat":"war|sanctions|energy|trade|crypto|other","summary":"one sentence","url":"https://...","time":"2h ago"},...]. Focus: wars, sanctions, tariffs, oil/gas, crypto regulation, central bank moves, geopolitical tensions.', true);
+    const today = todayStr();
+    const txt = await aiChat(
+      'Today is ' + today + '. Search for the 8 most important geopolitical and macro news stories published TODAY or in the last 24 hours affecting global markets. ' +
+      'Return ONLY a raw JSON array, no markdown, no explanation: ' +
+      '[{"title":"...","source":"Reuters|BBC|FT|AP|Bloomberg|Al Jazeera","cat":"war|sanctions|energy|trade|crypto|other","summary":"one sentence max 100 chars","url":"https://...","time":"Xh ago"}]. ' +
+      'IMPORTANT: only include stories from the last 24 hours. Focus: wars, sanctions, tariffs, oil/gas, crypto regulation, central bank moves.',
+      true
+    );
     /* FIX: use bracket-counting extractor instead of broken non-greedy regex */
     const raw = extractJSON(txt, '[');
     if (raw) { geoArticles = JSON.parse(raw); geoLastLoad = Date.now(); geoRender(); return; }
@@ -8543,7 +8560,14 @@ async function gprLoad() {
   }
   vEl.textContent='…'; lEl.textContent='Estimating…';
   try {
-    const txt = await aiChat('Search current geopolitical news today. Based on global news density of armed conflicts, nuclear threats, terrorism, and sanctions vs Caldara-Iacoviello GPR baseline of 100, estimate the CURRENT GPR index value on a 0-400 scale. Return ONLY raw JSON (no markdown): {"gpr":NUMBER,"label":"Low Risk|Normal|Elevated|High Risk|Extreme","change":"brief vs last month","rationale":"one sentence max 120 chars","components":{"wars":NUMBER_0_to_100,"nuclear":NUMBER_0_to_100,"terror":NUMBER_0_to_100,"sanctions":NUMBER_0_to_100}}', true);
+    const today = todayStr();
+    const txt = await aiChat(
+      'Today is ' + today + '. Search for current geopolitical news from the last 24-48 hours. ' +
+      'Based on today\'s news density of armed conflicts, nuclear threats, terrorism, and sanctions, ' +
+      'vs Caldara-Iacoviello GPR baseline of 100, estimate the CURRENT GPR index value 0-400. ' +
+      'Return ONLY raw JSON, no markdown: {"gpr":NUMBER,"label":"Low Risk|Normal|Elevated|High Risk|Extreme","change":"vs last month in one phrase","rationale":"one sentence max 100 chars","components":{"wars":NUMBER,"nuclear":NUMBER,"terror":NUMBER,"sanctions":NUMBER}} — all component numbers 0-100.',
+      true
+    );
     /* FIX: use bracket-counting extractor instead of broken non-greedy regex */
     const raw = extractJSON(txt, '{');
     if (raw) {
@@ -8610,54 +8634,13 @@ function gprGauge(val) {
 /* ══════════════════════════════════════════════
    ECONOMIC CALENDAR  –  via Claude web search
 ═══════════════════════════════════════════════ */
-let econEvents      = [];
-let econCurrentImp  = 'all';
-let econLoaded      = false;
-
-async function econLoad() {
-  const tzEl=document.getElementById('econ-tz');
+/* ═══════════════════════════════════════
+   ECONOMIC CALENDAR — now powered by TradingView widget (no tokens used)
+   econLoad() is called by setMode('econ') — just sets timezone label
+═══════════════════════════════════════ */
+function econLoad() {
+  const tzEl = document.getElementById('econ-tz');
   if (tzEl) tzEl.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  if (econLoaded) { econRender(); return; }
-  const el=document.getElementById('econ-list'); if(!el) return;
-  if (!window.ELCARO_API_KEY) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;">' +
-      '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;">Enter your Anthropic API key in ⚙ API SETTINGS</div>' +
-      '<button onclick="setMode(\'ai-settings\')" style="padding:9px 20px;border-radius:10px;border:none;background:var(--orange);color:#000;font-weight:700;font-size:12px;cursor:pointer;">⚙ GO TO API SETTINGS</button>' +
-    '</div>';
-    return;
-  }
-  el.innerHTML='<div style="text-align:center;padding:30px;color:rgba(255,255,255,.3);font-size:12px;animation:pulse 1.2s infinite;">⏳ Loading calendar…</div>';
-  try {
-    const txt = await aiChat('Search for the economic calendar this week and next week. Give me the 16 most market-moving upcoming events (Fed, ECB, BoE, BoJ rate decisions, US CPI, NFP, GDP, PMI, PCE, retail sales etc). Return ONLY a raw JSON array (no markdown): [{"date":"Tue Mar 4","time":"14:30 UTC","name":"US Non-Farm Payrolls","country":"🇺🇸 US","impact":"high","forecast":"185K","previous":"175K"},...] — impact: "high"|"med"|"low". Sort by date ascending.', true);
-    /* FIX: use bracket-counting extractor instead of broken non-greedy regex */
-    const raw = extractJSON(txt, '[');
-    if (raw) { econEvents=JSON.parse(raw); econLoaded=true; econRender(); return; }
-  } catch(e){ console.warn('econLoad',e); }
-  el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,.3);">⚠️ Failed to load — try refreshing</div>';
-}
-
-function econFilter(imp) {
-  econCurrentImp=imp;
-  document.querySelectorAll('.econ-pill').forEach(b=>b.classList.toggle('active',b.dataset.imp===imp));
-  econRender();
-}
-
-function econRender() {
-  const el=document.getElementById('econ-list'); if(!el) return;
-  const list = econCurrentImp==='all' ? econEvents : econEvents.filter(e=>e.impact===econCurrentImp);
-  if (!list.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,.25);">No events</div>'; return; }
-  const dot={high:'🔴',med:'🟡',low:'⚪'};
-  const bg ={high:'rgba(224,59,59,.1)',med:'rgba(245,200,0,.06)',low:'rgba(255,255,255,.02)'};
-  const bdr={high:'rgba(224,59,59,.3)', med:'rgba(245,200,0,.2)', low:'rgba(255,255,255,.07)'};
-  el.innerHTML = list.map(e=>{
-    const d=dot[e.impact]||'⚪', bg2=bg[e.impact]||bg.low, b=bdr[e.impact]||bdr.low;
-    const sub=[e.country, e.forecast?'Fcst: '+e.forecast:'', e.previous?'Prev: '+e.previous:''].filter(Boolean).join(' · ');
-    return '<div class="econ-row" style="background:'+bg2+';border:1px solid '+b+';">'+
-      '<div class="econ-time">'+(e.date||'').replace(/\d{4}/,'').trim()+'<br><span style="font-size:9px;color:rgba(255,255,255,.3);">'+(e.time||'TBD')+'</span></div>'+
-      '<div><div class="econ-name">'+(e.name||'')+'</div><div class="econ-sub">'+sub+'</div></div>'+
-      '<div style="font-size:16px;text-align:center;">'+d+'</div>'+
-    '</div>';
-  }).join('');
 }
 
 /* ═══════════════════════════════════════
