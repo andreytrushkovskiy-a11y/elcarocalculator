@@ -1444,33 +1444,21 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .spin-sub-txt { font-size:9px; color:#777; font-family:'Space Mono',monospace; }
 
 /* ── CHEST GRID ── */
-#oracle-panel .chest-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 12px 12px; }
-#oracle-panel .chest-card {
-  background:#131313; border-radius:14px; padding:14px;
-  text-align:center; border:1px solid #222; cursor:pointer;
-  transition:all .18s; position:relative; overflow:hidden;
+#oracle-panel .chest-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 12px 12px;
 }
+#oracle-panel .chest-card {
+  background:#161616; border:1px solid #2a2a2a; border-radius:14px;
+  padding:14px 10px; text-align:center; cursor:pointer; transition:all .2s;
+  position:relative;
+}
+#oracle-panel .chest-card:hover { background:#1e1e1e; transform:translateY(-1px); }
 #oracle-panel .chest-card:active { transform:scale(.97); }
-#oracle-panel .ch-icon { font-size:36px; margin-bottom:6px; display:block; filter:drop-shadow(0 0 6px var(--ch-glow,#555)); }
-#oracle-panel .ch-name { font-size:12px; font-weight:700; margin-bottom:3px; }
-#oracle-panel .ch-desc { font-size:9px; color:#777; font-family:'Space Mono',monospace; margin-bottom:7px; }
-#oracle-panel .ch-price { font-size:10px; font-weight:700; padding:3px 9px; border-radius:9px; display:inline-block; }
-#oracle-panel .ch-count { position:absolute; top:7px; right:7px; background:var(--orange); color:#000; border-radius:9px; font-size:9px; font-weight:800; padding:2px 6px; font-family:'Space Mono',monospace; }
-#oracle-panel .cw { border-color:#9a6f20; --ch-glow:#8B6914; }
-#oracle-panel .cw .ch-name { color:#c8961e; }
-#oracle-panel .cw .ch-price { background:rgba(139,105,20,.15); color:#c8961e; }
-#oracle-panel .cb { border-color:#cd7f32; --ch-glow:#cd7f32; }
-#oracle-panel .cb .ch-name { color:#cd7f32; }
-#oracle-panel .cb .ch-price { background:rgba(205,127,50,.15); color:#cd7f32; }
-#oracle-panel .cs { border-color:#b8b8b8; --ch-glow:#C0C0C0; }
-#oracle-panel .cs .ch-name { color:#b8b8b8; }
-#oracle-panel .cs .ch-price { background:rgba(192,192,192,.08); color:#b8b8b8; }
-#oracle-panel .cg { border-color:#FFD700; --ch-glow:#FFD700; }
-#oracle-panel .cg .ch-name { color:#FFD700; }
-#oracle-panel .cg .ch-price { background:rgba(255,215,0,.08); color:#FFD700; }
-#oracle-panel .cd { border-color:#89d4f5; --ch-glow:#89d4f5; }
-#oracle-panel .cd .ch-name { color:#89d4f5; }
-#oracle-panel .cd .ch-price { background:rgba(137,212,245,.08); color:#89d4f5; }
+#oracle-panel .chest-count {
+  position:absolute; top:6px; right:6px;
+  background:#f5a623; color:#000; border-radius:8px;
+  font-size:9px; font-weight:800; padding:1px 5px;
+}
 
 /* ── BATTLE PASS ── */
 #oracle-panel .bp-card {
@@ -2260,23 +2248,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 .checkin-btn:disabled { opacity:.5; cursor:default; }
 .checkin-btn:active:not(:disabled) { transform:scale(.98); }
 #oracle-panel .checkin-btn:disabled { opacity:.5; }
-/* chest grid */
-#oracle-panel .chest-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 12px 12px;
-}
-#oracle-panel .chest-card {
-  background:#161616; border:1px solid #2a2a2a; border-radius:14px;
-  padding:14px 10px; text-align:center; cursor:pointer; transition:all .2s;
-  position:relative;
-}
-#oracle-panel .chest-card:hover { background:#1e1e1e; transform:translateY(-1px); }
-#oracle-panel .chest-card:active { transform:scale(.97); }
-#oracle-panel .chest-card:active { transform:scale(.97); }
-#oracle-panel .chest-count {
-  position:absolute; top:6px; right:6px;
-  background:#f5a623; color:#000; border-radius:8px;
-  font-size:9px; font-weight:800; padding:1px 5px;
-}
+
 /* news */
 #oracle-panel .news-card {
   margin:0 12px 8px; background:#161616;
@@ -10480,30 +10452,47 @@ function initSigmaButtons() {
       <div class="spin-cta-pill">SPIN →</div>
     </div>
 
-    <!-- MY CHESTS -->
-    <div class="slabel">MY CHESTS</div>
-    <div class="chest-grid">
-      <div class="chest-card cw" onclick="openChestModal('wood')"><span class="ch-count">2</span><span class="ch-icon">🪵</span><div class="ch-name">WOODEN</div><div class="ch-desc">1–2 forecasts</div><span class="ch-price">COMMON</span></div>
-      <div class="chest-card cb" onclick="openChestModal('bronze')"><span class="ch-count">1</span><span class="ch-icon">📦</span><div class="ch-name">BRONZE</div><div class="ch-desc">2–3 forecasts</div><span class="ch-price">UNCOMMON</span></div>
-      <div class="chest-card cs" onclick="showToast('🥈 No Silver chests yet')"><span class="ch-icon" style="opacity:.3">🥈</span><div class="ch-name">SILVER</div><div class="ch-desc">3–5 forecasts</div><span class="ch-price">RARE</span></div>
-      <div class="chest-card cg" onclick="showToast('🏆 Reach 7-day streak → Gold Chest!')"><span class="ch-icon" style="opacity:.2">🏆</span><div class="ch-name">GOLD</div><div class="ch-desc">5–8 forecasts</div><span class="ch-price">EPIC</span></div>
-    </div>
+        <!-- My Chests -->
+        <div class="o-section">MY CHESTS</div>
+        <div class="chest-grid" id="op-my-chests"></div>
 
-    <!-- BUY CHESTS -->
-    <div class="slabel">BUY CHESTS</div>
-    <div class="chest-grid">
-      <div class="chest-card cw" onclick="showToast('🪵 Wooden — $1 or 200⬡')"><span class="ch-icon">🪵</span><div class="ch-name">WOODEN</div><div class="ch-desc">1–2 forecasts</div><span class="ch-price">$1 / 200⬡</span></div>
-      <div class="chest-card cb" onclick="showToast('📦 Bronze — $4 or 800⬡')"><span class="ch-icon">📦</span><div class="ch-name">BRONZE</div><div class="ch-desc">2–3 forecasts</div><span class="ch-price">$4 / 800⬡</span></div>
-      <div class="chest-card cs" onclick="showToast('🥈 Silver — $9 or 2,000⬡')"><span class="ch-icon">🥈</span><div class="ch-name">SILVER</div><div class="ch-desc">3–5 forecasts</div><span class="ch-price">$9 / 2K⬡</span></div>
-      <div class="chest-card cg" onclick="showToast('🏆 Gold — $20 or 5,000⬡')"><span class="ch-icon">🏆</span><div class="ch-name">GOLD</div><div class="ch-desc">5–8 forecasts</div><span class="ch-price">$20 / 5K⬡</span></div>
-    </div>
-    <div style="padding:0 12px 12px;">
-      <div class="chest-card cd" onclick="showToast('💎 Diamond — $50 or 15,000⬡')" style="display:flex;align-items:center;gap:14px;text-align:left;">
-        <span class="ch-icon" style="font-size:42px;margin:0">💎</span>
-        <div><div class="ch-name" style="font-size:15px">DIAMOND</div><div class="ch-desc">10+ forecasts · All TF · All assets</div><span class="ch-price" style="margin-top:6px;display:inline-block">$50 / 15,000⬡</span></div>
+        <!-- Buy Chests -->
+        <div class="o-section">BUY CHESTS</div>
+        <div class="chest-grid">
+          <div class="chest-card" style="border-color:#8B6914;" onclick="orcBuyChest('wood')">
+            <div style="font-size:30px;">🪵</div>
+            <div style="font-size:11px;font-weight:700;color:#c8961e;margin:3px 0 2px;">WOODEN</div>
+            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">1-2 forecasts</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(139,105,20,.2);color:#c8961e;border-radius:7px;padding:2px 6px;">200⬡</div>
+          </div>
+          <div class="chest-card" style="border-color:#cd7f32;" onclick="orcBuyChest('bronze')">
+            <div style="font-size:30px;">📦</div>
+            <div style="font-size:11px;font-weight:700;color:#cd7f32;margin:3px 0 2px;">BRONZE</div>
+            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">2-3 forecasts</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(205,127,50,.2);color:#cd7f32;border-radius:7px;padding:2px 6px;">800⬡</div>
+          </div>
+          <div class="chest-card" style="border-color:#C0C0C0;" onclick="orcBuyChest('silver')">
+            <div style="font-size:30px;">🥈</div>
+            <div style="font-size:11px;font-weight:700;color:#C0C0C0;margin:3px 0 2px;">SILVER</div>
+            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">3-5 forecasts</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(192,192,192,.1);color:#C0C0C0;border-radius:7px;padding:2px 6px;">2,000⬡</div>
+          </div>
+          <div class="chest-card" style="border-color:#ffd700;" onclick="orcBuyChest('gold')">
+            <div style="font-size:30px;">🏆</div>
+            <div style="font-size:11px;font-weight:700;color:#ffd700;margin:3px 0 2px;">GOLD</div>
+            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">5-8 forecasts</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000⬡</div>
+          </div>
+        </div>
+        <div style="padding:0 12px 16px;">
+          <div class="chest-card" style="border-color:#a8edff;text-align:center;width:100%;" onclick="orcBuyChest('diamond')">
+            <div style="font-size:44px;">💎</div>
+            <div style="font-size:13px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
+            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">10+ forecasts · All timeframes</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 8px;display:inline-block;">15,000⬡</div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
         </div>
       </div>
@@ -11612,30 +11601,6 @@ function initSigmaButtons() {
   </div>
 </div>
 
-<!-- CHEST MODAL -->
-<div class="overlay" id="chest-overlay">
-  <div class="modal-sheet">
-    <div class="mhandle"></div>
-    <div id="chest-pre">
-      <div class="chest-open-content">
-        <span class="co-icon" id="co-icon">🪵</span>
-        <div class="co-name" id="co-name">WOODEN CHEST</div>
-        <div class="co-desc" id="co-desc">1–2 forecasts · Common rarity</div>
-        <div class="co-btns">
-          <button class="co-open" onclick="openChest()">📦 OPEN CHEST</button>
-          <button class="co-save" onclick="closeOverlay('chest-overlay')">💾 SAVE TO INVENTORY</button>
-          <button class="co-sell" onclick="sellChest()">💰 SELL ON MARKETPLACE</button>
-        </div>
-      </div>
-    </div>
-    <div class="chest-result" id="chest-result">
-      <div style="text-align:center;font-size:12px;color:var(--gold);font-family:'Space Mono',monospace;margin-bottom:12px;padding:0 18px;">✨ CHEST OPENED! YOU RECEIVED:</div>
-      <div class="cr-items" id="cr-items"></div>
-      <div style="padding:0 18px"><button class="cr-claim" onclick="closeOverlay('chest-overlay')">✓ CLAIM ALL REWARDS</button></div>
-    </div>
-    <div class="close-modal" onclick="closeOverlay('chest-overlay')">✕ CLOSE</div>
-  </div>
-</div>
 
 <!-- BET MODAL -->
 <div class="overlay" id="bet-overlay">
@@ -12479,7 +12444,7 @@ function oracleModalClose() {
 
 // ── State (sync with v2) ──
 let opCoins = 999999;
-let opSpinUsed = false, opCheckedIn = false, opCurrentChest = null;
+let opSpinUsed = false, opCheckedIn = false;
 let opCurrentBetAmt = 500, opCurrentBetAsset = 'BTC', opCurrentBetTF = '4H';
 let opCtTrader='oracle_x', opCtAction='BUYING', opCtAsset='BTC', opCtPos='LONG', opCtTF='4H';
 let _opArenaFilter = 'all';
@@ -12498,16 +12463,6 @@ const OP_ASSETS = [
   {sym:'AAPL',icon:'🍎'},{sym:'TSLA',icon:'T'},{sym:'GOLD',icon:'⬡'},{sym:'SPX',icon:'S'},
   {sym:'BNB',icon:'B'},{sym:'XRP',icon:'✕'},
 ];
-const OP_TFS = ['15M','1H','4H','1D','1W'];
-const OP_MULTS = ['x1','x1','x1','x2','x2','x3','x3','x4','x5'];
-
-const OP_CHEST_DATA = {
-  wood:  {icon:'🪵',name:'WOODEN', desc:'1–2 forecasts · Common',   glow:'#9a6f20', n:1, coinValue:200},
-  bronze:{icon:'📦',name:'BRONZE', desc:'2–3 forecasts · Uncommon', glow:'#cd7f32', n:2, coinValue:800},
-  silver:{icon:'🥈',name:'SILVER', desc:'3–5 forecasts · Rare',     glow:'#b8b8b8', n:3, coinValue:2000},
-  gold:  {icon:'🏆',name:'GOLD',   desc:'5–8 forecasts · Epic',     glow:'#FFD700', n:5, coinValue:5000},
-  diamond:{icon:'💎',name:'DIAMOND',desc:'10+ forecasts · Legendary',glow:'#89d4f5',n:10,coinValue:15000},
-};
 
 const OP_ARENA_DUELS = [
   {id:'d1',cat:'crypto',asset:'BTC',icon:'₿',tf:'1M',question:'BTC above $85,000 by May 1, 2026?',oracleCall:'BULL',oracleConf:72,poolYes:45200,poolNo:18800,totalPool:64000,endsIn:'23 days',resolved:false,userBet:null},
@@ -12566,24 +12521,6 @@ function opDoCheckin() {
 
 // ── Spin ──
 function opOpenSpin() { openSpin(); }
-
-// ── Chest modal ──
-function opOpenChestModal(type) {
-  opCurrentChest = type;
-  const d = OP_CHEST_DATA[type]; if (!d) return;
-  const el_icon = document.getElementById('co-icon');
-  const el_name = document.getElementById('co-name');
-  const el_desc = document.getElementById('co-desc');
-  const el_pre  = document.getElementById('chest-pre');
-  const el_res  = document.getElementById('chest-result');
-  if (el_icon) { el_icon.textContent = d.icon; }
-  if (el_name) el_name.textContent = d.name + ' CHEST';
-  if (el_desc) el_desc.textContent = d.desc;
-  if (el_pre)  el_pre.style.display = 'block';
-  if (el_res)  el_res.style.display = 'none';
-  closeOverlay('chest-overlay');
-  document.getElementById('chest-overlay').classList.add('open');
-}
 
 // ══════════════════════════
 //  QUESTS + BATTLE PASS
@@ -12906,32 +12843,6 @@ document.querySelectorAll('.overlay').forEach(o => {
 
 // vault
 function doCheckin() { opDoCheckin(); }
-function openChestModal(type) { opOpenChestModal(type); }
-
-// chest modal
-function openChest() {
-  const d = OP_CHEST_DATA[opCurrentChest]; if (!d) return;
-  document.getElementById('chest-pre').style.display = 'none';
-  const items = [];
-  for (let i = 0; i < d.n; i++) {
-    const a = OP_ASSETS[Math.floor(Math.random()*OP_ASSETS.length)];
-    const t = OP_TFS[Math.floor(Math.random()*OP_TFS.length)];
-    const dir = Math.random() > .5 ? '↑ BULL' : '↓ BEAR';
-    const m = OP_MULTS[Math.floor(Math.random()*OP_MULTS.length)];
-    items.push({a,t,dir,m});
-  }
-  document.getElementById('cr-items').innerHTML = items.map(x =>
-    `<div class="cr-item"><div class="cr-asset">${x.a.icon}</div><div class="cr-info"><div class="cr-name">${x.a.sym}</div><div class="cr-meta">${x.t} · ${x.dir} · ${x.m}</div></div></div>`
-  ).join('');
-  document.getElementById('chest-result').style.display = 'block';
-  showToast('📦 ' + items.length + ' forecast(s) received!');
-  opAdvanceQuest('wq1');
-}
-function sellChest() {
-  closeOverlay('chest-overlay');
-  opCoins += 150; opUpdateCoins();
-  showToast('💰 Chest listed on marketplace! +150⬡ offer');
-}
 
 // placeBet alias (for v2 modal buttons)
 function placeBet(side) {
