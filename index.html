@@ -5448,6 +5448,38 @@ function setAsset(sym) {
 
   currentAsset = sym;
 
+  // ── Quest tracking ──────────────────────────────
+  if (window.OC) {
+    const today = new Date().toDateString();
+    // Reset daily asset tracking on new day
+    if (OC.lastAssetViewDate !== today) {
+      OC.assetsViewedToday = [];
+      OC.lastAssetViewDate = today;
+    }
+    // Track unique assets viewed today
+    if (!OC.assetsViewedToday.includes(sym)) {
+      OC.assetsViewedToday.push(sym);
+    }
+    // BTC quest: open any BTC timeframe
+    if (sym === 'BTC') {
+      opAdvanceQuest('dq1');
+    }
+    // Browse 3 assets quest — set to current count
+    if (!OC.questsDone || !OC.questsDone['dq3']) {
+      const cnt = Math.min(OC.assetsViewedToday.length, 3);
+      if (!OC.questProgress) OC.questProgress = {};
+      const prev = OC.questProgress['dq3'] || 0;
+      if (cnt > prev) {
+        OC.questProgress['dq3'] = cnt;
+        const qscreen = document.getElementById('op-quests');
+        if (qscreen && qscreen.classList.contains('active')) opRenderQuests();
+      }
+    }
+    ocSave();
+    // Re-render quests if quest tab is currently open
+    const qscreen = document.getElementById('op-quests');
+    if (qscreen && qscreen.classList.contains('active')) opRenderQuests();
+  }
   // Update tab styles
   document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
   const activeTab = document.getElementById('tab-' + sym);
@@ -6556,6 +6588,7 @@ function showToast(msg) {
 
 // ═══════════════════ INIT ═══════════════════
 window.onload = () => {
+  ocLoad(); // restore OC state from localStorage
   loadExpiryDates('BTC');
   liveCalc();
 };
@@ -10360,6 +10393,9 @@ function initSigmaButtons() {
         <div style="background:rgba(255,166,35,.1);border:1px solid rgba(255,166,35,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#ffd700;font-family:'Space Mono',monospace;">
           ⬡ <span id="oracle-hdr-coins">999,999</span>
         </div>
+        <div onclick="oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#00e5ff;font-family:'Space Mono',monospace;cursor:pointer;" title="My Forecasts">
+          📋 <span id="oracle-hdr-forecasts">0</span>
+        </div>
         <button class="op-close" onclick="oracleClose()">✕</button>
       </div>
     </div>
@@ -10400,27 +10436,18 @@ function initSigmaButtons() {
     <div class="slabel">DAILY STREAK</div>
     <div class="streak-card">
       <div class="streak-lbl">CURRENT STREAK</div>
-      <div class="streak-num">5 DAYS</div>
-      <div class="streak-sub">2 days until WEEKLY BONUS → 100⬡ + Bronze Chest</div>
-      <div class="streak-bar">
-        <div class="sbar-dot done"></div><div class="sbar-dot done"></div><div class="sbar-dot done"></div>
-        <div class="sbar-dot done"></div><div class="sbar-dot today"></div>
-        <div class="sbar-dot"></div><div class="sbar-dot special"></div>
+      <div class="streak-num" id="op-streak-num">5 DAYS</div>
+      <div class="streak-sub" id="op-streak-sub">2 days until WEEKLY BONUS → 100 coins</div>
+      <div class="streak-bar" id="op-streak-bar">
+        <div class="s-dot done"></div><div class="s-dot done"></div><div class="s-dot done"></div>
+        <div class="s-dot done"></div><div class="s-dot today"></div>
+        <div class="s-dot"></div><div class="s-dot" style="border:1px solid #ffd700;border-radius:3px;"></div>
       </div>
     </div>
 
     <!-- DAILY REWARDS SCROLL -->
     <div class="slabel">DAILY REWARDS</div>
-    <div class="day-scroll">
-      <div class="day-box done"><div class="day-chk">✓</div><div class="day-n">DAY 1</div><div class="day-ico">⬡</div><div class="day-coins">+1</div></div>
-      <div class="day-box done"><div class="day-chk">✓</div><div class="day-n">DAY 2</div><div class="day-ico">⬡</div><div class="day-coins">+2</div></div>
-      <div class="day-box done"><div class="day-chk">✓</div><div class="day-n">DAY 3</div><div class="day-ico">⬡</div><div class="day-coins">+4</div></div>
-      <div class="day-box done"><div class="day-chk">✓</div><div class="day-n">DAY 4</div><div class="day-ico">⬡</div><div class="day-coins">+10</div></div>
-      <div class="day-box today"><div class="day-n">DAY 5</div><div class="day-ico">⬡</div><div class="day-coins">+20</div></div>
-      <div class="day-box"><div class="day-n">DAY 6</div><div class="day-ico">⬡</div><div class="day-coins">+50</div></div>
-      <div class="day-box special"><div class="day-n">DAY 7</div><div class="day-ico">🎁</div><div class="day-coins" style="color:var(--gold)">+100</div></div>
-      <div class="day-box" style="border-style:dashed;min-width:72px"><div class="day-n">DAY 30</div><div class="day-ico">👑</div><div class="day-coins" style="font-size:10px;color:var(--gold)">+1000</div></div>
-    </div>
+    <div class="day-scroll" id="op-rewards-scroll"></div>
 
     <!-- CHECK-IN BTN -->
     <button class="checkin-btn" id="checkin-btn" onclick="doCheckin()">⬡ CLAIM TODAY'S +20 COINS</button>
@@ -10436,7 +10463,7 @@ function initSigmaButtons() {
       </div>
       <div class="qi-reward"><div class="qi-coins">+30⬡</div><div class="qi-extra">DONE ✓</div></div>
     </div>
-    <div class="quest-item" onclick="showToast('📢 Share to Telegram → +50⬡ + Bronze Chest')">
+    <div class="quest-item" onclick="shareToTelegram()">
       <div class="qi-icon">📢</div>
       <div class="qi-info">
         <div class="qi-name">Share to Telegram</div>
@@ -10533,10 +10560,10 @@ function initSigmaButtons() {
           <button class="bp-buy-btn" onclick="event.stopPropagation();bpBuy()">🎫 UPGRADE PASS — $9.99</button>
         </div>
 
-        <div class="slabel">DAILY QUESTS <span style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;float:right;padding-top:1px;">Resets in 14h 22m</span></div>
+        <div class="slabel">DAILY QUESTS <span id="op-daily-timer" style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;float:right;padding-top:1px;">Resets in —</span></div>
         <div id="op-daily-q"></div>
 
-        <div class="slabel">WEEKLY QUESTS <span style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;float:right;padding-top:1px;">Resets Monday</span></div>
+        <div class="slabel">WEEKLY QUESTS <span id="op-weekly-timer" style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;float:right;padding-top:1px;">Resets Monday</span></div>
         <div id="op-weekly-q"></div>
 
         </div>
@@ -10687,15 +10714,11 @@ function initSigmaButtons() {
         <!-- MARKETPLACE -->
         <div id="op-tab-mkt" style="display:none;">
           <div style="padding:0 12px 8px;display:flex;gap:7px;">
-            <button onclick="switchMktFilter(this,'all')" style="background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:9px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--orange);cursor:pointer;font-family:'Space Mono',monospace;" class="mkt-filter active-f">ALL</button>
-            <button onclick="switchMktFilter(this,'forecasts')" style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Space Mono',monospace;" class="mkt-filter">FORECASTS</button>
-            <button onclick="switchMktFilter(this,'chests')" style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Space Mono',monospace;" class="mkt-filter">CHESTS</button>
+            <button onclick="switchMktFilter(this,'all')" style="background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:9px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--orange);cursor:pointer;font-family:'Space Mono',monospace;" class="mkt-filter arena-mkt-filter active-f">ALL</button>
+            <button onclick="switchMktFilter(this,'forecasts')" style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Space Mono',monospace;" class="mkt-filter arena-mkt-filter">FORECASTS</button>
+            <button onclick="switchMktFilter(this,'chests')" style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Space Mono',monospace;" class="mkt-filter arena-mkt-filter">CHESTS</button>
           </div>
-          <div class="mkt-item" onclick="showToast('📈 NVDA 4H Bull x2 — 280⬡')"><div class="mkt-asset-ico">🟢</div><div class="mkt-info"><div class="mkt-name">NVIDIA — NVDA</div><div class="mkt-meta">4H · BULL · x2 MULT · from @oracle_x</div></div><div><div class="mkt-tf-badge">4H</div><div class="mkt-price">280⬡</div></div></div>
-          <div class="mkt-item" onclick="showToast('₿ BTC 1W Bear x1 — 1,200⬡')"><div class="mkt-asset-ico">₿</div><div class="mkt-info"><div class="mkt-name">BITCOIN — BTC</div><div class="mkt-meta">1W · BEAR · x1 MULT · from @diamond_oracle</div></div><div><div class="mkt-tf-badge">1W</div><div class="mkt-price">1,200⬡</div></div></div>
-          <div class="mkt-item" style="border-color:rgba(255,215,0,.2)" onclick="showToast('🏆 Gold Chest from @seer_22 — 4,500⬡')"><div class="mkt-asset-ico">🏆</div><div class="mkt-info"><div class="mkt-name">Gold Chest <span style="font-size:9px;color:var(--golden)">EPIC</span></div><div class="mkt-meta">FROM @SEER_22 · 5-8 FORECASTS INSIDE</div></div><div><div class="mkt-price">4,500⬡</div></div></div>
-          <div class="mkt-item" onclick="showToast('⬡ GOLD 1D Bull x3 — 600⬡')"><div class="mkt-asset-ico">⬡</div><div class="mkt-info"><div class="mkt-name">GOLD — XAU</div><div class="mkt-meta">1D · BULL · x3 MULT · from @gold_seer</div></div><div><div class="mkt-tf-badge">1D</div><div class="mkt-price">600⬡</div></div></div>
-          <div class="mkt-item" style="border-color:rgba(137,212,245,.2);margin-bottom:16px;" onclick="showToast('💎 Diamond Chest from @legend — 14,000⬡')"><div class="mkt-asset-ico">💎</div><div class="mkt-info"><div class="mkt-name">Diamond Chest <span style="font-size:9px;color:var(--diamond)">LEGENDARY</span></div><div class="mkt-meta">FROM @LEGEND_01 · 10+ FORECASTS</div></div><div><div class="mkt-price" style="color:var(--diamond)">14,000⬡</div></div></div>
+          <div id="arena-mkt-list" style="padding:0 12px 16px;display:flex;flex-direction:column;gap:8px;"></div>
         </div>
 
         </div>
@@ -10808,132 +10831,82 @@ function initSigmaButtons() {
       <!-- ══ TRADERS ══ -->
       <div class="op-screen" id="op-traders">
         <div class="scrollable-op">
-          <div class="slabel">ORACLE TRADERS</div>
-<div id="om-traders">
-      <!-- TRADER 1 -->
-      <div class="trader-card">
-        <div class="tc-head">
-          <div class="trader-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800);border-color:rgba(245,166,35,.3)">🧿</div>
-          <div class="trader-info" style="flex:1">
-            <div class="trader-name">oracle_x <span class="trader-verified">✦</span></div>
-            <div class="trader-handle">@oracle_x · Gold Oracle Rank</div>
+          <div class="slabel">ORACLE TRADERS <span style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;font-weight:400;float:right;padding-top:1px;" id="traders-count"></span></div>
+
+          <!-- Filter bar -->
+          <div style="display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;scrollbar-width:none;">
+            <button onclick="tradersFilter('all',this)" class="t-filter-btn active-tf" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid rgba(245,166,35,.4);background:rgba(245,166,35,.1);color:var(--orange);font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">ALL</button>
+            <button onclick="tradersFilter('bull',this)" class="t-filter-btn" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid #222;background:#111;color:#555;font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">🟢 BUYING</button>
+            <button onclick="tradersFilter('bear',this)" class="t-filter-btn" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid #222;background:#111;color:#555;font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">🔴 SELLING</button>
+            <button onclick="tradersFilter('top',this)" class="t-filter-btn" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid #222;background:#111;color:#555;font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">⭐ TOP</button>
+            <button onclick="tradersFilter('subscribed',this)" class="t-filter-btn" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid #222;background:#111;color:#555;font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">✓ SUBSCRIBED</button>
           </div>
-          <div class="oracle-score-badge">
-            <div class="os-num" style="color:var(--green)">87</div>
-            <div class="os-lbl">ORACLE<br>SCORE</div>
-          </div>
-        </div>
-        <div class="live-status">
-          <div class="ls-dot ls-bull"></div>
-          <span style="color:var(--green);font-weight:700">BUYING</span>
-          <span style="color:var(--text3)">·</span>
-          <span>BTC · LONG · 4H</span>
-          <span style="margin-left:auto;font-size:8px;color:var(--text3)">LIVE NOW</span>
-        </div>
-        <div class="live-cost">Unlock live status: 50⬡ per view · Trader earns 40⬡</div>
-        <div class="trader-stats">
-          <div class="ts-item"><div class="ts-val" style="color:var(--green)">87%</div><div class="ts-lbl">ACCURACY</div></div>
-          <div class="ts-item"><div class="ts-val">284</div><div class="ts-lbl">FORECASTS</div></div>
-          <div class="ts-item"><div class="ts-val" style="color:var(--gold)">Gold</div><div class="ts-lbl">RANK</div></div>
-        </div>
-        <div class="trader-actions">
-          <button class="sub-btn subbed" onclick="showToast('✓ Already subscribed to @oracle_x')">✓ SUBSCRIBED</button>
-          <button class="copy-reveal-btn" onclick="revealTraderStatus('oracle_x','BTC','LONG','4H','BUYING',87)">👁 COPY STATUS — 50⬡</button>
-        </div>
-      </div>
-      <!-- TRADER 2 -->
-      <div class="trader-card">
-        <div class="tc-head">
-          <div class="trader-avatar" style="background:linear-gradient(135deg,#00100a,#001808);border-color:rgba(0,229,160,.2)">🌿</div>
-          <div class="trader-info" style="flex:1">
-            <div class="trader-name">diamond_seer</div>
-            <div class="trader-handle">@diamond_seer · Diamond Oracle</div>
-          </div>
-          <div class="oracle-score-badge">
-            <div class="os-num" style="color:var(--cyan)">94</div>
-            <div class="os-lbl">ORACLE<br>SCORE</div>
-          </div>
-        </div>
-        <div class="live-status" style="border-color:rgba(137,212,245,.15);background:rgba(137,212,245,.04);">
-          <div class="ls-dot" style="background:var(--cyan)"></div>
-          <span style="color:var(--cyan);font-weight:700">SELLING</span>
-          <span style="color:var(--text3)">·</span>
-          <span>GOLD · SHORT · 1D</span>
-          <span style="margin-left:auto;font-size:8px;color:var(--text3)">LIVE NOW</span>
-        </div>
-        <div class="live-cost">Unlock live status: 50⬡ per view · Trader earns 40⬡</div>
-        <div class="trader-stats">
-          <div class="ts-item"><div class="ts-val" style="color:var(--cyan)">94%</div><div class="ts-lbl">ACCURACY</div></div>
-          <div class="ts-item"><div class="ts-val">512</div><div class="ts-lbl">FORECASTS</div></div>
-          <div class="ts-item"><div class="ts-val" style="color:var(--diamond)">Diamond</div><div class="ts-lbl">RANK</div></div>
-        </div>
-        <div class="trader-actions">
-          <button class="sub-btn" onclick="subscribeTrader('diamond_seer',this)">SUBSCRIBE</button>
-          <button class="copy-reveal-btn" onclick="revealTraderStatus('diamond_seer','GOLD','SHORT','1D','SELLING',94)">👁 COPY STATUS — 50⬡</button>
-        </div>
-      </div>
-      <!-- TRADER 3 -->
-      <div class="trader-card">
-        <div class="tc-head">
-          <div class="trader-avatar" style="background:linear-gradient(135deg,#100010,#1a0020);border-color:rgba(124,77,255,.2)">⚡</div>
-          <div class="trader-info" style="flex:1">
-            <div class="trader-name">algo_king</div>
-            <div class="trader-handle">@algo_king · Silver Seer</div>
-          </div>
-          <div class="oracle-score-badge">
-            <div class="os-num" style="color:var(--purple2)">71</div>
-            <div class="os-lbl">ORACLE<br>SCORE</div>
-          </div>
-        </div>
-        <div class="live-status" style="border-color:rgba(124,77,255,.15);background:rgba(124,77,255,.04)">
-          <div class="ls-dot ls-idle"></div>
-          <span style="color:var(--text2);font-weight:700">WATCHING</span>
-          <span style="color:var(--text3)">·</span>
-          <span style="color:var(--text3)">No active position</span>
-        </div>
-        <div class="live-cost">Unlock live status: 50⬡ per view · Trader earns 40⬡</div>
-        <div class="trader-stats">
-          <div class="ts-item"><div class="ts-val" style="color:var(--purple2)">71%</div><div class="ts-lbl">ACCURACY</div></div>
-          <div class="ts-item"><div class="ts-val">98</div><div class="ts-lbl">FORECASTS</div></div>
-          <div class="ts-item"><div class="ts-val" style="color:var(--silver)">Silver</div><div class="ts-lbl">RANK</div></div>
-        </div>
-        <div class="trader-actions">
-          <button class="sub-btn" onclick="subscribeTrader('algo_king',this)">SUBSCRIBE</button>
-          <button class="copy-reveal-btn" onclick="revealTraderStatus('algo_king',null,null,'4H','WATCHING',71)">👁 COPY STATUS — 50⬡</button>
-        </div>
-      </div>
-    </div>
-  
+
+          <div id="traders-list" style="display:flex;flex-direction:column;gap:0;"></div>
         </div>
       </div>
 
       <!-- ══ PROFILE ══ -->
       <!-- ══ NEWS ══ -->
       <div class="op-screen" id="op-news">
-        <div class="scrollable-op">
-          <div class="live-card" onclick="showToast('🔴 Redirecting to ORACLE LIVE...')">
+        <div class="scrollable-op" style="padding-bottom:20px;">
+
+          <!-- LIVE CARD -->
+          <div id="news-live-card" class="live-card" style="cursor:pointer;" onclick="orcGetAccess()">
             <div style="display:inline-flex;align-items:center;gap:5px;background:#ff4757;color:#fff;border-radius:7px;padding:3px 8px;font-size:9px;font-weight:800;margin-bottom:8px;letter-spacing:1px;font-family:'Space Mono',monospace;">
-              <div style="width:5px;height:5px;background:#fff;border-radius:50%;animation:pulse 1s infinite;"></div> LIVE NOW
+              <div style="width:5px;height:5px;background:#fff;border-radius:50%;animation:pulse 1s infinite;"></div>
+              <span id="news-live-badge-text">LIVE NOW</span>
             </div>
-            <div style="font-size:14px;font-weight:800;margin-bottom:4px;">ORACLE LIVE TRADING SESSION</div>
-            <div style="font-size:10px;color:#888;font-family:'Space Mono',monospace;margin-bottom:12px;">BTC + GOLD analysis · 47 viewers</div>
-            <button style="background:#ff4757;border:none;border-radius:10px;padding:10px 18px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;">GET ACCESS — $14.99/mo</button>
-            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:6px;">Free replay on YouTube in 7 days</div>
+            <div style="font-size:14px;font-weight:800;margin-bottom:4px;" id="news-live-title">ORACLE LIVE TRADING SESSION</div>
+            <div style="font-size:10px;color:#888;font-family:'Space Mono',monospace;margin-bottom:12px;" id="news-live-sub">BTC + GOLD analysis · ElcaroTrade</div>
+            <button id="news-access-btn" style="background:#ff4757;border:none;border-radius:10px;padding:10px 18px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;">GET ACCESS — $14.99/mo</button>
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:6px;" id="news-live-note">Free replay on YouTube in 7 days</div>
           </div>
-          <div class="o-section" style="padding-bottom:8px;">
-            NEWS FEED
-            <span id="op-news-status" style="margin-left:8px;font-size:8px;color:#888;"></span>
+
+          <!-- FREE / PREMIUM TAB SWITCHER -->
+          <div style="padding:0 12px 10px;display:flex;gap:6px;">
+            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;" onclick="newsTab('free')">📢 FREE</div>
+            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;" onclick="newsTab('premium')">⭐ PREMIUM</div>
+            <div style="flex:1;text-align:center;padding:8px;background:linear-gradient(135deg,rgba(108,63,255,.18),rgba(168,85,247,.1));border:1px solid rgba(108,63,255,.45);border-radius:9px;font-size:9px;font-weight:700;color:#b388ff;font-family:'Space Mono',monospace;cursor:pointer;position:relative;overflow:hidden;" onclick="window.open('https://waylight.me/tru/community/0c74c-db858','_blank')">
+              🔒 PRIVATE<br>GROUP
+            </div>
           </div>
-          <div style="padding:0 12px 8px;display:flex;gap:6px;">
-            <div style="flex:1;text-align:center;padding:7px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;">FREE</div>
-            <div style="flex:1;text-align:center;padding:7px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;cursor:pointer;font-family:'Space Mono',monospace;" onclick="orcUnlockNews(event)">PREMIUM ⭐</div>
+
+          <!-- FREE PANE: Telegram feed -->
+          <div id="news-pane-free">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0 12px 8px;">
+              <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">ELCARO QUANTUM TRADE · @equtr</div>
+              <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;cursor:pointer;" onclick="loadTelegramNews()">↺ REFRESH</div>
+            </div>
+            <div id="tg-news-list"><div style="text-align:center;padding:30px;color:#555;font-family:'Space Mono',monospace;font-size:10px;">Loading Telegram feed…</div></div>
           </div>
-          <div id="op-news-list"></div>
-          <div style="margin:4px 12px 16px;background:linear-gradient(135deg,#0f0a1e,#1a0a2e);border:1px solid rgba(108,63,255,.35);border-radius:14px;padding:14px;cursor:pointer;" onclick="orcUnlockNews(event)">
-            <div style="font-size:12px;font-weight:700;color:#9f7fff;margin-bottom:3px;">⭐ UPGRADE TO ORACLE PREMIUM</div>
-            <div style="font-size:9px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">Unlimited signals · Live sessions · Priority analysis</div>
-            <div style="font-size:18px;font-weight:800;color:#fff;">3,000⬡ <span style="font-size:10px;color:#555;font-weight:400;">or $14.99/mo</span></div>
+
+          <!-- PREMIUM PANE: YouTube -->
+          <div id="news-pane-premium" style="display:none;">
+            <div id="news-premium-locked" style="margin:8px 12px 0;background:linear-gradient(135deg,#0f0a1e,#1a0a2e);border:1px solid rgba(108,63,255,.35);border-radius:14px;padding:18px;text-align:center;">
+              <div style="font-size:24px;margin-bottom:8px;">🔒</div>
+              <div style="font-size:13px;font-weight:800;color:#9f7fff;margin-bottom:6px;">ORACLE PREMIUM</div>
+              <div style="font-size:9px;color:#888;font-family:'Space Mono',monospace;margin-bottom:14px;">Live YouTube sessions · New videos · Priority signals</div>
+              <button onclick="orcGetAccess()" style="background:linear-gradient(135deg,#ff4757,#c0392b);border:none;border-radius:12px;padding:12px 24px;font-size:13px;font-weight:800;color:#fff;cursor:pointer;width:100%;">GET ACCESS — $14.99/mo</button>
+            </div>
+            <div id="news-premium-content" style="display:none;">
+              <!-- STREAMS -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px 6px;">
+                <div style="font-size:10px;font-weight:700;color:var(--orange);">🔴 LIVE STREAMS</div>
+                <a href="https://www.youtube.com/@ElcaroTrade/streams" target="_blank" style="font-size:9px;color:#555;font-family:'Space Mono',monospace;text-decoration:none;">VIEW ALL →</a>
+              </div>
+              <div id="yt-streams-list"><div style="text-align:center;padding:20px;color:#555;font-family:'Space Mono',monospace;font-size:10px;">Loading streams…</div></div>
+
+              <!-- VIDEOS -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 12px 6px;">
+                <div style="font-size:10px;font-weight:700;color:var(--text2);">📹 LATEST VIDEOS</div>
+                <a href="https://www.youtube.com/@ElcaroTrade/videos" target="_blank" style="font-size:9px;color:#555;font-family:'Space Mono',monospace;text-decoration:none;">VIEW ALL →</a>
+              </div>
+              <div id="yt-videos-list"><div style="text-align:center;padding:20px;color:#555;font-family:'Space Mono',monospace;font-size:10px;">Loading videos…</div></div>
+            </div>
           </div>
+
+          <div style="height:20px;"></div>
         </div>
       </div>
 
@@ -11599,6 +11572,9 @@ function initSigmaButtons() {
     </div>
 
     <div class="spin-result" id="spin-result"></div>
+    <div id="spin-view-profile" style="display:none;text-align:center;margin-top:8px;">
+      <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);border-radius:12px;padding:10px 20px;font-size:12px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;width:100%;">👁 VIEW IN PROFILE →</button>
+    </div>
 
     <button class="spin-btn" id="spin-btn" onclick="doSpin()">
       🎰 SPIN NOW — FREE
@@ -11747,31 +11723,49 @@ function initSigmaButtons() {
 // ═══════════════════════════════════════════════════
 
 // ── State ──────────────────────────────────────────
+// ── localStorage helpers ──────────────────────────
+const OC_STORAGE_KEY = 'elcaro_oc_v2';
+function ocSave() {
+  try { localStorage.setItem(OC_STORAGE_KEY, JSON.stringify(OC)); } catch(e) {}
+}
+function ocLoad() {
+  try {
+    const raw = localStorage.getItem(OC_STORAGE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    Object.assign(OC, saved);
+    const today = new Date().toDateString();
+    if (OC.lastCheckinDate !== today) {
+      OC.checkedIn = false;
+    }
+  } catch(e) {}
+  // Permanent 1M floor — always restore if below
+  if (OC.coins < 1000000) OC.coins = 1000000;
+}
+
 const OC = {
-  coins: 999999,          // unlimited
-  daysActive: 47,
-  streak: 5,
+  coins: 1000000,
+  daysActive: 1,
+  streak: 0,
   checkedIn: false,
+  lastCheckinDate: '',
   spinUsed: false,
-  forecasts: 12,
-  accuracy: 84,
+  forecasts: 0,
+  accuracy: 0,
   premiumNews: false,
-
-  // Inventory: { wood, bronze, silver, gold, diamond }
-  inventory: { wood:2, bronze:1, silver:0, gold:0, diamond:0 },
-
-  // Owned forecasts list
+  inventory: { wood:0, bronze:0, silver:0, gold:0, diamond:0 },
   ownedForecasts: [],
-
-  // Market listings (user can add their own)
   marketListings: [],
-
-  // Chest being previewed
   activeChest: null,
   activeMarketItem: null,
-
-  // Daily reward day
-  rewardDay: 5,
+  rewardDay: 1,
+  bpLevel: 1,
+  assetsViewedToday: [],
+  lastAssetViewDate: '',
+  questProgress: {},
+  questsDone: {},
+  lastDailyReset: '',
+  lastWeeklyReset: '',
 };
 
 const CHEST_DATA = {
@@ -11815,6 +11809,7 @@ function genForecast() {
 
 // ── Oracle panel open/close ────────────────────────
 function oracleOpen() {
+  ocLoad(); // restore saved state before rendering
   document.getElementById('oracle-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   oracleRenderAll();
@@ -11850,6 +11845,19 @@ function oracleTab(name, el) {
   if (screen) screen.classList.add('active');
   oracleRenderTab(name);
 }
+function oracleOpenOnTab(name) {
+  // Open panel if closed
+  const overlay = document.getElementById('oracle-overlay');
+  if (!overlay.classList.contains('open')) {
+    ocLoad();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    oracleRenderAll();
+  }
+  // Switch to the requested tab
+  const tab = document.querySelector(`#oracle-panel .op-tab[onclick*="'${name}'"]`);
+  if (tab) oracleTab(name, tab);
+}
 function oracleRenderAll() {
   oracleRenderVaultCoins();
   oracleRenderTab('vault');
@@ -11867,12 +11875,25 @@ function oracleRenderAll() {
 function oracleRenderTab(name) {
   if (name==='vault')       { oracleRenderVault(); opRenderVault(); }
   if (name==='quests')      { opRenderQuests(); }
-  if (name==='prophecies')  { opRenderArenaDuels(); }
+  if (name==='prophecies')  { opRenderArenaDuels(); renderOracleCallsBets(); renderArenaMkt(); }
   if (name==='guild')       { opRenderGuild(); }
   if (name==='traders')     { opRenderTraders(); }
   if (name==='news')        { oracleRenderNews(); oracleUpdateNewsStatus(); }
   if (name==='oracle')      { ocSwitchTab('prophecies'); }
       if (name==='profile')     { opRenderProfile(); }
+}
+
+// Restore Oracle Calls bet indicators from saved OC_EXT state
+function renderOracleCallsBets() {
+  if (!OC_EXT || !OC_EXT.verdictBets) return;
+  Object.entries(OC_EXT.verdictBets).forEach(([key, bet]) => {
+    const [cardId] = key.split('_');
+    const id = cardId.toLowerCase();
+    const betEl = document.getElementById(id+'-my-bet');
+    const lblEl = document.getElementById(id+'-bet-label');
+    if (betEl) betEl.style.display = 'block';
+    if (lblEl) lblEl.textContent = (bet.stake||bet.amount||'?').toLocaleString()+'⬡ on '+(bet.side||'?').toUpperCase()+' · '+(bet.tf||'');
+  });
 }
 
 function oracleUpdateNewsStatus() {
@@ -11887,6 +11908,8 @@ function oracleRenderVaultCoins() {
     const el=document.getElementById(id);
     if(el) el.textContent = OC.coins.toLocaleString();
   });
+  const fc = document.getElementById('oracle-hdr-forecasts');
+  if (fc) fc.textContent = OC.ownedForecasts.length;
 }
 
 // ══════════════════════════════════════════════════
@@ -11897,6 +11920,16 @@ function oracleRenderVault() {
   oracleRenderRewards();
   oracleRenderInventory();
   oracleRenderVaultCoins();
+  // Sync checkin button
+  const btn = document.getElementById('checkin-btn');
+  if (btn) {
+    const dayCoins = [1,2,4,10,20,50,100];
+    const earned = dayCoins[(OC.rewardDay-1) % dayCoins.length] || 20;
+    btn.disabled = OC.checkedIn;
+    btn.textContent = OC.checkedIn
+      ? '✓ CHECKED IN — COME BACK TOMORROW'
+      : '⬡ CLAIM TODAY\'S +' + earned + ' COINS';
+  }
 }
 
 function oracleRenderStreak() {
@@ -11920,36 +11953,43 @@ function oracleRenderRewards() {
     const done = day < OC.rewardDay;
     const today = day === OC.rewardDay;
     const special = day === 7;
-    return `<div class="r-day${done?' done':today?' today':''}${special?' r-special':''}" style="position:relative;">
-      ${done?'<div style="position:absolute;top:4px;right:4px;font-size:9px;color:#f5a623;">✓</div>':''}
-      <div style="font-size:7px;color:#888;font-family:'Space Mono',monospace;margin-bottom:4px;">DAY ${day}</div>
-      <div style="font-size:${special?'20':'16'}px;">${special?'🎁':'⬡'}</div>
-      <div style="font-size:${special?'11':'12'}px;font-weight:800;color:#ffd700;margin-top:2px;">+${coins}</div>
+    let cls = 'day-box';
+    if (done) cls += ' done';
+    else if (today) cls += ' today';
+    if (special) cls += ' special';
+    return `<div class="${cls}">
+      ${done?'<div class="day-chk">✓</div>':''}
+      <div class="day-n">DAY ${day}</div>
+      <div class="day-ico">${special?'🎁':'⬡'}</div>
+      <div class="day-coins" style="${special?'color:var(--gold)':''}">+${coins}</div>
     </div>`;
-  }).join('') + `<div class="r-day" style="border-style:dashed;min-width:72px;position:relative;">
-    <div style="font-size:7px;color:#888;font-family:'Space Mono',monospace;margin-bottom:4px;">DAY 30</div>
-    <div style="font-size:20px;">👑</div>
-    <div style="font-size:11px;font-weight:800;color:#ffd700;margin-top:2px;">+1000</div>
+  }).join('') + `<div class="day-box" style="border-style:dashed;min-width:72px">
+    <div class="day-n">DAY 30</div>
+    <div class="day-ico">👑</div>
+    <div class="day-coins" style="font-size:10px;color:var(--gold)">+1000</div>
   </div>`;
 }
 
 function oracleCheckin() {
   if (OC.checkedIn) return;
   OC.checkedIn = true;
+  OC.lastCheckinDate = new Date().toDateString();
   const dayCoins = [1,2,4,10,20,50,100];
   const earned = dayCoins[(OC.rewardDay-1) % dayCoins.length] || 20;
   OC.coins += earned;
   OC.streak = Math.min(OC.streak+1, 30);
   OC.rewardDay = Math.min(OC.rewardDay+1, 30);
   OC.daysActive++;
-  const btn = document.getElementById('oracle-checkin-btn');
+  const btn = document.getElementById('checkin-btn');
   if (btn) { btn.disabled=true; btn.textContent='✓ CHECKED IN — COME BACK TOMORROW'; }
   oracleRenderVault();
+  ocSave();
   // Sync profile if open
   if (document.getElementById('op-profile')?.classList.contains('active')) {
     oracleRenderProfile();
   }
   showToast('⬡ +'+earned+' ORACLE COINS CLAIMED! Streak: '+OC.streak+' days 🔥');
+  opAdvanceQuest('dq5'); // daily check-in quest
 }
 
 // ── Inventory (My Chests) ──────────────────────────
@@ -11977,8 +12017,12 @@ function oracleRenderInventory() {
 let spinUsed = false;
 
 function openSpin() {
+  // Sync local spinUsed with persisted OC state
+  spinUsed = OC.spinUsed || false;
   // Reset state
   document.getElementById('spin-result').textContent = '';
+  const svp = document.getElementById('spin-view-profile');
+  if (svp) svp.style.display = 'none';
   document.getElementById('jackpot-banner').classList.remove('show');
   // Reset reels to default
   document.getElementById('reel1-icon').textContent = '₿';
@@ -12011,6 +12055,9 @@ function doSpin() {
   }
   if (spinUsed) { OC.coins -= cost; oracleRenderVaultCoins(); }
   spinUsed = true;
+  OC.spinUsed = true;
+  opAdvanceQuest('dq4'); // daily: use oracle slot once
+  ocSave();
 
   // 1. Start spinning animation on all three reels
   ['reel1','reel2','reel3'].forEach(id =>
@@ -12101,6 +12148,13 @@ function doSpin() {
     document.getElementById('reel3-val').textContent  = finalMult;
 
     document.getElementById('spin-result').textContent = resultText;
+    // Show "View in Profile" link if forecasts were added
+    const spinViewBtn = document.getElementById('spin-view-profile');
+    const gotForecast = rand >= 0.05 && rand < 0.15 ? false : (rand >= 0.15 || rand < 0.05);
+    if (spinViewBtn) {
+      const hasForecast = OC.ownedForecasts.length > 0 && (rand < 0.05 || rand >= 0.15);
+      spinViewBtn.style.display = hasForecast ? 'block' : 'none';
+    }
     if (isJackpot) document.getElementById('jackpot-banner').classList.add('show');
 
     if (btn) { btn.disabled = false; btn.textContent = '🎰 SPIN AGAIN — 500⬡'; }
@@ -12174,9 +12228,12 @@ function orcOpenChest() {
       </div>`).join('')}
     <div style="text-align:center;font-size:10px;color:#888;margin:8px 0;">+${bonus}⬡ bonus coins</div>
     <button onclick="orcChestModalClose()" style="width:100%;background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:800;color:#000;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;">✓ CLAIM REWARDS</button>
+    <button onclick="orcChestModalClose();oracleOpenOnTab('profile')" style="width:100%;margin-top:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;">👁 VIEW IN PROFILE →</button>
   `;
   oracleRenderVaultCoins();
   oracleRenderInventory();
+  ocSave();
+  opAdvanceQuest('wq1'); // weekly: open 2 chests
   // Sync profile stats if profile tab is active
   if (document.getElementById('op-profile')?.classList.contains('active')) {
     oracleRenderProfile();
@@ -12192,6 +12249,7 @@ function orcSellChest() {
   oracleRenderVaultCoins();
   oracleRenderInventory();
   oracleRenderProfile();
+  ocSave();
   // Add to market listings  
   const sellerHandle = window.Telegram?.WebApp?.initDataUnsafe?.user?.username
     ? '@'+window.Telegram.WebApp.initDataUnsafe.user.username : '@you';
@@ -12216,6 +12274,7 @@ function orcBuyChest(type) {
   OC.inventory[type]=(OC.inventory[type]||0)+1;
   oracleRenderVaultCoins();
   oracleRenderInventory();
+  ocSave();
   showToast(`${CHEST_DATA[type].icon} ${CHEST_DATA[type].name} chest purchased!`);
 }
 
@@ -12368,44 +12427,169 @@ function orcSellForecast(idx) {
 // ══════════════════════════════════════════════════
 //  NEWS
 // ══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+//  NEWS SYSTEM — Telegram + YouTube
+// ═══════════════════════════════════════════
+
+let _newsTab = 'free';
+const YT_HANDLE = 'ElcaroTrade';
+const TG_CHANNEL = 'equtr';
+let _ytChannelId = null;
+
 function oracleRenderNews() {
-  const wrap=document.getElementById('op-news-list'); if(!wrap) return;
-  const news=[
-    {tag:'⬡ BITCOIN', title:'BTC approaches key resistance at $72K — ORACLE algorithm signals accumulation phase', time:'2 hours ago', premium:false},
-    {tag:'📊 MACRO', title:'Fed holds rates steady — algorithm detects volatility spike incoming for S&P500', time:'5 hours ago', premium:false},
-    {tag:'⭐ PREMIUM', title:'ELCARO algorithm detects high-probability setup on NVIDIA — full analysis + 3 entry levels inside', time:'1 hour ago', premium:true},
-    {tag:'⭐ PREMIUM', title:'Gold entering explosive breakout zone — 3 target price levels revealed by ORACLE model', time:'3 hours ago', premium:true},
-    {tag:'📉 MARKETS', title:'S&P 500 straddle opportunity detected — implied move: ±4.2% by expiry', time:'6 hours ago', premium:false},
-    {tag:'⭐ PREMIUM', title:'ETH/BTC ratio at critical inflection — ORACLE model predicts rotation signal within 48h', time:'8 hours ago', premium:true},
-  ];
-  wrap.innerHTML=news.map(n=>{
-    const locked=n.premium && !OC.premiumNews;
-    return `<div class="news-card${n.premium?' premium':''}" onclick="${locked?'orcUnlockNews(event)':"showToast('📰 Reading full article')"}" style="cursor:pointer;${locked?'':''}">
-      <div class="news-tag">${n.tag}</div>
-      <div class="news-title" ${locked?'style="filter:blur(4px);user-select:none;"':''}>${n.title}</div>
-      <div class="news-time">${n.time}</div>
-      ${locked?`<div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #2a2a2a;">
-        <div style="font-size:10px;color:#888;">🔒 Premium members only</div>
-        <button onclick="event.stopPropagation();orcUnlockNews(event)" style="background:#f5a623;color:#000;border:none;border-radius:7px;padding:5px 10px;font-size:10px;font-weight:800;cursor:pointer;transition:opacity .15s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">UNLOCK 3000⬡</button>
-      </div>`:''}
-    </div>`;
-  }).join('');
-}
-function orcUnlockNews(e) {
-  e.stopPropagation();
-  if (OC.premiumNews) return;
-  if (OC.coins < 3000) { showToast('⚠ Need 3,000⬡ for Premium News!'); return; }
-  OC.coins -= 3000;
-  OC.premiumNews = true;
-  oracleRenderVaultCoins();
-  oracleRenderNews();
-  oracleUpdateNewsStatus();
-  // Switch the Free/Premium tab styles
-  const freTab = document.querySelector('#op-news .market-tab.active');
-  if (freTab) freTab.classList.remove('active');
-  showToast('⭐ Premium News unlocked! All articles now accessible!');
+  loadTelegramNews();
+  newsApplyPremiumState();
 }
 
+function newsTab(tab) {
+  _newsTab = tab;
+  const freePane = document.getElementById('news-pane-free');
+  const premPane = document.getElementById('news-pane-premium');
+  const tabFree  = document.getElementById('news-tab-free');
+  const tabPrem  = document.getElementById('news-tab-premium');
+  if (freePane) freePane.style.display = tab === 'free' ? '' : 'none';
+  if (premPane) premPane.style.display = tab === 'premium' ? '' : 'none';
+  if (tabFree)  { tabFree.style.borderColor = tab==='free'?'#f5a623':'#2a2a2a'; tabFree.style.color = tab==='free'?'#f5a623':'#555'; }
+  if (tabPrem)  { tabPrem.style.borderColor = tab==='premium'?'rgba(108,63,255,.5)':'#2a2a2a'; tabPrem.style.color = tab==='premium'?'#b388ff':'#555'; }
+  if (tab === 'premium' && OC.premiumNews) loadYouTubeContent();
+}
+
+function newsApplyPremiumState() {
+  const locked  = document.getElementById('news-premium-locked');
+  const content2 = document.getElementById('news-premium-content');
+  const btn     = document.getElementById('news-access-btn');
+  if (OC.premiumNews) {
+    if (locked)   locked.style.display   = 'none';
+    if (content2) content2.style.display = '';
+    if (btn) { btn.textContent = '✓ PREMIUM ACTIVE'; btn.style.background = '#00c853'; btn.onclick = null; }
+  } else {
+    if (locked)   locked.style.display   = '';
+    if (content2) content2.style.display = 'none';
+  }
+}
+
+function orcGetAccess() {
+  if (OC.premiumNews) { showToast('✓ Premium already active!'); return; }
+  OC.premiumNews = true;
+  ocSave();
+  newsApplyPremiumState();
+  oracleUpdateNewsStatus();
+  newsTab('premium');
+  loadYouTubeContent();
+  showToast('⭐ ORACLE PREMIUM activated! Welcome to live sessions & latest videos!');
+}
+
+function orcUnlockNews(e) {
+  if (e) e.stopPropagation();
+  orcGetAccess();
+}
+
+// ── TELEGRAM FEED ──────────────────────────────────
+async function loadTelegramNews() {
+  const list = document.getElementById('tg-news-list');
+  if (!list) return;
+  list.innerHTML = '<div style="text-align:center;padding:30px;color:#555;font-family:\'Space Mono\',monospace;font-size:10px;">Loading @equtr feed…</div>';
+  try {
+    const proxy = 'https://corsproxy.io/?url=' + encodeURIComponent('https://t.me/s/' + TG_CHANNEL);
+    const res  = await fetch(proxy, { signal: AbortSignal.timeout(9000) });
+    const html = await res.text();
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+    const msgs = Array.from(doc.querySelectorAll('.tgme_widget_message_wrap')).reverse().slice(0,12);
+    if (!msgs.length) throw new Error('empty');
+    const cards = msgs.map(m => {
+      const textEl = m.querySelector('.tgme_widget_message_text');
+      const raw    = textEl ? textEl.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').trim() : '';
+      if (!raw) return '';
+      const preview = raw.length > 200 ? raw.slice(0,200) + '…' : raw;
+      const timeEl = m.querySelector('.tgme_widget_message_date time');
+      const time   = timeEl ? timeEl.getAttribute('datetime') : '';
+      const ts = time ? new Date(time).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+      const photoEl = m.querySelector('.tgme_widget_message_photo_wrap');
+      let imgHtml = '';
+      if (photoEl) {
+        const style = photoEl.getAttribute('style') || '';
+        const um = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+        if (um) imgHtml = `<img src="${um[1]}" style="width:100%;border-radius:8px;display:block;margin-bottom:8px;max-height:180px;object-fit:cover;" onerror="this.style.display='none'" />`;
+      }
+      const msgLink = m.querySelector('.tgme_widget_message_date');
+      const href = msgLink ? (msgLink.getAttribute('href') || 'https://t.me/equtr') : 'https://t.me/equtr';
+      return `<div style="background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:12px;margin:0 12px 8px;cursor:pointer;" onclick="window.open('${href}','_blank')">
+        ${imgHtml}
+        <div style="font-size:10px;font-weight:500;color:#ccc;line-height:1.55;white-space:pre-wrap;">${preview}</div>
+        ${ts ? `<div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:6px;">📢 @equtr · ${ts}</div>` : ''}
+      </div>`;
+    }).filter(Boolean);
+    list.innerHTML = cards.join('') || '<div style="text-align:center;padding:20px;color:#555;font-size:10px;">No posts found</div>';
+  } catch(err) {
+    list.innerHTML = `<div style="margin:0 12px 8px;background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:18px;text-align:center;">
+      <div style="font-size:22px;margin-bottom:8px;">📢</div>
+      <div style="font-size:12px;font-weight:800;margin-bottom:4px;">ELCARO QUANTUM TRADE</div>
+      <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:12px;">BTC · GOLD · S&P500 live forecasts</div>
+      <a href="https://t.me/equtr" target="_blank" style="display:block;background:#1d8bd6;border-radius:10px;padding:11px;font-size:12px;font-weight:700;color:#fff;text-decoration:none;">📲 OPEN @equtr IN TELEGRAM</a>
+    </div>`;
+  }
+}
+
+// ── YOUTUBE FEED ──────────────────────────────────
+async function loadYouTubeContent() {
+  const vList = document.getElementById('yt-videos-list');
+  const sList = document.getElementById('yt-streams-list');
+  if (!vList) return;
+  const setLoading = el => { if(el) el.innerHTML = '<div style="text-align:center;padding:20px;color:#555;font-family:\'Space Mono\',monospace;font-size:10px;">Loading…</div>'; };
+  setLoading(vList); setLoading(sList);
+  try {
+    // Resolve channel ID from handle
+    if (!_ytChannelId) {
+      try {
+        const proxy = 'https://corsproxy.io/?url=' + encodeURIComponent('https://www.youtube.com/@' + YT_HANDLE);
+        const r = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+        const t = await r.text();
+        const m = t.match(/"channelId"\s*:\s*"(UC[^"]+)"/);
+        if (m) _ytChannelId = m[1];
+      } catch(e) {}
+    }
+    if (!_ytChannelId) throw new Error('Channel ID not resolved');
+    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + _ytChannelId;
+    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl) + '&count=20';
+    const res  = await fetch(apiUrl, { signal: AbortSignal.timeout(10000) });
+    const data = await res.json();
+    if (!data.items || !data.items.length) throw new Error('No items');
+    const isStream = i => /live|stream|прямой|эфир/i.test(i.title);
+    const streams  = data.items.filter(isStream).slice(0,4);
+    const videos   = data.items.filter(i => !isStream(i)).slice(0,8);
+    const card = (item, live) => {
+      const vidId = (item.link.match(/v=([^&]+)/) || item.guid.match(/([A-Za-z0-9_-]{11})$/) || ['',''])[1];
+      const thumb = `https://img.youtube.com/vi/${vidId}/mqdefault.jpg`;
+      const date  = item.pubDate ? new Date(item.pubDate).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '';
+      return `<div style="margin:0 12px 10px;background:#111;border:1px solid #1e1e1e;border-radius:12px;overflow:hidden;cursor:pointer;" onclick="window.open('${item.link}','_blank')">
+        <div style="position:relative;">
+          <img src="${thumb}" style="width:100%;display:block;aspect-ratio:16/9;object-fit:cover;" onerror="this.style.background='#1a1a1a'" />
+          ${live?'<div style="position:absolute;top:8px;left:8px;background:#ff4757;color:#fff;border-radius:5px;padding:2px 8px;font-size:8px;font-weight:800;font-family:\'Space Mono\',monospace;letter-spacing:.5px;">● LIVE</div>':''}
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;">
+            <div style="width:42px;height:42px;background:rgba(255,0,0,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;padding-left:3px;font-size:14px;">▶</div>
+          </div>
+        </div>
+        <div style="padding:10px 12px;">
+          <div style="font-size:11px;font-weight:700;color:#ddd;line-height:1.4;margin-bottom:4px;">${item.title}</div>
+          <div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;">ElcaroTrade · ${date}</div>
+        </div>
+      </div>`;
+    };
+    if (sList) sList.innerHTML = streams.length ? streams.map(i=>card(i,true)).join('') :
+      '<div style="text-align:center;padding:14px;color:#555;font-family:\'Space Mono\',monospace;font-size:9px;">No live streams at the moment</div>';
+    vList.innerHTML = videos.length ? videos.map(i=>card(i,false)).join('') :
+      '<div style="text-align:center;padding:14px;color:#555;font-family:\'Space Mono\',monospace;font-size:9px;">No videos found</div>';
+  } catch(err) {
+    const fb = (el, type, url) => { if(!el) return;
+      el.innerHTML = `<div style="margin:0 12px 8px;background:#111;border:1px solid #222;border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:10px;">Open directly on YouTube</div>
+        <a href="${url}" target="_blank" style="display:block;background:#ff0000;border-radius:10px;padding:10px;font-size:11px;font-weight:700;color:#fff;text-decoration:none;">▶ ${type} — @ElcaroTrade</a>
+      </div>`;
+    };
+    fb(vList,'Latest Videos','https://www.youtube.com/@ElcaroTrade/videos');
+    fb(sList,'Live Streams', 'https://www.youtube.com/@ElcaroTrade/streams');
+  }
+}
 // ══════════════════════════════════════════════════
 //  PROFILE
 // ══════════════════════════════════════════════════
@@ -12454,8 +12638,8 @@ function oracleModalClose() {
 // ═══════════════════════════════════════════════════════════
 
 // ── State (sync with v2) ──
-let opCoins = 999999;
-let opSpinUsed = false, opCheckedIn = false;
+let opCoins = 999999; // legacy — kept so old refs don't crash, but OC.coins is the source of truth
+let opSpinUsed = false, opCheckedIn = false; // legacy stubs
 let opCurrentBetAmt = 500, opCurrentBetAsset = 'BTC', opCurrentBetTF = '4H';
 let opCtTrader='oracle_x', opCtAction='BUYING', opCtAsset='BTC', opCtPos='LONG', opCtTF='4H';
 let _opArenaFilter = 'all';
@@ -12484,67 +12668,182 @@ const OP_ARENA_DUELS = [
   {id:'d6',cat:'crypto',asset:'SOL',icon:'◎',tf:'1W',question:'SOL outperforms BTC this week?',oracleCall:'BULL',oracleConf:54,poolYes:5200,poolNo:6800,totalPool:12000,endsIn:'RESOLVED',resolved:true,outcome:'yes',userBet:{side:'yes',amount:200}},
 ];
 
-const OP_DAILY_QUESTS = [
-  {id:'dq1',icon:'₿',title:'Check BTC Signal',     desc:'OPEN ANY BTC TIMEFRAME',       reward:30,  max:1, progress:0},
-  {id:'dq2',icon:'📢',title:'Share to Telegram',    desc:'REPOST ANY ORACLE SIGNAL',      reward:50,  max:1, progress:0, extra:'BRONZE'},
-  {id:'dq3',icon:'👁',title:'Browse 3 Assets',      desc:'VIEW 3 DIFFERENT ASSET PAGES',  reward:20,  max:3, progress:0},
-  {id:'dq4',icon:'🎰',title:'Use Oracle Slot',       desc:'SPIN ONCE TODAY',               reward:20,  max:1, progress:opSpinUsed?1:0},
-  {id:'dq5',icon:'✅',title:'Daily Check-in',        desc:'CLAIM YOUR DAILY REWARD',       reward:15,  max:1, progress:opCheckedIn?1:0},
+// ── Quest definitions (progress & done state stored in OC) ──
+const OP_DAILY_QUEST_DEFS = [
+  {id:'dq1',icon:'₿', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
+  {id:'dq2',icon:'📢',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
+  {id:'dq3',icon:'👁', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
+  {id:'dq4',icon:'🎰',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
+  {id:'dq5',icon:'✅',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
 ];
-const OP_WEEKLY_QUESTS = [
-  {id:'wq1',icon:'📦',title:'Open 2 Chests',         desc:'ANY CHEST TYPE COUNTS',         reward:200, max:2, progress:0},
-  {id:'wq2',icon:'🔮',title:'Place 3 Arena Bets',    desc:'BET IN ORACLE ARENA',           reward:500, max:3, progress:0},
-  {id:'wq3',icon:'🏰',title:'Contribute to Guild',   desc:'DONATE COINS, FORECAST, CHEST', reward:300, max:1, progress:0},
-  {id:'wq4',icon:'👥',title:'Follow 2 Traders',      desc:'SUBSCRIBE TO ORACLE TRADERS',   reward:150, max:2, progress:0},
-  {id:'wq5',icon:'🎯',title:'Win an Arena Duel',      desc:'BET ON A CORRECTLY RESOLVED DUEL',reward:1000,max:1,progress:0},
+const OP_WEEKLY_QUEST_DEFS = [
+  {id:'wq1',icon:'📦',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
+  {id:'wq2',icon:'🔮',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
+  {id:'wq3',icon:'🏰',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
+  {id:'wq4',icon:'👥',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
+  {id:'wq5',icon:'🎯',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
 ];
-let _opQuestsDone = {};
 
-// Tab rendering handled directly in oracleRenderTab
+// ── Legacy arrays for backward compat (filled dynamically) ──
+let OP_DAILY_QUESTS = [];
+let OP_WEEKLY_QUESTS = [];
+let _opQuestsDone = {}; // mirror of OC.questsDone
 
-// ── Update coin display in oracle panel ──
+// ── Quest state helpers ──
+function questGetProgress(qid) {
+  if (!OC.questProgress) OC.questProgress = {};
+  return OC.questProgress[qid] || 0;
+}
+function questSetProgress(qid, val) {
+  if (!OC.questProgress) OC.questProgress = {};
+  OC.questProgress[qid] = val;
+}
+function questIsDone(qid) {
+  if (!OC.questsDone) OC.questsDone = {};
+  return !!OC.questsDone[qid];
+}
+function questMarkDone(qid) {
+  if (!OC.questsDone) OC.questsDone = {};
+  OC.questsDone[qid] = true;
+  _opQuestsDone[qid] = true;
+}
+
+// ── Daily / weekly reset ──
+function questCheckResets() {
+  const today = new Date().toDateString();
+  // Monday
+  const now = new Date();
+  const monday = new Date(now); monday.setDate(now.getDate() - ((now.getDay()+6)%7)); monday.setHours(0,0,0,0);
+  const mondayStr = monday.toDateString();
+
+  if (!OC.questProgress) OC.questProgress = {};
+  if (!OC.questsDone) OC.questsDone = {};
+
+  if (OC.lastDailyReset !== today) {
+    OC.lastDailyReset = today;
+    OP_DAILY_QUEST_DEFS.forEach(q => { OC.questProgress[q.id] = 0; delete OC.questsDone[q.id]; });
+  }
+  // ALWAYS sync check-in + spin state (not just on reset day)
+  if (OC.checkedIn) { OC.questProgress['dq5'] = 1; }
+  if (OC.spinUsed)  { OC.questProgress['dq4'] = 1; }
+  // Sync dq3 from assetsViewedToday
+  if (OC.assetsViewedToday) {
+    OC.questProgress['dq3'] = Math.min(3, OC.assetsViewedToday.length);
+  }
+
+  if (OC.lastWeeklyReset !== mondayStr) {
+    OC.lastWeeklyReset = mondayStr;
+    OP_WEEKLY_QUEST_DEFS.forEach(q => { OC.questProgress[q.id] = 0; delete OC.questsDone[q.id]; });
+  }
+  _opQuestsDone = {...OC.questsDone};
+
+  // Update dynamic reset timers
+  const midnight = new Date(); midnight.setHours(24,0,0,0);
+  const diffMs = midnight - new Date();
+  const hh = Math.floor(diffMs/3600000);
+  const mm = Math.floor((diffMs%3600000)/60000);
+  const dailyTimer = document.getElementById('op-daily-timer');
+  if (dailyTimer) dailyTimer.textContent = `Resets in ${hh}h ${mm}m`;
+
+  const nextMon = new Date(); const d = nextMon.getDay();
+  nextMon.setDate(nextMon.getDate() + (d===0?1:8-d)); nextMon.setHours(0,0,0,0);
+  const wDiff = nextMon - new Date();
+  const wd = Math.floor(wDiff/86400000);
+  const wh = Math.floor((wDiff%86400000)/3600000);
+  const weeklyTimer = document.getElementById('op-weekly-timer');
+  if (weeklyTimer) weeklyTimer.textContent = wd>0?`Resets in ${wd}d ${wh}h`:`Resets in ${wh}h`;
+}
+
+// ── Build live quest objects from defs + OC state ──
+function questBuildArrays() {
+  questCheckResets();
+  OP_DAILY_QUESTS = OP_DAILY_QUEST_DEFS.map(def => ({
+    ...def,
+    progress: questGetProgress(def.id),
+  }));
+  OP_WEEKLY_QUESTS = OP_WEEKLY_QUEST_DEFS.map(def => ({
+    ...def,
+    progress: questGetProgress(def.id),
+  }));
+}
+
+// ── Advance a quest by 1 step ──
+function opAdvanceQuest(qid) {
+  if (!OC.questProgress) OC.questProgress = {};
+  if (!OC.questsDone)   OC.questsDone   = {};
+  const def = [...OP_DAILY_QUEST_DEFS, ...OP_WEEKLY_QUEST_DEFS].find(x => x.id === qid);
+  if (!def || OC.questsDone[qid]) return;
+  const cur = OC.questProgress[qid] || 0;
+  if (cur >= def.max) return;
+  OC.questProgress[qid] = cur + 1;
+  ocSave();
+  // re-render quests if open
+  const screen = document.getElementById('op-quests');
+  if (screen && screen.classList.contains('active')) opRenderQuests();
+}
+
+// ── Claim a completed quest ──
+function opClaimQuest(qid) {
+  if (!OC.questsDone) OC.questsDone = {};
+  if (!OC.questProgress) OC.questProgress = {};
+  const def = [...OP_DAILY_QUEST_DEFS, ...OP_WEEKLY_QUEST_DEFS].find(x => x.id === qid);
+  if (!def || OC.questsDone[qid]) return;
+  if ((OC.questProgress[qid] || 0) < def.max) return;
+  questMarkDone(qid);
+  // Give coins reward
+  OC.coins += def.reward;
+  // Give extra chest reward if any
+  if (def.extra) {
+    const ct = def.extra.toLowerCase();
+    OC.inventory[ct] = (OC.inventory[ct] || 0) + 1;
+    oracleRenderInventory();
+    showToast(`✅ Quest complete! +${def.reward}⬡ + ${def.extra} Chest! 🎁`);
+  } else {
+    showToast(`✅ Quest complete! +${def.reward}⬡`);
+  }
+  // BP XP
+  _opBpXP += def.reward;
+  _opBpLevel = Math.min(100, 1 + Math.floor(_opBpXP / 500));
+  OC.bpLevel = _opBpLevel;
+  oracleRenderVaultCoins();
+  ocSave();
+  opRenderQuests();
+}
+
+// ── Update coin display in oracle panel (legacy stub) ──
 function opUpdateCoins() {
-  // sync with main OC system
-  if (window.OC) { OC.coins = opCoins; oracleRenderVaultCoins(); }
+  oracleRenderVaultCoins();
 }
 
 // ══════════════════════════
 //  VAULT
 // ══════════════════════════
 function opRenderVault() {
-  // streak-num in vault uses class, not ID — nothing extra needed
   opRenderVaultCoins2();
 }
 function opRenderVaultCoins2() {
   // coins displayed in header via OC system — no separate op-coin-val needed
 }
 
-// ── Check-in ──
-function opDoCheckin() {
-  if (opCheckedIn) return;
-  opCheckedIn = true; opCoins += 20;
-  opUpdateCoins();
-  const btn = document.getElementById('checkin-btn');
-  if (btn) { btn.disabled = true; btn.textContent = '✓ CHECKED IN TODAY'; }
-  showToast('⬡ +20 ORACLE COINS CLAIMED! 🔥');
-  opAdvanceQuest('dq5');
-}
+// ── Check-in (legacy stub — real logic in oracleCheckin) ──
+function opDoCheckin() { oracleCheckin(); }
 
 // ── Spin ──
 function opOpenSpin() { openSpin(); }
-
-// ══════════════════════════
 //  QUESTS + BATTLE PASS
 // ══════════════════════════
 function opRenderQuests() {
-  _opBpLevel = window.OC ? OC.bpLevel : _opBpLevel;
-  // Update BP display
+  // Sync BP level
+  _opBpLevel = OC.bpLevel || _opBpLevel;
   const lvlEl = document.getElementById('op-bp-curlvl');
   const lvlTxt = document.getElementById('op-bp-lvltxt');
   const bar = document.getElementById('op-bp-barfill');
   if (lvlEl) lvlEl.textContent = _opBpLevel;
   if (lvlTxt) lvlTxt.textContent = 'LVL ' + _opBpLevel;
   if (bar) bar.style.width = Math.min(100, _opBpLevel) + '%';
+
+  // Build live quest arrays from OC state
+  questBuildArrays();
 
   const dList = document.getElementById('op-daily-q');
   const wList = document.getElementById('op-weekly-q');
@@ -12553,9 +12852,9 @@ function opRenderQuests() {
 }
 
 function opQuestItemHTML(q) {
-  const done = _opQuestsDone[q.id];
+  const done = questIsDone(q.id);
   const claimable = !done && q.progress >= q.max;
-  const pct = Math.min(100, Math.round(q.progress / q.max * 100));
+  const pct = Math.min(100, Math.round((q.progress / q.max) * 100));
   return `<div class="quest-item${done?' done':''}">
     <div class="qi-icon">${q.icon}</div>
     <div class="qi-info">
@@ -12567,28 +12866,9 @@ function opQuestItemHTML(q) {
     <div class="qi-reward">
       <div class="qi-coins">+${q.reward}⬡</div>
       ${q.extra?`<div class="qi-extra" style="color:var(--bronze)">+${q.extra}</div>`:''}
-      ${claimable?`<button onclick="opClaimQuest('${q.id}')" style="background:var(--green);border:none;border-radius:7px;padding:4px 8px;font-size:9px;font-weight:800;color:#000;cursor:pointer;margin-top:3px;">CLAIM</button>`:''}
+      ${claimable?`<button onclick="opClaimQuest('${q.id}')" style="background:var(--green);border:none;border-radius:7px;padding:5px 10px;font-size:9px;font-weight:800;color:#000;cursor:pointer;margin-top:3px;font-family:'Space Mono',monospace;">CLAIM ✓</button>`:''}
     </div>
   </div>`;
-}
-
-function opClaimQuest(qid) {
-  const q = [...OP_DAILY_QUESTS, ...OP_WEEKLY_QUESTS].find(x=>x.id===qid);
-  if (!q || _opQuestsDone[qid] || q.progress < q.max) return;
-  _opQuestsDone[qid] = true;
-  opCoins += q.reward;
-  opUpdateCoins();
-  showToast(`✅ Quest complete! +${q.reward}⬡`);
-  opRenderQuests();
-}
-
-function opAdvanceQuest(qid) {
-  const q = [...OP_DAILY_QUESTS, ...OP_WEEKLY_QUESTS].find(x=>x.id===qid);
-  if (q && !_opQuestsDone[qid] && q.progress < q.max) {
-    q.progress++;
-    const el = document.getElementById('op-quests');
-    if (el && el.classList.contains('active')) opRenderQuests();
-  }
 }
 
 function bpBuy() {
@@ -12601,17 +12881,18 @@ function bpBuy() {
 // ══════════════════════════
 function opTab(el, tabId) {
   const tabs = ['op-tab-calls','op-tab-duels','op-tab-mkt'];
+  // Show/hide tab content
   tabs.forEach(t => {
     const div = document.getElementById(t);
     if (div) div.style.display = t === tabId ? 'block' : 'none';
   });
-  const screen = document.getElementById('op-prophecies');
-  if (screen) {
-    screen.querySelectorAll('.om-tabs:first-of-type .om-tab').forEach((b,i) => {
-      b.classList.toggle('active', tabs[i] === tabId);
-    });
+  // Update active class using el directly
+  if (el && el.parentNode) {
+    el.parentNode.querySelectorAll('.om-tab').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
   }
   if (tabId === 'op-tab-duels') opRenderArenaDuels();
+  if (tabId === 'op-tab-mkt')   renderArenaMkt();
 }
 
 
@@ -12652,7 +12933,18 @@ function opDuelCardHTML(d) {
   let btnsHTML = '';
   if (d.resolved) {
     const won = stake && stake.side === d.outcome;
-    btnsHTML = `<div style="padding:10px 14px;text-align:center;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:${won?'var(--green)':'var(--red)'};">${won?'🏆 YOU WON!':'❌ RESOLVED — '+(d.outcome==='yes'?'YES':'NO')+' WINS'}</div>`;
+    const alreadyCollected = d.collected;
+    if (won && !alreadyCollected) {
+      const payout = Math.round(stake.amount * (d.totalPool / (d.outcome==='yes'?d.poolYes:d.poolNo)) * 0.9);
+      btnsHTML = `<div style="padding:10px 14px;text-align:center;">
+        <div style="font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green);margin-bottom:8px;">🏆 YOU WON! +${payout.toLocaleString()}⬡</div>
+        <button onclick="opCollectDuelWin('${d.id}')" style="background:linear-gradient(135deg,#00e676,#00bfa5);border:none;border-radius:10px;padding:9px 20px;font-size:11px;font-weight:800;color:#000;cursor:pointer;font-family:'Space Mono',monospace;width:100%;">💰 COLLECT WINNINGS</button>
+      </div>`;
+    } else if (won && alreadyCollected) {
+      btnsHTML = `<div style="padding:10px 14px;text-align:center;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:#555;">✓ WINNINGS COLLECTED</div>`;
+    } else {
+      btnsHTML = `<div style="padding:10px 14px;text-align:center;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:var(--red);">❌ RESOLVED — ${d.outcome==='yes'?'YES':'NO'} WINS</div>`;
+    }
   } else if (stake) {
     btnsHTML = `<div style="padding:0 14px 12px;font-size:10px;color:var(--gold);font-family:'Space Mono',monospace;">Your bet: <b>${stake.side.toUpperCase()}</b> · ${stake.amount.toLocaleString()}⬡ staked</div>`;
   } else {
@@ -12682,6 +12974,21 @@ function opDuelCardHTML(d) {
     </div>
     ${btnsHTML}
   </div>`;
+}
+
+function opCollectDuelWin(duelId) {
+  const d = OP_ARENA_DUELS.find(x => x.id === duelId);
+  if (!d || !d.resolved || d.collected) return;
+  const stake = _opArenaStakes[duelId] || d.userBet;
+  if (!stake || stake.side !== d.outcome) return;
+  const payout = Math.round(stake.amount * (d.totalPool / (d.outcome==='yes'?d.poolYes:d.poolNo)) * 0.9);
+  d.collected = true;
+  OC.coins += payout;
+  oracleRenderVaultCoins();
+  opAdvanceQuest('wq5'); // weekly: win an arena duel
+  ocSave();
+  showToast('💰 +' + payout.toLocaleString() + '⬡ winnings collected! 🏆');
+  opRenderArenaDuels();
 }
 
 function opOpenDuelBet(duelId, side) {
@@ -12723,11 +13030,115 @@ function selectBetAmt(el, amt) {
 // alias
 function selectOpBetAmt(el, amt) { selectBetAmt(el, amt); }
 
+let _arenaMktFilter = 'all';
 function switchMktFilter(el, filter) {
-  document.querySelectorAll('.mkt-filter').forEach(b=>{
+  _arenaMktFilter = filter;
+  // Update button styles — only arena-mkt-filter buttons
+  document.querySelectorAll('.arena-mkt-filter').forEach(b=>{
     b.style.background='var(--card)'; b.style.borderColor='var(--border)'; b.style.color='var(--text2)';
   });
   el.style.background='rgba(245,166,35,.12)'; el.style.borderColor='rgba(245,166,35,.3)'; el.style.color='var(--orange)';
+  renderArenaMkt();
+}
+
+function renderArenaMkt() {
+  const list = document.getElementById('arena-mkt-list');
+  if (!list) return;
+
+  // Combined forecast items
+  const forecasts = [
+    {id:'sf1', type:'forecast', asset:'NVDA', name:'NVIDIA', icon:'🟢', tf:'4H', dir:'BULL', mult:'x2', price:280,  seller:'@oracle_x'},
+    {id:'sf2', type:'forecast', asset:'BTC',  name:'BITCOIN',icon:'₿',  tf:'1W', dir:'BEAR', mult:'x1', price:1200, seller:'@diamond_oracle'},
+    {id:'sf3', type:'forecast', asset:'GOLD', name:'GOLD',   icon:'⬡',  tf:'1D', dir:'BULL', mult:'x3', price:600,  seller:'@gold_seer'},
+    {id:'sf4', type:'forecast', asset:'ETH',  name:'ETHEREUM',icon:'Ξ', tf:'4H', dir:'BULL', mult:'x2', price:450,  seller:'@eth_wizard'},
+    {id:'sf5', type:'forecast', asset:'SOL',  name:'SOLANA', icon:'◎',  tf:'1H', dir:'BULL', mult:'x4', price:320,  seller:'@sol_oracle'},
+    ...OC.marketListings.filter(i=>i.type==='forecast').map(i=>({...i, type:'forecast'})),
+  ];
+
+  // Combined chest items
+  const chestData = {wood:{icon:'🪵',name:'WOODEN',color:'#c8961e',rarity:'COMMON'},bronze:{icon:'📦',name:'BRONZE',color:'#cd7f32',rarity:'UNCOMMON'},silver:{icon:'🥈',name:'SILVER',color:'#C0C0C0',rarity:'RARE'},gold:{icon:'🏆',name:'GOLD',color:'#ffd700',rarity:'EPIC'},diamond:{icon:'💎',name:'DIAMOND',color:'#a8edff',rarity:'LEGENDARY'}};
+  const chests = [
+    {id:'sc1', type:'chest', chestType:'wood',    price:180,  seller:'@trader_x'},
+    {id:'sc2', type:'chest', chestType:'bronze',  price:700,  seller:'@oracle22'},
+    {id:'sc3', type:'chest', chestType:'silver',  price:1800, seller:'@algo_king'},
+    {id:'sc4', type:'chest', chestType:'gold',    price:4200, seller:'@whale_vault'},
+    {id:'sc5', type:'chest', chestType:'diamond', price:13500,seller:'@legend_01'},
+    ...OC.marketListings.filter(i=>i.type==='chest').map(i=>({...i, type:'chest'})),
+  ];
+
+  let items = [];
+  if (_arenaMktFilter === 'all')       items = [...forecasts, ...chests];
+  if (_arenaMktFilter === 'forecasts') items = forecasts;
+  if (_arenaMktFilter === 'chests')    items = chests;
+
+  list.innerHTML = items.map(item => {
+    if (item.type === 'forecast') {
+      const owned = OC.ownedForecasts.some(f => (f.asset?.sym||f.sym) === item.asset && f.tf === item.tf);
+      return `<div class="mkt-item" style="${item.rare?'border-color:rgba(168,237,255,.3);':''}">
+        <div class="mkt-asset-ico">${item.icon}</div>
+        <div class="mkt-info">
+          <div class="mkt-name">${item.name} · ${item.asset}</div>
+          <div class="mkt-meta">${item.tf} · ${item.dir} · ${item.mult} · from ${item.seller}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <div class="mkt-tf-badge">${item.tf}</div>
+          ${owned
+            ? `<div style="font-size:9px;color:#22c55e;font-family:'Space Mono',monospace;">✓ OWNED</div>`
+            : `<button onclick="arenaBuyForecast('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;">${item.price.toLocaleString()}⬡</button>`
+          }
+        </div>
+      </div>`;
+    } else {
+      const cd = chestData[item.chestType] || chestData.wood;
+      return `<div class="mkt-item" style="border-color:${cd.color}40;">
+        <div class="mkt-asset-ico">${cd.icon}</div>
+        <div class="mkt-info">
+          <div class="mkt-name">${cd.name} Chest <span style="font-size:8px;color:${cd.color};">${cd.rarity}</span></div>
+          <div class="mkt-meta">from ${item.seller} · ${item.chestType==='wood'?'1-2':item.chestType==='bronze'?'2-3':item.chestType==='silver'?'3-5':item.chestType==='gold'?'5-8':'10+'} forecasts</div>
+        </div>
+        <button onclick="arenaBuyChest('${item.id}','${item.chestType}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;white-space:nowrap;">${item.price.toLocaleString()}⬡</button>
+      </div>`;
+    }
+  }).join('') || `<div style="text-align:center;color:#555;font-family:'Space Mono',monospace;font-size:10px;padding:24px;">NO ITEMS FOUND</div>`;
+}
+
+function arenaBuyForecast(id) {
+  const all = [
+    {id:'sf1',asset:'NVDA',name:'NVIDIA', icon:'🟢',tf:'4H',dir:'BULL',mult:'x2',price:280, seller:'@oracle_x'},
+    {id:'sf2',asset:'BTC', name:'BITCOIN',icon:'₿', tf:'1W',dir:'BEAR',mult:'x1',price:1200,seller:'@diamond_oracle'},
+    {id:'sf3',asset:'GOLD',name:'GOLD',   icon:'⬡', tf:'1D',dir:'BULL',mult:'x3',price:600, seller:'@gold_seer'},
+    {id:'sf4',asset:'ETH', name:'ETHEREUM',icon:'Ξ',tf:'4H',dir:'BULL',mult:'x2',price:450, seller:'@eth_wizard'},
+    {id:'sf5',asset:'SOL', name:'SOLANA', icon:'◎', tf:'1H',dir:'BULL',mult:'x4',price:320, seller:'@sol_oracle'},
+    ...OC.marketListings.filter(i=>i.type==='forecast'),
+  ];
+  const item = all.find(i=>i.id===id); if(!item) return;
+  if (OC.coins < item.price) { showToast('⚠ Not enough coins!'); return; }
+  OC.coins -= item.price;
+  OC.ownedForecasts.push({
+    id:'mkt_'+Date.now(),
+    asset:{sym:item.asset,name:item.name,icon:item.icon},
+    tf:item.tf, dir:item.dir, mult:item.mult,
+    date:(()=>{const d=new Date();d.setDate(d.getDate()+Math.floor(Math.random()*25+5));return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});})()
+  });
+  oracleRenderVaultCoins();
+  ocSave();
+  renderArenaMkt();
+  showToast('✅ '+item.asset+' '+item.tf+' forecast purchased! 📋 +1 forecast');
+}
+
+function arenaBuyChest(id, chestType) {
+  const prices = {wood:180,bronze:700,silver:1800,gold:4200,diamond:13500};
+  const price = OC.marketListings.find(i=>i.id===id)?.price || prices[chestType] || 200;
+  if (OC.coins < price) { showToast('⚠ Not enough coins!'); return; }
+  OC.coins -= price;
+  OC.inventory[chestType] = (OC.inventory[chestType]||0) + 1;
+  OC.marketListings = OC.marketListings.filter(i=>i.id!==id);
+  oracleRenderVaultCoins();
+  oracleRenderInventory();
+  ocSave();
+  renderArenaMkt();
+  const icons={wood:'🪵',bronze:'📦',silver:'🥈',gold:'🏆',diamond:'💎'};
+  showToast(icons[chestType]+' '+chestType.charAt(0).toUpperCase()+chestType.slice(1)+' Chest added to inventory!');
 }
 
 // ══════════════════════════
@@ -12766,7 +13177,7 @@ function openGuildTreasury() {
   document.getElementById('treasury-overlay').classList.add('open');
 }
 function claimTreasury() {
-  opCoins += 525; opUpdateCoins();
+  OC.coins += 525; oracleRenderVaultCoins();
   closeOverlay('treasury-overlay');
   showToast('🔮 Treasury distributed! You received 525⬡ + Bronze Chest!');
   opAdvanceQuest('wq3');
@@ -12775,29 +13186,11 @@ function claimTreasury() {
 // ══════════════════════════
 //  TRADERS
 // ══════════════════════════
-function opRenderTraders() {
-  // Traders are static HTML from v2, just ensure copy modal works
-}
-function openCopyModal(trader, asset, pos, tf, action) {
-  opCtTrader=trader; opCtAction=action; opCtAsset=asset; opCtPos=pos; opCtTF=tf;
-  const avatars={oracle_x:'🧿',diamond_seer:'🌿',algo_king:'⚡'};
-  const el_av = document.getElementById('ct-avatar');
-  const el_name = document.getElementById('ct-trader-name');
-  const el_action = document.getElementById('ct-action');
-  const el_asset = document.getElementById('ct-asset-tag');
-  const el_pos = document.getElementById('ct-pos-tag');
-  const el_tf = document.getElementById('ct-tf-tag');
-  if (el_av) el_av.textContent = avatars[trader]||'👤';
-  if (el_name) el_name.textContent = '@'+trader;
-  if (el_action) { el_action.textContent=action; el_action.style.color=action==='BUYING'?'var(--green)':'var(--red)'; }
-  if (el_asset) el_asset.textContent = asset;
-  if (el_pos) el_pos.textContent = pos+' POSITION';
-  if (el_tf) el_tf.textContent = tf+' TIMEFRAME';
-  document.getElementById('copy-overlay').classList.add('open');
-}
+function opRenderTraders() { renderTradersList(); }
+function openCopyModal(trader) { revealTraderStatus(trader); }
 function confirmCopy() {
-  if (opCoins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
-  opCoins -= 50; opUpdateCoins();
+  if (OC.coins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
+  OC.coins -= 50; oracleRenderVaultCoins();
   closeOverlay('copy-overlay');
   showToast(`👁 Status unlocked! @${opCtTrader} is ${opCtAction} ${opCtAsset} ${opCtTF}`);
   opAdvanceQuest('wq4');
@@ -12809,7 +13202,7 @@ function confirmCopy() {
 function opRenderProfile() {
   // Update coin displays in profile stats
   document.querySelectorAll('.op-coin-val').forEach(el => {
-    el.textContent = opCoins.toLocaleString();
+    el.textContent = OC.coins.toLocaleString();
   });
 }
 
@@ -12853,33 +13246,84 @@ document.querySelectorAll('.overlay').forEach(o => {
 // ════════════════════════════════════════
 
 // vault
-function doCheckin() { opDoCheckin(); }
+function doCheckin() { oracleCheckin(); }
+
+function shareToTelegram() {
+  // Build share text based on current asset/signal
+  const asset = typeof currentAsset !== 'undefined' ? currentAsset : 'BTC';
+  const text = encodeURIComponent(
+    `📊 ELCARO ORACLE SIGNAL — ${asset}\n\n👁 Oracle says: Watch this asset!\nCheck the full analysis 👇\n\nhttps://t.me/elcarocalculator_bot`
+  );
+  // Try Telegram WebApp share first
+  const tg = window.Telegram?.WebApp;
+  if (tg && tg.openTelegramLink) {
+    tg.openTelegramLink(`https://t.me/share/url?url=https://t.me/elcarocalculator_bot&text=${text}`);
+  } else {
+    // Fallback: open share URL in new tab
+    window.open(`https://t.me/share/url?url=https://t.me/elcarocalculator_bot&text=${text}`, '_blank');
+  }
+  // Mark quest complete + award reward
+  const dq2 = OP_DAILY_QUESTS.find(q => q.id === 'dq2');
+  if (dq2 && dq2.progress < 1) {
+    dq2.progress = 1;
+    setTimeout(() => {
+      OC.coins += 50;
+      OC.inventory.bronze = (OC.inventory.bronze || 0) + 1;
+      oracleRenderVaultCoins();
+      oracleRenderInventory();
+      ocSave();
+      // Update quest item visually
+      const questEl = document.querySelector('.quest-item[onclick="shareToTelegram()"]');
+      if (questEl) questEl.classList.add('done');
+      showToast('📢 Shared! +50⬡ + 📦 Bronze Chest received!');
+    }, 800);
+  } else {
+    showToast('📢 Opening Telegram share…');
+  }
+}
 
 // placeBet alias (for v2 modal buttons)
 function placeBet(side) {
   if (window._opCurrentDuelId) {
+    // ── ARENA DUEL BET ──
     const duelId = window._opCurrentDuelId;
     const duelSide = window._opCurrentDuelSide;
     const d = OP_ARENA_DUELS.find(x => x.id === duelId);
     if (d) {
-      if (opCoins < opCurrentBetAmt) { showToast('⚠️ Not enough coins!'); return; }
-      opCoins -= opCurrentBetAmt;
+      if (OC.coins < opCurrentBetAmt) { showToast('⚠️ Not enough coins!'); return; }
+      OC.coins -= opCurrentBetAmt;
       _opArenaStakes[duelId] = { side: duelSide, amount: opCurrentBetAmt };
       if (duelSide==='yes') d.poolYes += opCurrentBetAmt;
       else d.poolNo += opCurrentBetAmt;
       d.totalPool += opCurrentBetAmt;
-      opUpdateCoins(); closeOverlay('bet-overlay');
+      oracleRenderVaultCoins();
+      closeOverlay('bet-overlay');
       opRenderArenaDuels();
       opAdvanceQuest('wq2');
+      ocSave();
       window._opCurrentDuelId = null;
-      showToast('🔮 ' + opCurrentBetAmt + '⬡ staked on ' + duelSide.toUpperCase() + '!');
+      showToast('🔮 ' + opCurrentBetAmt.toLocaleString() + '⬡ staked on ' + duelSide.toUpperCase() + '! 🏆');
       return;
     }
   }
-  if (opCoins < opCurrentBetAmt) { showToast('⚠️ Not enough coins!'); return; }
-  opCoins -= opCurrentBetAmt; opUpdateCoins();
+  // ── ORACLE CALLS BET (verdict card) ──
+  if (OC.coins < opCurrentBetAmt) { showToast('⚠️ Not enough coins!'); return; }
+  OC.coins -= opCurrentBetAmt;
+  // Track this bet in OC_EXT.verdictBets
+  const key = opCurrentBetAsset + '_' + opCurrentBetTF;
+  if (!OC_EXT.verdictBets) OC_EXT.verdictBets = {};
+  OC_EXT.verdictBets[key] = { side, stake: opCurrentBetAmt, asset: opCurrentBetAsset, tf: opCurrentBetTF };
+  // Show on card
+  const cardId = opCurrentBetAsset.toLowerCase();
+  const betEl = document.getElementById(cardId+'-my-bet');
+  const lblEl = document.getElementById(cardId+'-bet-label');
+  if (betEl) betEl.style.display = 'block';
+  if (lblEl) lblEl.textContent = opCurrentBetAmt.toLocaleString()+'⬡ on '+side+' · '+opCurrentBetTF;
+  oracleRenderVaultCoins();
   closeOverlay('bet-overlay');
-  showToast('🔮 Bet placed! ' + opCurrentBetAmt + '⬡ on ' + side + ' — ' + opCurrentBetAsset + ' ' + opCurrentBetTF);
+  opAdvanceQuest('wq2');
+  ocSave();
+  showToast('🔮 Bet placed! ' + opCurrentBetAmt.toLocaleString() + '⬡ on ' + side + ' — ' + opCurrentBetAsset + ' ' + opCurrentBetTF);
 }
 
 // switchOmTab — inner tabs within ORACLE CALLS section
@@ -12941,10 +13385,10 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') oracleClose(); 
     </div>
     <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:6px;">STAKE AMOUNT:</div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
-      <button onclick="setVerdictStake(50)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">50⬡</button>
-      <button onclick="setVerdictStake(200)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">200⬡</button>
-      <button onclick="setVerdictStake(500)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">500⬡</button>
-      <button onclick="setVerdictStake(1000)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">1,000⬡</button>
+      <button onclick="setVerdictStake(50,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">50⬡</button>
+      <button onclick="setVerdictStake(200,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">200⬡</button>
+      <button onclick="setVerdictStake(500,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">500⬡</button>
+      <button onclick="setVerdictStake(1000,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">1,000⬡</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;background:#111;border-radius:12px;padding:10px 14px;margin-bottom:14px;">
       <span style="color:#555;font-family:'Space Mono',monospace;font-size:11px;">STAKE:</span>
@@ -13088,9 +13532,20 @@ function highlightVerdictSide(side) {
     yBtn.style.borderColor='rgba(0,230,118,.3)'; yBtn.style.background='rgba(0,230,118,.1)';
   }
 }
-function setVerdictStake(amt) {
+function setVerdictStake(amt, el) {
   _vbStake = amt;
   document.getElementById('vb-stake-input').value = amt;
+  // Highlight selected chip
+  document.querySelectorAll('.verdict-stake-chip').forEach(b => {
+    b.style.borderColor = '#333';
+    b.style.background  = '#111';
+    b.style.color       = '#888';
+  });
+  if (el) {
+    el.style.borderColor = 'rgba(245,166,35,.8)';
+    el.style.background  = 'rgba(245,166,35,.12)';
+    el.style.color       = '#f5a623';
+  }
   updateVerdictPayout();
 }
 function updateVerdictPayout() {
@@ -13106,8 +13561,8 @@ function updateVerdictPayout() {
 }
 function confirmVerdictBet() {
   if (!_vbStake || _vbStake < 50) { showToast('⚠ Minimum stake: 50⬡'); return; }
-  if (opCoins < _vbStake) { showToast('⚠ Not enough Oracle Coins'); return; }
-  opCoins -= _vbStake; opUpdateCoins();
+  if (OC.coins < _vbStake) { showToast('⚠ Not enough Oracle Coins'); return; }
+  OC.coins -= _vbStake; oracleRenderVaultCoins();
   const key = _vbCardId + '_' + _vbTF;
   OC_EXT.verdictBets[key] = { side:_vbSide, stake:_vbStake, asset:_vbAsset, tf:_vbTF };
   // Show bet on card
@@ -13118,6 +13573,7 @@ function confirmVerdictBet() {
   closeOverlay('verdict-overlay');
   showToast('🔮 Verdict placed! '+_vbStake+'⬡ on '+_vbSide.toUpperCase()+' · '+_vbAsset+' '+_vbTF);
   opAdvanceQuest && opAdvanceQuest('wq2');
+  ocSave();
 }
 
 // ── GUILD CONTRIBUTION ────────────────────────────
@@ -13159,8 +13615,8 @@ function guildContribute(type, val) {
   closeGuildContrib();
   if (type==='coins') {
     const amt = val||100;
-    if (opCoins < amt) { showToast('⚠ Not enough coins'); return; }
-    opCoins -= amt; opUpdateCoins();
+    if (OC.coins < amt) { showToast('⚠ Not enough coins'); return; }
+    OC.coins -= amt; oracleRenderVaultCoins();
     OC_EXT.guildTreasury.coins += amt;
     showToast('⬡ +'+amt+' contributed to guild treasury! 🏛️');
     guildSystemMsg('⬡ YOU contributed '+amt+'⬡ to the guild treasury.');
@@ -13182,6 +13638,8 @@ function guildContribute(type, val) {
     guildSystemMsg('📄 YOU contributed a '+( f.sym||f.asset||'')+ ' '+(f.tf||'')+' forecast to the guild treasury.');
     renderGuildShareRow();
   }
+  opAdvanceQuest('wq3'); // weekly: contribute to guild
+  ocSave();
   updateGuildTreasuryUI();
 }
 function guildSystemMsg(text) {
@@ -13239,88 +13697,158 @@ function shareGuildForecast(idx) {
 
 // ── TRADER STATUS REVEAL ──────────────────────────
 const TRADER_DATA = {
-  oracle_x: { avatar:'🧿', rank:'Gold Oracle · Score: 87', action:'BUYING', asset:'BTC', pos:'LONG', tf:'4H', actionColor:'var(--green)', earn:40 },
-  diamond_seer:{ avatar:'🌿', rank:'Diamond Oracle · Score: 94', action:'SELLING', asset:'GOLD', pos:'SHORT', tf:'1D', actionColor:'var(--red)', earn:40 },
-  algo_king: { avatar:'⚡', rank:'Silver Seer · Score: 71', action:'WATCHING', asset:null, pos:null, tf:'4H', actionColor:'var(--text2)', earn:20 },
+  oracle_x:      { avatar:'🧿', rank:'Gold Oracle',    score:87,  accuracy:'87%', forecasts:284,  rankLabel:'Gold',    rankColor:'var(--gold)',    verified:true,  action:'BUYING',   asset:'BTC',  pos:'LONG',  tf:'4H', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#1a0e00,#2a1800)', avatarBorder:'rgba(245,166,35,.3)', earn:40 },
+  diamond_seer:  { avatar:'🌿', rank:'Diamond Oracle', score:94,  accuracy:'94%', forecasts:512,  rankLabel:'Diamond', rankColor:'var(--diamond)', verified:true,  action:'SELLING',  asset:'GOLD', pos:'SHORT', tf:'1D', statusColor:'var(--cyan)',   statusDot:'ls-bear', avatarBg:'linear-gradient(135deg,#00100a,#001808)', avatarBorder:'rgba(0,229,160,.25)', earn:40 },
+  algo_king:     { avatar:'⚡', rank:'Silver Seer',    score:71,  accuracy:'71%', forecasts:98,   rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'WATCHING', asset:null,   pos:null,    tf:'4H', statusColor:'var(--text2)',  statusDot:'ls-idle', avatarBg:'linear-gradient(135deg,#100010,#1a0020)', avatarBorder:'rgba(124,77,255,.2)',  earn:20 },
+  whale_vault:   { avatar:'🐋', rank:'Diamond Oracle', score:91,  accuracy:'91%', forecasts:673,  rankLabel:'Diamond', rankColor:'var(--diamond)', verified:true,  action:'BUYING',   asset:'BTC',  pos:'LONG',  tf:'1W', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#001020,#002040)', avatarBorder:'rgba(0,100,255,.3)',  earn:40 },
+  gold_seer:     { avatar:'⬡',  rank:'Gold Oracle',    score:83,  accuracy:'83%', forecasts:341,  rankLabel:'Gold',    rankColor:'var(--gold)',    verified:true,  action:'BUYING',   asset:'GOLD', pos:'LONG',  tf:'1D', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#1a1000,#2a2000)', avatarBorder:'rgba(255,215,0,.25)', earn:40 },
+  crypto_prophet:{ avatar:'🔮', rank:'Gold Oracle',    score:79,  accuracy:'79%', forecasts:215,  rankLabel:'Gold',    rankColor:'var(--gold)',    verified:false, action:'SELLING',  asset:'ETH',  pos:'SHORT', tf:'4H', statusColor:'var(--red)',    statusDot:'ls-bear', avatarBg:'linear-gradient(135deg,#0a0020,#150030)', avatarBorder:'rgba(160,90,255,.25)', earn:40 },
+  macro_mind:    { avatar:'📊', rank:'Silver Seer',    score:68,  accuracy:'68%', forecasts:127,  rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'WATCHING', asset:null,   pos:null,    tf:'1W', statusColor:'var(--text2)',  statusDot:'ls-idle', avatarBg:'linear-gradient(135deg,#0a0a0a,#151515)', avatarBorder:'rgba(200,200,200,.15)',earn:20 },
+  sol_oracle:    { avatar:'◎',  rank:'Bronze Seer',    score:62,  accuracy:'62%', forecasts:54,   rankLabel:'Bronze',  rankColor:'var(--bronze)',  verified:false, action:'BUYING',   asset:'SOL',  pos:'LONG',  tf:'1H', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#100a00,#1a1400)', avatarBorder:'rgba(205,127,50,.2)', earn:20 },
+  legend_01:     { avatar:'👑', rank:'Diamond Oracle', score:97,  accuracy:'97%', forecasts:1204, rankLabel:'Diamond', rankColor:'var(--diamond)', verified:true,  action:'BUYING',   asset:'SPX',  pos:'LONG',  tf:'1M', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#0d0010,#1a0020)', avatarBorder:'rgba(168,237,255,.3)', earn:50 },
+  eth_wizard:    { avatar:'Ξ',  rank:'Silver Seer',    score:74,  accuracy:'74%', forecasts:163,  rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'BUYING',   asset:'ETH',  pos:'LONG',  tf:'4H', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#050520,#0a0a30)', avatarBorder:'rgba(98,126,234,.25)',earn:20 },
 };
-function revealTraderStatus(trader, asset, pos, tf, action, score) {
-  OC_EXT.currentTraderModal = trader;
-  const d = TRADER_DATA[trader] || { avatar:'👤', rank:'Oracle User', action:action, asset:asset, pos:pos, tf:tf, actionColor:'var(--text2)', earn:40 };
-  document.getElementById('ts-avatar').textContent = d.avatar;
-  document.getElementById('ts-name').textContent = '@'+trader;
-  document.getElementById('ts-rank').textContent = d.rank;
-  document.getElementById('ts-trader-earn').textContent = d.earn+'⬡';
-  // Check if subscribed
-  const isSubbed = OC_EXT.subscribedTraders.includes(trader);
-  // Check if already revealed
-  if (OC_EXT.revealedStatuses[trader]) {
-    showTraderRevealed(trader, d);
+
+let _tradersFilter = 'all';
+
+function tradersFilter(f, el) {
+  _tradersFilter = f;
+  document.querySelectorAll('.t-filter-btn').forEach(b => {
+    b.style.borderColor = '#222'; b.style.background = '#111'; b.style.color = '#555';
+  });
+  el.style.borderColor = 'rgba(245,166,35,.4)';
+  el.style.background  = 'rgba(245,166,35,.1)';
+  el.style.color       = 'var(--orange)';
+  renderTradersList();
+}
+
+function renderTradersList() {
+  const list = document.getElementById('traders-list');
+  const cnt  = document.getElementById('traders-count');
+  if (!list) return;
+  let entries = Object.entries(TRADER_DATA);
+  if (_tradersFilter === 'bull')       entries = entries.filter(([,d]) => d.action === 'BUYING');
+  if (_tradersFilter === 'bear')       entries = entries.filter(([,d]) => d.action === 'SELLING');
+  if (_tradersFilter === 'top')        entries = entries.filter(([,d]) => d.score >= 85);
+  if (_tradersFilter === 'subscribed') entries = entries.filter(([h]) => OC_EXT.subscribedTraders.includes(h));
+  entries.sort((a,b) => b[1].score - a[1].score);
+  if (cnt) cnt.textContent = entries.length + ' TRADERS';
+  list.innerHTML = entries.map(([handle, d]) => {
+    const isSubbed   = OC_EXT.subscribedTraders.includes(handle);
+    const isRevealed = OC_EXT.revealedStatuses[handle];
+    const statusLine = d.asset
+      ? `<div class="ls-dot ${d.statusDot}"></div>
+         <span style="color:${d.statusColor};font-weight:700">${d.action}</span>
+         <span style="color:var(--text3)">·</span>
+         <span>${d.asset} · ${d.pos} · ${d.tf}</span>
+         <span style="margin-left:auto;font-size:8px;color:${isRevealed?d.statusColor:'var(--text3)'}">
+           ${isRevealed ? '🔓 LIVE' : 'LIVE NOW'}</span>`
+      : `<div class="ls-dot ls-idle"></div>
+         <span style="color:var(--text2);font-weight:700">WATCHING</span>
+         <span style="color:var(--text3)">·</span>
+         <span style="color:var(--text3)">Monitoring markets</span>`;
+    return `<div class="trader-card" style="margin:0 12px 10px;">
+      <div class="tc-head">
+        <div class="trader-avatar" style="background:${d.avatarBg};border-color:${d.avatarBorder}">${d.avatar}</div>
+        <div class="trader-info">
+          <div class="trader-name">${handle}${d.verified ? ' <span class="trader-verified">✦</span>' : ''}</div>
+          <div class="trader-handle">@${handle} · ${d.rank}</div>
+        </div>
+        <div class="oracle-score-badge">
+          <div class="os-num" style="color:${d.statusColor}">${d.score}</div>
+          <div class="os-lbl">ORACLE<br>SCORE</div>
+        </div>
+      </div>
+      <div class="live-status">${statusLine}</div>
+      <div class="live-cost">Unlock live status: 50⬡ per view · Trader earns ${d.earn}⬡</div>
+      <div class="trader-stats">
+        <div class="ts-item"><div class="ts-val" style="color:${d.statusColor}">${d.accuracy}</div><div class="ts-lbl">ACCURACY</div></div>
+        <div class="ts-item"><div class="ts-val">${d.forecasts.toLocaleString()}</div><div class="ts-lbl">FORECASTS</div></div>
+        <div class="ts-item"><div class="ts-val" style="color:${d.rankColor}">${d.rankLabel}</div><div class="ts-lbl">RANK</div></div>
+      </div>
+      <div class="trader-actions">
+        <button class="sub-btn${isSubbed?' subbed':''}" onclick="traderSubscribe('${handle}',this)">
+          ${isSubbed ? '✓ SUBSCRIBED' : 'SUBSCRIBE'}
+        </button>
+        <button class="copy-reveal-btn" onclick="revealTraderStatus('${handle}')">
+          👁 ${isRevealed ? 'VIEW STATUS' : 'COPY STATUS — 50⬡'}
+        </button>
+      </div>
+    </div>`;
+  }).join('') || `<div style="text-align:center;color:#555;font-family:'Space Mono',monospace;font-size:10px;padding:30px;">NO TRADERS FOUND</div>`;
+}
+
+function traderSubscribe(handle, btn) {
+  if (OC_EXT.subscribedTraders.includes(handle)) {
+    showToast('✓ Already subscribed to @'+handle); return;
+  }
+  OC_EXT.subscribedTraders.push(handle);
+  btn.textContent = '✓ SUBSCRIBED';
+  btn.classList.add('subbed');
+  showToast('✓ Subscribed to @'+handle+'! Unlock their live status with COPY STATUS.');
+  opAdvanceQuest('wq4');
+  ocSave();
+}
+
+function revealTraderStatus(handle) {
+  const d = TRADER_DATA[handle]; if (!d) return;
+  OC_EXT.currentTraderModal = handle;
+  const tsAv = document.getElementById('ts-avatar');
+  if (tsAv) { tsAv.textContent = d.avatar; tsAv.style.background = d.avatarBg; }
+  const tsN = document.getElementById('ts-name'); if (tsN) tsN.textContent = '@'+handle;
+  const tsR = document.getElementById('ts-rank'); if (tsR) tsR.textContent = d.rank + ' · Score: ' + d.score;
+  const tsE = document.getElementById('ts-trader-earn'); if (tsE) tsE.textContent = d.earn + '⬡';
+  if (OC_EXT.revealedStatuses[handle]) {
+    document.getElementById('ts-locked-view').style.display = 'none';
+    document.getElementById('ts-revealed-view').style.display = '';
+    _showRevealedCard(d);
   } else {
     document.getElementById('ts-locked-view').style.display = '';
     document.getElementById('ts-revealed-view').style.display = 'none';
   }
   document.getElementById('trader-status-overlay').classList.add('open');
 }
+
 function unlockTraderStatus() {
-  const trader = OC_EXT.currentTraderModal;
-  if (!trader) return;
-  if (opCoins < 50) { showToast('⚠ Need 50⬡ to unlock trader status'); return; }
-  // Check if same package (Silver+)
-  const isSubbed = OC_EXT.subscribedTraders.includes(trader);
-  if (!isSubbed) {
-    showToast('⚠ Subscribe to this trader first to unlock status');
-    return;
+  const handle = OC_EXT.currentTraderModal; if (!handle) return;
+  if (!OC_EXT.subscribedTraders.includes(handle)) {
+    showToast('⚠ Subscribe to @'+handle+' first'); return;
   }
-  opCoins -= 50; opUpdateCoins();
-  OC_EXT.revealedStatuses[trader] = true;
-  const d = TRADER_DATA[trader];
-  if (d) {
-    opCoins += d.earn; // trader earns
-    // In real app this would be sent to trader
-  }
-  showTraderRevealed(trader, TRADER_DATA[trader]);
-}
-function showTraderRevealed(trader, d) {
+  if (OC.coins < 50) { showToast('⚠ Need 50⬡ to unlock trader status'); return; }
+  const d = TRADER_DATA[handle];
+  OC.coins -= 50;
+  if (d) OC.coins += d.earn;
+  OC_EXT.revealedStatuses[handle] = true;
+  oracleRenderVaultCoins(); ocSave();
   document.getElementById('ts-locked-view').style.display = 'none';
   document.getElementById('ts-revealed-view').style.display = '';
+  _showRevealedCard(d || {});
+  renderTradersList();
+  showToast('👁 Status unlocked! @'+handle+' earned '+(d?.earn||40)+'⬡');
+}
+
+function _showRevealedCard(d) {
   const al = document.getElementById('ts-action-label');
   const dl = document.getElementById('ts-detail-label');
-  if (al && d) {
-    al.textContent = d.action;
-    al.style.color = d.actionColor || 'var(--text2)';
-  }
-  if (dl && d) {
-    if (d.asset) {
-      dl.textContent = d.asset + ' · ' + (d.pos||'') + ' · ' + d.tf + ' TIMEFRAME';
-    } else {
-      dl.textContent = 'No active position — monitoring markets';
-    }
-  }
   const card = document.getElementById('ts-status-card');
-  if (card && d) {
-    card.style.borderColor = d.asset ? 'rgba(0,230,118,.2)' : 'rgba(255,255,255,.05)';
-    card.style.background = d.asset ? 'rgba(0,230,118,.06)' : 'rgba(255,255,255,.02)';
-  }
+  if (al) { al.textContent = d.action||'WATCHING'; al.style.color = d.statusColor||'var(--text2)'; }
+  if (dl) dl.textContent = d.asset ? (d.asset+' · '+(d.pos||'')+' · '+d.tf+' TIMEFRAME') : 'No active position — monitoring markets';
+  if (card) { card.style.borderColor = d.asset?'rgba(0,230,118,.2)':'rgba(255,255,255,.05)'; card.style.background = d.asset?'rgba(0,230,118,.06)':'rgba(255,255,255,.02)'; }
 }
+
+function showTraderRevealed(trader, d) { _showRevealedCard(d); }
 function followTraderAction() {
   const trader = OC_EXT.currentTraderModal;
   closeOverlay('trader-status-overlay');
   showToast('🔔 Mirroring @'+trader+' — you\'ll be notified on every status change!');
 }
-function subscribeTrader(trader, btn) {
-  if (OC_EXT.subscribedTraders.includes(trader)) {
-    showToast('✓ Already subscribed to @'+trader); return;
-  }
-  OC_EXT.subscribedTraders.push(trader);
-  if (btn) { btn.textContent='✓ SUBSCRIBED'; btn.classList.add('subbed'); }
-  showToast('✓ Subscribed to @'+trader+'! Unlock their live trading status with COPY STATUS.');
-}
+function subscribeTrader(trader, btn) { traderSubscribe(trader, btn); }
 
 // ── STREAK INSURANCE ──────────────────────────────
 function buyStreakInsurance() {
   if (OC_EXT.streakInsurance) { showToast('✅ Streak Insurance already active!'); return; }
-  if (opCoins < 100) { showToast('⚠ Need 100⬡ for Streak Insurance'); return; }
-  opCoins -= 100; opUpdateCoins();
+  if (OC.coins < 100) { showToast("⚠ Need 100⬡ for Streak Insurance"); return; }
+  OC.coins -= 100; oracleRenderVaultCoins();
   OC_EXT.streakInsurance = true;
   OC_EXT.insuranceUsed = false;
   renderStreakInsurance();
@@ -13533,6 +14061,8 @@ function guildContribute(what) {
   }
   showToast('✅ ' + what + ' contributed to guild treasury!');
   guildAddSystemMsg('⬡ YOU contributed ' + what + ' to the guild treasury.');
+  opAdvanceQuest('wq3'); // weekly: contribute to guild
+  ocSave();
 }
 
 function guildSendMessage() {
@@ -14029,16 +14559,18 @@ function updateBetCalc() {
 }
 
 function ocPlaceBet(side) {
-  if (ocState.myCoins < ocState.betAmt) {
+  if (OC.coins < ocState.betAmt) {
     showToast('⚠️ Not enough Oracle Coins!');
     return;
   }
-  ocState.myCoins -= ocState.betAmt;
+  OC.coins -= ocState.betAmt;
   const payout = Math.round(ocState.betAmt * ocState.betOdds * 0.9);
   const asset  = ocState.currentBet ? ocState.currentBet.asset : '?';
   const tf     = ocState.currentBet ? ocState.currentBet.tf    : '?';
   ocState.activeBets.push({ asset, tf, side, amt: ocState.betAmt, payout });
   ocModal('oc-modal-bet',0);
+  oracleRenderVaultCoins(); ocSave();
+  opAdvanceQuest('wq2'); // weekly: place 3 arena bets
   showToast(`🔮 Bet placed! ${ocState.betAmt.toLocaleString()}⬡ on ${side} — ${asset} ${tf} · If win: +${payout.toLocaleString()}⬡`);
 }
 
@@ -14057,7 +14589,7 @@ function ocOpenCopy(data) {
   document.getElementById('oc-ct-tag-pos').textContent     = data.pos + ' POSITION';
   document.getElementById('oc-ct-tag-tf').textContent      = data.tf + ' TIMEFRAME';
   document.getElementById('oc-ct-tag-time').textContent    = data.timeAgo;
-  document.getElementById('oc-ct-balance-after').textContent = (ocState.myCoins - 50).toLocaleString() + '⬡';
+  document.getElementById('oc-ct-balance-after').textContent = (OC.coins - 50).toLocaleString() + '⬡';
 
   // Стили по режиму
   const box = document.getElementById('oc-ct-status-box');
@@ -14089,10 +14621,11 @@ function ocOpenCopy(data) {
 }
 
 function ocConfirmCopy() {
-  if (ocState.myCoins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
-  ocState.myCoins -= 50;
+  if (OC.coins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
+  OC.coins -= 50;
   const d = ocState.currentCopy;
   ocModal('oc-modal-copy',0);
+  oracleRenderVaultCoins(); ocSave();
   showToast(`👁 Status unlocked! @${d.handle} is ${d.action} ${d.asset} ${d.pos} ${d.tf}`);
 }
 
@@ -14151,7 +14684,7 @@ function ocOpenMarket(data) {
   document.getElementById('oc-mkt-seller').textContent        = data.seller;
   document.getElementById('oc-mkt-price').textContent         = data.price + '⬡';
   document.getElementById('oc-mkt-seller-gets').textContent   = sellerGet.toLocaleString() + '⬡';
-  document.getElementById('oc-mkt-balance-after').textContent = (ocState.myCoins - price).toLocaleString() + '⬡';
+  document.getElementById('oc-mkt-balance-after').textContent = (OC.coins - price).toLocaleString() + '⬡';
   document.getElementById('oc-mkt-buy-label').textContent     = data.price + '⬡';
 
   ocModal('oc-modal-market',1);
@@ -14160,9 +14693,17 @@ function ocOpenMarket(data) {
 function ocConfirmBuy() {
   const d     = ocState.currentMarket;
   const price = parseInt(d.price.replace(',',''));
-  if (ocState.myCoins < price) { showToast('⚠️ Not enough Oracle Coins!'); return; }
-  ocState.myCoins -= price;
+  if (OC.coins < price) { showToast('⚠️ Not enough Oracle Coins!'); return; }
+  OC.coins -= price;
+  // If buying a chest, add to inventory
+  if (d.type === 'chest') {
+    const typeMap = {'Gold Chest':'gold','Diamond Chest':'diamond','Silver Chest':'silver','Bronze Chest':'bronze','Wooden Chest':'wood'};
+    const ct = typeMap[d.name] || 'bronze';
+    OC.inventory[ct] = (OC.inventory[ct]||0) + 1;
+    oracleRenderInventory();
+  }
   ocModal('oc-modal-market',0);
+  oracleRenderVaultCoins(); ocSave();
   showToast(`🛒 Purchased ${d.name} from ${d.seller} for ${d.price}⬡!`);
 }
 
