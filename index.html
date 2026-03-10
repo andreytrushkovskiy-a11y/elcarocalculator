@@ -6135,16 +6135,16 @@ function generateTimelinePost() {
   let out = '';
   out += `📊 ${asset} · SIGMA TIMELINE ANALYSIS\n`;
   out += `${SEP}\n`;
-  out += `Current spot: $${fmtPrice(spot)}\n`;
+  out += `Current spot: ${fmtPrice(spot)}\n`;
   out += `Dates analyzed: ${sorted.length}\n`;
   out += `Date range: ${sorted[0].dateLabel} → ${sorted[sorted.length-1].dateLabel}\n`;
   out += `\n`;
 
   out += `🎯 BREAKEVEN CORRIDOR (across all dates)\n`;
   out += `${SEP2}\n`;
-  out += `Lower bound: $${fmtPrice(globalLo)}\n`;
-  out += `Upper bound: $${fmtPrice(globalHi)}\n`;
-  out += `Total range:  $${fmtPrice(corridor)} (${corridorPct}% of spot)\n`;
+  out += `Lower bound: ${fmtPrice(globalLo)}\n`;
+  out += `Upper bound: ${fmtPrice(globalHi)}\n`;
+  out += `Total range:  ${fmtPrice(corridor)} (${corridorPct}% of spot)\n`;
   out += `\n`;
 
   // Sigma corridors
@@ -6155,7 +6155,7 @@ function generateTimelinePost() {
       const s = sigCorridors[k];
       if (!s) return;
       const probs = { 1:'68.27%', 2:'95.45%', 3:'99.73%', 4:'99.99%' };
-      out += `${k}σ (${probs[k]}): $${fmtPrice(s.lo)} — $${fmtPrice(s.hi)}\n`;
+      out += `${k}σ (${probs[k]}): ${fmtPrice(s.lo)} — ${fmtPrice(s.hi)}\n`;
     });
     out += `\n`;
   }
@@ -6167,11 +6167,11 @@ function generateTimelinePost() {
     const daysOut = Math.round((h._d - today) / 86400000);
     const daysLabel = daysOut >= 0 ? `+${daysOut}d` : `${daysOut}d`;
     out += `\n${i + 1}. ${h.dateLabel} (${daysLabel})\n`;
-    out += `   Spot: $${fmtPrice(h.spot)} · Straddle: $${fmtPrice(h.straddle)}\n`;
-    out += `   BE: $${fmtPrice(h.be_lo)} — $${fmtPrice(h.be_hi)} · σ=${(h.sigma*100).toFixed(1)}%\n`;
+    out += `   Spot: ${fmtPrice(h.spot)} · Straddle: ${fmtPrice(h.straddle)}\n`;
+    out += `   BE: ${fmtPrice(h.be_lo)} — ${fmtPrice(h.be_hi)} · σ=${(h.straddle / h.spot * 100).toFixed(1)}%\n`;
     const vis = (h.levels || []).filter(l => l.show);
     vis.forEach(l => {
-      out += `   ${l.k}σ: $${fmtPrice(l.lo)} — $${fmtPrice(l.hi)}\n`;
+      out += `   ${l.k}σ: ${fmtPrice(l.lo)} — ${fmtPrice(l.hi)}\n`;
     });
   });
 
@@ -6203,6 +6203,13 @@ function generateTimelinePost() {
   if (outBox) {
     outBox.textContent = out;
     if (outWrap) outWrap.style.display = 'block';
+    // Show copy button
+    const copyBtn = document.getElementById('tg-copy-btn');
+    if (copyBtn) copyBtn.style.display = 'flex';
+    const chevron = document.getElementById('tg-chevron');
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+    const indicator = document.getElementById('tg-indicator');
+    if (indicator) indicator.style.background = 'var(--orange)';
     // Switch to straddle view so user sees the output
     setMode('straddle');
     setTimeout(() => outBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
