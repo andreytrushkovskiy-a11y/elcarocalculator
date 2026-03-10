@@ -4342,6 +4342,16 @@ input[type=range]::-webkit-slider-thumb {
           </div>
           <div id="v4-wrap" style="position:relative;"></div>
         </div>
+
+        <!-- TIMELINE POST BUTTON -->
+        <div id="tl-post-btn-wrap" style="display:none;margin-top:12px;">
+          <button onclick="generateTimelinePost()"
+            style="width:100%;background:linear-gradient(135deg,#1a1a1a,#222);border:1px solid rgba(255,106,0,.35);border-radius:12px;padding:12px 16px;color:var(--orange);font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;"
+            onmouseover="this.style.borderColor='rgba(255,106,0,.7)';this.style.background='rgba(255,106,0,.08)'"
+            onmouseout="this.style.borderColor='rgba(255,106,0,.35)';this.style.background='linear-gradient(135deg,#1a1a1a,#222)'">
+            📋 GENERATE TELEGRAM POST
+          </button>
+        </div>
       </div>
 
       <!-- Recent Calculations -->
@@ -4349,8 +4359,9 @@ input[type=range]::-webkit-slider-thumb {
         <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
           <span style="display:inline-block;width:3px;height:14px;background:var(--orange);border-radius:2px;"></span>
           RECENT CALCULATIONS
+          <span id="hist-count" style="margin-left:auto;background:rgba(255,106,0,.12);color:var(--orange);border:1px solid rgba(255,106,0,.25);border-radius:20px;padding:2px 8px;font-size:8px;font-weight:800;letter-spacing:.5px;"></span>
         </div>
-        <div id="history-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div id="history-list" style="display:flex;flex-direction:column;gap:6px;max-height:520px;overflow-y:auto;scrollbar-width:none;"></div>
       </div>
 
       <!-- Telegram Output (collapsed by default) -->
@@ -5736,12 +5747,12 @@ function calculate() {
   window._calcDates.add(dateShort);
   const timelineBtn = document.getElementById('viz-tab-4');
   if (timelineBtn) {
-    const unlocked = window._calcDates.size >= 5;
+    const unlocked = calcHistory.length >= 2;
     timelineBtn.style.opacity = unlocked ? '1' : '0.35';
     timelineBtn.style.cursor  = unlocked ? 'pointer' : 'not-allowed';
-    timelineBtn.title = unlocked ? 'Timeline chart' : `Calculate ${5 - window._calcDates.size} more expiry date(s) to unlock`;
+    timelineBtn.title = unlocked ? 'Timeline chart + Telegram post' : 'Calculate 2+ dates to unlock';
     if (unlocked) timelineBtn.onclick = () => setViz(4);
-    else timelineBtn.onclick = () => showToast('⏳ Calculate ' + (5 - window._calcDates.size) + ' more expiry dates to unlock TIMELINE');
+    else timelineBtn.onclick = () => showToast('⏳ Calculate 2+ expiry dates to unlock TIMELINE');
   }
 
   // Show results
@@ -5781,14 +5792,13 @@ function renderViz4() {
   const DEBUG = false;
 
   // Gate: need >= 5 calculations (bypass in debug)
-  if (!DEBUG && (!calcHistory || calcHistory.length < 5)) {
+  if (!DEBUG && (!calcHistory || calcHistory.length < 2)) {
     const done = calcHistory ? calcHistory.length : 0;
-    const left = 5 - done;
     wrap.innerHTML = `<div style="color:rgba(255,255,255,.3);padding:40px 20px;text-align:center;">
       <div style="font-size:13px;font-weight:700;margin-bottom:8px;">📊 TIMELINE</div>
       <div style="font-size:11px;line-height:1.8;">
-        ${done > 0 ? `<span style="color:var(--orange);font-weight:800">${done}/5</span> calculations done` : 'Calculate 5 expiry dates'}
-        <br><span style="font-size:9px;opacity:.5">${left} more needed to unlock timeline</span>
+        <span style="color:var(--orange);font-weight:800">${done}/2</span> calculations done
+        <br><span style="font-size:9px;opacity:.5">${2 - done} more needed to unlock timeline</span>
       </div>
     </div>`;
     return;
@@ -6077,7 +6087,112 @@ function setViz(n) {
     document.getElementById('viz-' + i).style.display = i === n ? 'block' : 'none';
     document.getElementById('viz-tab-' + i).classList.toggle('active', i === n);
   });
+  // Show GENERATE POST button only on TIMELINE tab with 2+ calcs
+  const btnWrap = document.getElementById('tl-post-btn-wrap');
+  if (btnWrap) btnWrap.style.display = (n === 4 && calcHistory && calcHistory.length >= 2) ? 'block' : 'none';
   if (lastResult) renderAllViz();
+}
+
+
+// ═══════════════════ TIMELINE TELEGRAM POST ═══════════════════
+function generateTimelinePost() {
+  if (!calcHistory || calcHistory.length < 2) {
+    showToast('⚠ Need at least 2 calculations');
+    return;
+  }
+
+  const today = new Date();
+  const sorted = [...calcHistory].map(h => {
+    let d = new Date(h.dateLabel + ' ' + today.getFullYear());
+    if (isNaN(d)) d = new Date(h.dateLabel);
+    if (isNaN(d)) d = new Date();
+    return { ...h, _d: d };
+  }).sort((a, b) => a._d - b._d);
+
+  const asset = '$' + sorted[0].asset;
+  const spot = sorted[sorted.length - 1].spot;
+  const SEP  = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+  const SEP2 = '─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─';
+
+  // Global corridor: min of all be_lo, max of all be_hi
+  const globalLo  = Math.min(...sorted.map(h => h.be_lo));
+  const globalHi  = Math.max(...sorted.map(h => h.be_hi));
+  const corridor  = globalHi - globalLo;
+  const corridorPct = (corridor / spot * 100).toFixed(1);
+
+  // Sigma corridors across all dates
+  const sigLevels = [1, 2, 3, 4];
+  const sigCorridors = {};
+  sigLevels.forEach(k => {
+    const his = sorted.map(h => (h.levels || []).find(l => l.k === k)).filter(Boolean);
+    if (!his.length) return;
+    sigCorridors[k] = {
+      lo: Math.min(...his.map(l => l.lo)),
+      hi: Math.max(...his.map(l => l.hi))
+    };
+  });
+
+  let out = '';
+  out += `📊 ${asset} · SIGMA TIMELINE ANALYSIS\n`;
+  out += `${SEP}\n`;
+  out += `Current spot: $${fmtPrice(spot)}\n`;
+  out += `Dates analyzed: ${sorted.length}\n`;
+  out += `Date range: ${sorted[0].dateLabel} → ${sorted[sorted.length-1].dateLabel}\n`;
+  out += `\n`;
+
+  out += `🎯 BREAKEVEN CORRIDOR (across all dates)\n`;
+  out += `${SEP2}\n`;
+  out += `Lower bound: $${fmtPrice(globalLo)}\n`;
+  out += `Upper bound: $${fmtPrice(globalHi)}\n`;
+  out += `Total range:  $${fmtPrice(corridor)} (${corridorPct}% of spot)\n`;
+  out += `\n`;
+
+  // Sigma corridors
+  if (Object.keys(sigCorridors).length) {
+    out += `📐 SIGMA CORRIDORS\n`;
+    out += `${SEP2}\n`;
+    [1,2,3,4].forEach(k => {
+      const s = sigCorridors[k];
+      if (!s) return;
+      const probs = { 1:'68.27%', 2:'95.45%', 3:'99.73%', 4:'99.99%' };
+      out += `${k}σ (${probs[k]}): $${fmtPrice(s.lo)} — $${fmtPrice(s.hi)}\n`;
+    });
+    out += `\n`;
+  }
+
+  // Per-date breakdown
+  out += `📅 PER DATE BREAKDOWN\n`;
+  out += `${SEP2}\n`;
+  sorted.forEach((h, i) => {
+    const daysOut = Math.round((h._d - today) / 86400000);
+    const daysLabel = daysOut >= 0 ? `+${daysOut}d` : `${daysOut}d`;
+    out += `\n${i + 1}. ${h.dateLabel} (${daysLabel})\n`;
+    out += `   Spot: $${fmtPrice(h.spot)} · Straddle: $${fmtPrice(h.straddle)}\n`;
+    out += `   BE: $${fmtPrice(h.be_lo)} — $${fmtPrice(h.be_hi)} · σ=${(h.sigma*100).toFixed(1)}%\n`;
+    const vis = (h.levels || []).filter(l => l.show);
+    vis.forEach(l => {
+      out += `   ${l.k}σ: $${fmtPrice(l.lo)} — $${fmtPrice(l.hi)}\n`;
+    });
+  });
+
+  out += `\n${SEP}\n`;
+  out += `⚡ ELCARO · Straddle Calculator\n`;
+  out += `📊 Educational purposes only`;
+
+  // Display in output area (reuse existing straddle output box)
+  const outBox  = document.getElementById('output-box');
+  const outWrap = document.getElementById('tg-output-wrap');
+  if (outBox) {
+    outBox.textContent = out;
+    if (outWrap) outWrap.style.display = 'block';
+    // Switch to straddle view so user sees the output
+    setMode('straddle');
+    setTimeout(() => outBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+    showToast('✓ Telegram post ready — copy below!');
+  } else {
+    navigator.clipboard?.writeText(out).then(() => showToast('✓ Post copied to clipboard!'))
+      .catch(() => showToast('✓ Timeline post generated'));
+  }
 }
 
 function renderAllViz() {
@@ -6348,10 +6463,12 @@ function renderSigmaCards(levels) {
 let calcHistory = [];
 function addHistory(entry) {
   calcHistory.unshift(entry);
-  if (calcHistory.length > 5) calcHistory.pop();
+  if (calcHistory.length > 11) calcHistory.pop();
 
   const card = document.getElementById('hist-card');
   card.style.display = 'block';
+  const cntBadge = document.getElementById('hist-count');
+  if (cntBadge) cntBadge.textContent = calcHistory.length + '/11';
 
   const sigmaColors = {1:'#f5c800',2:'#ff6a00',3:'#e03b3b',4:'#ff1a1a'};
 
@@ -6377,15 +6494,18 @@ function addHistory(entry) {
         <span class="hist-row-prob">${l.prob}</span>
       </div>`).join('');
 
+    const daysOut = Math.round((new Date(h.dateLabel + ' ' + new Date().getFullYear()) - new Date()) / 86400000);
+    const dTag = daysOut >= 0 ? `+${daysOut}d` : `${daysOut}d`;
     return `<div class="hist-item${i===0?' latest':''}" style="cursor:pointer;"
       onclick="loadHistoryEntry(${i})"
       title="Load into Telegram output">
       <div class="hist-header">
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;align-items:center;gap:6px;">
           <span class="hist-sym">$${h.asset}</span>
           <span class="hist-date">${h.dateLabel}</span>
+          <span style="font-size:8px;color:#555;font-family:'Space Mono',monospace;">${dTag}</span>
         </div>
-        <span class="hist-straddle">Straddle: <span>${fmtPrice(h.straddle)}</span></span>
+        <span class="hist-straddle">σ ${(h.sigma*100).toFixed(1)}% · <span>$${fmtPrice(h.straddle)}</span></span>
       </div>
       <div class="hist-rows">${beRow}${sigmaRows}</div>
     </div>`;
