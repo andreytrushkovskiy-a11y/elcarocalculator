@@ -6923,6 +6923,7 @@ function setMode(mode) {
   _active('mode-tools-group',  isToolsMode);
   _active('mode-market-group', isMarketMode);
   _active('mode-guild-nav',    mode === 'guild');
+  _active('mode-elcaro-nav',   mode === 'elcaro');
 
   // Show/hide helpers
   const show = id => { const el=document.getElementById(id); if(el) el.style.display='block'; };
@@ -10508,7 +10509,7 @@ function initSigmaButtons() {
         <div onclick="oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#00e5ff;font-family:'Space Mono',monospace;cursor:pointer;" title="My Forecasts">
           📋 <span id="oracle-hdr-forecasts">0</span>
         </div>
-        <button class="op-close" onclick="oracleClose()">✕</button>
+      
       </div>
     </div>
 
@@ -10648,7 +10649,7 @@ function initSigmaButtons() {
       </div>
 
       <!-- ══ QUESTS ══ -->
-      <div class="op-screen" id="op-quests">
+      <div class="op-screen" id="op-quests" style="display:none;">
         <div class="scrollable-op">
 
         <div class="slabel">SEASON PASS</div>
@@ -10682,7 +10683,7 @@ function initSigmaButtons() {
       </div>
 
       <!-- ══ PROPHECIES ARENA ══ -->
-      <div class="op-screen" id="op-prophecies">
+      <div class="op-screen" id="op-prophecies" style="display:none;">
         <div class="scrollable-op">
 
         <div class="slabel">ORACLE VERDICT ARENA</div>
@@ -10837,7 +10838,7 @@ function initSigmaButtons() {
       </div>
 
       <!-- ══ GUILD ══ -->
-      <div class="op-screen" id="op-guild">
+      <div class="op-screen" id="op-guild" style="display:none;">
         <div class="scrollable-op">
 
     <!-- GUILD CARD -->
@@ -10939,7 +10940,7 @@ function initSigmaButtons() {
         </div>
       </div>
       <!-- ══ TRADERS ══ -->
-      <div class="op-screen" id="op-traders">
+      <div class="op-screen" id="op-traders" style="display:none;">
         <div class="scrollable-op">
           <div class="slabel">ORACLE TRADERS <span style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;font-weight:400;float:right;padding-top:1px;" id="traders-count"></span></div>
 
@@ -10958,7 +10959,7 @@ function initSigmaButtons() {
 
       <!-- ══ PROFILE ══ -->
       <!-- ══ NEWS ══ -->
-      <div class="op-screen" id="op-news">
+      <div class="op-screen" id="op-news" style="display:none;">
         <div class="scrollable-op" style="padding-bottom:20px;">
 
           <!-- LIVE CARD -->
@@ -11021,7 +11022,7 @@ function initSigmaButtons() {
       </div>
 
       <!-- ══ PROFILE ══ -->
-      <div class="op-screen" id="op-oracle">
+      <div class="op-screen" id="op-oracle" style="display:none;">
         <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
   <div class="oracle-tabs">
     <div class="oracle-tab active" id="oc-ot-prophecies" onclick="ocSwitchTab('prophecies')">PROPHECIES</div>
@@ -11417,7 +11418,7 @@ function initSigmaButtons() {
   </div><!-- end oracle-scrollable -->
         </div>
       </div>
-      <div class="op-screen" id="op-profile">
+      <div class="op-screen" id="op-profile" style="display:none;">
         <div class="scrollable-op">
 
     <!-- PROFILE HEADER -->
@@ -11865,16 +11866,25 @@ function oracleClose() {
   setMode('straddle');
 }
 
+function oracleTab(name, el) {
+  const sections = ['vault','quests','prophecies','guild','traders','news','oracle','profile'];
+  sections.forEach(s => {
+    const sec = document.getElementById('op-' + s);
+    if (sec) sec.style.display = (s === name) ? 'block' : 'none';
+  });
+  // Update active tab button
+  const tabs = document.querySelectorAll('#op-tabs-row .op-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  oracleRenderTab(name);
+}
+
 function oracleOpenOnTab(name) {
-  // Open panel if closed
-  const overlay = document.getElementById('oracle-overlay');
-  if (!overlay.classList.contains('open')) {
+  if (document.getElementById('elcaro-section').style.display === 'none') {
     ocLoad();
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    setMode('elcaro');
     oracleRenderAll();
   }
-  // Switch to the requested tab
   const tab = document.querySelector(`#oracle-panel .op-tab[onclick*="'${name}'"]`);
   if (tab) oracleTab(name, tab);
 }
