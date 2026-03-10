@@ -14034,7 +14034,7 @@ function closeGuildContrib() {
   document.getElementById('guild-contrib-overlay').classList.remove('open');
 }
 function guildContribute(type, val) {
-  closeGuildContrib();
+  guildCloseModal('guild-contrib-modal');
   if (type==='coins') {
     const amt = val||100;
     if (OC.coins < amt) { showToast('⚠ Not enough coins'); return; }
@@ -14682,9 +14682,9 @@ function guildCreate() {
     <div class="gsheet-title">⬡ CONTRIBUTE TO TREASURY</div>
     <div class="gsheet-sub">CHOOSE WHAT TO DONATE THIS WEEK</div>
     <div class="contrib-modal-grid">
-      <div class="comb-btn" onclick="guildContribute('100⬡ Coins')" style="background:rgba(255,106,0,.06);border-color:rgba(255,106,0,.3);color:var(--orange)"><span class="comb-icon">⬡</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">100 OC</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ORACLE COINS</div></div>
-      <div class="comb-btn" onclick="guildContribute('Bronze Chest')" style="background:rgba(205,127,50,.06);border-color:rgba(205,127,50,.3);color:var(--bronze2)"><span class="comb-icon">📦</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">BRONZE</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ANY CHEST</div></div>
-      <div class="comb-btn" onclick="guildContribute('Forecast')" style="background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.3);color:var(--cyan)"><span class="comb-icon">📄</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">FORECAST</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">UNUSED</div></div>
+      <div class="comb-btn" onclick="guildContribute('coins',100)" style="background:rgba(255,106,0,.06);border-color:rgba(255,106,0,.3);color:var(--orange)"><span class="comb-icon">⬡</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">100 OC</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ORACLE COINS</div></div>
+      <div class="comb-btn" onclick="guildContribute('chest','bronze')" style="background:rgba(205,127,50,.06);border-color:rgba(205,127,50,.3);color:var(--bronze2)"><span class="comb-icon">📦</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">BRONZE</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ANY CHEST</div></div>
+      <div class="comb-btn" onclick="guildContribute('forecast')" style="background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.3);color:var(--cyan)"><span class="comb-icon">📄</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">FORECAST</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">UNUSED</div></div>
     </div>
     <button onclick="guildCloseModal('guild-contrib-modal')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;margin-top:6px;">CANCEL</button>
   </div>
