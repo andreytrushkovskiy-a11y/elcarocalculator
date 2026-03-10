@@ -641,6 +641,19 @@ body {
 }
 .agent-action-btn.secondary:hover { border-color:var(--orange); color:var(--orange); transform:none; }
 
+/* ── TOOLS LAUNCHER ── */
+.tools-launcher-btn {
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;padding:18px 8px 14px;border-radius:16px;cursor:pointer;
+  transition:transform .18s,box-shadow .18s,background .2s;
+  text-align:center;min-height:110px;
+}
+.tools-launcher-btn:active { transform:scale(.96); }
+.tools-launcher-btn:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25); }
+.tlb-icon { line-height:1; }
+.tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; }
+.tlb-sub  { font-size:8px;color:#666;font-family:'Space Mono',monospace;letter-spacing:.3px; }
+
 /* ── FUNDING RATE ── */
 .funding-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
 @media(max-width:800px){ .funding-layout{ grid-template-columns:1fr; } }
@@ -3958,30 +3971,6 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <div class="brand-sub">WE KNOW <span>WHEN TO BUY</span></div>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-    <button onclick="setMode('guild')" style="
-      background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);
-      border-radius:10px;padding:7px 11px;cursor:pointer;
-      display:flex;align-items:center;gap:5px;
-      color:#00e676;font-size:11px;font-weight:800;
-      font-family:'DM Sans',Outfit,sans-serif;letter-spacing:.5px;
-      transition:background .2s;" title="Guild"
-      onmouseover="this.style.background='rgba(0,230,118,.16)'"
-      onmouseout="this.style.background='rgba(0,230,118,.08)'">
-      <span style="font-size:15px;">🛡️</span> GUILD
-    </button>
-    <button onclick="oracleOpen()" style="
-      background:rgba(255,106,0,.1);border:1px solid rgba(255,106,0,.25);
-      border-radius:10px;padding:7px 11px;cursor:pointer;
-      display:flex;align-items:center;gap:5px;
-      color:var(--orange);font-size:11px;font-weight:800;
-      font-family:'DM Sans',Outfit,sans-serif;letter-spacing:.5px;
-      transition:background .2s;" title="ORACLE — Vault, Market, News, Profile"
-      onmouseover="this.style.background='rgba(255,106,0,.2)'"
-      onmouseout="this.style.background='rgba(255,106,0,.1)'">
-      <span style="font-size:15px;">👁</span> ELCARO
-    </button>
-  </div>
 </div>
 <script>
 (function() {
@@ -4006,110 +3995,34 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 <!-- ══ MODE SWITCHER ══ -->
 <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
 
-  <!-- Row 1: main tools -->
-  <div class="mode-switcher" style="max-width:100%;margin-bottom:0;">
+  <!-- Row 1: STRADDLE · TOOLS · MARKET DATA · GUILD · ELCARO -->
+  <div class="mode-switcher" style="max-width:100%;margin-bottom:0;flex-wrap:nowrap;overflow-x:auto;">
     <button class="mode-btn active" id="mode-straddle" onclick="setMode('straddle')">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
       STRADDLE
     </button>
-    <button class="mode-btn" id="mode-portfolio" onclick="setMode('portfolio')">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 10 14 12 12 14 14 16 12"/></svg>
-      PORTFOLIO
-    </button>
-    <button class="mode-btn" id="mode-agent" onclick="setMode('agent')" style="position:relative;">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2a5 5 0 0 1 5 5c0 2.76-2.24 5-5 5S7 9.76 7 7a5 5 0 0 1 5-5z"/><path d="M2 21c0-4.42 4.48-8 10-8s10 3.58 10 8"/></svg>
-      AGENT
-      <span style="position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
+
+    <button class="mode-btn" id="mode-tools-group" onclick="setMode('tools')"
+      title="Tools" style="flex:0 0 auto;padding:8px 13px;">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      TOOLS
     </button>
 
-    <!-- MARKET DATA button in main nav -->
-    <button class="mode-btn" id="mode-market-group" onclick="setMode('chart')"
-      title="Market Data"
-      style="position:relative;flex:0 0 auto;padding:9px 11px;">
-      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <svg viewBox="0 0 24 24" style="width:8px;height:8px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:1px;" id="market-group-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+    <button class="mode-btn" id="mode-market-group" onclick="setMode('market')"
+      title="Market Data" style="flex:0 0 auto;padding:8px 13px;">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      MARKET
     </button>
-    <!-- POSITION TOOLS — icon only -->
-    <button class="mode-btn" id="mode-position-group" onclick="setMode('avg')"
-      title="Position Tools"
-      style="position:relative;flex:0 0 auto;padding:9px 11px;">
-      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      <svg viewBox="0 0 24 24" style="width:8px;height:8px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-left:1px;flex-shrink:0;" id="pos-tools-chevron"><polyline points="6 9 12 15 18 9"/></svg>
-    </button>
-  </div>
 
-  <!-- Row 2: sub-tabs (visible when any position tool is active) -->
-  <div id="pos-tools-subtabs"
-    style="display:none;background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.15);border-radius:10px;padding:5px;gap:3px;flex-wrap:nowrap;overflow:hidden;">
-    <button class="mode-btn" id="mode-avg" onclick="setMode('avg')"
-      title="Averaging Calculator"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      AVG
+    <button class="mode-btn" id="mode-guild-nav" onclick="setMode('guild')"
+      title="Guild" style="flex:0 0 auto;padding:8px 13px;color:#00e676;">
+      🛡️ GUILD
     </button>
-    <button class="mode-btn" id="mode-sizer" onclick="setMode('sizer')"
-      title="Position Sizer"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      SIZER
-    </button>
-    <button class="mode-btn" id="mode-funding" onclick="setMode('funding')"
-      title="Funding Rate Calculator"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      FUNDING
-    </button>
-    <button class="mode-btn" id="mode-fgi" onclick="setMode('fgi')"
-      title="Fear &amp; Greed Index"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      F&amp;G
-    </button>
-    <button class="mode-btn" id="mode-geo" onclick="setMode('geo')" title="Geopolitical News"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      GEO
-    </button>
-    <button class="mode-btn" id="mode-gpr" onclick="setMode('gpr')" title="Geopolitical Risk Index"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      GPR
-    </button>
-    <button class="mode-btn" id="mode-econ" onclick="setMode('econ')" title="Economic Calendar"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      ECON
-    </button>
-    <button class="mode-btn" id="mode-ai-settings" onclick="setMode('ai-settings')" title="Anthropic API Key"
-      style="flex:1;padding:6px 8px;font-size:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-      API
-    </button>
-  </div>
 
-  <!-- Row 3: market sub-tabs -->
-  <div id="market-subtabs"
-    style="display:none;background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.15);border-radius:8px;padding:6px;gap:4px;flex-wrap:wrap;">
-    <div style="font-size:8px;font-weight:700;color:rgba(100,149,237,.5);letter-spacing:1px;padding:0 8px;align-self:center;white-space:nowrap;">MARKET DATA</div>
-    <button class="mode-btn" id="mode-chart" onclick="setMode('chart')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
-      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="3 3 3 21 21 21"/><polyline points="7 16 11 10 15 14 19 7"/></svg>
-      CHART
-    </button>
-    <button class="mode-btn" id="mode-heatmap-stock" onclick="setMode('heatmap-stock')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
-      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      STOCK MAP
-    </button>
-    <button class="mode-btn" id="mode-heatmap-crypto" onclick="setMode('heatmap-crypto')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
-      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-      CRYPTO MAP
-    </button>
-    <button class="mode-btn" id="mode-calendar" onclick="setMode('calendar')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
-      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      CALENDAR
-    </button>
-    <button class="mode-btn" id="mode-news" onclick="setMode('news')" style="flex:1;padding:7px 10px;font-size:10px;min-width:80px;">
-      <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
-      NEWS
+    <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
+      title="ORACLE — Vault, Market, News, Profile"
+      style="flex:0 0 auto;padding:8px 13px;color:var(--orange);">
+      👁 ELCARO
     </button>
   </div>
 
@@ -4374,6 +4287,116 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 </div>
 
 <!-- ══ AVERAGING CALCULATOR ══ -->
+<!-- ══ TOOLS LAUNCHER ══ -->
+<div id="tools-section" style="display:none;max-width:500px;margin:0 auto;padding:8px 4px 20px;">
+  <div style="font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;letter-spacing:1.5px;text-align:center;margin-bottom:18px;padding-top:8px;">SELECT TOOL</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px;">
+
+    <!-- PORTFOLIO -->
+    <div onclick="setMode('portfolio')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);">
+      <div class="tlb-icon" style="font-size:28px;">💼</div>
+      <div class="tlb-name" style="color:var(--emerald);">PORTFOLIO</div>
+      <div class="tlb-sub">Tracker &amp; P&amp;L</div>
+    </div>
+
+    <!-- AGENT -->
+    <div onclick="setMode('agent')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,106,0,.07),rgba(255,106,0,.03));border:1px solid rgba(255,106,0,.2);position:relative;">
+      <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
+      <div class="tlb-icon" style="font-size:28px;">🤖</div>
+      <div class="tlb-name" style="color:var(--orange);">AGENT</div>
+      <div class="tlb-sub">AI Allocation</div>
+    </div>
+
+    <!-- AVG SIZER -->
+    <div onclick="setMode('avg')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.2);">
+      <div class="tlb-icon" style="font-size:28px;">⚖️</div>
+      <div class="tlb-name" style="color:var(--gold);">AVG SIZER</div>
+      <div class="tlb-sub">Position Size</div>
+    </div>
+
+    <!-- FUNDING -->
+    <div onclick="setMode('funding')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.2);">
+      <div class="tlb-icon" style="font-size:28px;">💰</div>
+      <div class="tlb-name" style="color:var(--cyan);">FUNDING</div>
+      <div class="tlb-sub">Rate Calc</div>
+    </div>
+
+    <!-- F&G -->
+    <div onclick="setMode('fgi')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,61,87,.07),rgba(255,61,87,.03));border:1px solid rgba(255,61,87,.2);">
+      <div class="tlb-icon" style="font-size:28px;">😱</div>
+      <div class="tlb-name" style="color:var(--red);">F&amp;G</div>
+      <div class="tlb-sub">Fear &amp; Greed</div>
+    </div>
+
+    <!-- GEO -->
+    <div onclick="setMode('geo')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(92,107,192,.07),rgba(92,107,192,.03));border:1px solid rgba(92,107,192,.2);">
+      <div class="tlb-icon" style="font-size:28px;">🌍</div>
+      <div class="tlb-name" style="color:#7986cb;">GEO</div>
+      <div class="tlb-sub">Geopolitical</div>
+    </div>
+
+    <!-- GPR -->
+    <div onclick="setMode('gpr')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(245,166,35,.07),rgba(245,166,35,.03));border:1px solid rgba(245,166,35,.2);">
+      <div class="tlb-icon" style="font-size:28px;">⚠️</div>
+      <div class="tlb-name" style="color:var(--orange);">GPR</div>
+      <div class="tlb-sub">Risk Index</div>
+    </div>
+
+    <!-- ECON -->
+    <div onclick="setMode('econ')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(124,77,255,.03));border:1px solid rgba(124,77,255,.2);">
+      <div class="tlb-icon" style="font-size:28px;">📅</div>
+      <div class="tlb-name" style="color:var(--purple2);">ECON</div>
+      <div class="tlb-sub">Calendar</div>
+    </div>
+
+    <!-- API -->
+    <div onclick="setMode('ai-settings')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(137,212,245,.07),rgba(137,212,245,.03));border:1px solid rgba(137,212,245,.2);">
+      <div class="tlb-icon" style="font-size:28px;">🔑</div>
+      <div class="tlb-name" style="color:var(--diamond);">API</div>
+      <div class="tlb-sub">Anthropic Key</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MARKET LAUNCHER ══ -->
+<div id="market-section" style="display:none;max-width:500px;margin:0 auto;padding:8px 4px 20px;">
+  <div style="font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;letter-spacing:1.5px;text-align:center;margin-bottom:18px;padding-top:8px;">MARKET DATA</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px;">
+
+    <div onclick="setMode('chart')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(100,149,237,.08),rgba(100,149,237,.03));border:1px solid rgba(100,149,237,.2);">
+      <div class="tlb-icon" style="font-size:28px;">📈</div>
+      <div class="tlb-name" style="color:#6495ed;">CHART</div>
+      <div class="tlb-sub">Live Price</div>
+    </div>
+
+    <div onclick="setMode('heatmap-stock')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);">
+      <div class="tlb-icon" style="font-size:28px;">🟦</div>
+      <div class="tlb-name" style="color:var(--emerald);">STOCK MAP</div>
+      <div class="tlb-sub">Equities</div>
+    </div>
+
+    <div onclick="setMode('heatmap-crypto')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.2);">
+      <div class="tlb-icon" style="font-size:28px;">🔶</div>
+      <div class="tlb-name" style="color:var(--gold);">CRYPTO MAP</div>
+      <div class="tlb-sub">Crypto</div>
+    </div>
+
+    <div onclick="setMode('calendar')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(124,77,255,.03));border:1px solid rgba(124,77,255,.2);">
+      <div class="tlb-icon" style="font-size:28px;">📆</div>
+      <div class="tlb-name" style="color:var(--purple2);">CALENDAR</div>
+      <div class="tlb-sub">Events</div>
+    </div>
+
+    <div onclick="setMode('news')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.2);">
+      <div class="tlb-icon" style="font-size:28px;">📰</div>
+      <div class="tlb-name" style="color:var(--cyan);">NEWS</div>
+      <div class="tlb-sub">Telegram &amp; YouTube</div>
+    </div>
+
+  </div>
+</div>
+
 <div id="avg-section" style="display:none;max-width:1060px;margin:0 auto;">
   <div class="avg-layout">
 
@@ -6591,6 +6614,7 @@ window.onload = () => {
   ocLoad(); // restore OC state from localStorage
   loadExpiryDates('BTC');
   liveCalc();
+  setMode('straddle'); // default screen on launch
 };
 </script>
 
@@ -6799,80 +6823,69 @@ let avgLegCount = 0;
 let avgLastResult = null;
 
 function setMode(mode) {
-  const positionModes = ['avg','sizer','funding','fgi','geo','gpr','econ','ai-settings'];
-  const isPositionMode = positionModes.includes(mode);
-
-  // Top-level nav buttons
-  ['straddle','portfolio','agent','position-group','guild'].forEach(m => {
-    const el = document.getElementById('mode-'+m);
-    if (!el) return;
-    const active = m === mode || (m === 'position-group' && isPositionMode);
-    el.classList.toggle('active', active);
-    el.style.borderColor = '';
-    el.style.borderStyle = '';
-  });
-
-  // Sub-tab buttons
-  positionModes.forEach(m => {
-    document.getElementById('mode-'+m)?.classList.toggle('active', m === mode);
-  });
-
-  // Show/hide sub-tab row
-  const subtabs = document.getElementById('pos-tools-subtabs');
-  if (subtabs) subtabs.style.display = isPositionMode ? 'flex' : 'none';
-
-  // Chevron
-  const chev = document.getElementById('pos-tools-chevron');
-  if (chev) chev.style.transform = isPositionMode ? 'rotate(180deg)' : '';
-
-  // Sections
-  const marketModes = ['chart','heatmap-stock','heatmap-crypto','calendar','news'];
+  const toolsModes   = ['tools','portfolio','agent','avg','sizer','funding','fgi','geo','gpr','econ','ai-settings'];
+  const marketModes  = ['market','chart','heatmap-stock','heatmap-crypto','calendar','news'];
+  const isToolsMode  = toolsModes.includes(mode);
   const isMarketMode = marketModes.includes(mode);
 
-  document.querySelector('.layout').style.display                   = mode === 'straddle'      ? 'grid'  : 'none';
-  document.getElementById('avg-section').style.display             = mode === 'avg'            ? 'block' : 'none';
-  document.getElementById('sizer-section').style.display           = mode === 'sizer'          ? 'block' : 'none';
-  document.getElementById('funding-section').style.display         = mode === 'funding'        ? 'block' : 'none';
-  document.getElementById('fgi-section').style.display  = mode === 'fgi'  ? 'block' : 'none';
-  document.getElementById('geo-section').style.display  = mode === 'geo'  ? 'block' : 'none';
-  document.getElementById('gpr-section').style.display  = mode === 'gpr'  ? 'block' : 'none';
-  document.getElementById('econ-section').style.display       = mode === 'econ'        ? 'block' : 'none';
-  document.getElementById('ai-settings-section').style.display = mode === 'ai-settings' ? 'block' : 'none';
-  document.getElementById('guild-section').style.display      = mode === 'guild'       ? 'block' : 'none';
+  // Nav button highlights
+  const _active = (id, on) => { const el=document.getElementById(id); if(el) el.classList.toggle('active',on); };
+  _active('mode-straddle',     mode === 'straddle');
+  _active('mode-tools-group',  isToolsMode);
+  _active('mode-market-group', isMarketMode);
+  _active('mode-guild-nav',    mode === 'guild');
+
+  // Show/hide helpers
+  const show = id => { const el=document.getElementById(id); if(el) el.style.display='block'; };
+  const hide = id => { const el=document.getElementById(id); if(el) el.style.display='none'; };
+
+  // All toggle-able sections
+  const allSections = [
+    'tools-section','market-section',
+    'avg-section','sizer-section','funding-section','fgi-section',
+    'geo-section','gpr-section','econ-section','ai-settings-section',
+    'portfolio-section','agent-section',
+    'chart-section','heatmap-stock-section','heatmap-crypto-section',
+    'calendar-section','news-section','guild-section'
+  ];
+  allSections.forEach(hide);
+
+  // Straddle
+  const layout = document.querySelector('.layout');
+  if (layout) layout.style.display = mode === 'straddle' ? 'grid' : 'none';
+
+  // Map mode → section id
+  const sectionMap = {
+    tools:           'tools-section',
+    market:          'market-section',
+    avg:             'avg-section',
+    sizer:           'sizer-section',
+    funding:         'funding-section',
+    fgi:             'fgi-section',
+    geo:             'geo-section',
+    gpr:             'gpr-section',
+    econ:            'econ-section',
+    'ai-settings':   'ai-settings-section',
+    portfolio:       'portfolio-section',
+    agent:           'agent-section',
+    chart:           'chart-section',
+    'heatmap-stock': 'heatmap-stock-section',
+    'heatmap-crypto':'heatmap-crypto-section',
+    calendar:        'calendar-section',
+    news:            'news-section',
+    guild:           'guild-section',
+  };
+  if (sectionMap[mode]) show(sectionMap[mode]);
+
+  // Callbacks
   if (mode === 'ai-settings') updateKeyStatus();
   if (mode === 'fgi')  fgiLoad();
   if (mode === 'geo')  geoLoad();
   if (mode === 'gpr')  gprLoad();
   if (mode === 'econ') econLoad();
-  document.getElementById('portfolio-section').style.display       = mode === 'portfolio'      ? 'block' : 'none';
-  document.getElementById('agent-section').style.display           = mode === 'agent'          ? 'block' : 'none';
-  document.getElementById('chart-section').style.display           = mode === 'chart'          ? 'block' : 'none';
-  document.getElementById('heatmap-stock-section').style.display   = mode === 'heatmap-stock'  ? 'block' : 'none';
-  document.getElementById('heatmap-crypto-section').style.display  = mode === 'heatmap-crypto' ? 'block' : 'none';
-  document.getElementById('calendar-section').style.display        = mode === 'calendar'       ? 'block' : 'none';
-  document.getElementById('news-section').style.display            = mode === 'news'           ? 'block' : 'none';
-
-  // Market group button
-  const mgBtn = document.getElementById('mode-market-group');
-  if (mgBtn) {
-    mgBtn.classList.toggle('active', isMarketMode);
-  }
-  // Market sub-tabs
-  const mst = document.getElementById('market-subtabs');
-  if (mst) mst.style.display = isMarketMode ? 'flex' : 'none';
-  const mchev = document.getElementById('market-group-chevron');
-  if (mchev) mchev.style.transform = isMarketMode ? 'rotate(180deg)' : '';
-  // Active market sub-tab
-  marketModes.forEach(m => {
-    document.getElementById('mode-'+m)?.classList.toggle('active', m === mode);
-  });
-  // News sub-tabs default
   if (mode === 'news' && !window._newsTabSet) { setNewsTab('top'); window._newsTabSet = true; }
   if (mode === 'portfolio') pfRenderAll();
-  if (mode === 'agent') {
-    agentInitialized = false; // force re-sync each visit
-    agentInit();
-  }
+  if (mode === 'agent') { agentInitialized = false; agentInit(); }
 }
 
 // ── Sync qty ↔ vol for leg 1 ──
