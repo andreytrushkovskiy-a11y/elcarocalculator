@@ -91,57 +91,58 @@ body {
 /* ── MODE SWITCHER ── */
 .mode-switcher {
   display:flex; gap:4px; margin-bottom:0;
-  background:var(--bg2); border:1px solid var(--border);
-  border-radius:11px; padding:4px;
+  background:#0a0a0a; border:1px solid #1a1a1a;
+  border-radius:13px; padding:4px;
   overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
   width:100%; box-sizing:border-box;
 }
 .mode-switcher::-webkit-scrollbar { display:none; }
-.mode-btn { flex:1; min-width:60px; }
+.mode-btn { flex:1; min-width:55px; }
 .mode-btn {
-  flex:1; padding:9px 12px; border-radius:8px; border:none;
-  background:transparent; font-family:'Outfit',sans-serif;
-  font-size:12px; font-weight:700; letter-spacing:.4px;
-  color:var(--text2); cursor:pointer; transition:all .18s;
-  display:flex; align-items:center; justify-content:center; gap:6px;
+  flex:1; padding:9px 12px; border-radius:10px; border:none;
+  background:transparent; font-family:'Space Mono',monospace;
+  font-size:10px; font-weight:700; letter-spacing:.6px;
+  color:#555; cursor:pointer; transition:all .18s;
+  display:flex; align-items:center; justify-content:center; gap:5px;
 }
 .mode-btn.active {
-  background:#ff6a00 !important; color:#000 !important;
-  box-shadow:0 2px 12px rgba(255,106,0,0.3);
+  background:linear-gradient(135deg,#ff6500,#f5a623) !important;
+  color:#000 !important;
+  box-shadow:0 2px 14px rgba(245,166,35,.3);
 }
-.mode-btn:hover:not(.active) { color:var(--text); background:rgba(255,255,255,.04); }
+.mode-btn:hover:not(.active) { color:#aaa; background:rgba(255,255,255,.03); }
 
 /* ── AVG ASSET SELECTOR ── */
 .avg-asset-bar {
   display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap;
 }
 .avg-asset-chip {
-  padding:7px 13px; border-radius:8px; border:1px solid var(--border2);
-  background:var(--bg3); font-family:'Outfit',sans-serif;
-  font-size:12px; font-weight:800; color:var(--text2);
-  cursor:pointer; transition:all .15s; letter-spacing:.3px;
+  padding:8px 14px; border-radius:10px; border:1px solid #2a2a2a;
+  background:#161616; font-family:'Space Mono',monospace;
+  font-size:11px; font-weight:700; color:#555;
+  cursor:pointer; transition:all .15s; letter-spacing:.5px;
 }
-.avg-asset-chip.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
-.avg-asset-chip:hover:not(.active) { border-color:var(--border2); color:var(--text); }
+.avg-asset-chip.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.1); }
+.avg-asset-chip:hover:not(.active) { border-color:#3a3a3a; color:#aaa; }
 .avg-asset-custom {
-  flex:1; min-width:80px; padding:7px 10px; border-radius:8px;
-  border:1px dashed var(--border2); background:transparent;
-  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
-  color:var(--text); outline:none; transition:border-color .15s;
+  flex:1; min-width:80px; padding:8px 10px; border-radius:10px;
+  border:1px dashed #2a2a2a; background:#161616;
+  font-family:'Space Mono',monospace; font-size:11px; font-weight:700;
+  color:#f0f0f0; outline:none; transition:all .15s;
   text-transform:uppercase;
 }
-.avg-asset-custom:focus { border-color:var(--orange); }
-.avg-asset-custom::placeholder { color:#333; }
+.avg-asset-custom:focus { border-color:#ff6500; }
+.avg-asset-custom::placeholder { color:#2a2a2a; }
 .avg-fetch-btn {
-  padding:7px 14px; border-radius:8px;
-  border:1px solid var(--border2); background:var(--bg3);
-  font-family:'Outfit',sans-serif; font-size:11px; font-weight:800;
-  color:var(--text2); cursor:pointer; transition:all .15s;
-  display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0;
+  padding:8px 14px; border-radius:10px;
+  border:1px solid #2a2a2a; background:#161616;
+  font-family:'Space Mono',monospace; font-size:10px; font-weight:700;
+  color:#555; cursor:pointer; transition:all .15s;
+  display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0; letter-spacing:.4px;
 }
-.avg-fetch-btn:hover { border-color:var(--orange); color:var(--orange); }
+.avg-fetch-btn:hover { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.06); }
 .avg-fetch-btn.loading { opacity:.6; cursor:wait; }
-.avg-fetch-btn.success { border-color:#22c55e; color:#22c55e; }
+.avg-fetch-btn.success { border-color:#00e5a0; color:#00e5a0; background:rgba(0,229,160,.06); }
 .avg-price-badge {
   display:none; align-items:center; gap:6px;
   padding:5px 10px; border-radius:7px;
@@ -158,14 +159,14 @@ body {
   border:1px solid var(--border2); margin-bottom:16px;
 }
 .pos-btn {
-  padding:13px; border:none; font-family:'Outfit',sans-serif;
-  font-size:13px; font-weight:900; letter-spacing:.6px;
-  cursor:pointer; transition:all .18s; background:var(--bg3);
-  color:var(--text2); display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:13px; border:none; font-family:'Space Mono',monospace;
+  font-size:11px; font-weight:700; letter-spacing:.8px;
+  cursor:pointer; transition:all .18s; background:#161616;
+  color:#555; display:flex; align-items:center; justify-content:center; gap:7px;
 }
-.pos-btn.long.active  { background:rgba(34,197,94,0.15);  color:#22c55e;  border-bottom:2px solid #22c55e; }
-.pos-btn.short.active { background:rgba(239,68,68,0.15);  color:#ef4444;  border-bottom:2px solid #ef4444; }
-.pos-btn:hover:not(.active) { background:rgba(255,255,255,0.04); color:var(--text); }
+.pos-btn.long.active  { background:rgba(0,229,160,.1); color:#00e5a0; border-bottom:2px solid #00e5a0; }
+.pos-btn.short.active { background:rgba(255,61,87,.1); color:#ff3d57; border-bottom:2px solid #ff3d57; }
+.pos-btn:hover:not(.active) { background:rgba(255,255,255,.03); color:#aaa; }
 .pos-indicator {
   display:inline-flex; align-items:center; gap:5px;
   font-size:9px; font-weight:800; letter-spacing:1px;
@@ -183,47 +184,50 @@ body {
 
 .avg-input-group { margin-bottom:14px; }
 .avg-label {
-  font-size:9px; font-weight:700; letter-spacing:1.2px;
-  color:var(--text2); margin-bottom:6px; text-transform:uppercase;
+  font-size:8px; font-weight:700; letter-spacing:1.8px;
+  color:#3a3a3a; margin-bottom:8px; text-transform:uppercase;
+  font-family:'Space Mono',monospace;
 }
 .avg-input {
-  width:100%; padding:12px 14px; border-radius:9px;
-  border:1px solid var(--border2); background:var(--bg3);
-  font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:700;
-  color:var(--text); outline:none; transition:border-color .15s;
+  width:100%; padding:12px 14px; border-radius:12px;
+  border:1px solid #2a2a2a; background:#161616;
+  font-family:'Space Mono',monospace; font-size:14px; font-weight:400;
+  color:#f0f0f0; outline:none; transition:all .15s;
 }
-.avg-input:focus { border-color:var(--orange); }
-.avg-input::placeholder { color:#333; font-weight:400; }
+.avg-input:focus { border-color:#ff6500; box-shadow:0 0 0 2px rgba(255,101,0,.08); }
+.avg-input::placeholder { color:#2a2a2a; font-weight:400; }
 
 .mult-row { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
 .mult-btn {
-  padding:11px; border-radius:9px; border:1px solid var(--border2);
-  background:var(--bg3); font-family:'Outfit',sans-serif;
-  font-size:14px; font-weight:800; color:var(--text2);
-  cursor:pointer; transition:all .15s; text-align:center;
+  padding:11px; border-radius:12px; border:1px solid #2a2a2a;
+  background:#161616; font-family:'Space Mono',monospace;
+  font-size:12px; font-weight:700; color:#555;
+  cursor:pointer; transition:all .15s; text-align:center; letter-spacing:.3px;
 }
 .mult-btn.active {
-  border-color:var(--orange); color:var(--orange);
-  background:rgba(255,106,0,0.08);
+  border-color:#ff6500; color:#ff6500;
+  background:rgba(255,101,0,.1);
 }
-.mult-btn:hover:not(.active) { border-color:var(--border2); color:var(--text); background:rgba(255,255,255,.04); }
+.mult-btn:hover:not(.active) { border-color:#3a3a3a; color:#aaa; }
 
 .avg-add-btn {
-  width:100%; padding:11px; border-radius:9px; margin-top:6px;
-  border:1px dashed var(--border2); background:transparent;
-  font-family:'Outfit',sans-serif; font-size:12px; font-weight:700;
-  color:var(--text2); cursor:pointer; transition:all .15s;
+  width:100%; padding:12px; border-radius:12px; margin-top:8px;
+  border:1px dashed #2a2a2a; background:transparent;
+  font-family:'Space Mono',monospace; font-size:10px; font-weight:700;
+  color:#555; cursor:pointer; transition:all .15s; letter-spacing:.5px;
   display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.avg-add-btn:hover { border-color:var(--orange); color:var(--orange); }
+.avg-add-btn:hover { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.04); }
 
 .avg-calc-btn {
-  width:100%; padding:14px; border-radius:10px; border:none;
-  background:var(--orange); font-family:'Outfit',sans-serif;
-  font-size:14px; font-weight:900; color:#000; cursor:pointer;
-  transition:all .18s; letter-spacing:.3px; margin-top:8px;
+  width:100%; padding:15px; border-radius:14px; border:none;
+  background:linear-gradient(135deg,#ff6500,#f5a623);
+  font-family:'Syne',sans-serif; font-size:14px; font-weight:800;
+  color:#000; cursor:pointer; transition:all .2s;
+  letter-spacing:.4px; margin-top:10px;
+  box-shadow:0 4px 18px rgba(245,166,35,.2);
 }
-.avg-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
+.avg-calc-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(245,166,35,.3); }
 
 /* ── AVG RESULTS ── */
 
@@ -263,29 +267,32 @@ body {
 .sizer-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
 @media(max-width:800px){ .sizer-layout{ grid-template-columns:1fr; } }
 .sizer-result-hero {
-  background:var(--bg3); border:1px solid var(--border2); border-radius:14px;
-  padding:22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#110c00,#0d0b00);
+  border:1px solid rgba(245,166,35,.3); border-radius:18px;
+  padding:24px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden;
 }
 .sizer-result-hero::before {
   content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg,rgba(255,106,0,.07) 0%,transparent 60%);
+  background:radial-gradient(ellipse at 50% 0%,rgba(245,166,35,.06),transparent 60%);
 }
-.sizer-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text2); margin-bottom:6px; }
-.sizer-hero-val   { font-size:40px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--orange); line-height:1; margin-bottom:2px; }
-.sizer-hero-sub   { font-size:11px; color:var(--text2); }
-.sizer-stat { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
-.sizer-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
-.sizer-stat-val   { font-size:16px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--text); }
-.sizer-stat-sub   { font-size:9px; color:#555; margin-top:2px; }
-.risk-bar-wrap { height:8px; background:#1a1a1a; border-radius:4px; margin:10px 0 4px; overflow:hidden; }
-.risk-bar-fill { height:100%; border-radius:4px; transition:width .4s; }
+.sizer-hero-label { font-size:9px; font-weight:700; letter-spacing:2px; color:#3a3a3a; margin-bottom:8px; font-family:'Space Mono',monospace; text-transform:uppercase; }
+.sizer-hero-val   { font-size:38px; font-weight:900; font-family:'Unbounded',sans-serif; color:#f5a623; line-height:1; margin-bottom:4px; }
+.sizer-hero-sub   { font-size:10px; color:#555; font-family:'Space Mono',monospace; }
+.sizer-stat { background:#131313; border:1px solid #1e1e1e; border-radius:14px; padding:14px; }
+.sizer-stat-label { font-size:8px; font-weight:700; letter-spacing:1.5px; color:#3a3a3a; margin-bottom:6px; font-family:'Space Mono',monospace; text-transform:uppercase; }
+.sizer-stat-val   { font-size:16px; font-weight:900; font-family:'Unbounded',sans-serif; color:#f0f0f0; }
+.sizer-stat-sub   { font-size:9px; color:#555; margin-top:3px; font-family:'Space Mono',monospace; }
+.risk-bar-wrap { height:5px; background:#1e1e1e; border-radius:3px; margin:10px 0 4px; overflow:hidden; }
+.risk-bar-fill { height:100%; border-radius:3px; transition:width .4s; }
 .sizer-calc-btn {
-  width:100%; padding:14px; border-radius:10px; border:none;
-  background:var(--orange); font-family:'Outfit',sans-serif;
-  font-size:14px; font-weight:900; color:#000; cursor:pointer;
-  transition:all .18s; letter-spacing:.3px; margin-top:8px;
+  width:100%; padding:15px; border-radius:14px; border:none;
+  background:linear-gradient(135deg,#ff6500,#f5a623);
+  font-family:'Syne',sans-serif; font-size:14px; font-weight:800;
+  color:#000; cursor:pointer; transition:all .2s;
+  letter-spacing:.4px; margin-top:10px;
+  box-shadow:0 4px 18px rgba(245,166,35,.2);
 }
-.sizer-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
+.sizer-calc-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(245,166,35,.3); }
 
 /* ── PORTFOLIO ── */
 /* ═══════════════════════════════════════
@@ -299,21 +306,21 @@ body {
   margin-bottom: 0;
 }
 .pf-hero-label { font-size:11px; font-weight:500; color:rgba(255,255,255,.35); letter-spacing:.5px; margin-bottom:6px; }
-.pf-hero-value { font-family:'DM Sans',monospace; font-size:48px; font-weight:700; color:#fff; line-height:1; letter-spacing:-2px; }
+.pf-hero-value { font-family:'Unbounded',sans-serif; font-size:38px; font-weight:900; color:#fff; line-height:1; letter-spacing:-1px; }
 .pf-hero-pnl { display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:14px; font-weight:600; padding:4px 10px; border-radius:20px; }
-.pf-hero-pnl.pos { background:rgba(34,197,94,.12); color:#22c55e; }
-.pf-hero-pnl.neg { background:rgba(239,68,68,.1); color:#ef4444; }
+.pf-hero-pnl.pos { background:rgba(0,229,160,.1); color:#00e5a0; }
+.pf-hero-pnl.neg { background:rgba(255,61,87,.1); color:#ff3d57; }
 
 /* Mini sparkline bar */
 .pf-hero-bar { height:3px; background:rgba(255,255,255,.06); border-radius:2px; margin:16px 0 20px; overflow:hidden; }
 .pf-hero-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg, var(--orange), #f5c800); transition:width 1s cubic-bezier(.4,0,.2,1); }
 
 /* Stats row */
-.pf-stats-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.06); border-radius:14px; overflow:hidden; margin-bottom:20px; }
+.pf-stats-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; background:transparent; border-radius:0; overflow:visible; margin-bottom:20px; }
 @media(max-width:600px){ .pf-stats-strip{ grid-template-columns:repeat(2,1fr); } }
-.pf-stat { background:var(--bg2); padding:16px 14px; }
+.pf-stat { background:#131313; border-radius:14px; padding:16px 14px; }
 .pf-stat-label { font-size:9px; font-weight:600; letter-spacing:.8px; color:rgba(255,255,255,.3); margin-bottom:6px; text-transform:uppercase; }
-.pf-stat-val { font-family:'DM Sans',monospace; font-size:20px; font-weight:700; color:#fff; line-height:1; }
+.pf-stat-val { font-family:'Unbounded',sans-serif; font-size:18px; font-weight:900; color:#fff; line-height:1; }
 .pf-stat-sub { font-size:9px; color:rgba(255,255,255,.2); margin-top:3px; font-weight:500; }
 
 /* Donut — now smaller, inline */
@@ -341,7 +348,7 @@ body {
 #pf-type-bars { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:16px; }
 
 /* Asset cards — Robinhood style rows */
-.pf-table-wrap { border-radius:14px; overflow:hidden; margin-bottom:16px; background:var(--bg2); border:1px solid rgba(255,255,255,.05); }
+.pf-table-wrap { border-radius:18px; overflow:hidden; margin-bottom:16px; background:#131313; border:1px solid #1e1e1e; }
 .pf-table-header { display:grid; grid-template-columns:40px 1fr 1fr 1fr; gap:6px; padding:10px 14px; background:rgba(0,0,0,.2); border-bottom:1px solid rgba(255,255,255,.04); }
 .pf-table-header span { font-size:8px; font-weight:600; letter-spacing:.8px; color:rgba(255,255,255,.25); text-transform:uppercase; }
 .pf-asset-row { display:grid; grid-template-columns:40px 1fr 1fr 1fr; gap:6px; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.03); align-items:center; transition:background .12s; cursor:default; }
@@ -361,15 +368,15 @@ body {
 .pf-asset-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:baseline; justify-content:center; padding-bottom:2px; flex-shrink:0; }
 
 /* Add card */
-.pf-add-card { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:18px; margin-bottom:16px; }
+.pf-add-card { background:#131313; border:1px solid #1e1e1e; border-radius:18px; padding:18px; margin-bottom:16px; }
 .pf-add-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr auto; gap:8px; align-items:end; }
 @media(max-width:800px){ .pf-add-grid{ grid-template-columns:1fr 1fr; } }
 .pf-add-input {
-  width:100%; background:var(--bg3); border:1px solid rgba(255,255,255,.07);
-  border-radius:9px; padding:9px 12px; color:var(--text); font-family:'DM Sans',Outfit,sans-serif;
-  font-size:13px; font-weight:500; outline:none; box-sizing:border-box; transition:border .15s;
+  width:100%; background:#161616; border:1px solid #2a2a2a;
+  border-radius:12px; padding:10px 12px; color:#f0f0f0; font-family:'Space Mono',monospace;
+  font-size:12px; font-weight:400; outline:none; box-sizing:border-box; transition:all .15s;
 }
-.pf-add-input:focus { border-color:var(--orange); }
+.pf-add-input:focus { border-color:#ff6500; box-shadow:0 0 0 2px rgba(255,101,0,.08); }
 
 /* Alert rows */
 .pf-alert-row { display:grid; grid-template-columns:70px 90px 70px 1fr auto; gap:8px; align-items:center; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.03); font-size:11px; font-family:'DM Sans',sans-serif; }
@@ -380,12 +387,12 @@ body {
 .pf-alert-tf { font-size:8px; color:rgba(255,255,255,.25); font-weight:600; letter-spacing:.5px; }
 
 /* Sim card */
-.pf-sim-card { background:var(--bg2); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:18px; }
+.pf-sim-card { background:#131313; border:1px solid #1e1e1e; border-radius:18px; padding:18px; }
 .pf-mult-btn { padding:7px 14px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:transparent; font-family:'DM Sans',Outfit,sans-serif; font-size:11px; font-weight:700; color:rgba(255,255,255,.4); cursor:pointer; transition:all .15s; }
 .pf-mult-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
 
 /* Add/fetch btns */
-.pf-add-btn { width:100%; padding:10px; border-radius:9px; border:none; background:var(--orange); font-family:'DM Sans',Outfit,sans-serif; font-size:13px; font-weight:700; color:#000; cursor:pointer; transition:opacity .15s; }
+.pf-add-btn { width:100%; padding:12px; border-radius:12px; border:none; background:linear-gradient(135deg,#ff6500,#f5a623); font-family:'Syne',sans-serif; font-size:13px; font-weight:800; color:#000; cursor:pointer; transition:all .2s; box-shadow:0 4px 14px rgba(245,166,35,.2); }
 .pf-add-btn:hover { opacity:.85; }
 .pf-fetch-price-btn { padding:9px 12px; border-radius:9px; border:1px solid rgba(255,255,255,.08); background:var(--bg3); color:var(--text2); cursor:pointer; font-size:13px; transition:border .15s; }
 .pf-fetch-price-btn:hover { border-color:var(--orange); }
@@ -658,19 +665,21 @@ body {
 .funding-layout { display:grid; grid-template-columns:340px 1fr; gap:16px; max-width:900px; margin:0 auto; }
 @media(max-width:800px){ .funding-layout{ grid-template-columns:1fr; } }
 .funding-asset-btn {
-  padding:8px 14px; border-radius:8px; border:1px solid var(--border2);
-  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:12px;
-  font-weight:800; color:var(--text2); cursor:pointer; transition:all .15s;
+  padding:8px 14px; border-radius:10px; border:1px solid #2a2a2a;
+  background:#161616; font-family:'Space Mono',monospace; font-size:11px;
+  font-weight:700; color:#555; cursor:pointer; transition:all .15s; letter-spacing:.3px;
 }
-.funding-asset-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
-.funding-asset-btn:hover:not(.active) { color:var(--text); }
+.funding-asset-btn.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.1); }
+.funding-asset-btn:hover:not(.active) { border-color:#3a3a3a; color:#aaa; }
 .funding-period-card {
-  background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+  background:#131313; border:1px solid #1e1e1e; border-radius:14px;
   padding:16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+  transition:border-color .15s;
 }
-.funding-period-label { font-size:10px; font-weight:700; color:var(--text2); }
-.funding-period-val   { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:900; }
-.funding-period-sub   { font-size:9px; color:#555; margin-top:2px; text-align:right; }
+.funding-period-card:hover { border-color:#2a2a2a; }
+.funding-period-label { font-size:9px; font-weight:700; color:#3a3a3a; font-family:'Space Mono',monospace; letter-spacing:1.2px; text-transform:uppercase; }
+.funding-period-val   { font-family:'Unbounded',sans-serif; font-size:20px; font-weight:900; }
+.funding-period-sub   { font-size:9px; color:#555; margin-top:3px; text-align:right; font-family:'Space Mono',monospace; }
 .funding-periods { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
 .funding-direction-bar {
   height:6px; border-radius:3px; margin:12px 0 6px; overflow:hidden;
@@ -686,8 +695,8 @@ body {
 /* ── TAKE PROFIT ── */
 .tp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:6px; }
 .tp-card {
-  background:var(--bg3); border:1px solid var(--border);
-  border-radius:10px; padding:12px 10px; text-align:center;
+  background:#131313; border:1px solid #1e1e1e;
+  border-radius:14px; padding:14px 10px; text-align:center;
   cursor:pointer; transition:all .18s; position:relative; overflow:hidden;
 }
 .tp-card::before {
@@ -698,7 +707,7 @@ body {
 .tp-card:hover::before { opacity:1; }
 .tp-card:hover { border-color:rgba(34,197,94,0.3); }
 .tp-pct   { font-size:8px; font-weight:800; letter-spacing:1px; color:#22c55e; margin-bottom:4px; }
-.tp-price { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:900; color:var(--text); margin-bottom:3px; }
+.tp-price { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:#f0f0f0; margin-bottom:3px; }
 .tp-pnl   { font-size:10px; font-weight:700; color:#22c55e; }
 .tp-custom-row {
   display:flex; gap:6px; align-items:center; margin-top:6px;
@@ -780,36 +789,37 @@ body {
 .avg-empty p { font-size:13px; color:var(--text2); }
 
 .avg-result-hero {
-  background:var(--bg3); border:1px solid var(--border2);
-  border-radius:14px; padding:22px; text-align:center; margin-bottom:14px;
+  background:linear-gradient(135deg,#110c00,#0d0b00);
+  border:1px solid rgba(245,166,35,.3);
+  border-radius:18px; padding:22px; text-align:center; margin-bottom:14px;
   position:relative; overflow:hidden;
 }
 .avg-result-hero::before {
   content:''; position:absolute; inset:0;
   background:linear-gradient(135deg,rgba(255,106,0,0.06) 0%,transparent 60%);
 }
-.avg-hero-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text2); margin-bottom:6px; }
-.avg-hero-price { font-size:42px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--orange); line-height:1; margin-bottom:4px; }
-.avg-hero-sub { font-size:11px; color:var(--text2); }
+.avg-hero-label { font-size:9px; font-weight:700; letter-spacing:2px; color:#3a3a3a; margin-bottom:8px; font-family:'Space Mono',monospace; text-transform:uppercase; }
+.avg-hero-price { font-size:38px; font-weight:900; font-family:'Unbounded',sans-serif; color:#f5a623; line-height:1; margin-bottom:4px; }
+.avg-hero-sub { font-size:10px; color:#555; font-family:'Space Mono',monospace; }
 
 .avg-summary-grid {
   display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;
 }
 .avg-stat {
-  background:var(--bg3); border:1px solid var(--border);
-  border-radius:10px; padding:12px 14px;
+  background:#131313; border:1px solid #1e1e1e;
+  border-radius:14px; padding:14px;
 }
-.avg-stat-label { font-size:8px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:4px; }
-.avg-stat-val { font-size:16px; font-weight:900; font-family:'JetBrains Mono',monospace; color:var(--text); }
-.avg-stat-sub { font-size:9px; color:var(--text2); margin-top:2px; }
+.avg-stat-label { font-size:8px; font-weight:700; letter-spacing:1.5px; color:#3a3a3a; margin-bottom:6px; font-family:'Space Mono',monospace; text-transform:uppercase; }
+.avg-stat-val { font-size:16px; font-weight:900; font-family:'Unbounded',sans-serif; color:#f0f0f0; }
+.avg-stat-sub { font-size:9px; color:#555; margin-top:3px; font-family:'Space Mono',monospace; }
 
 .avg-legs-card {
-  background:var(--bg3); border:1px solid var(--border);
-  border-radius:12px; overflow:hidden;
+  background:#131313; border:1px solid #1e1e1e;
+  border-radius:16px; overflow:hidden;
 }
 .avg-legs-header {
   display:flex; justify-content:space-between; align-items:center;
-  padding:10px 14px; border-bottom:1px solid var(--border);
+  padding:12px 14px; border-bottom:1px solid #1e1e1e;
 }
 .avg-legs-header span { font-size:9px; font-weight:700; letter-spacing:1px; color:var(--text2); }
 .avg-leg-row {
@@ -831,11 +841,12 @@ body {
 .avg-be-label { font-size:9px; font-weight:700; letter-spacing:1px; color:var(--text2); margin-bottom:12px; }
 
 /* ── HEADER ── */
-.header { display:flex; align-items:center; gap:10px; margin-bottom:24px; }
-.brand-main { font-size:18px; font-weight:900; letter-spacing:-0.3px; }
+.header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:16px; background:#0f0f0f; border:1px solid #1a1a1a; border-radius:18px; padding:14px 16px; }
+.brand-main { font-size:16px; font-weight:900; letter-spacing:-.3px; font-family:'Unbounded',sans-serif; }
 .brand-sub  {
-  font-size:9px; color:var(--text2); font-weight:600;
+  font-size:8px; color:#3a3a3a; font-weight:700;
   white-space:nowrap; display:inline-block;
+  font-family:'Space Mono',monospace; letter-spacing:2px; text-transform:uppercase;
 }
 .brand-sub span { color:var(--orange); }
 
@@ -848,95 +859,101 @@ body {
 
 /* ── CARD ── */
 .card {
-  background:var(--bg2); border:1px solid var(--border);
-  border-radius:14px; padding:18px;
+  background:#131313; border:1px solid #1e1e1e;
+  border-radius:18px; padding:18px;
+  position:relative; overflow:hidden;
+}
+.card::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at 0% 0%,rgba(255,106,0,.025),transparent 60%);
 }
 
 /* ── ASSET TABS ── */
 .asset-tabs { display:flex; gap:4px; margin-bottom:16px; flex-wrap:wrap; }
 .asset-tab {
-  padding:6px 14px; border-radius:7px;
-  border:1px solid var(--border2); background:var(--bg3);
-  font-size:11px; font-weight:700; color:var(--text2);
-  cursor:pointer; transition:all .15s; font-family:'Outfit',sans-serif;
-  display:flex; align-items:center; gap:5px;
+  padding:8px 14px; border-radius:10px;
+  border:1px solid #2a2a2a; background:#161616;
+  font-size:10px; font-weight:700; color:#555;
+  cursor:pointer; transition:all .15s; font-family:'Space Mono',monospace;
+  display:flex; align-items:center; gap:5px; letter-spacing:.4px;
 }
-.asset-tab:hover { border-color:var(--orange); color:var(--orange); }
-.asset-tab.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
-.asset-tab .dot { width:5px; height:5px; border-radius:50%; background:var(--orange); flex-shrink:0; }
+.asset-tab:hover { border-color:#3a3a3a; color:#aaa; }
+.asset-tab.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.08); }
+.asset-tab .dot { width:5px; height:5px; border-radius:50%; background:#ff6500; flex-shrink:0; box-shadow:0 0 5px rgba(255,101,0,.5); }
 .asset-add {
-  padding:6px 11px; border-radius:7px;
-  border:1px dashed var(--border2); background:transparent;
-  font-size:11px; font-weight:700; color:var(--text2);
-  cursor:pointer; font-family:'Outfit',sans-serif; transition:all .15s;
+  padding:8px 12px; border-radius:10px;
+  border:1px dashed #2a2a2a; background:transparent;
+  font-size:10px; font-weight:700; color:#555;
+  cursor:pointer; font-family:'Space Mono',monospace; transition:all .15s;
 }
-.asset-add:hover { border-color:var(--orange); color:var(--orange); }
+.asset-add:hover { border-color:#ff6500; color:#ff6500; }
 
 /* ── DATE PICKER ── */
 .date-picker-wrap { position:relative; width:100%; margin-bottom:14px; }
 .date-trigger {
   display:flex; align-items:center; justify-content:space-between;
-  background:var(--bg3); border:1px solid var(--border2);
-  border-radius:9px; padding:11px 13px; cursor:pointer;
-  font-size:13px; color:var(--text); font-family:'JetBrains Mono',monospace;
-  font-weight:600; transition:border-color .15s;
+  background:#161616; border:1px solid #2a2a2a;
+  border-radius:12px; padding:12px 14px; cursor:pointer;
+  font-size:12px; color:#f0f0f0; font-family:'Space Mono',monospace;
+  font-weight:400; transition:all .15s;
 }
-.date-trigger:hover,.date-trigger.open { border-color:var(--orange); }
+.date-trigger:hover,.date-trigger.open { border-color:#ff6500; }
 .date-dropdown {
-  position:absolute; top:calc(100% + 5px); left:0; right:0; z-index:200;
-  background:var(--bg2); border:1px solid var(--border2);
-  border-radius:11px; overflow:hidden;
-  box-shadow:0 12px 40px rgba(0,0,0,.7);
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:200;
+  background:#131313; border:1px solid #2a2a2a;
+  border-radius:14px; overflow:hidden;
+  box-shadow:0 16px 50px rgba(0,0,0,.8);
   max-height:260px; overflow-y:auto;
 }
-.date-dropdown::-webkit-scrollbar { width:3px; }
-.date-dropdown::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.date-dropdown::-webkit-scrollbar { width:2px; }
+.date-dropdown::-webkit-scrollbar-thumb { background:#2a2a2a; border-radius:2px; }
 .date-option {
   display:flex; align-items:center; justify-content:space-between;
-  padding:9px 14px; cursor:pointer; font-size:12px;
-  font-family:'JetBrains Mono',monospace; transition:background .1s;
-  border-bottom:1px solid var(--border);
+  padding:10px 14px; cursor:pointer; font-size:11px;
+  font-family:'Space Mono',monospace; transition:background .1s;
+  border-bottom:1px solid #1e1e1e;
 }
 .date-option:last-child { border-bottom:none; }
-.date-option:hover { background:rgba(255,106,0,.07); }
-.date-option.selected { color:var(--orange); background:rgba(255,106,0,.1); }
-.date-option .date-days { font-size:10px; color:var(--text2); }
-.date-option.selected .date-days { color:var(--orange); opacity:.6; }
-.date-loading { padding:14px; text-align:center; color:var(--text2); font-size:11px; }
+.date-option:hover { background:rgba(255,101,0,.06); }
+.date-option.selected { color:#ff6500; background:rgba(255,101,0,.1); }
+.date-option .date-days { font-size:9px; color:#3a3a3a; }
+.date-option.selected .date-days { color:#ff6500; opacity:.6; }
+.date-loading { padding:14px; text-align:center; color:#555; font-size:11px; font-family:'Space Mono',monospace; }
 
 /* ── ACTION BUTTONS ── */
 .btn-autofill {
-  width:100%; padding:12px; border-radius:9px; margin-top:4px; margin-bottom:8px;
-  border:1px solid #ff6a00 !important; background:rgba(255,106,0,0.08) !important;
-  font-family:'Outfit',sans-serif; font-size:13px; font-weight:800;
-  color:#ff6a00 !important; cursor:pointer; transition:all .18s;
+  width:100%; padding:12px; border-radius:12px; margin-top:4px; margin-bottom:8px;
+  border:1px solid rgba(255,101,0,.3) !important; background:rgba(255,101,0,.06) !important;
+  font-family:'Space Mono',monospace; font-size:11px; font-weight:700;
+  color:#ff6500 !important; cursor:pointer; transition:all .18s;
   display:flex; align-items:center; justify-content:center; gap:7px;
-  letter-spacing:.3px;
+  letter-spacing:.8px;
 }
-.btn-autofill:hover { background:rgba(255,106,0,0.16); transform:translateY(-1px); box-shadow:0 4px 16px rgba(255,106,0,0.15); }
+.btn-autofill:hover { background:rgba(255,101,0,.12) !important; transform:translateY(-1px); box-shadow:0 4px 14px rgba(255,101,0,.12); }
 .btn-autofill:active { transform:translateY(0); }
 .btn-autofill.loading { opacity:.7; cursor:wait; }
-.btn-autofill.success { border-color:var(--green); background:rgba(0,200,150,.08); color:var(--green); }
+.btn-autofill.success { border-color:rgba(0,229,160,.3) !important; background:rgba(0,229,160,.06) !important; color:#00e5a0 !important; }
 .btn-calc {
-  padding:13px; border-radius:9px; border:none;
-  background:#ff6a00 !important; color:#000 !important;
-  font-family:'Outfit',sans-serif; font-size:14px; font-weight:900;
-  cursor:pointer; letter-spacing:.3px; transition:all .18s;
+  padding:15px; border-radius:14px; border:none;
+  background:linear-gradient(135deg,#ff6500,#f5a623) !important; color:#000 !important;
+  font-family:'Syne',sans-serif; font-size:14px; font-weight:800;
+  cursor:pointer; letter-spacing:.4px; transition:all .2s;
   width:100%; margin-top:10px;
+  box-shadow:0 4px 18px rgba(245,166,35,.2);
 }
-.btn-calc:hover { background:var(--orange2); transform:translateY(-1px); }
+.btn-calc:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(245,166,35,.3); }
 
 /* ── EDIT PANEL ── */
 .edit-toggle {
   display:flex; align-items:center; gap:5px;
-  font-size:10px; font-weight:700; color:var(--text2);
-  letter-spacing:.8px; cursor:pointer; margin-bottom:10px;
-  padding:7px 10px; border-radius:7px; border:1px solid var(--border);
-  background:transparent; font-family:'Outfit',sans-serif;
+  font-size:9px; font-weight:700; color:#555;
+  letter-spacing:1px; cursor:pointer; margin-bottom:12px;
+  padding:8px 12px; border-radius:10px; border:1px solid #2a2a2a;
+  background:#161616; font-family:'Space Mono',monospace;
   transition:all .15s; width:fit-content;
 }
-.edit-toggle:hover { border-color:var(--border2); color:var(--text); }
-.edit-toggle.active { border-color:var(--orange); color:var(--orange); }
+.edit-toggle:hover { border-color:#3a3a3a; color:#aaa; }
+.edit-toggle.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.06); }
 
 .edit-panel {
   display:none;
@@ -996,12 +1013,12 @@ body {
 /* ── VIZ TABS ── */
 .viz-tabs { display:flex; gap:4px; margin-bottom:14px; }
 .viz-tab {
-  padding:5px 12px; border-radius:6px; font-size:10px; font-weight:700;
-  border:1px solid var(--border2); color:var(--text2); cursor:pointer;
-  font-family:'Outfit',sans-serif; transition:all .15s; letter-spacing:.5px;
+  padding:8px 13px; border-radius:10px; font-size:9px; font-weight:700;
+  border:1px solid #2a2a2a; color:#555; cursor:pointer; background:#161616;
+  font-family:'Space Mono',monospace; transition:all .15s; letter-spacing:.8px;
 }
-.viz-tab.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.07); }
-.viz-tab:hover:not(.active) { border-color:var(--border2); color:var(--text); }
+.viz-tab.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.1); }
+.viz-tab:hover:not(.active) { border-color:#3a3a3a; color:#aaa; }
 
 /* ── VIZ 1: RANGE BAR ── */
 .v1-wrap { position:relative; padding:30px 0 32px; }
@@ -1070,30 +1087,31 @@ body {
   display:flex; justify-content:space-between; align-items:flex-start;
   gap:10px; flex-wrap:wrap;
 }
-.result-title { font-size:22px; font-weight:900; }
+.result-title { font-size:22px; font-weight:900; font-family:'Unbounded',sans-serif; }
 .result-title span { color:var(--orange); }
-.result-meta { font-size:11px; color:var(--text2); margin-top:2px; }
+.result-meta { font-size:10px; color:#555; margin-top:4px; font-family:'Space Mono',monospace; }
 .result-meta b { color:var(--text); }
 
 .be-row {
   display:flex; align-items:center; gap:8px; margin-top:12px;
-  padding:11px 14px; background:var(--bg3); border-radius:9px;
+  padding:14px 16px; background:linear-gradient(135deg,#110c00,#0d0b00);
+  border:1px solid rgba(245,166,35,.15); border-radius:14px;
 }
 .be-item { flex:1; text-align:center; }
-.be-lbl { font-size:8px; letter-spacing:.8px; font-weight:700; color:var(--text2); margin-bottom:2px; }
-.be-val { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:900; }
-.be-val.lo { color:var(--red); }
-.be-val.hi { color:var(--green); }
+.be-lbl { font-size:8px; letter-spacing:1.5px; font-weight:700; color:#3a3a3a; margin-bottom:4px; font-family:'Space Mono',monospace; text-transform:uppercase; }
+.be-val { font-family:'Unbounded',sans-serif; font-size:18px; font-weight:900; }
+.be-val.lo { color:#ff3d57; }
+.be-val.hi { color:#00e5a0; }
 .be-mid { text-align:center; flex-shrink:0; padding:0 8px; }
-.be-mid .straddle-val { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:800; color:var(--orange); }
-.be-mid .straddle-lbl { font-size:8px; color:var(--text2); letter-spacing:.5px; }
+.be-mid .straddle-val { font-family:'Unbounded',sans-serif; font-size:12px; font-weight:900; color:#f5a623; }
+.be-mid .straddle-lbl { font-size:8px; color:#3a3a3a; letter-spacing:1.5px; font-family:'Space Mono',monospace; text-transform:uppercase; }
 
 /* ── COPY OUTPUT ── */
 .copy-btn {
-  padding:6px 13px; border-radius:7px;
-  border:1px solid var(--border2); background:var(--bg3);
-  font-size:10px; font-weight:700; color:var(--text2);
-  cursor:pointer; transition:all .15s; font-family:'Outfit',sans-serif;
+  padding:7px 14px; border-radius:10px;
+  border:1px solid #2a2a2a; background:#161616;
+  font-size:10px; font-weight:700; color:#555;
+  cursor:pointer; transition:all .15s; font-family:'Space Mono',monospace;
   display:flex; align-items:center; gap:4px;
 }
 .copy-btn:hover { border-color:var(--orange); color:var(--orange); }
@@ -1109,9 +1127,9 @@ body {
   --zone4-color: #ff1a1a; /* bright red — ABSOLUTELY IMPOSSIBLE */
 }
 .sigma-card {
-  border-radius:12px; padding:16px; text-align:center;
+  border-radius:16px; padding:16px; text-align:center;
   position:relative; overflow:hidden;
-  border:1px solid rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.06); background:#131313;
 }
 /* Gradient top accent bar per zone */
 .sigma-card.s1 { background:linear-gradient(180deg,rgba(245,200,0,0.13) 0%,rgba(22,22,22,0.0) 65%); border-top:2px solid var(--zone1-color); }
@@ -1127,8 +1145,8 @@ body {
 .s2 .sc-zone-tag { background:rgba(255,106,0,0.15); color:var(--zone2-color); }
 .s3 .sc-zone-tag { background:rgba(224,59,59,0.15); color:var(--zone3-color); }
 .s4 .sc-zone-tag { background:rgba(255,26,26,0.18); color:var(--zone4-color); }
-.sc-label { font-size:8px; font-weight:600; letter-spacing:0.5px; color:#444; margin-bottom:2px; }
-.sc-prob  { font-size:26px; font-weight:900; margin:4px 0 2px; line-height:1; }
+.sc-label { font-size:8px; font-weight:700; letter-spacing:1.5px; color:#3a3a3a; margin-bottom:4px; font-family:'Space Mono',monospace; text-transform:uppercase; }
+.sc-prob  { font-size:26px; font-weight:900; margin:4px 0 2px; line-height:1; font-family:'Unbounded',sans-serif; }
 .s1 .sc-prob { color:var(--zone1-color); }
 .s2 .sc-prob { color:var(--zone2-color); }
 .s3 .sc-prob { color:var(--zone3-color); }
@@ -3957,6 +3975,72 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #op-oracle .mkt-buy:active { transform: scale(.98); }
 
 
+/* ═══ ELCARO ORACLE DESIGN UTILS ═══ */
+/* Global Scroll bars */
+::-webkit-scrollbar { width:2px; height:2px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:#1e1e1e; border-radius:2px; }
+
+/* Funding direction buttons inline style override */
+#fr-long-btn {
+  padding:11px !important; border-radius:12px !important;
+  border:1px solid rgba(0,229,160,.3) !important; background:rgba(0,229,160,.08) !important;
+  font-family:'Space Mono',monospace !important; font-size:11px !important;
+  font-weight:700 !important; color:#00e5a0 !important; cursor:pointer;
+}
+#fr-short-btn {
+  padding:11px !important; border-radius:12px !important;
+  border:1px solid #2a2a2a !important; background:#161616 !important;
+  font-family:'Space Mono',monospace !important; font-size:11px !important;
+  font-weight:700 !important; color:#555 !important; cursor:pointer;
+}
+/* Straddle result title date span */
+.result-title > span:last-child { font-family:'Space Mono',monospace !important; font-size:13px !important; color:#555 !important; font-weight:400 !important; }
+/* Straddle sigma zone tags */
+.sc-zone-tag { border-radius:6px !important; letter-spacing:1px !important; }
+/* Empty states */
+.empty-state, .avg-empty { color:#3a3a3a !important; }
+.empty-state svg, .avg-empty svg { opacity:.1 !important; }
+/* Overlay modals */
+.modal-overlay { background:rgba(0,0,0,.88) !important; backdrop-filter:blur(10px) !important; }
+/* All labels in inline style divs */
+[style*="letter-spacing:1.8px;color:#3a3a3a"] { font-family:'Space Mono',monospace !important; }
+/* Avg add btn icon */
+.avg-add-btn svg { opacity:.5; }
+/* Avg entry accent */
+#avg-entry-accent { background:#00e5a0 !important; }
+/* Funding sentiment bar */
+.funding-direction-bar { border-radius:4px !important; }
+/* Toolbar/widget copyright links — hide visually */
+.tradingview-widget-copyright a span { color:#2a2a2a !important; font-size:9px !important; }
+/* news tab buttons get the oracle tab style */
+#news-section .mode-btn { font-family:'Space Mono',monospace !important; font-size:9px !important; letter-spacing:.8px !important; }
+/* Sizer leverage/risk slider */
+input[type=range] {
+  -webkit-appearance:none !important; height:4px !important;
+  background:#2a2a2a !important; border-radius:2px !important;
+  border:none !important; padding:0 !important; outline:none !important;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; width:15px; height:15px;
+  background:linear-gradient(135deg,#ff6500,#f5a623);
+  border-radius:50%; cursor:pointer;
+  box-shadow:0 0 8px rgba(255,101,0,.4);
+}
+/* Chart/market iframes border */
+#chart-section > div:first-child,
+#heatmap-stock-section > div,
+#heatmap-crypto-section > div,
+#calendar-section > div {
+  border-radius:18px !important; border:1px solid #1e1e1e !important;
+  overflow:hidden !important;
+}
+/* Progress bars */
+.pf-hero-bar { background:rgba(255,255,255,.04) !important; }
+.pf-hero-bar-fill { background:linear-gradient(90deg,#ff6500,#f5a623) !important; }
+/* ─── END ─── */
+
+
 </style>
 </head>
 <body>
@@ -4048,8 +4132,8 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
           <input type="text" id="inp-new-asset" placeholder="AVAX" maxlength="10"
             class="edit-input" style="text-transform:uppercase;flex:1;"
             onkeydown="if(event.key==='Enter')confirmAddAsset()">
-          <button onclick="confirmAddAsset()" style="padding:8px 14px;border-radius:7px;background:var(--orange);border:none;color:#000;font-weight:800;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">ADD</button>
-          <button onclick="cancelAddAsset()" style="padding:8px 10px;border-radius:7px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-weight:700;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✕</button>
+          <button onclick="confirmAddAsset()" style="padding:8px 14px;border-radius:7px;background:linear-gradient(135deg,#ff6500,#f5a623);border:none;color:#000;font-weight:800;font-size:11px;cursor:pointer;font-family:'Syne',sans-serif;">ADD</button>
+          <button onclick="cancelAddAsset()" style="padding:8px 10px;border-radius:7px;background:#161616;border:1px solid #2a2a2a;color:#555;font-weight:700;font-size:11px;cursor:pointer;font-family:'Space Mono',monospace;">✕</button>
         </div>
       </div>
 
@@ -4207,7 +4291,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <!-- VISUALIZATION CARD -->
       <div class="card">
         <div style="margin-bottom:14px;">
-          <div style="font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:900;letter-spacing:1.8px;color:#888;font-family:'Space Mono',monospace;display:flex;align-items:center;gap:8px;margin-bottom:10px;">
             <span style="color:var(--orange);font-size:13px;">σ</span>
             SIGMA LEVELS <span style="color:var(--orange)">—</span> WHERE PRICE WON'T BE
           </div>
@@ -4267,7 +4351,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <!-- Telegram Output (collapsed by default) -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;" onclick="toggleTelegramOutput()">
+          <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;gap:6px;" onclick="toggleTelegramOutput()">
             <span style="display:inline-block;width:3px;height:14px;background:var(--border2);border-radius:2px;" id="tg-indicator"></span>
             TELEGRAM OUTPUT
             <svg id="tg-chevron" viewBox="0 0 24 24" style="width:10px;height:10px;stroke:var(--text2);fill:none;stroke-width:2.5;transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>
@@ -4405,7 +4489,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <div class="card">
 
         <!-- Asset selector + live price fetch -->
-        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:8px;">ASSET</div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:8px;">ASSET</div>
         <div class="avg-asset-bar">
           <button class="avg-asset-chip active" id="avg-chip-BTC" onclick="avgSelectAsset('BTC')">BTC</button>
           <button class="avg-asset-chip" id="avg-chip-ETH" onclick="avgSelectAsset('ETH')">ETH</button>
@@ -4442,7 +4526,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
         </div>
 
         <!-- Entry 1 (fixed) -->
-        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
           <span id="avg-entry-accent" style="display:inline-block;width:3px;height:14px;background:#22c55e;border-radius:2px;"></span>
           ENTRY #1
           <span class="pos-indicator long" id="avg-pos-badge">LONG</span>
@@ -4542,12 +4626,12 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
               <div style="text-align:center;">
-                <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">ORIGINAL LIQ. PRICE</div>
-                <div id="avg-liq-original" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+                <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;font-weight:700;letter-spacing:.8px;">ORIGINAL LIQ. PRICE</div>
+                <div id="avg-liq-original" style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#ef4444;">—</div>
               </div>
               <div style="text-align:center;">
-                <div style="font-size:8px;color:#666;margin-bottom:3px;font-weight:700;letter-spacing:.8px;">NEW LIQ. PRICE</div>
-                <div id="avg-liq-new" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#ef4444;">—</div>
+                <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;font-weight:700;letter-spacing:.8px;">NEW LIQ. PRICE</div>
+                <div id="avg-liq-new" style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#ef4444;">—</div>
               </div>
             </div>
             <div id="avg-liq-change-bar" style="margin-top:12px;padding:8px 12px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
@@ -4609,7 +4693,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
           </div>
 
           <!-- ── RISK / REWARD ── -->
-          <div id="avg-rr-card" style="display:none;margin-top:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;">
+          <div id="avg-rr-card" style="display:none;margin-top:14px;background:#131313;border:1px solid #1e1e1e;border-radius:16px;padding:16px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
               <div style="display:flex;align-items:center;gap:7px;">
                 <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
@@ -4649,25 +4733,25 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
       <!-- Current price input for P&L -->
       <div class="card" style="margin-top:14px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:10px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:10px;">
           CURRENT MARKET PRICE (for P&amp;L)
         </div>
         <div style="display:flex;gap:8px;">
           <input class="avg-input" id="avg-current-price" type="number" placeholder="Current price..." style="flex:1;font-size:15px;" oninput="avgUpdatePnl()">
           <button style="padding:12px 18px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;" onclick="avgUpdatePnl()">UPDATE</button>
         </div>
-        <div id="avg-pnl-detail" style="display:none;margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
+        <div id="avg-pnl-detail" style="display:none;margin-top:12px;padding:12px;background:#0d0d0d;border-radius:12px;border:1px solid #1e1e1e;">
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
             <div>
-              <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">P&L $</div>
-              <div id="avg-pnl-usd" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:900;"></div>
+              <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;">P&L $</div>
+              <div id="avg-pnl-usd" style="font-family:'Unbounded',sans-serif;font-size:15px;font-weight:900;"></div>
             </div>
             <div>
-              <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">P&L %</div>
-              <div id="avg-pnl-pct" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:900;"></div>
+              <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;">P&L %</div>
+              <div id="avg-pnl-pct" style="font-family:'Unbounded',sans-serif;font-size:15px;font-weight:900;"></div>
             </div>
             <div>
-              <div style="font-size:8px;color:var(--text2);margin-bottom:3px;">STATUS</div>
+              <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;">STATUS</div>
               <div id="avg-pnl-status" style="font-size:11px;font-weight:800;"></div>
             </div>
           </div>
@@ -4677,7 +4761,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
       <!-- ── CALCULATION HISTORY ── -->
       <div class="card" id="avg-hist-card" style="margin-top:14px;display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);">RECENT CALCULATIONS</div>
+          <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;">RECENT CALCULATIONS</div>
           <button onclick="avgClearHistory()" style="background:none;border:none;font-size:9px;color:#444;cursor:pointer;font-weight:700;font-family:Outfit,sans-serif;">CLEAR</button>
         </div>
         <div id="avg-hist-list" style="display:flex;flex-direction:column;gap:6px;"></div>
@@ -4694,7 +4778,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
     <!-- LEFT: Inputs -->
     <div>
       <div class="card">
-        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:14px;display:flex;align-items:center;gap:6px;">
           <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           POSITION SIZER
         </div>
@@ -4827,7 +4911,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
           </div>
 
           <!-- Risk % of balance bar -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;">
+          <div style="background:#161616;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin-bottom:8px;">
             <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
               <span style="font-size:8px;color:var(--text2);font-weight:700;">RISK AS % OF BALANCE</span>
               <span id="sz-risk-bar-label" style="font-size:9px;font-weight:800;color:var(--orange);"></span>
@@ -4854,10 +4938,10 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 <!-- ══ CHART ══ -->
 <div id="chart-section" style="display:none;padding:0;">
   <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
-    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);">TRADINGVIEW CHART</div>
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;">TRADINGVIEW CHART</div>
     <div style="font-size:9px;color:#444;">Powered by TradingView</div>
   </div>
-  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+  <div style="border-radius:18px;overflow:hidden;border:1px solid #1e1e1e;height:600px;">
     <div class="tradingview-widget-container" style="height:100%;width:100%">
       <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
       <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Charts by TradingView</span></a></div>
@@ -4893,7 +4977,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
 <!-- ══ HEATMAP STOCK ══ -->
 <div id="heatmap-stock-section" style="display:none;padding:0;">
-  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+  <div style="border-radius:18px;overflow:hidden;border:1px solid #1e1e1e;height:600px;">
     <div class="tradingview-widget-container" style="height:100%;width:100%">
       <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
       <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/stock/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Stock Heatmap by TradingView</span></a></div>
@@ -4906,7 +4990,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
 <!-- ══ HEATMAP CRYPTO ══ -->
 <div id="heatmap-crypto-section" style="display:none;padding:0;">
-  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+  <div style="border-radius:18px;overflow:hidden;border:1px solid #1e1e1e;height:600px;">
     <div class="tradingview-widget-container" style="height:100%;width:100%">
       <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
       <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/crypto/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Crypto Heatmap by TradingView</span></a></div>
@@ -4919,7 +5003,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
 <!-- ══ ECONOMIC CALENDAR ══ -->
 <div id="calendar-section" style="display:none;padding:0;">
-  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;">
+  <div style="border-radius:18px;overflow:hidden;border:1px solid #1e1e1e;height:600px;">
     <div class="tradingview-widget-container" style="height:100%;width:100%">
       <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
       <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/economic-calendar/" rel="noopener nofollow" target="_blank"><span style="color:#2962ff;font-size:11px;">Economic Calendar by TradingView</span></a></div>
@@ -4941,7 +5025,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
     <button class="mode-btn"        id="news-tab-bonds"    onclick="setNewsTab('bonds')"     style="flex:1;padding:7px 10px;font-size:10px;min-width:60px;">BONDS</button>
   </div>
   <!-- All widgets pre-rendered, toggled by display -->
-  <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);height:600px;position:relative;">
+  <div style="border-radius:18px;overflow:hidden;border:1px solid #1e1e1e;height:600px;position:relative;">
     <div id="news-top" style="height:100%;width:100%;position:absolute;top:0;left:0;">
       <div class="tradingview-widget-container" style="height:100%;width:100%">
         <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
@@ -4999,7 +5083,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
     <!-- LEFT: Inputs -->
     <div>
       <div class="card">
-        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:14px;display:flex;align-items:center;gap:6px;">
           <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           FUNDING RATE CALCULATOR
         </div>
@@ -5051,7 +5135,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
     <!-- RIGHT: Results -->
     <div>
       <div class="card">
-        <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:14px;">HOLDING COST BREAKDOWN</div>
+        <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:14px;">HOLDING COST BREAKDOWN</div>
 
         <div class="funding-periods" id="fr-periods">
           <div class="funding-period-card">
@@ -5066,33 +5150,33 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
             <div><div class="funding-period-label">PER WEEK</div></div>
             <div><div class="funding-period-val" id="fr-p-week">—</div><div class="funding-period-sub" id="fr-p-week-pct"></div></div>
           </div>
-          <div class="funding-period-card" style="border-color:rgba(255,106,0,0.3);">
+          <div class="funding-period-card" style="border-color:rgba(245,166,35,.4);">
             <div><div class="funding-period-label" style="color:var(--orange);">PER MONTH</div></div>
             <div><div class="funding-period-val" id="fr-p-month" style="color:var(--orange);">—</div><div class="funding-period-sub" id="fr-p-month-pct"></div></div>
           </div>
         </div>
 
         <!-- Breakeven move needed -->
-        <div id="fr-breakeven-card" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
+        <div id="fr-breakeven-card" style="display:none;background:#131313;border:1px solid #1e1e1e;border-radius:16px;padding:14px;margin-bottom:12px;">
           <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">PRICE MOVE NEEDED TO OFFSET FUNDING COST</div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
             <div>
-              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 DAY</div>
-              <div id="fr-be-day" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+              <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;">1 DAY</div>
+              <div id="fr-be-day" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#ef4444;"></div>
             </div>
             <div>
-              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 WEEK</div>
-              <div id="fr-be-week" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+              <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;">1 WEEK</div>
+              <div id="fr-be-week" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#ef4444;"></div>
             </div>
             <div>
-              <div style="font-size:8px;color:#555;margin-bottom:3px;">1 MONTH</div>
-              <div id="fr-be-month" style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:900;color:#ef4444;"></div>
+              <div style="font-size:8px;color:#3a3a3a;margin-bottom:3px;font-family:'Space Mono',monospace;letter-spacing:1px;">1 MONTH</div>
+              <div id="fr-be-month" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#ef4444;"></div>
             </div>
           </div>
         </div>
 
         <!-- Market sentiment signal -->
-        <div id="fr-sentiment-card" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;">
+        <div id="fr-sentiment-card" style="background:#131313;border:1px solid #1e1e1e;border-radius:16px;padding:14px;">
           <div style="font-size:9px;font-weight:700;color:var(--text2);margin-bottom:10px;letter-spacing:.8px;">MARKET SENTIMENT SIGNAL</div>
           <div class="funding-direction-bar" id="fr-sentiment-bar">
             <div class="funding-direction-needle" id="fr-sentiment-needle"></div>
@@ -5163,7 +5247,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
   <!-- ADD ASSET FORM -->
   <div class="pf-add-card">
-    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:7px;">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;display:flex;align-items:center;gap:7px;">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--orange);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       ADD / AVERAGE POSITION
     </div>
@@ -5218,7 +5302,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
   <!-- ── PROJECTIONS ── -->
   <div id="pf-projections-wrap" style="display:none;margin-bottom:14px;">
-    <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:7px;">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:10px;display:flex;align-items:center;gap:7px;">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
       PORTFOLIO PROJECTIONS — IF ALL ASSETS MOVE
     </div>
@@ -5278,7 +5362,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   <!-- ── ALERTS / SCHEDULE ── -->
   <div id="pf-alerts-wrap" style="display:none;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-      <div style="font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text2);display:flex;align-items:center;gap:7px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;display:flex;align-items:center;gap:7px;">
         <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--text2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         TRADE ALERTS — TELEGRAM NOTIFICATIONS
       </div>
@@ -5298,7 +5382,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
         })();
       </script>
     </div>
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+    <div style="background:#131313;border:1px solid #1e1e1e;border-radius:16px;overflow:hidden;">
       <div style="display:grid;grid-template-columns:80px 100px 80px 1fr auto;gap:8px;padding:8px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--border);">
         <span style="font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--text2);">ASSET</span>
         <span style="font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--text2);">DATE</span>
@@ -5337,7 +5421,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   <div id="agent-step-0">
 
     <div class="card" style="margin-bottom:12px;">
-      <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">INVESTMENT BUDGET</div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;">INVESTMENT BUDGET</div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div style="position:relative;flex:1;min-width:180px;">
           <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--orange);font-weight:900;font-size:16px;pointer-events:none;">$</span>
@@ -5396,7 +5480,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
     <!-- Allocation panel -->
     <div id="agent-alloc-panel" class="card" style="display:none;margin-bottom:12px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);">PORTFOLIO ALLOCATION</div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;">PORTFOLIO ALLOCATION</div>
         <button onclick="agentAutoBalance()" style="padding:5px 12px;border-radius:6px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:10px;font-weight:800;color:var(--orange);cursor:pointer;">AUTO-BALANCE</button>
       </div>
       <div id="agent-alloc-rows"></div>
@@ -9221,7 +9305,7 @@ function agentRenderAnalysis(a) {
 
   <!-- Asset ratings -->
   <div class="card" style="margin-bottom:10px;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">ASSET RATINGS</div>
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;">ASSET RATINGS</div>
     ${(a.assets||[]).map(asset => {
       const assetData = AGENT_ALL.find(x=>x.ticker===asset.ticker);
       const clr = asset.score>=70?'#22c55e':asset.score>=50?'var(--orange)':'#ef4444';
@@ -9240,7 +9324,7 @@ function agentRenderAnalysis(a) {
 
   <!-- Recommendations -->
   <div class="card" style="margin-bottom:10px;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">RECOMMENDATIONS</div>
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;">RECOMMENDATIONS</div>
     ${(a.recommendations||[]).map((r,i) => `
       <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);">
         <span style="color:var(--orange);font-weight:800;font-size:14px;">${i+1}</span>
@@ -9255,7 +9339,7 @@ function agentRenderAnalysis(a) {
 
   <!-- Timeframe selector -->
   <div class="card" style="margin-bottom:12px;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">INVESTMENT TIMEFRAME</div>
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;">INVESTMENT TIMEFRAME</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
       ${tfOpts.map(tf => `
         <button class="agent-tf-btn${agentTimeframe===tf.key?' active':''}" onclick="agentSetTimeframe('${tf.key}')">
@@ -9578,7 +9662,7 @@ function agentRenderPlan(plan) {
 
   <!-- Capital distribution bar -->
   <div class="card" style="margin-bottom:12px;">
-    <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--text2);margin-bottom:12px;">CAPITAL DISTRIBUTION</div>
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.8px;color:#3a3a3a;font-family:'Space Mono',monospace;margin-bottom:12px;">CAPITAL DISTRIBUTION</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;">
       ${(plan.tranches||[]).map(t => {
         const a   = AGENT_ALL.find(x=>x.ticker===t.ticker);
@@ -9657,7 +9741,7 @@ async function fgiLoad() {
     histEl.innerHTML = [1,2,3].map((i,idx) => {
       if (!arr[i]) return '';
       const v = parseInt(arr[i].value);
-      return `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;">
+      return `<div style="background:#161616;border:1px solid #2a2a2a;border-radius:14px;padding:12px;text-align:center;">
         <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:600;margin-bottom:5px;">${labels[idx].toUpperCase()}</div>
         <div style="font-size:22px;font-weight:700;color:${fgiColor(v)};">${v}</div>
         <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px;">${arr[i].value_classification}</div>
