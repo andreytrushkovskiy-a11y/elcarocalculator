@@ -6175,7 +6175,25 @@ function generateTimelinePost() {
     });
   });
 
-  out += `\n${SEP}\n`;
+  // ── Expected trade windows (SELL/BUY markers) ──
+  const filledMarkers = (window.targetDates || []).filter(t => t.date);
+  if (filledMarkers.length) {
+    const sortedMarkers = [...filledMarkers].sort((a, b) => new Date(a.date) - new Date(b.date));
+    out += `\n⚠️ EXPECTED TRADE WINDOWS\n`;
+    out += `${SEP2}\n`;
+    sortedMarkers.forEach(m => {
+      const isPeak = m.type === 'peak';
+      const emoji  = isPeak ? '🔴' : '🟢';
+      const action = isPeak ? 'SELL' : 'BUY';
+      const d      = new Date(m.date + 'T12:00:00');
+      const label  = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const tf     = m.tf || '1D';
+      out += `${emoji} ${action} — ${label} (${tf})\n`;
+    });
+    out += `\n`;
+  }
+
+  out += `${SEP}\n`;
   out += `⚡ ELCARO · Straddle Calculator\n`;
   out += `📊 Educational purposes only`;
 
