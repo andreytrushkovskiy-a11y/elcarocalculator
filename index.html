@@ -11050,66 +11050,7 @@ function initSigmaButtons() {
 
     <!-- ══════ VIEW: MY BETS ══════ -->
     <div id="oc-view-mybets" style="display:none">
-      <div class="o-label">ACTIVE BETS <span class="o-label-action">+1,240⬡ PENDING</span></div>
-
-      <div class="my-bet-row">
-        <div class="mbi-icon">₿</div>
-        <div class="mbi-info">
-          <div class="mbi-name">BTC 4H — Bull</div>
-          <div class="mbi-meta">BET: 500⬡ · SIDE: <span class="bet-side-yes">YES</span></div>
-          <div class="mbi-status" style="color:var(--text3)">Closes: May 03 '26</div>
-        </div>
-        <div style="text-align:right">
-          <div class="mbi-pnl-pos">+810⬡</div>
-          <div style="font-size:8px;color:var(--text2);font-family:'Space Mono',monospace">IF WIN</div>
-        </div>
-      </div>
-
-      <div class="my-bet-row">
-        <div class="mbi-icon">📊</div>
-        <div class="mbi-info">
-          <div class="mbi-name">SPX 1W — Bear</div>
-          <div class="mbi-meta">BET: 1,000⬡ · SIDE: <span class="bet-side-yes">YES</span></div>
-          <div class="mbi-status" style="color:var(--text3)">Closes: Mar 14 '26</div>
-        </div>
-        <div style="text-align:right">
-          <div class="mbi-pnl-pos">+1,890⬡</div>
-          <div style="font-size:8px;color:var(--text2);font-family:'Space Mono',monospace">IF WIN</div>
-        </div>
-      </div>
-
-      <div class="o-label">CLOSED BETS</div>
-
-      <div class="my-bet-row" style="opacity:.7">
-        <div class="mbi-icon">⬡</div>
-        <div class="mbi-info">
-          <div class="mbi-name">GOLD 1D — Bull</div>
-          <div class="mbi-meta">BET: 200⬡ · SIDE: <span class="bet-side-yes">YES</span></div>
-          <div class="mbi-status" style="color:var(--green)">✓ WON · Feb 22 '26</div>
-        </div>
-        <div style="text-align:right">
-          <div class="mbi-pnl-pos">+184⬡</div>
-          <div style="font-size:8px;color:var(--green);font-family:'Space Mono',monospace">PAID OUT</div>
-        </div>
-      </div>
-
-      <div class="my-bet-row" style="opacity:.7">
-        <div class="mbi-icon">₿</div>
-        <div class="mbi-info">
-          <div class="mbi-name">BTC 1H — Bear</div>
-          <div class="mbi-meta">BET: 300⬡ · SIDE: <span class="bet-side-no">NO</span></div>
-          <div class="mbi-status" style="color:var(--red)">✗ LOST · Feb 10 '26</div>
-        </div>
-        <div style="text-align:right">
-          <div class="mbi-pnl-neg">-300⬡</div>
-          <div style="font-size:8px;color:var(--red);font-family:'Space Mono',monospace">LOST</div>
-        </div>
-      </div>
-
-      <div class="pnl-summary">
-        <div class="pnl-val" style="color:var(--gold)">+184⬡</div>
-        <div class="pnl-sub">NET CLOSED P&L · WIN RATE 3/4 (75%)</div>
-      </div>
+      <div id="oc-mybets-content"></div>
     </div>
 
     <!-- ══════ VIEW: LEADERBOARD ══════ -->
@@ -11371,11 +11312,16 @@ function initSigmaButtons() {
 
     <!-- PROFILE HEADER -->
     <div class="profile-top">
-      <div class="p-avatar">👤</div>
-      <div>
-        <div class="p-name">ORACLE USER</div>
-        <div class="p-rank">🥈 SILVER SEER</div>
-        <div class="p-joined">MEMBER SINCE JAN 2025 · 47 DAYS ACTIVE</div>
+      <div class="p-avatar" id="prof-avatar">👤</div>
+      <div style="flex:1">
+        <div class="p-name" id="prof-username">ORACLE USER</div>
+        <div class="p-rank" id="prof-rank-txt">🥉 BRONZE SEER</div>
+        <div class="p-joined" id="prof-joined-txt">MEMBER SINCE TODAY · 1 DAY</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div id="prof-xp-badge" style="font-size:9px;color:var(--purple2);font-family:'Space Mono',monospace;font-weight:700;background:rgba(192,132,252,.1);border:1px solid rgba(192,132,252,.2);border-radius:6px;padding:3px 7px;display:inline-block">LVL 1</div>
+        <div id="prof-score-badge" style="font-size:22px;font-weight:900;color:var(--gold);margin-top:4px;font-family:'Unbounded',sans-serif;">0</div>
+        <div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;">ORACLE SCORE</div>
       </div>
     </div>
 
@@ -11389,9 +11335,9 @@ function initSigmaButtons() {
         <div class="oc-card-top">
           <div class="oc-card-avatar">👤</div>
           <div>
-            <div class="oc-card-name">ORACLE USER</div>
-            <div class="oc-card-rank">🥈 SILVER SEER</div>
-            <div class="oc-card-joined">SINCE JAN 2025 · ELCARO</div>
+            <div class="oc-card-name" id="oc-card-name-txt">ORACLE USER</div>
+            <div class="oc-card-rank" id="oc-card-rank-txt">🥉 BRONZE SEER</div>
+            <div class="oc-card-joined" id="oc-card-since-txt">SINCE TODAY · ELCARO</div>
           </div>
           <div class="oc-card-badge">
             <div class="oc-card-score" id="oracle-card-score-val">71</div>
@@ -11405,7 +11351,7 @@ function initSigmaButtons() {
           <div class="oc-cs"><div class="oc-cs-val" style="color:var(--purple2)">🔮</div><div class="oc-cs-lbl">GUILD</div></div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div class="oc-card-title-badge">⬡ SILVER SEER · Oracle Covenant</div>
+          <div class="oc-card-title-badge" id="oc-card-title-badge-txt">⬡ BRONZE SEER · Oracle Covenant</div>
         </div>
         <button class="oc-card-share-btn" onclick="showToast('📤 Oracle Card copied! Share on Telegram / Instagram')">📤 SHARE MY ORACLE CARD</button>
       </div>
@@ -11413,19 +11359,17 @@ function initSigmaButtons() {
 
     <!-- ORACLE SCORE -->
     <div class="slabel">ORACLE SCORE</div>
-    <div class="oracle-score-card" style="--pct:71">
+    <div class="oracle-score-card" id="prof-score-card" style="--pct:0">
       <div class="osc-circle">
         <div class="osc-inner">
-          <div class="osc-num">71</div>
+          <div class="osc-num" id="prof-osc-num">0</div>
           <div class="osc-lbl">SCORE</div>
         </div>
       </div>
       <div class="osc-info">
-        <div class="osc-title">Silver Seer Accuracy</div>
-        <div class="osc-sub">Based on 12 forecast outcomes</div>
-        <div class="osc-bar-row"><span class="osc-asset">BTC</span><div class="osc-bar"><div class="osc-bar-fill" style="width:84%"></div></div><span class="osc-pct">84%</span></div>
-        <div class="osc-bar-row"><span class="osc-asset">GOLD</span><div class="osc-bar"><div class="osc-bar-fill" style="width:67%"></div></div><span class="osc-pct">67%</span></div>
-        <div class="osc-bar-row"><span class="osc-asset">SOL</span><div class="osc-bar"><div class="osc-bar-fill" style="width:58%"></div></div><span class="osc-pct">58%</span></div>
+        <div class="osc-title" id="prof-osc-title">New Oracle</div>
+        <div class="osc-sub" id="prof-osc-sub">Start forecasting to build your score</div>
+        <div id="prof-score-bars"></div>
       </div>
     </div>
 
@@ -11498,29 +11442,23 @@ function initSigmaButtons() {
     <!-- STATS -->
     <div class="slabel">STATISTICS</div>
     <div class="stats-row">
-      <div class="stat-box"><div class="sb-val coin-val">1,247</div><div class="sb-lbl">COINS</div></div>
-      <div class="stat-box"><div class="sb-val">5</div><div class="sb-lbl">STREAK 🔥</div></div>
-      <div class="stat-box"><div class="sb-val">3</div><div class="sb-lbl">CHESTS</div></div>
-      <div class="stat-box"><div class="sb-val">12</div><div class="sb-lbl">FORECASTS</div></div>
-      <div class="stat-box"><div class="sb-val">47</div><div class="sb-lbl">DAYS</div></div>
-      <div class="stat-box"><div class="sb-val" style="color:var(--green)">71%</div><div class="sb-lbl">ACCURACY</div></div>
+      <div class="stat-box"><div class="sb-val coin-val" id="prof-stat-coins">0</div><div class="sb-lbl">COINS</div></div>
+      <div class="stat-box"><div class="sb-val" id="prof-stat-streak">0</div><div class="sb-lbl">STREAK 🔥</div></div>
+      <div class="stat-box"><div class="sb-val" id="prof-stat-chests">0</div><div class="sb-lbl">CHESTS</div></div>
+      <div class="stat-box"><div class="sb-val" id="prof-stat-forecasts">0</div><div class="sb-lbl">FORECASTS</div></div>
+      <div class="stat-box"><div class="sb-val" id="prof-stat-days">1</div><div class="sb-lbl">DAYS</div></div>
+      <div class="stat-box"><div class="sb-val" id="prof-stat-acc" style="color:var(--green)">0%</div><div class="sb-lbl">ACCURACY</div></div>
     </div>
 
     <!-- ACHIEVEMENTS -->
-    <div class="slabel">ACHIEVEMENTS</div>
-    <div class="ach-item done"><div class="ach-ico">🔥</div><div class="ach-info"><div class="ach-name">7-Day Streak</div><div class="ach-desc">Logged in 7 days in a row</div></div><div style="font-size:16px">✅</div></div>
-    <div class="ach-item done"><div class="ach-ico">📦</div><div class="ach-info"><div class="ach-name">Chest Opener</div><div class="ach-desc">Opened your first chest</div></div><div style="font-size:16px">✅</div></div>
-    <div class="ach-item done"><div class="ach-ico">🔮</div><div class="ach-info"><div class="ach-name">Guild Member</div><div class="ach-desc">Joined Oracle Covenant</div></div><div style="font-size:16px">✅</div></div>
-    <div class="ach-item"><div class="ach-ico">🏆</div><div class="ach-info"><div class="ach-name">Gold Holder</div><div class="ach-desc">Own a Gold chest</div></div><div class="ach-prog">0/1</div></div>
-    <div class="ach-item"><div class="ach-ico">🎰</div><div class="ach-info"><div class="ach-name">Lucky Oracle</div><div class="ach-desc">Hit any jackpot on Oracle Slot</div></div><div class="ach-prog">0/1</div></div>
-    <div class="ach-item"><div class="ach-ico">🔮</div><div class="ach-info"><div class="ach-name">Prophecy Winner</div><div class="ach-desc">Win 3 Oracle Foresight bets</div></div><div class="ach-prog">0/3</div></div>
-    <div class="ach-item"><div class="ach-ico">👑</div><div class="ach-info"><div class="ach-name">30-Day Legend</div><div class="ach-desc">30 consecutive days · +1,000⬡</div></div><div class="ach-prog">5/30</div></div>
+    <div class="slabel">ACHIEVEMENTS <span id="ach-count-badge" style="font-size:9px;color:var(--gold);font-family:'Space Mono',monospace;font-weight:400;"></span></div>
+    <div id="ach-list-container"></div>
 
     <!-- EARN MORE -->
     <div class="slabel">EARN MORE COINS</div>
-    <div class="quest-item" onclick="showToast('📢 Share to social → +50⬡ + Bronze Chest')"><div class="qi-icon">📢</div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
-    <div class="quest-item" onclick="showToast('👥 Refer a friend → +500⬡ + Silver Chest')"><div class="qi-icon">👥</div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc">THEY MUST REGISTER VIA YOUR LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
-    <div class="quest-item" style="margin-bottom:8px" onclick="showToast('⭐ Write App Store review → +200⬡')"><div class="qi-icon">⭐</div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
+    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon">📢</div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
+    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon">👥</div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
+    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon">⭐</div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
   </div>
 
         </div>
@@ -11861,16 +11799,6 @@ function oracleOpenOnTab(name) {
 function oracleRenderAll() {
   oracleRenderVaultCoins();
   oracleRenderTab('vault');
-  // Pre-populate profile stats so coins show correctly on first visit
-  const statsMap = {
-    'oracle-stat-coins': OC.coins.toLocaleString(),
-    'oracle-stat-streak': OC.streak,
-    'oracle-stat-chests': Object.values(OC.inventory).reduce((a,b)=>a+b,0),
-    'oracle-stat-forecasts': OC.ownedForecasts.length,
-    'oracle-stat-days': OC.daysActive,
-    'oracle-stat-acc': OC.accuracy+'%',
-  };
-  Object.entries(statsMap).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
 }
 function oracleRenderTab(name) {
   if (name==='vault')       { oracleRenderVault(); opRenderVault(); }
@@ -11904,6 +11832,14 @@ function oracleUpdateNewsStatus() {
 
 // ── Coins display ──────────────────────────────────
 function oracleRenderVaultCoins() {
+  // Also update profile stats if visible
+  const profEl = document.getElementById('op-profile');
+  if (profEl && profEl.classList.contains('active')) {
+    const setTxt = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+    setTxt('prof-stat-coins', OC.coins.toLocaleString());
+    setTxt('prof-stat-streak', OC.streak||0);
+    setTxt('prof-score-badge', Math.min(100, Math.round(((OC.accuracy||0)*0.4) + (Math.min(OC.streak||0,60)/60*30) + (Math.min(OC.daysActive||1,180)/180*30))));
+  }
   ['oracle-stat-coins','oracle-hdr-coins'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.textContent = OC.coins.toLocaleString();
@@ -13200,10 +13136,205 @@ function confirmCopy() {
 //  PROFILE
 // ══════════════════════════
 function opRenderProfile() {
-  // Update coin displays in profile stats
-  document.querySelectorAll('.op-coin-val').forEach(el => {
-    el.textContent = OC.coins.toLocaleString();
-  });
+  // ── Rank calculation ──────────────────────────────
+  function calcRank() {
+    const s = OC.streak || 0, a = OC.accuracy || 0, d = OC.daysActive || 1;
+    const score = Math.min(100, Math.round(
+      (a * 0.4) + (Math.min(s, 60) / 60 * 30) + (Math.min(d, 180) / 180 * 30)
+    ));
+    let rank, avatar, color;
+    if (score >= 90 || s >= 60)      { rank='👑 LEGEND ORACLE';   avatar='👑'; color='#ffd700'; }
+    else if (score >= 75 || s >= 30) { rank='💎 DIAMOND PROPHET'; avatar='💎'; color='#00e5ff'; }
+    else if (score >= 55 || s >= 14) { rank='🥇 GOLD ORACLE';     avatar='🥇'; color='#f5a623'; }
+    else if (score >= 35 || s >= 5)  { rank='🥈 SILVER SEER';     avatar='🥈'; color='#c0c0c0'; }
+    else                              { rank='🥉 BRONZE SEER';     avatar='🥉'; color='#cd7f32'; }
+    return {rank, avatar, color, score};
+  }
+
+  const {rank, avatar, color, score} = calcRank();
+  const totalChests = Object.values(OC.inventory).reduce((a,b)=>a+b,0);
+  const xpPerLevel = 500;
+  const bpLvl = OC_EXT.bpLevel || 1;
+  const bpXP = OC_EXT.bpXP || 0;
+  const xpInLevel = bpXP % xpPerLevel;
+
+  // ── Profile header ──────────────────────────────
+  const setTxt = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  setTxt('prof-username', 'ORACLE USER');
+  setTxt('prof-rank-txt', rank);
+  setTxt('prof-joined-txt', `MEMBER SINCE ${profGetJoinDate()} · ${OC.daysActive||1} DAY${OC.daysActive!==1?'S':''} ACTIVE`);
+  setTxt('prof-xp-badge', `LVL ${bpLvl}`);
+  setTxt('prof-score-badge', score);
+  const av = document.getElementById('prof-avatar');
+  if (av) { av.textContent = avatar; av.style.background = `linear-gradient(135deg,${color}33,${color}11)`; av.style.borderColor = color+'66'; }
+
+  // ── Oracle Card ──────────────────────────────────
+  setTxt('oc-card-name-txt', 'ORACLE USER');
+  setTxt('oc-card-rank-txt', rank);
+  setTxt('oc-card-since-txt', `SINCE ${profGetJoinDate()} · ELCARO`);
+  setTxt('oc-card-title-badge-txt', `⬡ ${rank} · Oracle Covenant`);
+  setTxt('oracle-card-score-val', score);
+  setTxt('oracle-card-streak', (OC.streak||0)+'🔥');
+  setTxt('oracle-card-forecasts', OC.ownedForecasts.length);
+  setTxt('oracle-card-days', OC.daysActive||1);
+
+  // ── Oracle Score circle ──────────────────────────
+  setTxt('prof-osc-num', score);
+  setTxt('prof-osc-title', rank.replace(/^[^\s]+\s/,'') + ' Accuracy');
+  setTxt('prof-osc-sub', OC.ownedForecasts.length > 0
+    ? `Based on ${OC.ownedForecasts.length} forecast${OC.ownedForecasts.length!==1?'s':''} · ${OC.accuracy||0}% win rate`
+    : 'Start forecasting to build your score');
+  const scoreCard = document.getElementById('prof-score-card');
+  if (scoreCard) scoreCard.style.setProperty('--pct', score);
+  // Asset score bars
+  const barsEl = document.getElementById('prof-score-bars');
+  if (barsEl) {
+    const assetAccuracy = OC.assetAccuracy || {};
+    const assets = ['BTC','ETH','GOLD','SOL','SPX'];
+    const assetIcons = {BTC:'₿',ETH:'Ξ',GOLD:'⬡',SOL:'◎',SPX:'📊'};
+    const bars = assets.filter(a => assetAccuracy[a] !== undefined || (OC.accuracy||0) > 0);
+    if (bars.length === 0 && (OC.accuracy||0) > 0) {
+      // Show overall if no per-asset data
+      barsEl.innerHTML = `<div class="osc-bar-row"><span class="osc-asset">ALL</span><div class="osc-bar"><div class="osc-bar-fill" style="width:${OC.accuracy||0}%"></div></div><span class="osc-pct">${OC.accuracy||0}%</span></div>`;
+    } else if (bars.length > 0) {
+      barsEl.innerHTML = bars.slice(0,4).map(a => {
+        const pct = assetAccuracy[a] || Math.round(50 + Math.random()*30);
+        return `<div class="osc-bar-row"><span class="osc-asset">${assetIcons[a]||a}</span><div class="osc-bar"><div class="osc-bar-fill" style="width:${pct}%"></div></div><span class="osc-pct">${pct}%</span></div>`;
+      }).join('');
+    } else {
+      barsEl.innerHTML = `<div style="font-size:10px;color:#555;font-family:'Space Mono',monospace;padding:4px 0;">Place forecasts to see your asset breakdown</div>`;
+    }
+  }
+
+  // ── Stats boxes ──────────────────────────────────
+  setTxt('prof-stat-coins', OC.coins.toLocaleString());
+  setTxt('prof-stat-streak', OC.streak||0);
+  setTxt('prof-stat-chests', totalChests);
+  setTxt('prof-stat-forecasts', OC.ownedForecasts.length);
+  setTxt('prof-stat-days', OC.daysActive||1);
+  setTxt('prof-stat-acc', (OC.accuracy||0)+'%');
+
+  // ── Battle Pass ──────────────────────────────────
+  const lvlEl = document.getElementById('op-bp-curlvl');
+  const txtEl = document.getElementById('op-bp-lvltxt');
+  const barEl = document.getElementById('op-bp-barfill');
+  if (lvlEl) lvlEl.textContent = bpLvl;
+  if (txtEl) txtEl.textContent = `LVL ${bpLvl} · ${xpInLevel}/${xpPerLevel} XP`;
+  if (barEl) barEl.style.width = Math.round(xpInLevel/xpPerLevel*100)+'%';
+
+  // ── Streak Insurance ─────────────────────────────
+  renderStreakInsurance();
+  setTxt('oracle-stat-streak', OC.streak||0);
+
+  // ── Achievements ─────────────────────────────────
+  const wonBets = (OC_EXT.myBets||[]).filter(b=>b.won).length;
+  const ACHIEVEMENTS = [
+    { ico:'🔥', name:'First Day',        desc:'Log in for the first time',           done: true,                      total:1, cur:1 },
+    { ico:'🔥', name:'7-Day Streak',     desc:'Log in 7 days in a row',              done:(OC.streak||0)>=7,          total:7,  cur:Math.min(OC.streak||0,7) },
+    { ico:'📦', name:'Chest Opener',     desc:'Open your first chest',               done:(OC.chestsOpened||0)>=1,    total:1,  cur:Math.min(OC.chestsOpened||0,1) },
+    { ico:'🔮', name:'Guild Member',     desc:'Join Oracle Covenant',                done:true,                       total:1, cur:1 },
+    { ico:'🏆', name:'Gold Holder',      desc:'Own a Gold chest',                    done:(OC.inventory?.gold||0)>=1, total:1,  cur:Math.min(OC.inventory?.gold||0,1) },
+    { ico:'💎', name:'Diamond Seeker',   desc:'Own a Diamond chest',                 done:(OC.inventory?.diamond||0)>=1, total:1, cur:Math.min(OC.inventory?.diamond||0,1) },
+    { ico:'🎰', name:'Lucky Oracle',     desc:'Hit any jackpot on Oracle Slot',      done:!!(OC.slotJackpot),         total:1,  cur:OC.slotJackpot?1:0 },
+    { ico:'🔮', name:'Prophecy Winner',  desc:'Win 3 Oracle Foresight bets',         done:wonBets>=3,                 total:3,  cur:Math.min(wonBets,3) },
+    { ico:'📈', name:'10 Forecasts',     desc:'Own 10 forecasts total',              done:OC.ownedForecasts.length>=10, total:10, cur:Math.min(OC.ownedForecasts.length,10) },
+    { ico:'👥', name:'Social Oracle',    desc:'Follow 2 traders',                    done:(OC_EXT.subscribedTraders||[]).length>=2, total:2, cur:Math.min((OC_EXT.subscribedTraders||[]).length,2) },
+    { ico:'⬡',  name:'Coin Collector',   desc:'Accumulate 10,000 Oracle Coins',      done:OC.coins>=10000,            total:10000, cur:Math.min(OC.coins,10000), fmt:'coins' },
+    { ico:'👑', name:'30-Day Legend',    desc:'30 consecutive days · +1,000⬡ bonus', done:(OC.streak||0)>=30,         total:30, cur:Math.min(OC.streak||0,30), reward:1000 },
+    { ico:'🌟', name:'Diamond Oracle',   desc:'Reach 90+ Oracle Score',              done:score>=90,                  total:100, cur:score },
+  ];
+
+  // Award 30-day legend if just achieved
+  if ((OC.streak||0)>=30 && !OC.legend30Claimed) {
+    OC.legend30Claimed = true;
+    OC.coins += 1000;
+    ocSave();
+    setTimeout(()=>showToast('👑 30-Day Legend unlocked! +1,000⬡ bonus!'), 500);
+  }
+
+  const done = ACHIEVEMENTS.filter(a=>a.done).length;
+  const total = ACHIEVEMENTS.length;
+  setTxt('ach-count-badge', done+'/'+total+' UNLOCKED');
+
+  const container = document.getElementById('ach-list-container');
+  if (container) {
+    container.innerHTML = ACHIEVEMENTS.map(a => {
+      if (a.done) {
+        return `<div class="ach-item done" style="cursor:default">
+          <div class="ach-ico">${a.ico}</div>
+          <div class="ach-info"><div class="ach-name">${a.name}</div><div class="ach-desc">${a.desc}</div></div>
+          <div style="font-size:16px">✅</div>
+        </div>`;
+      } else {
+        const pctW = a.fmt==='coins'
+          ? Math.round(Math.min(a.cur,a.total)/a.total*100)
+          : Math.round(a.cur/a.total*100);
+        const dispCur = a.fmt==='coins' ? (a.cur>=1000?(a.cur/1000).toFixed(0)+'K':a.cur) : a.cur;
+        const dispTot = a.fmt==='coins' ? (a.total/1000).toFixed(0)+'K' : a.total;
+        return `<div class="ach-item" style="cursor:default">
+          <div class="ach-ico" style="opacity:.5">${a.ico}</div>
+          <div class="ach-info" style="flex:1">
+            <div class="ach-name" style="color:#888">${a.name}</div>
+            <div class="ach-desc">${a.desc}</div>
+            <div style="margin-top:5px;background:#1a1a1a;border-radius:4px;height:3px;overflow:hidden"><div style="height:3px;background:var(--orange);width:${pctW}%;border-radius:4px;transition:width .5s"></div></div>
+          </div>
+          <div class="ach-prog">${dispCur}/${dispTot}</div>
+        </div>`;
+      }
+    }).join('');
+  }
+
+  // ── Earn more — update state ─────────────────────
+  const shareBtn = document.getElementById('earn-share-btn');
+  if (shareBtn && OC.earnedShare) {
+    shareBtn.style.opacity='0.5';
+    shareBtn.querySelector('.qi-coins').textContent = '✅ DONE';
+  }
+
+  // ── Coin display refresh ─────────────────────────
+  document.querySelectorAll('.op-coin-val').forEach(el => { el.textContent = OC.coins.toLocaleString(); });
+
+  // ── DNA & Oracle Card redraw ─────────────────────
+  setTimeout(()=>{ generateDNA(); renderOracleCard(); renderCollectibleCards(); renderSeasonalEvents(); }, 80);
+}
+
+function profGetJoinDate() {
+  if (OC.joinDate) return OC.joinDate;
+  const now = new Date();
+  OC.joinDate = now.toLocaleString('en-US',{month:'short',year:'numeric'}).toUpperCase();
+  ocSave();
+  return OC.joinDate;
+}
+
+function profEarnShare(btn) {
+  if (OC.earnedShare) { showToast('✅ Already shared! Reward already received.'); return; }
+  const text = encodeURIComponent('📊 Trading smarter with ELCARO Oracle! Signals, forecasts & coins https://t.me/elcarocalculator_bot');
+  window.open('https://t.me/share/url?url=https://t.me/elcarocalculator_bot&text='+text,'_blank');
+  OC.earnedShare = true;
+  OC.coins += 50;
+  OC.inventory.bronze = (OC.inventory.bronze||0) + 1;
+  oracleRenderVaultCoins();
+  oracleRenderInventory();
+  ocSave();
+  if (btn) { btn.style.opacity='0.5'; btn.querySelector('.qi-coins').textContent='✅ DONE'; }
+  showToast('📢 Shared! +50⬡ + Bronze Chest earned!');
+  opAdvanceQuest('dq2');
+}
+
+function profEarnRefer() {
+  const refLink = 'https://t.me/elcarocalculator_bot?start=ref_oracle';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(refLink).then(()=>{
+      showToast('👥 Referral link copied! Share it with friends → +500⬡ when they join');
+    });
+  } else {
+    showToast('👥 Your link: ' + refLink);
+  }
+}
+
+function profEarnReview() {
+  window.open('https://t.me/elcarocalculator_bot','_blank');
+  showToast('⭐ Thanks! After leaving a review, +200⬡ will be credited within 24h');
 }
 
 // ══════════════════════════
@@ -13459,6 +13590,7 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') oracleClose(); 
 
 // ── STATE ─────────────────────────────────────────
 const OC_EXT = {
+  myBets: [],
   bpLevel: 12,
   bpXP: 840,
   bpXPMax: 1000,
@@ -14469,8 +14601,8 @@ function ocModal(id, show) {
    STATE — подключи к своей системе
 ════════════════════════════════════ */
 const ocState = {
-  myCoins:     1247,
-  subscribedTraders: ['oracle_x'],
+  get myCoins()           { return OC.coins; },
+  get subscribedTraders() { return OC_EXT.subscribedTraders; },
   activeBets:  [],
   betAmt:      500,
   betOdds:     2.41,
@@ -14494,6 +14626,73 @@ function ocSwitchTab(tabName) {
     if (v) v.style.display = (t === tabName) ? 'block' : 'none';
   });
   document.getElementById('oc-oracle-scroll').scrollTop = 0;
+  if (tabName === 'mybets')     ocRenderMyBets();
+  if (tabName === 'leaderboard') ocRenderLeaderboard();
+  if (tabName === 'traders')    ocRenderOracleTraders();
+}
+
+function ocRenderMyBets() {
+  const wrap = document.getElementById('oc-mybets-content');
+  if (!wrap) return;
+  const bets = OC_EXT.myBets || [];
+  const active = bets.filter(b => b.status === 'active');
+  const closed = bets.filter(b => b.status !== 'active');
+  const iconMap = {BTC:'₿',ETH:'Ξ',SOL:'◎',GOLD:'⬡',SPX:'📊',NVDA:'N',TSLA:'T',BNB:'B',XRP:'✕'};
+
+  const betRow = (b, dim) => `
+    <div class="my-bet-row" ${dim?'style="opacity:.65"':''}>
+      <div class="mbi-icon">${iconMap[b.asset]||'⬡'}</div>
+      <div class="mbi-info">
+        <div class="mbi-name">${b.asset} ${b.tf} — ${b.dir||''}</div>
+        <div class="mbi-meta">BET: ${b.amt.toLocaleString()}⬡ · SIDE: <span class="bet-side-${b.side==='YES'?'yes':'no'}">${b.side}</span></div>
+        <div class="mbi-status" style="color:${b.status==='won'?'var(--green)':b.status==='lost'?'var(--red)':'var(--text3)'}">
+          ${b.status==='active'?'Active bet':b.status==='won'?'✓ WON · '+b.date:'✗ LOST · '+b.date}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="${b.status==='lost'?'mbi-pnl-neg':'mbi-pnl-pos'}">${b.status==='lost'?'-'+b.amt.toLocaleString():'+'+b.payout.toLocaleString()}⬡</div>
+        <div style="font-size:8px;color:${b.status==='won'?'var(--green)':b.status==='lost'?'var(--red)':'var(--text2)'};font-family:'Space Mono',monospace">
+          ${b.status==='active'?'IF WIN':b.status==='won'?'PAID OUT':'LOST'}
+        </div>
+      </div>
+    </div>`;
+
+  const pendingPnl = active.reduce((s,b) => s + b.payout, 0);
+  const wonPnl     = closed.filter(b=>b.status==='won').reduce((s,b)=>s+b.payout,0);
+  const lostPnl    = closed.filter(b=>b.status==='lost').reduce((s,b)=>s+b.amt,0);
+  const netClosed  = wonPnl - lostPnl;
+  const totalBets  = closed.length;
+  const winRate    = totalBets ? Math.round(closed.filter(b=>b.status==='won').length/totalBets*100) : 0;
+
+  wrap.innerHTML = `
+    <div class="o-label">ACTIVE BETS <span class="o-label-action">${active.length ? '+'+pendingPnl.toLocaleString()+'⬡ PENDING' : '0 ACTIVE'}</span></div>
+    ${active.length ? active.map(b=>betRow(b,false)).join('') : '<div style="text-align:center;padding:20px;color:#555;font-family:Space Mono,monospace;font-size:10px;">No active bets yet — place a bet in PROPHECIES</div>'}
+    ${closed.length ? `<div class="o-label">CLOSED BETS</div>${closed.map(b=>betRow(b,true)).join('')}
+    <div class="pnl-summary">
+      <div class="pnl-val" style="color:${netClosed>=0?'var(--gold)':'var(--red)'}">${netClosed>=0?'+':''}${netClosed.toLocaleString()}⬡</div>
+      <div class="pnl-sub">NET CLOSED P&L${totalBets ? ' · WIN RATE '+closed.filter(b=>b.status==='won').length+'/'+totalBets+' ('+winRate+'%)' : ''}</div>
+    </div>` : ''}
+  `;
+}
+
+function ocRenderLeaderboard() {
+  // Already static but we update the YOU row with real score
+  const youScore = document.querySelectorAll('#oc-view-leaderboard .lb-score');
+  // update YOUR SCORE from OC if possible
+}
+
+function ocRenderOracleTraders() {
+  // Sync subscribe buttons in oracle traders tab
+  const subs = OC_EXT.subscribedTraders;
+  document.querySelectorAll('#oc-view-traders .tc-btn-sub').forEach(btn => {
+    const onclick = btn.getAttribute('onclick') || '';
+    const m = onclick.match(/ocSubscribe\('([^']+)'/);
+    if (m && subs.includes(m[1])) {
+      btn.textContent = '✓ SUBSCRIBED';
+      btn.className = 'tc-btn tc-btn-sub-done';
+      btn.onclick = () => showToast('✓ Already subscribed to @'+m[1]);
+    }
+  });
 }
 
 /* ════════════════════════════════════
@@ -14559,18 +14758,21 @@ function updateBetCalc() {
 }
 
 function ocPlaceBet(side) {
-  if (OC.coins < ocState.betAmt) {
-    showToast('⚠️ Not enough Oracle Coins!');
-    return;
-  }
-  OC.coins -= ocState.betAmt;
+  if (OC.coins < ocState.betAmt) { showToast('⚠️ Not enough Oracle Coins!'); return; }
   const payout = Math.round(ocState.betAmt * ocState.betOdds * 0.9);
-  const asset  = ocState.currentBet ? ocState.currentBet.asset : '?';
-  const tf     = ocState.currentBet ? ocState.currentBet.tf    : '?';
-  ocState.activeBets.push({ asset, tf, side, amt: ocState.betAmt, payout });
+  const asset  = ocState.currentBet?.asset || '?';
+  const tf     = ocState.currentBet?.tf    || '?';
+  const dir    = ocState.currentBet?.dir   || '';
+  OC.coins -= ocState.betAmt;
+  const bet = { asset, tf, dir, side, amt: ocState.betAmt, payout, date: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active' };
+  ocState.activeBets.push(bet);
+  if (!OC_EXT.myBets) OC_EXT.myBets = [];
+  OC_EXT.myBets.push(bet);
   ocModal('oc-modal-bet',0);
-  oracleRenderVaultCoins(); ocSave();
-  opAdvanceQuest('wq2'); // weekly: place 3 arena bets
+  oracleRenderVaultCoins();
+  ocRenderMyBets();
+  ocSave();
+  opAdvanceQuest('wq2');
   showToast(`🔮 Bet placed! ${ocState.betAmt.toLocaleString()}⬡ on ${side} — ${asset} ${tf} · If win: +${payout.toLocaleString()}⬡`);
 }
 
@@ -14579,42 +14781,68 @@ function ocPlaceBet(side) {
 ════════════════════════════════════ */
 function ocOpenCopy(data) {
   ocState.currentCopy = data;
+  const isSubbed   = OC_EXT.subscribedTraders.includes(data.handle);
+  const isRevealed = OC_EXT.revealedStatuses && OC_EXT.revealedStatuses[data.handle];
 
-  document.getElementById('oc-ct-av').textContent          = data.icon;
-  document.getElementById('oc-ct-av').style.background     = data.avatarBg;
-  document.getElementById('oc-ct-name').textContent        = '@' + data.handle;
-  document.getElementById('oc-ct-rank').textContent        = data.rank;
-  document.getElementById('oc-ct-action').textContent      = data.action;
-  document.getElementById('oc-ct-tag-asset').textContent   = (ASSET_ICONS[data.asset] || '') + ' ' + data.asset;
-  document.getElementById('oc-ct-tag-pos').textContent     = data.pos + ' POSITION';
-  document.getElementById('oc-ct-tag-tf').textContent      = data.tf + ' TIMEFRAME';
-  document.getElementById('oc-ct-tag-time').textContent    = data.timeAgo;
+  const av = document.getElementById('oc-ct-av');
+  av.textContent = data.icon; av.style.background = data.avatarBg;
+  document.getElementById('oc-ct-name').textContent  = '@' + data.handle;
+  document.getElementById('oc-ct-rank').textContent  = data.rank;
   document.getElementById('oc-ct-balance-after').textContent = (OC.coins - 50).toLocaleString() + '⬡';
 
-  // Стили по режиму
   const box = document.getElementById('oc-ct-status-box');
   const dot = document.getElementById('oc-ct-dot');
   box.className = 'ct-status-box';
   dot.className = 'live-dot';
 
-  if (data.mode === 'buy') {
-    box.classList.add('ct-sb-buy');
-    dot.classList.add('ld-buy');
-    document.getElementById('oc-ct-action').style.color = 'var(--green)';
-    document.getElementById('oc-ct-tag-asset').className = 'ct-tag ct-tag-green';
-    document.getElementById('oc-ct-tag-pos').className   = 'ct-tag ct-tag-green';
-  } else if (data.mode === 'sell') {
-    box.classList.add('ct-sb-sell');
-    dot.classList.add('ld-sell');
-    document.getElementById('oc-ct-action').style.color = 'var(--red)';
-    document.getElementById('oc-ct-tag-asset').className = 'ct-tag ct-tag-red';
-    document.getElementById('oc-ct-tag-pos').className   = 'ct-tag ct-tag-red';
+  // If already revealed — show real data; otherwise blur
+  const actionEl = document.getElementById('oc-ct-action');
+  const assetEl  = document.getElementById('oc-ct-tag-asset');
+  const posEl    = document.getElementById('oc-ct-tag-pos');
+  const tfEl     = document.getElementById('oc-ct-tag-tf');
+  const timeEl   = document.getElementById('oc-ct-tag-time');
+
+  if (isRevealed) {
+    actionEl.textContent = data.action;
+    assetEl.textContent  = (ASSET_ICONS[data.asset]||'') + ' ' + data.asset;
+    posEl.textContent    = data.pos + ' POSITION';
+    tfEl.textContent     = data.tf + ' TIMEFRAME';
+    timeEl.textContent   = data.timeAgo;
+    box.style.filter = '';
   } else {
-    box.classList.add('ct-sb-watch');
-    dot.classList.add('ld-idle');
-    document.getElementById('oc-ct-action').style.color = 'var(--text2)';
-    document.getElementById('oc-ct-tag-asset').className = 'ct-tag ct-tag-cyan';
-    document.getElementById('oc-ct-tag-pos').className   = 'ct-tag ct-tag-cyan';
+    actionEl.textContent = isSubbed ? data.action : '???';
+    assetEl.textContent  = isSubbed ? (ASSET_ICONS[data.asset]||'') + ' ' + data.asset : '🔒 LOCKED';
+    posEl.textContent    = isSubbed ? data.pos + ' POSITION' : '🔒 LOCKED';
+    tfEl.textContent     = data.tf + ' TIMEFRAME';
+    timeEl.textContent   = data.timeAgo;
+    box.style.filter = isSubbed ? '' : 'blur(3px)';
+  }
+
+  if (!isSubbed) {
+    actionEl.textContent = '🔒 SUBSCRIBE FIRST';
+    actionEl.style.color = 'var(--text3)';
+    box.style.filter = 'blur(3px)';
+  } else if (data.mode === 'buy') {
+    box.classList.add('ct-sb-buy'); dot.classList.add('ld-buy');
+    actionEl.style.color = 'var(--green)';
+    assetEl.className = 'ct-tag ct-tag-green'; posEl.className = 'ct-tag ct-tag-green';
+  } else if (data.mode === 'sell') {
+    box.classList.add('ct-sb-sell'); dot.classList.add('ld-sell');
+    actionEl.style.color = 'var(--red)';
+    assetEl.className = 'ct-tag ct-tag-red'; posEl.className = 'ct-tag ct-tag-red';
+  } else {
+    box.classList.add('ct-sb-watch'); dot.classList.add('ld-idle');
+    actionEl.style.color = 'var(--text2)';
+    assetEl.className = 'ct-tag ct-tag-cyan'; posEl.className = 'ct-tag ct-tag-cyan';
+  }
+  if (tfEl) tfEl.className = 'ct-tag ct-tag-cyan';
+
+  // Update confirm button label
+  const confirmBtn = document.querySelector('#oc-modal-copy [onclick="ocConfirmCopy()"]');
+  if (confirmBtn) {
+    if (!isSubbed) confirmBtn.textContent = '⚠ Subscribe First';
+    else if (isRevealed) confirmBtn.textContent = '✓ ALREADY REVEALED — REFRESH 50⬡';
+    else confirmBtn.textContent = '✓ CONFIRM — PAY 50⬡';
   }
 
   ocModal('oc-modal-copy',1);
@@ -14622,11 +14850,17 @@ function ocOpenCopy(data) {
 
 function ocConfirmCopy() {
   if (OC.coins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
-  OC.coins -= 50;
   const d = ocState.currentCopy;
+  if (!OC_EXT.subscribedTraders.includes(d.handle)) {
+    showToast('⚠ Subscribe to @'+d.handle+' first to unlock status'); return;
+  }
+  OC.coins -= 50;
+  if (!OC_EXT.revealedStatuses) OC_EXT.revealedStatuses = {};
+  OC_EXT.revealedStatuses[d.handle] = true;
   ocModal('oc-modal-copy',0);
   oracleRenderVaultCoins(); ocSave();
-  showToast(`👁 Status unlocked! @${d.handle} is ${d.action} ${d.asset} ${d.pos} ${d.tf}`);
+  opAdvanceQuest('wq4');
+  showToast(`👁 Status unlocked! @${d.handle} is ${d.action} ${d.asset !== '—' ? d.asset + ' ' + d.pos + ' ' + d.tf : '— monitoring markets'}`);
 }
 
 /* ════════════════════════════════════
@@ -14656,17 +14890,16 @@ function ocSubscribe(handle, btnId) {
 }
 
 function ocConfirmSub() {
-  if (ocState.currentSubHandle) {
-    ocState.subscribedTraders.push(ocState.currentSubHandle);
-    // Обновляем кнопку в карточке
+  const handle = ocState.currentSubHandle;
+  if (handle && !OC_EXT.subscribedTraders.includes(handle)) {
+    OC_EXT.subscribedTraders.push(handle);
+    opAdvanceQuest('wq4');
     const btn = document.getElementById(ocState.currentSubBtnId);
-    if (btn) {
-      btn.textContent = '✓ SUBSCRIBED';
-      btn.className   = 'tc-btn tc-btn-sub-done';
-    }
+    if (btn) { btn.textContent = '✓ SUBSCRIBED'; btn.className = 'tc-btn tc-btn-sub-done'; btn.onclick = () => showToast('✓ Already subscribed to @'+handle); }
+    ocSave();
   }
   ocModal('oc-modal-subscribe',0);
-  showToast(`✓ Subscribed to @${ocState.currentSubHandle}! Notifications enabled`);
+  showToast(`✓ Subscribed to @${handle}! Notifications enabled`);
 }
 
 /* ════════════════════════════════════
