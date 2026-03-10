@@ -10728,80 +10728,81 @@ function initSigmaButtons() {
       <div class="op-screen" id="op-guild">
         <div class="scrollable-op">
 
+    <!-- GUILD CARD -->
     <div class="slabel">MY GUILD</div>
-    <div class="guild-card">
-      <span class="guild-emblem">🔮</span>
-      <div class="guild-name">ORACLE COVENANT</div>
-      <div class="guild-motto">"Those who see the future, shape it."</div>
+    <div class="guild-card" style="cursor:default">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <span class="guild-emblem" id="g-emblem">🔮</span>
+        <div style="flex:1">
+          <div class="guild-name" id="g-name">ORACLE COVENANT</div>
+          <div class="guild-motto" id="g-motto">"Those who see the future, shape it."</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <div onclick="guildInvite()" style="background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:8px;padding:5px 10px;font-size:9px;font-weight:700;color:var(--emerald);cursor:pointer;font-family:'Space Mono',monospace;">🔗 INVITE</div>
+          <div onclick="guildShowRules()" style="background:rgba(255,255,255,.04);border:1px solid #222;border-radius:8px;padding:5px 10px;font-size:9px;font-weight:700;color:#888;cursor:pointer;font-family:'Space Mono',monospace;">📋 RULES</div>
+        </div>
+      </div>
       <div class="guild-stats">
-        <div class="gs-item"><div class="gs-val">8</div><div class="gs-lbl">MEMBERS</div></div>
-        <div class="gs-item"><div class="gs-val">12,400</div><div class="gs-lbl">GUILD OC</div></div>
-        <div class="gs-item"><div class="gs-val">#14</div><div class="gs-lbl">RANK</div></div>
-        <div class="gs-item"><div class="gs-val">83%</div><div class="gs-lbl">AVG SCORE</div></div>
+        <div class="gs-item"><div class="gs-val" id="g-members">8</div><div class="gs-lbl">MEMBERS</div></div>
+        <div class="gs-item"><div class="gs-val" id="g-coins">12,400</div><div class="gs-lbl">GUILD OC</div></div>
+        <div class="gs-item"><div class="gs-val" id="g-rank">#14</div><div class="gs-lbl">RANK</div></div>
+        <div class="gs-item"><div class="gs-val" id="g-avgscore">83%</div><div class="gs-lbl">AVG SCORE</div></div>
+      </div>
+      <!-- Weekly progress bar -->
+      <div style="margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:4px;">
+          <span>WEEKLY PROGRESS</span><span id="g-week-pct">72%</span>
+        </div>
+        <div style="background:#1a1a1a;border-radius:4px;height:4px;overflow:hidden;">
+          <div id="g-week-bar" style="height:4px;background:linear-gradient(90deg,var(--emerald2),var(--emerald));width:72%;border-radius:4px;transition:width .6s;"></div>
+        </div>
+        <div style="font-size:8px;color:#444;font-family:'Space Mono',monospace;margin-top:3px;" id="g-week-label">Season 1 · Week 4 of 13</div>
       </div>
     </div>
 
     <!-- TREASURY -->
-    <div class="slabel">GUILD TREASURY</div>
+    <div class="slabel">GUILD TREASURY <span id="g-treasury-timer" style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;font-weight:400;float:right;padding-top:1px;"></span></div>
     <div class="treasury-card">
-      <div class="tc-title">
-        WEEKLY TREASURY
-        <span style="font-size:9px;color:var(--text3)">Opens: Sunday 00:00 UTC</span>
+      <div class="tc-title" style="display:flex;justify-content:space-between;align-items:center;">
+        <span>WEEKLY TREASURY</span>
+        <span id="g-treasury-status-badge" style="font-size:8px;padding:2px 7px;border-radius:6px;background:rgba(0,230,118,.1);color:var(--emerald);font-family:'Space Mono',monospace;font-weight:700;">ACCUMULATING</span>
       </div>
       <div class="tc-row">
-        <div class="tc-item"><div class="tc-val">4,200</div><div class="tc-lbl">COINS ⬡</div></div>
-        <div class="tc-item"><div class="tc-val">3</div><div class="tc-lbl">CHESTS 📦</div></div>
-        <div class="tc-item"><div class="tc-val">7</div><div class="tc-lbl">FORECASTS 📄</div></div>
+        <div class="tc-item"><div class="tc-val" id="g-tc-coins">4,200</div><div class="tc-lbl">COINS ⬡</div></div>
+        <div class="tc-item"><div class="tc-val" id="g-tc-chests">3</div><div class="tc-lbl">CHESTS 📦</div></div>
+        <div class="tc-item"><div class="tc-val" id="g-tc-forecasts">7</div><div class="tc-lbl">FORECASTS 📄</div></div>
       </div>
-      <button class="tc-open-btn" onclick="openGuildTreasury()">🔮 OPEN TREASURY — Guild Leader Only</button>
+      <button class="tc-open-btn" id="g-treasury-btn" onclick="guildOpenTreasury()">🔮 VIEW & OPEN TREASURY</button>
     </div>
 
     <!-- CONTRIBUTE -->
     <div style="margin:0 12px 10px;background:var(--card);border:1px solid rgba(0,230,118,.15);border-radius:16px;padding:15px;">
-      <div style="font-size:10px;color:var(--emerald);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px;">CONTRIBUTE TO TREASURY</div>
+      <div style="font-size:10px;color:var(--emerald);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px;">CONTRIBUTE TO TREASURY <span style="color:#555;font-weight:400">· builds guild rank</span></div>
       <div style="display:flex;gap:8px;">
-        <button onclick="showToast('⬡ +100 OC contributed to treasury!')" style="flex:1;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--emerald);cursor:pointer;">+100⬡ COINS</button>
-        <button onclick="showToast('🪵 Wooden Chest contributed!')" style="flex:1;background:rgba(139,105,20,.1);border:1px solid rgba(139,105,20,.25);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#c8961e;cursor:pointer;">CHEST 🪵</button>
-        <button onclick="showToast('📄 Forecast contributed!')" style="flex:1;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--cyan);cursor:pointer;">FORECAST</button>
+        <button onclick="guildContributeCoins()" style="flex:1;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--emerald);cursor:pointer;">+100⬡<br><span style="font-size:9px;font-weight:400;color:#555">COINS</span></button>
+        <button onclick="openGuildContribModal('chest')" style="flex:1;background:rgba(139,105,20,.1);border:1px solid rgba(139,105,20,.25);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#c8961e;cursor:pointer;">📦 CHEST<br><span style="font-size:9px;font-weight:400;color:#555">FROM VAULT</span></button>
+        <button onclick="openGuildContribModal('forecast')" style="flex:1;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--cyan);cursor:pointer;">📄 FORECAST<br><span style="font-size:9px;font-weight:400;color:#555">SHARE ONE</span></button>
       </div>
     </div>
 
     <!-- MEMBERS -->
-    <div class="slabel">MEMBERS</div>
-    <div class="guild-member">
-      <div class="gm-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800)">🧿</div>
-      <div class="gm-info"><div class="gm-name">oracle_x <span class="gm-crown">👑</span></div><div class="gm-rank" style="color:var(--orange)">GUILD MASTER · Gold Oracle</div></div>
-      <div style="text-align:right"><div class="gm-score" style="color:var(--green)">87</div><div class="gm-score-lbl">SCORE</div></div>
-    </div>
-    <div class="guild-member">
-      <div class="gm-avatar" style="background:linear-gradient(135deg,#0a0a0a,#151515)">🌙</div>
-      <div class="gm-info"><div class="gm-name">silver_prophet</div><div class="gm-rank" style="color:var(--silver)">Silver Seer</div></div>
-      <div style="text-align:right"><div class="gm-score">74</div><div class="gm-score-lbl">SCORE</div></div>
-    </div>
-    <div class="guild-member">
-      <div class="gm-avatar" style="background:linear-gradient(135deg,#080a0a,#101818)">⚡</div>
-      <div class="gm-info"><div class="gm-name">YOU</div><div class="gm-rank" style="color:var(--silver)">Silver Seer · 5-day streak 🔥</div></div>
-      <div style="text-align:right"><div class="gm-score" style="color:var(--cyan)">71</div><div class="gm-score-lbl">SCORE</div></div>
-    </div>
-    <div class="guild-member">
-      <div class="gm-avatar" style="background:#0a0a0a">🔮</div>
-      <div class="gm-info"><div class="gm-name">initiate_03</div><div class="gm-rank" style="color:var(--text3)">Initiate</div></div>
-      <div style="text-align:right"><div class="gm-score" style="color:var(--text2);font-size:16px">42</div><div class="gm-score-lbl">SCORE</div></div>
+    <div class="slabel">MEMBERS <span id="g-members-badge" style="font-size:9px;color:#555;font-weight:400;font-family:'Space Mono',monospace;">8/10</span></div>
+    <div id="g-members-list">
+      <!-- populated by opRenderGuild() -->
     </div>
 
     <!-- GUILD CHAT -->
-    <div class="slabel">GUILD CHAMBER</div>
+    <div class="slabel">GUILD CHAMBER <span style="font-size:9px;color:var(--emerald);font-family:'Space Mono',monospace;font-weight:400;" id="g-online-count">8 ONLINE</span></div>
     <div class="guild-chat">
-      <div class="chat-header">GUILD CHAT <span style="font-size:8px;color:var(--text3)">8 ONLINE</span></div>
       <div class="chat-msgs" id="chat-msgs">
         <div class="cm system"><div class="cm-body"><div class="cm-text">🔮 oracle_x opened the weekly treasury! 3 Bronze Chests distributed.</div><div class="cm-time">2h ago</div></div></div>
         <div class="cm">
           <div class="cm-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800)">🧿</div>
-          <div class="cm-body"><div class="cm-name" style="color:var(--orange)">oracle_x 👑</div><div class="cm-text">BTC looking strong — my 4H long is up +8%. Treasury opened, check your rewards 🔥</div><div class="cm-time">1h ago</div></div>
+          <div class="cm-body"><div class="cm-name" style="color:var(--orange)">oracle_x 👑</div><div class="cm-text">BTC looking strong — my 4H long is up +8%. Treasury opened, check rewards 🔥</div><div class="cm-time">1h ago</div></div>
         </div>
         <div class="cm">
           <div class="cm-avatar" style="background:#0a0a12">🌙</div>
-          <div class="cm-body"><div class="cm-name" style="color:var(--silver)">silver_prophet</div><div class="cm-text">Gold 1D setup looks clean. Contributing 2 forecasts to the next treasury 💎</div><div class="cm-time">45m ago</div></div>
+          <div class="cm-body"><div class="cm-name" style="color:var(--silver)">silver_prophet</div><div class="cm-text">Gold 1D setup looks clean. Contributing 2 forecasts to next treasury 💎</div><div class="cm-time">45m ago</div></div>
         </div>
         <div class="cm system"><div class="cm-body"><div class="cm-text">📄 silver_prophet contributed 2 GOLD 1D forecasts to treasury.</div><div class="cm-time">44m ago</div></div></div>
       </div>
@@ -10811,18 +10812,15 @@ function initSigmaButtons() {
       </div>
     </div>
 
-    <!-- JOIN/CREATE -->
+    <!-- LEADERBOARD -->
     <div class="slabel">GUILDS LEADERBOARD</div>
-    <div style="margin:0 12px 10px;display:flex;flex-direction:column;gap:8px;">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">
-        <span style="font-size:24px">🏛️</span>
-        <div style="flex:1"><div style="font-size:13px;font-weight:700">IRON COVENANT</div><div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">10 MEMBERS · #1 RANK · Score: 91</div></div>
-        <button onclick="showToast('You are already in Oracle Covenant guild')" style="background:var(--border);border:none;border-radius:9px;padding:6px 12px;font-size:10px;color:var(--text3);cursor:pointer;font-family:'Syne',sans-serif;">FULL</button>
-      </div>
-      <div style="background:var(--card);border:1px solid rgba(0,230,118,.15);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="showToast('✓ Guild created! Invite members to build treasury')">
-        <span style="font-size:24px">✚</span>
-        <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--emerald)">CREATE NEW GUILD</div><div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">COST: 1,000⬡ · MAX 10 MEMBERS</div></div>
-      </div>
+    <div id="g-leaderboard-list" style="margin:0 12px 8px;display:flex;flex-direction:column;gap:7px;">
+      <!-- populated by JS -->
+    </div>
+    <div style="margin:0 12px 10px;background:var(--card);border:1px solid rgba(0,230,118,.15);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="guildOpenModal('guild-create-modal')">
+      <span style="font-size:24px">✚</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--emerald)">CREATE NEW GUILD</div><div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">COST: 1,000⬡ · YOU BECOME GUILD MASTER</div></div>
+      <span style="font-size:18px;color:var(--emerald)">›</span>
     </div>
   </div>
 
@@ -13080,15 +13078,197 @@ function arenaBuyChest(id, chestType) {
 // ══════════════════════════
 //  GUILD
 // ══════════════════════════
+// ══════════════════════════════════════════════
+//  GUILD MODULE — op-guild screen
+// ══════════════════════════════════════════════
+
+const GUILD_MEMBERS = [
+  {handle:'oracle_x',    icon:'🧿', avatarBg:'linear-gradient(135deg,#1a0e00,#2a1800)', rank:'GUILD MASTER · Gold Oracle', rankColor:'var(--orange)', score:87, isLeader:true,  isYou:false, streak:22, btc:92, gold:84, eth:78},
+  {handle:'silver_prophet',icon:'🌙',avatarBg:'linear-gradient(135deg,#0a0a0a,#151515)', rank:'Silver Seer',              rankColor:'var(--silver)', score:74, isLeader:false, isYou:false, streak:11, btc:78, gold:82, eth:65},
+  {handle:'YOU',         icon:'⚡', avatarBg:'linear-gradient(135deg,#080a0a,#101818)', rank:'Silver Seer',              rankColor:'var(--cyan)',   score:0,  isLeader:false, isYou:true,  streak:0,  btc:70, gold:65, eth:60},
+  {handle:'crypto_waves',icon:'🌊', avatarBg:'linear-gradient(135deg,#001020,#001830)', rank:'Bronze Seer',              rankColor:'var(--bronze)', score:58, isLeader:false, isYou:false, streak:6,  btc:62, gold:55, eth:58},
+  {handle:'initiate_03', icon:'🔮', avatarBg:'#0a0a0a',                                rank:'Initiate',                 rankColor:'var(--text3)', score:42, isLeader:false, isYou:false, streak:2,  btc:50, gold:40, eth:45},
+  {handle:'macro_view',  icon:'📊', avatarBg:'linear-gradient(135deg,#0a0a00,#1a1a00)', rank:'Bronze Seer',              rankColor:'var(--bronze)', score:61, isLeader:false, isYou:false, streak:8,  btc:65, gold:70, eth:55},
+  {handle:'eth_dev_x',   icon:'Ξ',  avatarBg:'linear-gradient(135deg,#080a14,#10143a)', rank:'Silver Seer',              rankColor:'var(--silver)', score:72, isLeader:false, isYou:false, streak:14, btc:70, gold:60, eth:88},
+  {handle:'sol_trader',  icon:'◎',  avatarBg:'linear-gradient(135deg,#0d0019,#1a0033)', rank:'Bronze Seer',              rankColor:'var(--purple2)',score:55, isLeader:false, isYou:false, streak:4,  btc:58, gold:50, eth:60},
+];
+
+const GUILD_LEADERBOARD = [
+  {rank:1,  name:'IRON COVENANT',      emblem:'🏛️', members:10, score:91, status:'full'},
+  {rank:2,  name:'SIGMA ORACLES',      emblem:'🔱', members:9,  score:88, status:'open'},
+  {rank:3,  name:'GOLDEN PROPHETS',    emblem:'⬡',  members:8,  score:85, status:'open'},
+  {rank:5,  name:'BEAR HUNTERS',       emblem:'🐻', members:7,  score:80, status:'open'},
+  {rank:14, name:'ORACLE COVENANT',    emblem:'🔮', members:8,  score:83, status:'you', isMine:true},
+  {rank:15, name:'CRYPTO WOLVES',      emblem:'🐺', members:6,  score:77, status:'open'},
+];
+
 function opRenderGuild() {
-  opRenderGuildChat();
-}
-function opRenderGuildChat() {
+  // ── Stats ─────────────────────────────────────────
+  const t = OC_EXT.guildTreasury || {coins:4200, chests:{bronze:2,silver:1}, forecasts:7};
+  const totalChests = typeof t.chests === 'number' ? t.chests : Object.values(t.chests||{}).reduce((a,b)=>a+b,0);
+  const setTxt = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+
+  setTxt('g-members', guildState.members);
+  setTxt('g-coins', guildState.coins.toLocaleString());
+  setTxt('g-rank', '#'+guildState.rank);
+  setTxt('g-avgscore', guildState.avgScore+'%');
+  setTxt('g-members-badge', guildState.members+'/'+guildState.maxMembers);
+  setTxt('g-tc-coins', t.coins.toLocaleString());
+  setTxt('g-tc-chests', totalChests);
+  setTxt('g-tc-forecasts', t.forecasts);
+
+  // ── Treasury countdown ────────────────────────────
+  const now = new Date();
+  const sunday = new Date(now);
+  sunday.setDate(now.getDate() + (7 - now.getDay()) % 7 || 7);
+  sunday.setHours(0,0,0,0);
+  const diff = sunday - now;
+  const dd = Math.floor(diff/86400000);
+  const hh = Math.floor((diff%86400000)/3600000);
+  const mm = Math.floor((diff%3600000)/60000);
+  const timerEl = document.getElementById('g-treasury-timer');
+  if (timerEl) timerEl.textContent = dd>0 ? `Opens in ${dd}d ${hh}h` : `Opens in ${hh}h ${mm}m`;
+
+  // ── Members list ──────────────────────────────────
+  const membersList = document.getElementById('g-members-list');
+  if (membersList) {
+    membersList.innerHTML = GUILD_MEMBERS.map(m => {
+      const userScore = m.isYou ? calcGuildScore() : m.score;
+      const userRank  = m.isYou ? getMyRankLabel() : m.rank;
+      const userStreak= m.isYou ? (OC.streak||0) : m.streak;
+      const scoreColor = userScore>=80?'var(--green)': userScore>=60?'var(--cyan)': userScore>=40?'var(--orange)':'var(--text2)';
+      return `<div class="guild-member" style="cursor:pointer" onclick="guildOpenMemberModal('${m.handle}','${m.icon}','${m.avatarBg}','${m.isYou?userRank:m.rank}',${userScore},'${m.isYou?70:m.btc}','${m.isYou?65:m.gold}','${m.isYou?60:m.eth}','${m.isYou?userRank:m.rank}','${m.isYou?userStreak+'🔥 streak':m.streak+'🔥 streak'}')">
+        <div class="gm-avatar" style="background:${m.avatarBg};${m.isYou?'border:2px solid rgba(0,229,255,.3);':''}">${m.icon}</div>
+        <div class="gm-info">
+          <div class="gm-name">${m.isYou?'YOU ★':m.handle}${m.isLeader?' <span class="gm-crown">👑</span>':''}</div>
+          <div class="gm-rank" style="color:${m.isYou?'var(--cyan)':m.rankColor}">${m.isYou?userRank+' · '+userStreak+'🔥':m.rank+' · '+m.streak+'🔥'}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gm-score" style="color:${scoreColor}">${userScore}</div>
+          <div class="gm-score-lbl">SCORE</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Leaderboard ───────────────────────────────────
+  const lbList = document.getElementById('g-leaderboard-list');
+  if (lbList) {
+    lbList.innerHTML = GUILD_LEADERBOARD.map(g => {
+      const rankColor = g.rank===1?'var(--gold)': g.rank===2?'var(--silver)': g.rank===3?'var(--bronze)':'var(--text2)';
+      const isMine = g.isMine;
+      const btnHtml = isMine
+        ? `<div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:7px;padding:4px 10px;">MY GUILD</div>`
+        : g.status==='full'
+          ? `<div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;background:#1a1a1a;border:1px solid #222;border-radius:7px;padding:4px 10px;">FULL</div>`
+          : `<div onclick="guildJoin('${g.name}')" style="font-size:9px;color:var(--emerald);font-family:'Space Mono',monospace;font-weight:700;background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:7px;padding:4px 10px;cursor:pointer;">JOIN</div>`;
+      return `<div style="background:var(--card);border:1px solid ${isMine?'rgba(0,229,255,.2)':'var(--border)'};border-radius:13px;padding:13px;display:flex;align-items:center;gap:11px;">
+        <div style="font-size:11px;font-weight:800;color:${rankColor};font-family:'Space Mono',monospace;width:22px;text-align:center;">#${g.rank}</div>
+        <div style="font-size:22px;">${g.emblem}</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:700;color:${isMine?'var(--cyan)':'#fff'};">${g.name}</div>
+          <div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">${g.members} MEMBERS · SCORE: ${g.score}</div>
+        </div>
+        ${btnHtml}
+      </div>`;
+    }).join('');
+  }
+
+  // ── Chat scroll ───────────────────────────────────
   const msgs = document.getElementById('chat-msgs');
-  if (!msgs) return;
-  // Keep existing static messages, just scroll
-  msgs.scrollTop = msgs.scrollHeight;
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
 }
+
+function calcGuildScore() {
+  const s = OC.streak||0, a = OC.accuracy||0, d = OC.daysActive||1;
+  return Math.min(100, Math.round((a*0.4)+(Math.min(s,60)/60*30)+(Math.min(d,180)/180*30)));
+}
+function getMyRankLabel() {
+  const sc = calcGuildScore();
+  if (sc>=90) return 'Legend Oracle';
+  if (sc>=75) return 'Diamond Prophet';
+  if (sc>=55) return 'Gold Oracle';
+  if (sc>=35) return 'Silver Seer';
+  return 'Bronze Seer';
+}
+
+function guildOpenTreasury() {
+  // Update treasury modal values before opening
+  const t = OC_EXT.guildTreasury;
+  const totalC = typeof t.chests==='number'?t.chests:Object.values(t.chests||{}).reduce((a,b)=>a+b,0);
+  const gtmC = document.getElementById('gtm-coins');
+  const gtmCh = document.getElementById('gtm-chests');
+  const gtmF = document.getElementById('gtm-forecasts');
+  if (gtmC) gtmC.textContent = t.coins.toLocaleString();
+  if (gtmCh) gtmCh.textContent = totalC;
+  if (gtmF) gtmF.textContent = t.forecasts;
+  guildOpenModal('guild-treasury-modal');
+}
+
+function openGuildTreasury() { guildOpenTreasury(); }  // legacy alias
+
+function claimTreasury() {
+  // Give user their share
+  const t = OC_EXT.guildTreasury;
+  const perMember = Math.floor(t.coins / guildState.members);
+  OC.coins += perMember;
+  // Give a chest too
+  const totalC = typeof t.chests==='number'?t.chests:Object.values(t.chests||{}).reduce((a,b)=>a+b,0);
+  if (totalC > 0) {
+    OC.inventory.bronze = (OC.inventory.bronze||0) + 1;
+    oracleRenderInventory();
+  }
+  // Give forecasts share
+  const forecPerMember = Math.floor(t.forecasts / guildState.members);
+  if (forecPerMember > 0 && OC.ownedForecasts) {
+    // add placeholder forecasts
+    for (let i=0;i<forecPerMember;i++) {
+      OC.ownedForecasts.push({sym:'BTC',tf:'4H',dir:'BULL',mult:'×1',icon:'₿',date:new Date().toLocaleDateString()});
+    }
+  }
+  // Reset treasury after distribution
+  t.coins = 0;
+  if (typeof t.chests === 'number') t.chests = 0;
+  else t.chests = {};
+  t.forecasts = 0;
+  oracleRenderVaultCoins();
+  ocSave();
+  closeOverlay('treasury-overlay');
+  guildCloseModal('guild-treasury-modal');
+  opRenderGuild();
+  guildSystemMsg('🔮 Treasury distributed! You received '+perMember+'⬡ + Bronze Chest!');
+  showToast('🔮 Treasury opened! +'+perMember+'⬡ + Bronze Chest + '+forecPerMember+' forecast!');
+  opAdvanceQuest('wq3');
+}
+
+function guildContributeCoins() {
+  if (OC.coins < 100) { showToast('⚠ Need 100⬡ to contribute'); return; }
+  OC.coins -= 100;
+  OC_EXT.guildTreasury.coins += 100;
+  guildState.coins += 100;
+  oracleRenderVaultCoins();
+  ocSave();
+  opRenderGuild();
+  guildSystemMsg('⬡ YOU contributed 100⬡ to the guild treasury.');
+  showToast('⬡ +100 OC contributed to treasury! Guild rank improves 📈');
+  opAdvanceQuest('wq3');
+}
+
+function guildInvite() {
+  const link = 'https://t.me/elcarocalculator_bot?start=guild_oracle_covenant';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(link).then(()=>showToast('🔗 Guild invite link copied! Share with friends to recruit members'));
+  } else {
+    showToast('🔗 Invite: '+link);
+  }
+}
+function guildShowRules() {
+  showToast('📋 Rules: 1) Contribute weekly  2) Keep score 40+  3) Respect members  4) No spam in chat');
+}
+function guildJoin(name) {
+  showToast('⚠ You are already a member of Oracle Covenant. Leave first to join '+name);
+}
+
 function sendChat() {
   const inp = document.getElementById('chat-input');
   const txt = inp ? inp.value.trim() : '';
@@ -13098,24 +13278,15 @@ function sendChat() {
   if (!msgs) return;
   const div = document.createElement('div');
   div.className = 'cm';
-  div.innerHTML = `<div class="cm-avatar" style="background:linear-gradient(135deg,#080a0a,#101818)">⚡</div>
+  div.innerHTML = `<div class="cm-avatar" style="background:linear-gradient(135deg,#080a0a,#101818);border:1px solid rgba(0,229,255,.2)">⚡</div>
     <div class="cm-body">
-      <div class="cm-name" style="color:var(--cyan)">YOU</div>
-      <div class="cm-text">${txt}</div>
+      <div class="cm-name" style="color:var(--cyan)">YOU ★</div>
+      <div class="cm-text">${txt.replace(/</g,'&lt;')}</div>
       <div class="cm-time">Just now</div>
     </div>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
-  showToast('💬 Message sent to guild');
-  opAdvanceQuest('wq3');
-}
-function openGuildTreasury() {
-  document.getElementById('treasury-overlay').classList.add('open');
-}
-function claimTreasury() {
-  OC.coins += 525; oracleRenderVaultCoins();
-  closeOverlay('treasury-overlay');
-  showToast('🔮 Treasury distributed! You received 525⬡ + Bronze Chest!');
+  showToast('💬 Message sent to Oracle Covenant');
   opAdvanceQuest('wq3');
 }
 
@@ -14167,35 +14338,11 @@ function guildCloseModal(id) {
 }
 
 function guildDistribute() {
-  const perMember = Math.floor(guildState.treasury.coins / guildState.members);
-  guildState.treasury.coins = 0;
-  guildState.treasury.chests = 0;
-  guildState.treasury.forecasts = 0;
-  document.getElementById('gtc-coins').textContent = '0';
-  document.getElementById('gtc-chests').textContent = '0';
-  document.getElementById('gtc-forecasts').textContent = '0';
-  guildCloseModal('guild-treasury-modal');
-  showToast('🔮 Treasury distributed! Each member received ' + perMember + '⬡ + rewards!');
-  guildAddSystemMsg('🔮 Treasury distributed! ' + perMember + '⬡ + Bronze Chest per member.');
+  claimTreasury();
 }
 
-function guildContribute(what) {
-  guildCloseModal('guild-contrib-modal');
-  if (what.includes('100⬡')) {
-    guildState.treasury.coins += 100;
-    document.getElementById('gtc-coins').textContent = guildState.treasury.coins.toLocaleString();
-  } else if (what.includes('Chest')) {
-    guildState.treasury.chests++;
-    document.getElementById('gtc-chests').textContent = guildState.treasury.chests;
-  } else {
-    guildState.treasury.forecasts++;
-    document.getElementById('gtc-forecasts').textContent = guildState.treasury.forecasts;
-  }
-  showToast('✅ ' + what + ' contributed to guild treasury!');
-  guildAddSystemMsg('⬡ YOU contributed ' + what + ' to the guild treasury.');
-  opAdvanceQuest('wq3'); // weekly: contribute to guild
-  ocSave();
-}
+// guildContribute(what) — old version, now aliased to new implementation
+// kept for guild-contrib-modal buttons compatibility
 
 function guildSendMessage() {
   const input = document.getElementById('guild-gchat-input');
