@@ -11891,10 +11891,35 @@ function initSigmaButtons() {
     <!-- Actions (when owned) -->
     <div id="op-cm-actions" style="display:flex;flex-direction:column;gap:9px;">
       <button onclick="orcOpenChest()" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:13px;padding:15px;font-family:'DM Sans',Outfit,sans-serif;font-size:14px;font-weight:800;color:#000;cursor:pointer;">📦 OPEN CHEST</button>
-      <button onclick="orcSaveChest()" style="background:#161616;border:1px solid #2a2a2a;border-radius:13px;padding:14px;font-family:'DM Sans',Outfit,sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;">💾 SAVE TO INVENTORY</button>
-      <button onclick="orcSellChest()" style="background:transparent;border:1px solid #555;border-radius:13px;padding:12px;font-family:'DM Sans',Outfit,sans-serif;font-size:13px;font-weight:700;color:#888;cursor:pointer;">
-        💰 SELL ON MARKETPLACE — <span id="op-cm-sell-price">150⬡</span>
-      </button>
+<!-- Sell on marketplace — expandable -->
+      <div id="op-cm-sell-wrap">
+        <button onclick="orcToggleSellOptions(this)" style="background:transparent;border:1px solid #555;border-radius:13px;padding:12px;width:100%;font-family:'DM Sans',Outfit,sans-serif;font-size:13px;font-weight:700;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+          💰 SELL ON MARKETPLACE — <span id="op-cm-sell-price">150⬡</span>
+          <span id="op-cm-sell-chevron" style="font-size:10px;transition:transform .25s;">▼</span>
+        </button>
+        <div id="op-cm-sell-options" style="display:none;flex-direction:column;gap:8px;margin-top:8px;">
+          <!-- Instant sell to system -->
+          <button onclick="orcSellChestQuick()" style="background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.3);border-radius:11px;padding:12px 14px;width:100%;font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--orange);cursor:pointer;text-align:left;">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.5px;margin-bottom:3px;">⚡ INSTANT SELL TO SYSTEM</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:400;">Receive <span id="op-cm-quick-price" style="color:var(--orange);font-weight:700;">150⬡</span> immediately</div>
+          </button>
+          <!-- List on marketplace -->
+          <div style="background:rgba(255,255,255,.03);border:1px solid #2a2a2a;border-radius:11px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.5px;color:#fff;margin-bottom:8px;">🏷 LIST AT YOUR PRICE</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <input id="op-cm-list-price" type="number" min="1"
+                style="flex:1;background:#111;border:1px solid #333;border-radius:8px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Space Mono',monospace;font-weight:700;outline:none;"
+                placeholder="Your price"
+                onfocus="this.style.borderColor='rgba(255,106,0,.5)'" onblur="this.style.borderColor='#333'"/>
+              <span style="font-size:13px;color:var(--orange);font-weight:800;">⬡</span>
+            </div>
+            <div style="font-size:10px;color:#555;margin-bottom:8px;">Market price: <span id="op-cm-list-suggested" style="color:#777;">150⬡</span> · 2% fee on sale</div>
+            <button onclick="orcListChestOnMarket()" style="width:100%;background:#1a1a1a;border:1px solid #444;border-radius:9px;padding:9px;font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:800;color:#fff;cursor:pointer;">
+              POST LISTING
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- No chest message -->
@@ -12362,6 +12387,18 @@ function orcChestPreview(type) {
   document.getElementById('op-cm-name').textContent = d.name+' CHEST';
   document.getElementById('op-cm-desc').textContent = d.desc;
   document.getElementById('op-cm-sell-price').textContent = orcFmt(d.coinValue)+'⬡';
+  // Populate sell-option prices
+  const qp = document.getElementById('op-cm-quick-price');
+  if (qp) qp.textContent = orcFmt(d.coinValue)+'⬡';
+  const sp = document.getElementById('op-cm-list-suggested');
+  if (sp) sp.textContent = orcFmt(d.coinValue)+'⬡';
+  const pi = document.getElementById('op-cm-list-price');
+  if (pi) pi.value = d.coinValue;
+  // Collapse sell options on open
+  const opts = document.getElementById('op-cm-sell-options');
+  if (opts) opts.style.display = 'none';
+  const chev = document.getElementById('op-cm-sell-chevron');
+  if (chev) chev.style.transform = '';
   document.getElementById('op-cm-actions').style.display = qty>0 ? 'flex' : 'none';
   document.getElementById('op-cm-nochest').style.display  = qty>0 ? 'none' : 'block';
   document.getElementById('op-cm-result').style.display   = 'none';
@@ -12413,9 +12450,26 @@ function orcOpenChest() {
   }
   showToast(`📦 ${d.icon} Chest opened! ${count} forecast${count>1?'s':''} + ${bonus}⬡ received!`);
 }
-function orcSellChest() {
-  const type=OC.activeChest, d=CHEST_DATA[type];
-  if ((OC.inventory[type]||0)<1) return;
+function orcSellChest() { orcToggleSellOptions(); } // legacy — now just toggles
+
+function orcToggleSellOptions() {
+  const opts = document.getElementById('op-cm-sell-options');
+  const chev = document.getElementById('op-cm-sell-chevron');
+  if (!opts) return;
+  const isHidden = opts.style.display === 'none' || opts.style.display === '';
+  if (isHidden) {
+    opts.style.display = 'flex';
+    opts.style.flexDirection = 'column';
+    if (chev) chev.style.transform = 'rotate(180deg)';
+  } else {
+    opts.style.display = 'none';
+    if (chev) chev.style.transform = '';
+  }
+}
+
+function orcSellChestQuick() {
+  const type = OC.activeChest, d = CHEST_DATA[type];
+  if ((OC.inventory[type]||0) < 1) return;
   OC.inventory[type]--;
   OC.coins += d.coinValue;
   orcChestModalClose();
@@ -12423,15 +12477,31 @@ function orcSellChest() {
   oracleRenderInventory();
   oracleRenderProfile();
   ocSave();
-  // Add to market listings  
+  showToast(`⚡ ${d.icon} ${d.name} sold instantly for ${orcFmt(d.coinValue)}⬡`);
+}
+
+function orcListChestOnMarket() {
+  const type = OC.activeChest, d = CHEST_DATA[type];
+  if ((OC.inventory[type]||0) < 1) return;
+  const input = document.getElementById('op-cm-list-price');
+  const price = parseInt(input?.value) || d.coinValue;
+  if (price < 1) { showToast('⚠ Enter a valid price'); return; }
   const sellerHandle = window.Telegram?.WebApp?.initDataUnsafe?.user?.username
-    ? '@'+window.Telegram.WebApp.initDataUnsafe.user.username : '@you';
-  OC.marketListings.push({type:'chest', chestType:type, price:Math.round(d.coinValue*0.8), seller:sellerHandle, id:'sell_'+Date.now()});
-  // Re-render market if visible
+    ? '@' + window.Telegram.WebApp.initDataUnsafe.user.username : '@you';
+  OC.inventory[type]--;
+  OC.marketListings.push({
+    type: 'chest', chestType: type,
+    price: price, seller: sellerHandle,
+    id: 'sell_' + Date.now(), listed: true
+  });
+  orcChestModalClose();
+  oracleRenderInventory();
+  oracleRenderProfile();
+  ocSave();
   if (document.getElementById('op-market')?.classList.contains('active')) {
     oracleRenderMarketChests();
   }
-  showToast(`💰 ${d.icon} ${d.name} chest sold for ${orcFmt(d.coinValue)}⬡ — listed on Market!`);
+  showToast(`🏷 ${d.icon} ${d.name} listed for ${orcFmt(price)}⬡ — visible on Market!`);
 }
 function orcSaveChest() {
   orcChestModalClose();
