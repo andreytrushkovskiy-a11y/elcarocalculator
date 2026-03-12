@@ -4055,15 +4055,21 @@ input[type=range]::-webkit-slider-thumb {
 </div>
 <script>
 (function() {
-  var tg = window.Telegram && window.Telegram.WebApp;
-  var initData = tg && tg.initData;
-  if (!initData || initData.length < 10) {
+  var attempts = 0;
+  function checkAuth() {
+    var tg = window.Telegram && window.Telegram.WebApp;
+    var initData = tg && tg.initData;
+    if (initData && initData.length >= 10) return; // authorized
+    attempts++;
+    if (attempts < 10) { setTimeout(checkAuth, 200); return; } // retry up to 2s
+    // After 2s still no initData — block access
     var gate = document.getElementById('auth-gate');
-    gate.style.display = 'flex';
+    if (gate) gate.style.display = 'flex';
     document.querySelectorAll('body > *:not(#auth-gate):not(script)').forEach(function(el) {
       el.style.display = 'none';
     });
   }
+  checkAuth();
 })();
 </script>
 
