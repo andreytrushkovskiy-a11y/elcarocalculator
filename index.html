@@ -1766,10 +1766,15 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 /* ── V2 OVERLAYS (inside oracle context) ── */
 .overlay {
   display:none; position:fixed; inset:0; background:rgba(0,0,0,.88);
-  z-index:1500; align-items:flex-end; justify-content:center;
+  z-index:1500; align-items:center; justify-content:center;
   backdrop-filter:blur(6px);
 }
 .overlay.open { display:flex; }
+.overlay-sheet {
+  background:#111; border-radius:20px; width:calc(100% - 32px);
+  max-width:400px; padding:20px; border:1px solid #222;
+  animation:su .3s cubic-bezier(.34,1.56,.64,1);
+}
 .modal-sheet {
   background:#0f0f0f; border-radius:26px 26px 0 0; width:100%;
   max-width:430px; padding:0 0 36px; border-top:1px solid #222;
@@ -1838,7 +1843,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 /* ── Op-tabs scrollable ── */
 #op-tabs-row { -webkit-overflow-scrolling: touch; }
 #op-tabs-row::-webkit-scrollbar { display:none; }
-#oracle-panel .op-tab { min-width: 60px; }
+#oracle-panel .op-tab { min-width: 46px; }
 
 /* ── Battle Pass ── */
 .bp-card {
@@ -2227,8 +2232,8 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   background:#111; flex-shrink:0;
 }
 #oracle-panel .op-tab {
-  flex:1; padding:10px 4px; text-align:center;
-  font-size:9px; font-weight:700; letter-spacing:1px;
+  flex:1; padding:6px 2px; text-align:center;
+  font-size:8px; font-weight:700; letter-spacing:.5px;
   color:#555; cursor:pointer; transition:all .15s;
   font-family:'DM Sans',Outfit,sans-serif;
   border-bottom:2px solid transparent;
@@ -2236,7 +2241,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .op-tab.active { color:#f5a623; border-bottom-color:#f5a623;
 }
 .op-tab:hover:not(.active) { color:#888; }
-#oracle-panel .op-tab .op-tab-icon { font-size:18px; display:block; margin-bottom:2px; }
+#oracle-panel .op-tab .op-tab-icon { font-size:15px; display:block; margin-bottom:1px; }
 
 /* Oracle body */
 #oracle-panel .op-body {
@@ -2340,7 +2345,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
 /* live card */
 #oracle-panel .live-card {
-  margin:0 12px 12px;
+  margin:10px 12px 12px;
   background:linear-gradient(135deg,#1a0000,#0f0f00);
   border:1px solid #ff4757; border-radius:16px; padding:16px; cursor:pointer;
 }
@@ -4165,11 +4170,6 @@ input[type=range]::-webkit-slider-thumb {
       title="ORACLE — Vault, Market, News, Profile"
       style="flex:1;min-width:0;color:var(--orange);">
       👁 ELCARO
-    </button>
-
-    <button class="mode-btn" id="mode-guild-nav" onclick="setMode('guild')"
-      title="Guild" style="flex:1;min-width:0;color:#00e676;">
-      🛡️ GUILD
     </button>
 
     <!-- Divider -->
@@ -7403,7 +7403,6 @@ function setMode(mode) {
     'heatmap-crypto':'heatmap-crypto-section',
     calendar:        'calendar-section',
     news:            'news-section',
-    guild:           'guild-section',
     elcaro:          'elcaro-section',
     pnl:             'pnl-section',
     exchange:        'exchange-section',
@@ -10995,6 +10994,9 @@ function initSigmaButtons() {
       <div class="op-tab" onclick="oracleTab('profile',this)">
         <span class="op-tab-icon">👤</span>PROFILE
       </div>
+      <div class="op-tab" onclick="oracleTab('guild',this)">
+        <span class="op-tab-icon">🛡️</span>GUILD
+      </div>
     </div>
 
     <!-- Body -->
@@ -11178,12 +11180,30 @@ function initSigmaButtons() {
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'btc','1W')">1W</button>
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'btc','1M')">1M</button>
         </div>
-        <div class="verdict-pools">
-          <div class="verdict-pool-yes"><div class="verdict-pool-val" style="color:var(--green)">31,200⬡</div><div class="verdict-pool-lbl">YES POOL</div></div>
-          <div class="verdict-pool-total"><div class="verdict-pool-val" style="color:#888">78,400⬡</div><div class="verdict-pool-lbl">TOTAL</div></div>
-          <div class="verdict-pool-no"><div class="verdict-pool-val" style="color:var(--red)">47,200⬡</div><div class="verdict-pool-lbl">NO POOL</div></div>
+        <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px;height:120px;">
+          <!-- YES side -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">31,200⬡</div>
+            <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(0,230,118,.4),rgba(0,230,118,.15));border:1px solid rgba(0,230,118,.3);border-bottom:none;height:40%;min-height:20px;position:relative;">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✓</div>
+            </div>
+            <div style="font-size:8px;color:var(--green);font-family:'Space Mono',monospace;font-weight:700;margin-top:4px;letter-spacing:1px;">YES POOL</div>
+          </div>
+          <!-- Center total -->
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:60px;">
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;letter-spacing:1px;">TOTAL</div>
+            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">78,400⬡</div>
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">40% / 60%</div>
+          </div>
+          <!-- NO side -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">47,200⬡</div>
+            <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(255,59,92,.4),rgba(255,59,92,.15));border:1px solid rgba(255,59,92,.3);border-bottom:none;height:60%;min-height:20px;position:relative;">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✗</div>
+            </div>
+            <div style="font-size:8px;color:var(--red);font-family:'Space Mono',monospace;font-weight:700;margin-top:4px;letter-spacing:1px;">NO POOL</div>
+          </div>
         </div>
-        <div class="verdict-bar-wrap"><div class="verdict-bar-yes" style="width:40%"></div></div>
         <div class="verdict-my-bet" id="btc-my-bet">✓ YOUR BET: <span id="btc-bet-label">—</span></div>
         <div class="verdict-btns">
           <button class="verdict-btn-yes" onclick="openVerdictBet('BTC','BITCOIN','₿','4H','Bull','btc','yes')">✓ YES — WILL WORK</button>
@@ -11213,12 +11233,27 @@ function initSigmaButtons() {
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'gold','1W')">1W</button>
           <button class="verdict-tf-btn active" onclick="selectVerdictTF(this,'gold','1M')">1M</button>
         </div>
-        <div class="verdict-pools">
-          <div class="verdict-pool-yes"><div class="verdict-pool-val" style="color:var(--green)">142,000⬡</div><div class="verdict-pool-lbl">YES POOL</div></div>
-          <div class="verdict-pool-total"><div class="verdict-pool-val" style="color:#888">210,000⬡</div><div class="verdict-pool-lbl">TOTAL</div></div>
-          <div class="verdict-pool-no"><div class="verdict-pool-val" style="color:var(--red)">68,000⬡</div><div class="verdict-pool-lbl">NO POOL</div></div>
+        <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px;height:120px;">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">142,000⬡</div>
+            <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(0,230,118,.4),rgba(0,230,118,.15));border:1px solid rgba(0,230,118,.3);border-bottom:none;height:68%;min-height:20px;position:relative;">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✓</div>
+            </div>
+            <div style="font-size:8px;color:var(--green);font-family:'Space Mono',monospace;font-weight:700;margin-top:4px;letter-spacing:1px;">YES POOL</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:60px;">
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;letter-spacing:1px;">TOTAL</div>
+            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">210,000⬡</div>
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">68% / 32%</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">68,000⬡</div>
+            <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(255,59,92,.4),rgba(255,59,92,.15));border:1px solid rgba(255,59,92,.3);border-bottom:none;height:32%;min-height:20px;position:relative;">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✗</div>
+            </div>
+            <div style="font-size:8px;color:var(--red);font-family:'Space Mono',monospace;font-weight:700;margin-top:4px;letter-spacing:1px;">NO POOL</div>
+          </div>
         </div>
-        <div class="verdict-bar-wrap"><div class="verdict-bar-yes" style="width:68%"></div></div>
         <div class="verdict-my-bet" id="gold-my-bet">✓ YOUR BET: <span id="gold-bet-label">—</span></div>
         <div class="verdict-btns">
           <button class="verdict-btn-yes" onclick="openVerdictBet('GOLD','GOLD/XAU','⬡','1M','Bull','gold','yes')">✓ YES — WILL HIT</button>
@@ -11247,12 +11282,27 @@ function initSigmaButtons() {
           <button class="verdict-tf-btn active" onclick="selectVerdictTF(this,'spx','1W')">1W</button>
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'spx','1M')">1M</button>
         </div>
-        <div class="verdict-pools">
-          <div class="verdict-pool-yes"><div class="verdict-pool-val" style="color:var(--green)">89,000⬡</div><div class="verdict-pool-lbl">YES POOL</div></div>
-          <div class="verdict-pool-total"><div class="verdict-pool-val" style="color:#888">195,000⬡</div><div class="verdict-pool-lbl">TOTAL</div></div>
-          <div class="verdict-pool-no"><div class="verdict-pool-val" style="color:var(--red)">106,000⬡</div><div class="verdict-pool-lbl">NO POOL</div></div>
+        <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px;height:120px;">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">89,000⬡</div>
+            <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(0,230,118,.4),rgba(0,230,118,.15));border:1px solid rgba(0,230,118,.3);border-bottom:none;height:46%;min-height:20px;position:relative;">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✓</div>
+            </div>
+            <div style="font-size:8px;color:var(--green);font-family:'Space Mono',monospace;font-weight:700;margin-top:4px;letter-spacing:1px;">YES POOL</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:60px;">
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;letter-spacing:1px;">TOTAL</div>
+            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">195,000⬡</div>
+            <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">46% / 54%</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
+            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">106,000⬡</div>
+            <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(255,59,92,.4),rgba(255,59,92,.15));border:1px solid rgba(255,59,92,.3);border-bottom:none;height:54%;min-height:20px;position:relative;">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✗</div>
+            </div>
+            <div style="font-size:8px;color:var(--red);font-family:'Space Mono',monospace;font-weight:700;margin-top:4px;letter-spacing:1px;">NO POOL</div>
+          </div>
         </div>
-        <div class="verdict-bar-wrap"><div class="verdict-bar-yes" style="width:46%"></div></div>
         <div class="verdict-my-bet" id="spx-my-bet">✓ YOUR BET: <span id="spx-bet-label">—</span></div>
         <div class="verdict-btns">
           <button class="verdict-btn-yes" onclick="openVerdictBet('SPX','S&P 500','📊','1W','Bear','spx','yes')">✓ YES — WILL DROP</button>
@@ -12183,6 +12233,22 @@ function oracleTab(name, el) {
     const sec = document.getElementById('op-' + s);
     if (sec) sec.style.display = (s === name) ? 'block' : 'none';
   });
+  // GUILD special: show guild-section inside op-body
+  const gs = document.getElementById('guild-section');
+  if (gs) {
+    if (name === 'guild') {
+      const opBody = document.querySelector('#oracle-panel .op-body');
+      if (opBody && !gs.parentElement.classList.contains('op-body')) {
+        opBody.appendChild(gs);
+      }
+      gs.style.display = 'block';
+      // Hide op-guild (old simple version)
+      const opGuild = document.getElementById('op-guild');
+      if (opGuild) opGuild.style.display = 'none';
+    } else {
+      gs.style.display = 'none';
+    }
+  }
   // Update active tab button
   const tabs = document.querySelectorAll('#op-tabs-row .op-tab');
   tabs.forEach(t => t.classList.remove('active'));
@@ -14608,79 +14674,8 @@ const GUILD_LEADERBOARD = [
 ];
 
 function opRenderGuild() {
-  // ── Stats ─────────────────────────────────────────
-  const t = OC_EXT.guildTreasury || {coins:4200, chests:{bronze:2,silver:1}, forecasts:7};
-  const totalChests = typeof t.chests === 'number' ? t.chests : Object.values(t.chests||{}).reduce((a,b)=>a+b,0);
-  const setTxt = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-
-  setTxt('g-members', guildState.members);
-  setTxt('g-coins', guildState.coins.toLocaleString());
-  setTxt('g-rank', '#'+guildState.rank);
-  setTxt('g-avgscore', guildState.avgScore+'%');
-  setTxt('g-members-badge', guildState.members+'/'+guildState.maxMembers);
-  setTxt('g-tc-coins', t.coins.toLocaleString());
-  setTxt('g-tc-chests', totalChests);
-  setTxt('g-tc-forecasts', t.forecasts);
-
-  // ── Treasury countdown ────────────────────────────
-  const now = new Date();
-  const sunday = new Date(now);
-  sunday.setDate(now.getDate() + (7 - now.getDay()) % 7 || 7);
-  sunday.setHours(0,0,0,0);
-  const diff = sunday - now;
-  const dd = Math.floor(diff/86400000);
-  const hh = Math.floor((diff%86400000)/3600000);
-  const mm = Math.floor((diff%3600000)/60000);
-  const timerEl = document.getElementById('g-treasury-timer');
-  if (timerEl) timerEl.textContent = dd>0 ? `Opens in ${dd}d ${hh}h` : `Opens in ${hh}h ${mm}m`;
-
-  // ── Members list ──────────────────────────────────
-  const membersList = document.getElementById('g-members-list');
-  if (membersList) {
-    membersList.innerHTML = GUILD_MEMBERS.map(m => {
-      const userScore = m.isYou ? calcGuildScore() : m.score;
-      const userRank  = m.isYou ? getMyRankLabel() : m.rank;
-      const userStreak= m.isYou ? (OC.streak||0) : m.streak;
-      const scoreColor = userScore>=80?'var(--green)': userScore>=60?'var(--cyan)': userScore>=40?'var(--orange)':'var(--text2)';
-      return `<div class="guild-member" style="cursor:pointer" onclick="guildOpenMemberModal('${m.handle}','${m.icon}','${m.avatarBg}','${m.isYou?userRank:m.rank}',${userScore},'${m.isYou?70:m.btc}','${m.isYou?65:m.gold}','${m.isYou?60:m.eth}','${m.isYou?userRank:m.rank}','${m.isYou?userStreak+'🔥 streak':m.streak+'🔥 streak'}')">
-        <div class="gm-avatar" style="background:${m.avatarBg};${m.isYou?'border:2px solid rgba(0,229,255,.3);':''}">${m.icon}</div>
-        <div class="gm-info">
-          <div class="gm-name">${m.isYou?'YOU ★':m.handle}${m.isLeader?' <span class="gm-crown">👑</span>':''}</div>
-          <div class="gm-rank" style="color:${m.isYou?'var(--cyan)':m.rankColor}">${m.isYou?userRank+' · '+userStreak+'🔥':m.rank+' · '+m.streak+'🔥'}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="gm-score" style="color:${scoreColor}">${userScore}</div>
-          <div class="gm-score-lbl">SCORE</div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  // ── Leaderboard ───────────────────────────────────
-  const lbList = document.getElementById('g-leaderboard-list');
-  if (lbList) {
-    lbList.innerHTML = GUILD_LEADERBOARD.map(g => {
-      const rankColor = g.rank===1?'var(--gold)': g.rank===2?'var(--silver)': g.rank===3?'var(--bronze)':'var(--text2)';
-      const isMine = g.isMine;
-      const btnHtml = isMine
-        ? `<div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:7px;padding:4px 10px;">MY GUILD</div>`
-        : g.status==='full'
-          ? `<div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;background:#1a1a1a;border:1px solid #222;border-radius:7px;padding:4px 10px;">FULL</div>`
-          : `<div onclick="guildJoin('${g.name}')" style="font-size:9px;color:var(--emerald);font-family:'Space Mono',monospace;font-weight:700;background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:7px;padding:4px 10px;cursor:pointer;">JOIN</div>`;
-      return `<div style="background:var(--card);border:1px solid ${isMine?'rgba(0,229,255,.2)':'var(--border)'};border-radius:13px;padding:13px;display:flex;align-items:center;gap:11px;">
-        <div style="font-size:11px;font-weight:800;color:${rankColor};font-family:'Space Mono',monospace;width:22px;text-align:center;">#${g.rank}</div>
-        <div style="font-size:22px;">${g.emblem}</div>
-        <div style="flex:1">
-          <div style="font-size:12px;font-weight:700;color:${isMine?'var(--cyan)':'#fff'};">${g.name}</div>
-          <div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">${g.members} MEMBERS · SCORE: ${g.score}</div>
-        </div>
-        ${btnHtml}
-      </div>`;
-    }).join('');
-  }
-
-  // ── Chat scroll ───────────────────────────────────
-  const msgs = document.getElementById('chat-msgs');
+  // guild-section is shown directly inside op-body by oracleTab()
+  const msgs = document.getElementById('guild-gchat-msgs');
   if (msgs) msgs.scrollTop = msgs.scrollHeight;
 }
 
