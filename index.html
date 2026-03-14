@@ -17201,10 +17201,10 @@ function pnlDeleteTrade(id) {
     <div style="display:flex;gap:8px;align-items:center;">
       <div style="background:rgba(247,147,26,.15);border:1px solid rgba(247,147,26,.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:#f7931a;font-family:'Space Mono',monospace;">₿ BTC</div>
       <div style="display:flex;gap:4px;" id="rsi-tf-row">
-        <button onclick="rsiTestTF('15m')" class="rsi-tf-btn" data-tf="15m" style="position:relative;background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">15m</button>
-        <button onclick="rsiTestTF('1H')" class="rsi-tf-btn" data-tf="1H" style="position:relative;background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1H</button>
-        <button onclick="rsiTestTF('4H')" class="rsi-tf-btn" data-tf="4H" style="position:relative;background:rgba(180,100,255,.15);border:1px solid rgba(180,100,255,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">4H</button>
-        <button onclick="rsiTestTF('1D')" class="rsi-tf-btn" data-tf="1D" style="position:relative;background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1D</button>
+        <button onclick="rsiToggleTF('15')" class="rsi-tf-btn" data-tf="15" style="position:relative;background:rgba(180,100,255,.15);border:1px solid rgba(180,100,255,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">15m</button>
+        <button onclick="rsiToggleTF('60')" class="rsi-tf-btn" data-tf="60" style="position:relative;background:rgba(180,100,255,.15);border:1px solid rgba(180,100,255,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">1H</button>
+        <button onclick="rsiToggleTF('240')" class="rsi-tf-btn" data-tf="240" style="position:relative;background:rgba(180,100,255,.15);border:1px solid rgba(180,100,255,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">4H</button>
+        <button onclick="rsiToggleTF('1D')" class="rsi-tf-btn" data-tf="1D" style="position:relative;background:rgba(180,100,255,.15);border:1px solid rgba(180,100,255,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">1D</button>
       </div>
       <div id="rsi-test-status" style="margin-left:auto;display:flex;align-items:center;gap:4px;">
         <div style="width:6px;height:6px;border-radius:50%;background:#b464ff;animation:pulse-dot 2s infinite;"></div>
@@ -17244,12 +17244,15 @@ function pnlDeleteTrade(id) {
     </div>
   </div>
 
-  <!-- Signal legend -->
-  <div style="margin:0 8px 6px;display:flex;gap:4px;flex-wrap:wrap;">
-    <span style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:3px 7px;font-size:8px;font-family:'Space Mono',monospace;color:#ef4444;">🔴 BEAR DIV</span>
-    <span style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:3px 7px;font-size:8px;font-family:'Space Mono',monospace;color:#22c55e;">🟢 BULL DIV</span>
-    <span style="background:rgba(180,100,255,.1);border:1px solid rgba(180,100,255,.2);border-radius:6px;padding:3px 7px;font-size:8px;font-family:'Space Mono',monospace;color:#b464ff;">▲▼ HIDDEN</span>
-    <span style="background:rgba(255,106,0,.1);border:1px solid rgba(255,106,0,.2);border-radius:6px;padding:3px 7px;font-size:8px;font-family:'Space Mono',monospace;color:#ff6a00;">⚠️ OB/OS ZONE</span>
+  <!-- Signal type filters (toggleable) -->
+  <div style="margin:0 8px 4px;font-size:8px;color:#333;font-family:'Space Mono',monospace;letter-spacing:1px;">FILTER BY TYPE <span style="color:#555;font-size:7px;">(tap to toggle)</span></div>
+  <div style="margin:0 8px 6px;display:flex;gap:4px;flex-wrap:wrap;" id="rsi-type-row">
+    <button onclick="rsiToggleType('regular_bearish')" class="rsi-type-btn" data-type="regular_bearish" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#ef4444;cursor:pointer;font-weight:800;">🔴 BEAR DIV</button>
+    <button onclick="rsiToggleType('regular_bullish')" class="rsi-type-btn" data-type="regular_bullish" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#22c55e;cursor:pointer;font-weight:800;">🟢 BULL DIV</button>
+    <button onclick="rsiToggleType('hidden_bearish')" class="rsi-type-btn" data-type="hidden_bearish" style="background:rgba(180,100,255,.15);border:1px solid rgba(180,100,255,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#b464ff;cursor:pointer;font-weight:800;">▼ HIDDEN BEAR</button>
+    <button onclick="rsiToggleType('hidden_bullish')" class="rsi-type-btn" data-type="hidden_bullish" style="background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#00c896;cursor:pointer;font-weight:800;">▲ HIDDEN BULL</button>
+    <button onclick="rsiToggleType('overbought')" class="rsi-type-btn" data-type="overbought" style="background:rgba(255,106,0,.15);border:1px solid rgba(255,106,0,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#ff6a00;cursor:pointer;font-weight:800;">⚠️ OVERBOUGHT</button>
+    <button onclick="rsiToggleType('oversold')" class="rsi-type-btn" data-type="oversold" style="background:rgba(0,229,255,.15);border:1px solid rgba(0,229,255,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#00e5ff;cursor:pointer;font-weight:800;">⚠️ OVERSOLD</button>
   </div>
 
   <!-- Send test alert button -->
@@ -17283,34 +17286,98 @@ function pnlDeleteTrade(id) {
 // ═══════════════════════════════════════
 //  RSI TEST — Auto Alerts Demo
 // ═══════════════════════════════════════
-let _rsiTestTF = '4H';
+
+// Multi-select TFs (all on by default)
+let _rsiActiveTFs = new Set(['15','60','240','1D']);
+// Type filters (all on by default)
+let _rsiActiveTypes = new Set(['regular_bearish','regular_bullish','hidden_bearish','hidden_bullish','overbought','oversold']);
 let _rsiTestPollTimer = null;
 
-function rsiTestInit() {
-  rsiTestTF('4H');
+// Persist filters
+try {
+  const saved = JSON.parse(localStorage.getItem('elcaro_rsi_filters') || '{}');
+  if (saved.tfs) _rsiActiveTFs = new Set(saved.tfs);
+  if (saved.types) _rsiActiveTypes = new Set(saved.types);
+} catch {}
+
+function _rsiSaveFilters() {
+  localStorage.setItem('elcaro_rsi_filters', JSON.stringify({
+    tfs: [..._rsiActiveTFs], types: [..._rsiActiveTypes]
+  }));
 }
 
-function rsiTestTF(tf) {
-  _rsiTestTF = tf;
-  document.querySelectorAll('#rsi-tf-row .rsi-tf-btn').forEach(b => {
-    const active = b.dataset.tf === tf;
-    b.style.background = active ? 'rgba(180,100,255,.15)' : '#111';
-    b.style.borderColor = active ? 'rgba(180,100,255,.4)' : '#252525';
-    b.style.color = active ? '#b464ff' : '#666';
-  });
+function rsiTestInit() {
+  _rsiUpdateTFButtons();
+  _rsiUpdateTypeButtons();
   rsiTestRender();
 }
 
+function rsiToggleTF(tf) {
+  if (_rsiActiveTFs.has(tf)) {
+    if (_rsiActiveTFs.size <= 1) { showToast('⚠ At least one TF required'); return; }
+    _rsiActiveTFs.delete(tf);
+  } else {
+    _rsiActiveTFs.add(tf);
+  }
+  _rsiUpdateTFButtons();
+  _rsiSaveFilters();
+  rsiTestRender();
+}
+
+function _rsiUpdateTFButtons() {
+  document.querySelectorAll('#rsi-tf-row .rsi-tf-btn').forEach(b => {
+    const on = _rsiActiveTFs.has(b.dataset.tf);
+    b.style.background = on ? 'rgba(180,100,255,.15)' : '#111';
+    b.style.borderColor = on ? 'rgba(180,100,255,.4)' : '#252525';
+    b.style.color = on ? '#b464ff' : '#333';
+    b.style.opacity = on ? '1' : '0.5';
+  });
+}
+
+function rsiToggleType(type) {
+  if (_rsiActiveTypes.has(type)) {
+    if (_rsiActiveTypes.size <= 1) { showToast('⚠ At least one type required'); return; }
+    _rsiActiveTypes.delete(type);
+  } else {
+    _rsiActiveTypes.add(type);
+  }
+  _rsiUpdateTypeButtons();
+  _rsiSaveFilters();
+  rsiTestRender();
+}
+
+function _rsiUpdateTypeButtons() {
+  const colors = {
+    regular_bearish: { on: 'rgba(239,68,68,.15)', border: 'rgba(239,68,68,.4)', color: '#ef4444' },
+    regular_bullish: { on: 'rgba(34,197,94,.15)', border: 'rgba(34,197,94,.4)', color: '#22c55e' },
+    hidden_bearish:  { on: 'rgba(180,100,255,.15)', border: 'rgba(180,100,255,.4)', color: '#b464ff' },
+    hidden_bullish:  { on: 'rgba(0,200,150,.15)', border: 'rgba(0,200,150,.4)', color: '#00c896' },
+    overbought:      { on: 'rgba(255,106,0,.15)', border: 'rgba(255,106,0,.4)', color: '#ff6a00' },
+    oversold:        { on: 'rgba(0,229,255,.15)', border: 'rgba(0,229,255,.4)', color: '#00e5ff' },
+  };
+  document.querySelectorAll('#rsi-type-row .rsi-type-btn').forEach(b => {
+    const type = b.dataset.type;
+    const on = _rsiActiveTypes.has(type);
+    const c = colors[type] || {};
+    b.style.background = on ? (c.on || '#111') : '#0a0a0a';
+    b.style.borderColor = on ? (c.border || '#252525') : '#1a1a1a';
+    b.style.color = on ? (c.color || '#666') : '#2a2a2a';
+    b.style.opacity = on ? '1' : '0.4';
+  });
+}
+
 async function rsiTestSendAlert(type) {
-  const tf = _rsiTestTF;
+  // Use first active TF for test sends
+  const tf = [..._rsiActiveTFs][0] || '240';
+  const tfLabel = { '15':'15m','60':'1H','240':'4H','1D':'1D' }[tf] || tf;
   const rsiVal = (30 + Math.random() * 40).toFixed(1);
   const msgs = {
-    bearish: `🔴 RSI Bearish Divergence — BTCUSDT ${tf} — Price: Higher High, RSI: Lower High — RSI=${rsiVal}`,
-    bullish: `🟢 RSI Bullish Divergence — BTCUSDT ${tf} — Price: Lower Low, RSI: Higher Low — RSI=${rsiVal}`,
-    hidden_bearish: `▼ RSI Hidden Bearish Div — BTCUSDT ${tf} — Price: Lower High, RSI: Higher High — RSI=${rsiVal}`,
-    hidden_bullish: `▲ RSI Hidden Bullish Div — BTCUSDT ${tf} — Price: Higher Low, RSI: Lower Low — RSI=${rsiVal}`,
-    overbought: `⚠️ RSI crossed above 70 (Overbought) — BTCUSDT ${tf} — RSI=${(70 + Math.random() * 10).toFixed(1)}`,
-    oversold: `⚠️ RSI crossed below 30 (Oversold) — BTCUSDT ${tf} — RSI=${(20 + Math.random() * 10).toFixed(1)}`,
+    bearish: `🔴 RSI Bearish Divergence — BTCUSDT ${tfLabel} — Price: Higher High, RSI: Lower High — RSI=${rsiVal}`,
+    bullish: `🟢 RSI Bullish Divergence — BTCUSDT ${tfLabel} — Price: Lower Low, RSI: Higher Low — RSI=${rsiVal}`,
+    hidden_bearish: `▼ RSI Hidden Bearish Div — BTCUSDT ${tfLabel} — Price: Lower High, RSI: Higher High — RSI=${rsiVal}`,
+    hidden_bullish: `▲ RSI Hidden Bullish Div — BTCUSDT ${tfLabel} — Price: Higher Low, RSI: Lower Low — RSI=${rsiVal}`,
+    overbought: `⚠️ RSI crossed above 70 (Overbought) — BTCUSDT ${tfLabel} — RSI=${(70 + Math.random() * 10).toFixed(1)}`,
+    oversold: `⚠️ RSI crossed below 30 (Oversold) — BTCUSDT ${tfLabel} — RSI=${(20 + Math.random() * 10).toFixed(1)}`,
   };
   const levels = {
     bearish: 'regular_bearish', bullish: 'regular_bullish',
@@ -17349,26 +17416,50 @@ async function rsiTestSendAlert(type) {
 async function rsiTestRender() {
   const feed = document.getElementById('rsi-test-feed');
   const empty = document.getElementById('rsi-test-empty');
-  const count = document.getElementById('rsi-test-count');
+  const countEl = document.getElementById('rsi-test-count');
   if (!feed) return;
 
   try {
-    const params = new URLSearchParams({ asset: 'BTC', tf: _rsiTestTF, limit: '50' });
-    const res = await fetch('https://elcaro-blofin-proxy.andreytrushkovskiy.workers.dev/alerts?' + params.toString());
-    const data = await res.json();
-    const alerts = (data.alerts || []).filter(a => a.source === 'rsi_indicator');
+    // Fetch alerts for ALL active TFs in parallel
+    const fetches = [..._rsiActiveTFs].map(async tf => {
+      const params = new URLSearchParams({ asset: 'BTC', tf, limit: '50' });
+      const res = await fetch('https://elcaro-blofin-proxy.andreytrushkovskiy.workers.dev/alerts?' + params.toString());
+      const data = await res.json();
+      return (data.alerts || []).filter(a => a.source === 'rsi_indicator');
+    });
+    const results = await Promise.all(fetches);
+    let allAlerts = results.flat();
 
-    if (alerts.length === 0) {
+    // Filter by active types
+    allAlerts = allAlerts.filter(a => {
+      const lvl = a.level || '';
+      if (/regular_bearish/.test(lvl)) return _rsiActiveTypes.has('regular_bearish');
+      if (/regular_bullish/.test(lvl)) return _rsiActiveTypes.has('regular_bullish');
+      if (/hidden_bearish/.test(lvl)) return _rsiActiveTypes.has('hidden_bearish');
+      if (/hidden_bullish/.test(lvl)) return _rsiActiveTypes.has('hidden_bullish');
+      if (/overbought/.test(lvl)) return _rsiActiveTypes.has('overbought');
+      if (/oversold/.test(lvl)) return _rsiActiveTypes.has('oversold');
+      return true;
+    });
+
+    // Sort by time (newest first), dedup by id
+    const seen = new Set();
+    allAlerts = allAlerts.filter(a => { if (seen.has(a.id)) return false; seen.add(a.id); return true; });
+    allAlerts.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+
+    if (allAlerts.length === 0) {
       feed.innerHTML = '';
       if (empty) empty.style.display = 'block';
-      if (count) count.textContent = '';
+      if (countEl) countEl.textContent = '';
       return;
     }
 
     if (empty) empty.style.display = 'none';
-    if (count) count.textContent = alerts.length + ' alerts';
+    if (countEl) countEl.textContent = allAlerts.length + ' alerts';
 
-    feed.innerHTML = alerts.map(a => {
+    const tfLabels = { '15':'15m','60':'1H','240':'4H','1D':'1D','4H':'4H','1H':'1H','15m':'15m' };
+
+    feed.innerHTML = allAlerts.map(a => {
       const level = a.level || '';
       let accent = '#555';
       if (/regular_bearish/.test(level)) accent = '#ef4444';
@@ -17382,28 +17473,29 @@ async function rsiTestRender() {
       const msg = a.msg || level.replace(/_/g, ' ').toUpperCase();
       const dirColor = a.dir === 'up' ? 'var(--green)' : 'var(--red)';
       const dirArrow = a.dir === 'up' ? '↑' : '↓';
+      const tfDisplay = tfLabels[a.tf] || a.tf || '?';
 
-      // Extract RSI value from message
       const rsiMatch = msg.match(/RSI=([0-9.]+)/);
       const rsiVal = rsiMatch ? rsiMatch[1] : null;
       const rsiBadge = rsiVal ? `<span style="background:rgba(180,100,255,.12);border:1px solid rgba(180,100,255,.25);border-radius:5px;padding:2px 6px;font-size:8px;color:#b464ff;margin-left:6px;font-family:'Space Mono',monospace;">RSI ${rsiVal}</span>` : '';
 
-      // Hidden badge
       const isHidden = /hidden_/i.test(level);
       const hiddenBadge = isHidden ? '<span style="background:rgba(180,100,255,.12);border:1px solid rgba(180,100,255,.3);border-radius:4px;padding:1px 5px;font-size:7px;color:#b464ff;font-weight:800;margin-left:4px;">HIDDEN</span>' : '';
 
+      // TF badge with color
+      const tfBadge = `<span style="background:rgba(180,100,255,.1);border:1px solid rgba(180,100,255,.2);border-radius:4px;padding:1px 5px;font-size:8px;color:#b464ff;font-weight:800;font-family:'Space Mono',monospace;">${tfDisplay}</span>`;
+
       return `<div style="position:relative;background:#0d0d0d;border:1px solid #1e1e1e;border-radius:14px;padding:12px 12px 12px 16px;margin-bottom:8px;">
         <div style="position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:2px;background:${accent};"></div>
-        <div style="display:flex;align-items:flex-start;gap:8px;">
-          <div style="flex:1;">
-            <div style="font-size:13px;font-weight:800;color:#eee;line-height:1.4;">${msg.split('—')[0].trim()}${rsiBadge}${hiddenBadge}</div>
-            <div style="font-size:9px;color:#555;margin-top:4px;">${msg.split('—').slice(1).join('—').trim()}</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
-              <span style="font-size:9px;color:#444;font-family:'Space Mono',monospace;">BTC · ${a.tf || _rsiTestTF}</span>
-              <span style="font-size:9px;color:${dirColor};font-family:'Space Mono',monospace;font-weight:700;">${dirArrow} ${(a.dir||'').toUpperCase()}</span>
-              <span style="flex:1;"></span>
-              <span style="font-size:8px;color:#333;font-family:'Space Mono',monospace;">${time}</span>
-            </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#eee;line-height:1.4;">${msg.split('—')[0].trim()}${rsiBadge}${hiddenBadge}</div>
+          <div style="font-size:9px;color:#555;margin-top:4px;">${msg.split('—').slice(1).join('—').trim()}</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
+            ${tfBadge}
+            <span style="font-size:9px;color:#444;font-family:'Space Mono',monospace;">BTC</span>
+            <span style="font-size:9px;color:${dirColor};font-family:'Space Mono',monospace;font-weight:700;">${dirArrow} ${(a.dir||'').toUpperCase()}</span>
+            <span style="flex:1;"></span>
+            <span style="font-size:8px;color:#333;font-family:'Space Mono',monospace;">${time}</span>
           </div>
         </div>
       </div>`;
