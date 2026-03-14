@@ -10352,7 +10352,7 @@ async function fgiLoad() {
   histEl.innerHTML  = '';
 
   try {
-    const res  = await fetch('https://api.alternative.me/fng/?limit=4&format=json');
+    const res  = await fetch('https://elcaro-vip-feed.elcaro-feed.workers.dev/fgi-proxy?limit=4&format=json');
     const data = await res.json();
     const arr  = data.data;
     const cur  = arr[0];
@@ -10472,7 +10472,7 @@ async function fgiLoadHistory() {
   if (_fgiFullData) { fgiRenderChart(); return; }
 
   try {
-    const res = await fetch('https://api.alternative.me/fng/?limit=0&format=json');
+    const res = await fetch('https://elcaro-vip-feed.elcaro-feed.workers.dev/fgi-proxy?limit=0&format=json');
     const data = await res.json();
     _fgiFullData = data.data.map(d => ({
       value: parseInt(d.value),
@@ -13116,13 +13116,13 @@ async function alertsPageRender() {
   if (empty) empty.style.display = 'none';
   feed.innerHTML = filtered.map(a => alertPageCardHTML(a)).join('');
 
-  // Auto-refresh
+  // Auto-refresh every 60s when alerts section is visible
   if (_alertsPollTimer) clearInterval(_alertsPollTimer);
   _alertsPollTimer = setInterval(() => {
     if (document.getElementById('alerts-section') && document.getElementById('alerts-section').style.display !== 'none') {
       alertsPageRender();
     } else { clearInterval(_alertsPollTimer); _alertsPollTimer = null; }
-  }, 30000);
+  }, 60000);
 
   // Update TF indicator dots
   alertsUpdateTFIndicators();
@@ -17291,6 +17291,7 @@ let _rsiActiveTFs = new Set(['15','60','240','1D']);
 // Type filters (all on by default)
 let _rsiActiveTypes = new Set(['regular_bearish','regular_bullish','hidden_bearish','hidden_bullish','overbought','oversold']);
 let _rsiTestPollTimer = null;
+let _rsiAutoRefresh = null;
 
 // Persist filters
 try {
@@ -17504,13 +17505,13 @@ async function rsiTestRender() {
     feed.innerHTML = `<div style="color:#555;text-align:center;padding:20px;font-size:10px;">${e.message}</div>`;
   }
 
-  // Auto-refresh every 10s
-  if (_rsiTestPollTimer) clearInterval(_rsiTestPollTimer);
-  _rsiTestPollTimer = setInterval(() => {
+  // Auto-refresh every 30s when RSI section is visible
+  if (_rsiAutoRefresh) clearInterval(_rsiAutoRefresh);
+  _rsiAutoRefresh = setInterval(() => {
     if (document.getElementById('rsi-test-section')?.style.display !== 'none') {
       rsiTestRender();
-    } else { clearInterval(_rsiTestPollTimer); _rsiTestPollTimer = null; }
-  }, 10000);
+    } else { clearInterval(_rsiAutoRefresh); _rsiAutoRefresh = null; }
+  }, 30000);
 }
 </script>
 
