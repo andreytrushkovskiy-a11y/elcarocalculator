@@ -12961,9 +12961,15 @@ function alertPageTF(tf) {
     _alertPhase.dates[_alertPhase.tf].to = toEl.value;
   }
   _alertPhase.tf = tf;
+  // Mark this TF as seen (clears indicator dot)
+  if (!window._alertsSeenTFs) window._alertsSeenTFs = {};
+  window._alertsSeenTFs[tf] = Date.now();
   const tfColors = { '4H':'255,190,80', '1D':'255,140,40', '1W':'200,90,0', '1M':'160,70,0' };
   document.querySelectorAll('#ap-tf-row .ap-tf-btn').forEach(b => {
     b.style.background = '#111'; b.style.borderColor = '#252525'; b.style.color = '#666';
+    // Remove indicator dot on selected TF
+    const dot = b.querySelector('.tf-alert-dot');
+    if (dot && b.dataset.tf === tf) dot.remove();
   });
   document.querySelectorAll('#ap-tf-row .ap-tf-btn').forEach(b => {
     if (b.textContent.trim() === tf) {
@@ -13107,6 +13113,63 @@ async function alertsPageRender() {
       alertsPageRender();
     } else { clearInterval(_alertsPollTimer); _alertsPollTimer = null; }
   }, 30000);
+
+  // Update TF indicator dots
+  alertsUpdateTFIndicators();
+}
+
+async function alertsUpdateTFIndicators() {
+  const tfs = ['4H','1D','1W','1M'];
+  // Fetch alerts for all TFs in parallel
+  const results = await Promise.all(tfs.map(async tf => {
+    try {
+      const params = new URLSearchParams({ asset: _alertPhase.asset || 'BTC', tf, limit: '10' });
+      const res = await fetch(ALERTS_API + '/alerts?' + params.toString());
+      const data = await res.json();
+      return { tf, alerts: data.alerts || [] };
+    } catch { return { tf, alerts: [] }; }
+  }));
+
+  // Determine "new" = last 24h alerts
+  const cutoff = Date.now() - 24 * 3600 * 1000;
+  // Track which TFs the user has already viewed (stored per session)
+  if (!window._alertsSeenTFs) window._alertsSeenTFs = {};
+
+  results.forEach(({ tf, alerts }) => {
+    const btn = document.querySelector(`#ap-tf-row .ap-tf-btn[data-tf="${tf}"]`);
+    if (!btn) return;
+
+    // Remove existing indicator
+    const old = btn.querySelector('.tf-alert-dot');
+    if (old) old.remove();
+
+    // Find recent alerts (last 24h)
+    const recent = alerts.filter(a => a.ts && a.ts > cutoff);
+    if (recent.length === 0) return;
+
+    // Skip indicator for currently selected TF
+    if (tf === _alertPhase.tf) {
+      window._alertsSeenTFs[tf] = Date.now();
+      return;
+    }
+
+    // Check if user already saw these (last seen > newest alert)
+    const newestTs = Math.max(...recent.map(a => a.ts));
+    if (window._alertsSeenTFs[tf] && window._alertsSeenTFs[tf] >= newestTs) return;
+
+    // Determine color: bearish = red, bullish = green
+    const hasBearish = recent.some(a => /bearish|highband|vol_p/i.test(a.level || ''));
+    const hasBullish = recent.some(a => /bullish|lowband|vol_m/i.test(a.level || ''));
+    let dotColor = '#ff6a00'; // default orange
+    if (hasBearish && !hasBullish) dotColor = '#ef4444';
+    else if (hasBullish && !hasBearish) dotColor = '#22c55e';
+    else if (hasBearish && hasBullish) dotColor = '#ff6a00'; // mixed = orange
+
+    const dot = document.createElement('span');
+    dot.className = 'tf-alert-dot';
+    dot.style.cssText = `position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:${dotColor};box-shadow:0 0 6px ${dotColor};pointer-events:none;`;
+    btn.appendChild(dot);
+  });
 }
 
 function oracleUpdateNewsStatus() {
@@ -17133,10 +17196,10 @@ function pnlDeleteTrade(id) {
     <div style="display:flex;gap:8px;align-items:center;">
       <div style="background:rgba(247,147,26,.15);border:1px solid rgba(247,147,26,.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:#f7931a;font-family:'Space Mono',monospace;">₿ BTC</div>
       <div style="display:flex;gap:4px;" id="ap-tf-row">
-        <button onclick="alertPageTF('4H')" class="ap-tf-btn" style="background:rgba(255,190,80,.15);border:1px solid rgba(255,190,80,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:rgb(255,190,80);cursor:pointer;font-family:'Space Mono',monospace;">4H</button>
-        <button onclick="alertPageTF('1D')" class="ap-tf-btn" style="background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1D</button>
-        <button onclick="alertPageTF('1W')" class="ap-tf-btn" style="background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1W</button>
-        <button onclick="alertPageTF('1M')" class="ap-tf-btn" style="background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1M</button>
+        <button onclick="alertPageTF('4H')" class="ap-tf-btn" data-tf="4H" style="position:relative;background:rgba(255,190,80,.15);border:1px solid rgba(255,190,80,.4);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:rgb(255,190,80);cursor:pointer;font-family:'Space Mono',monospace;">4H</button>
+        <button onclick="alertPageTF('1D')" class="ap-tf-btn" data-tf="1D" style="position:relative;background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1D</button>
+        <button onclick="alertPageTF('1W')" class="ap-tf-btn" data-tf="1W" style="position:relative;background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1W</button>
+        <button onclick="alertPageTF('1M')" class="ap-tf-btn" data-tf="1M" style="position:relative;background:#111;border:1px solid #252525;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:800;color:#666;cursor:pointer;font-family:'Space Mono',monospace;">1M</button>
       </div>
       <div id="alerts-page-phase" style="background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;white-space:nowrap;">↓ DESCENDING</div>
     </div>
