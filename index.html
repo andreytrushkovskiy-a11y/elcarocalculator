@@ -4169,7 +4169,7 @@ input[type=range]::-webkit-slider-thumb {
 
     <button class="mode-btn" id="mode-straddle" onclick="setMode('straddle')" style="flex:1;min-width:0;color:#ff6a00;">
       <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-      σ STRADDLE
+      σ RANGE
     </button>
 
     <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
@@ -4224,7 +4224,7 @@ input[type=range]::-webkit-slider-thumb {
 
       <!-- Date picker -->
       <div style="font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--text2);margin-bottom:5px;display:flex;justify-content:space-between;">
-        EXPIRATION DATE
+        TARGET DATE
         <span id="expiry-status" style="font-weight:400;letter-spacing:0;"></span>
       </div>
       <input type="hidden" id="inp-date">
@@ -4266,7 +4266,7 @@ input[type=range]::-webkit-slider-thumb {
           </div>
         </div>
         <div id="straddle-preview" style="display:none;" class="straddle-preview">
-          <span class="lbl">STRADDLE</span>
+          <span class="lbl">RANGE</span>
           <span class="val" id="straddle-preview-val">—</span>
         </div>
 
@@ -4337,7 +4337,7 @@ input[type=range]::-webkit-slider-thumb {
     <div class="empty-state" id="empty-state">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
       <p>Select date → Fill → Calculate</p>
-      <p style="font-size:11px;opacity:.5;">Straddle = Call + Put → σ levels</p>
+      <p style="font-size:11px;opacity:.5;">Calculate price range for any date</p>
     </div>
 
     <!-- Results wrapper -->
@@ -4349,7 +4349,7 @@ input[type=range]::-webkit-slider-thumb {
           <div>
             <div class="result-title"><span id="r-asset">$BTC</span> <span style="font-size:15px;color:var(--text2);font-weight:500;" id="r-date"></span></div>
             <div class="result-meta">
-              Spot: <b id="r-spot"></b> &nbsp;·&nbsp; Straddle: <b style="color:var(--orange)" id="r-straddle"></b> &nbsp;·&nbsp; σ: <b id="r-sigma"></b>
+              Price: <b id="r-spot"></b> &nbsp;·&nbsp; Range: <b style="color:var(--orange)" id="r-straddle"></b>
             </div>
           </div>
           <button class="copy-btn" onclick="copyOutput()" id="copy-btn">
@@ -4361,17 +4361,17 @@ input[type=range]::-webkit-slider-thumb {
         <!-- Breakevens -->
         <div class="be-row">
           <div class="be-item">
-            <div class="be-lbl">LOWER BREAKEVEN</div>
+            <div class="be-lbl">PRICE FLOOR</div>
             <div class="be-val lo" id="r-be-lo">—</div>
             <div style="font-size:10px;color:var(--text2);" id="r-be-lo-pct"></div>
           </div>
           <div class="be-mid">
-            <div class="straddle-lbl">WIDTH</div>
+            <div class="straddle-lbl">RANGE</div>
             <div class="straddle-val" id="r-straddle-width">—</div>
-            <div style="font-size:8px;color:var(--text2);">± spot</div>
+            <div style="font-size:8px;color:var(--text2);">± from price</div>
           </div>
           <div class="be-item">
-            <div class="be-lbl">UPPER BREAKEVEN</div>
+            <div class="be-lbl">PRICE CEILING</div>
             <div class="be-val hi" id="r-be-hi">—</div>
             <div style="font-size:10px;color:var(--text2);" id="r-be-hi-pct"></div>
           </div>
@@ -4387,7 +4387,7 @@ input[type=range]::-webkit-slider-thumb {
           </div>
           <div class="viz-tabs" style="margin-bottom:0;">
             <button class="viz-tab active" onclick="setViz(5)" id="viz-tab-5">PAYOFF</button>
-            <button class="viz-tab" onclick="setViz(1)" id="viz-tab-1">BAR</button>
+            <button class="viz-tab" onclick="setViz(1)" id="viz-tab-1">DISTRIBUTION</button>
             <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
             <button class="viz-tab" id="viz-tab-4" onclick="setViz(4)"
               title="Available after calculating 5 different expiry dates"
@@ -4417,7 +4417,7 @@ input[type=range]::-webkit-slider-thumb {
         <!-- VIZ 4: Timeline — sigma corridor across 5 expiry dates -->
         <div id="viz-4" style="display:none;">
           <div style="font-size:9px;color:rgba(255,255,255,.3);margin-bottom:12px;font-weight:500;">
-            σ corridor across next 5 expiry dates · Y-axis = breakeven price · shaded area = where price WON'T be
+            σ corridor across next 5 target dates · Y-axis = price range · shaded area = where price WON'T be
           </div>
           <div id="v4-wrap" style="position:relative;"></div>
         </div>
@@ -4425,7 +4425,7 @@ input[type=range]::-webkit-slider-thumb {
         <!-- VIZ 5: Payoff Diagram -->
         <div id="viz-5">
           <div style="font-size:9px;color:rgba(255,255,255,.3);margin-bottom:12px;font-weight:500;">
-            Short straddle payoff · Green = where price stays · Red = loss zone · Dashed = sigma levels
+            Price range payoff · Green = where price stays · Red = outside range · Dashed = σ levels
           </div>
           <div id="v5-payoff"></div>
         </div>
@@ -5911,8 +5911,8 @@ function calculate() {
     prob: PROB[k], probFull: PROB_FULL[k], mult: MULT[k].toFixed(3)
   }));
 
-  const dateLabel = dateStr ? formatDate(dateStr) : 'Expiration';
-  const dateShort = dateStr ? formatDateShort(dateStr) : 'Expiry';
+  const dateLabel = dateStr ? formatDate(dateStr) : 'Target date';
+  const dateShort = dateStr ? formatDateShort(dateStr) : 'Target';
 
   lastResult = { asset, dateLabel, dateShort, spot, call, put, straddle, sigma, be_lo, be_hi, levels, round };
   setTimeout(() => updateTargetDateDisplay(), 50);
@@ -5938,7 +5938,8 @@ function calculate() {
   document.getElementById('r-date').textContent     = dateLabel;
   document.getElementById('r-spot').textContent     = fmtPrice(spot);
   document.getElementById('r-straddle').textContent = fmtPrice(straddle);
-  document.getElementById('r-sigma').textContent    = fmtPrice(sigma);
+  const rSigma = document.getElementById('r-sigma');
+  if (rSigma) rSigma.textContent = fmtPrice(sigma);
 
   const bePctLo = ((be_lo - spot) / spot * 100).toFixed(1);
   const bePctHi = ((be_hi - spot) / spot * 100).toFixed(1);
@@ -6343,8 +6344,8 @@ function generateTimelinePost() {
     const daysOut = Math.round((h._d - today) / 86400000);
     const daysLabel = daysOut >= 0 ? `+${daysOut}d` : `${daysOut}d`;
     out += `\n${i + 1}. ${h.dateLabel} (${daysLabel})\n`;
-    out += `   Spot: ${fmtPrice(h.spot)} · Straddle: ${fmtPrice(h.straddle)}\n`;
-    out += `   BE: ${fmtPrice(h.be_lo)} — ${fmtPrice(h.be_hi)} · σ=${(h.straddle / h.spot * 100).toFixed(1)}%\n`;
+    out += `   Price: ${fmtPrice(h.spot)} · Range: ±${(h.straddle / h.spot * 100).toFixed(1)}%\n`;
+    out += `   ${fmtPrice(h.be_lo)} — ${fmtPrice(h.be_hi)}\n`;
     const vis = (h.levels || []).filter(l => l.show);
     vis.forEach(l => {
       out += `   ${l.k}σ: ${fmtPrice(l.lo)} — ${fmtPrice(l.hi)}\n`;
@@ -6370,7 +6371,7 @@ function generateTimelinePost() {
   }
 
   out += `${SEP}\n`;
-  out += `⚡ ELCARO · Straddle Calculator\n`;
+  out += `⚡ ELCARO · Range Calculator\n`;
   out += `📊 Educational purposes only`;
 
   // Display in output area (reuse existing straddle output box)
@@ -6525,7 +6526,7 @@ function renderPayoffDiagram() {
   });
 
   // Spot label
-  svg += `<text x="${spotX}" y="${H - 8}" text-anchor="middle" font-size="8" fill="var(--orange)" font-weight="600">SPOT</text>`;
+  svg += `<text x="${spotX}" y="${H - 8}" text-anchor="middle" font-size="8" fill="var(--orange)" font-weight="600">PRICE</text>`;
 
   // Max profit label at peak
   const peakY = toY(straddle);
@@ -6816,13 +6817,13 @@ function addHistory(entry) {
   document.getElementById('history-list').innerHTML = calcHistory.map((h, i) => {
     const vis = (h.levels || []).filter(l => l.show);
     const beRow = `<div class="hist-row">
-      <span class="hist-row-lbl" style="color:var(--green);font-size:8px;">BE</span>
+      <span class="hist-row-lbl" style="color:var(--green);font-size:8px;">1σ</span>
       <span class="hist-row-range">
         <span style="color:#eee">${fmtPrice(h.be_lo)}</span>
         <span style="color:var(--text2)"> — </span>
         <span style="color:#eee">${fmtPrice(h.be_hi)}</span>
       </span>
-      <span class="hist-row-prob">breakeven</span>
+      <span class="hist-row-prob">price range</span>
     </div>`;
     const sigmaRows = vis.map(l => `
       <div class="hist-row">
@@ -6846,7 +6847,7 @@ function addHistory(entry) {
           <span class="hist-date">${h.dateLabel}</span>
           <span style="font-size:8px;color:#555;font-family:'Space Mono',monospace;">${dTag}</span>
         </div>
-        <span class="hist-straddle">σ ${h.spot ? (h.straddle/h.spot*100).toFixed(1) : '0'}% · <span>$${fmtPrice(h.straddle)}</span></span>
+        <span class="hist-straddle">± ${h.spot ? (h.straddle/h.spot*100).toFixed(1) : '0'}%</span>
       </div>
       <div class="hist-rows">${beRow}${sigmaRows}</div>
     </div>`;
@@ -6862,13 +6863,13 @@ function buildOutput(asset, dateLabel, dateShort, spot, straddle, be_lo, be_hi, 
   let out = `🪙 ${sym} — ${dateLabel}\n`;
   out += `${SEP}\n`;
 
-  // Straddle breakevens
-  out += `Straddle breakevens\n`;
+  // Price range
+  out += `Price range\n`;
   out += `${fmtPrice(be_lo)} — ${fmtPrice(be_hi)}\n`;
   out += `\n`;
 
   // Sigma levels
-  out += `σ Sigma levels\n`;
+  out += `σ Price corridors\n`;
   const sigmaDesc = {
     1: 'Price is unlikely to move outside this range',
     2: 'Price is extremely unlikely to move outside this range',
@@ -6877,7 +6878,7 @@ function buildOutput(asset, dateLabel, dateShort, spot, straddle, be_lo, be_hi, 
   };
   const sigmaProb = { 1:'≈68%', 2:'≈95%', 3:'≈99.7%', 4:'≈99.99%' };
   levels.filter(l => l.show).forEach(l => {
-    out += `\n${l.k}σ corridor\n`;
+    out += `\n${l.k}σ range\n`;
     out += `${fmtPrice(l.lo)} — ${fmtPrice(l.hi)} · ${sigmaProb[l.k]}\n`;
     out += `${sigmaDesc[l.k] || ''}\n`;
   });
@@ -6927,10 +6928,10 @@ function loadHistoryEntry(i) {
   document.querySelectorAll('.hist-item').forEach((el, idx) => {
     el.style.outline = idx === i ? '1px solid var(--orange)' : '';
   });
-  // Open Telegram output panel if closed
-  const wrap = document.getElementById('tg-output-wrap');
-  if (wrap && wrap.style.display === 'none') toggleTelegramOutput();
-  showToast('✓ Loaded into Telegram output');
+  // Copy to clipboard
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(out).then(() => showToast('✓ Copied to clipboard!'));
+  }
 }
 function copyOutput() {
   // Regenerate output fresh so current PEAK/BOTTOM markers are included
@@ -7090,7 +7091,7 @@ async function autoFillFromDeribit() {
   const asset   = currentAsset;
   const dateStr = document.getElementById('inp-date').value;
   const btn     = document.getElementById('autofill-btn');
-  if (!dateStr) { showToast('⚠ Select expiration date first'); return; }
+  if (!dateStr) { showToast('⚠ Select target date first'); return; }
 
   btn.classList.add('loading');
   btn.innerHTML = `${SVG_SPIN} Connecting...`;
