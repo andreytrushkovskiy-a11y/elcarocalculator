@@ -17239,7 +17239,7 @@ function pnlDeleteTrade(id) {
       </div>
       <div style="margin-top:8px;padding:8px;background:#111;border:1px solid #1e1e1e;border-radius:8px;">
         <div style="font-size:8px;color:#333;margin-bottom:4px;font-family:'Space Mono',monospace;">WEBHOOK URL:</div>
-        <div style="font-size:9px;color:#b464ff;word-break:break-all;font-family:'Space Mono',monospace;">https://elcaro-blofin-proxy.andreytrushkovskiy.workers.dev/alert</div>
+        <div style="font-size:9px;color:#b464ff;word-break:break-all;font-family:'Space Mono',monospace;">https://elcaro-vip-feed.elcaro-feed.workers.dev/alert</div>
       </div>
     </div>
   </div>
@@ -17396,7 +17396,7 @@ async function rsiTestSendAlert(type) {
   };
 
   try {
-    const res = await fetch('https://elcaro-blofin-proxy.andreytrushkovskiy.workers.dev/alert', {
+    const res = await fetch('https://elcaro-vip-feed.elcaro-feed.workers.dev/alert', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -17423,7 +17423,7 @@ async function rsiTestRender() {
     // Fetch alerts for ALL active TFs in parallel
     const fetches = [..._rsiActiveTFs].map(async tf => {
       const params = new URLSearchParams({ asset: 'BTC', tf, limit: '50' });
-      const res = await fetch('https://elcaro-blofin-proxy.andreytrushkovskiy.workers.dev/alerts?' + params.toString());
+      const res = await fetch('https://elcaro-vip-feed.elcaro-feed.workers.dev/alerts?' + params.toString());
       const data = await res.json();
       return (data.alerts || []).filter(a => a.source === 'rsi_indicator');
     });
