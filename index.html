@@ -17241,6 +17241,17 @@ function pnlDeleteTrade(id) {
         <div style="font-size:8px;color:#333;margin-bottom:4px;font-family:'Space Mono',monospace;">WEBHOOK URL:</div>
         <div style="font-size:9px;color:#b464ff;word-break:break-all;font-family:'Space Mono',monospace;">https://elcaro-vip-feed.elcaro-feed.workers.dev/alert</div>
       </div>
+      <div style="margin-top:12px;border-top:1px solid #1e1e1e;padding-top:10px;">
+        <div style="font-size:8px;color:#333;margin-bottom:6px;font-family:'Space Mono',monospace;letter-spacing:1px;">SEND TEST ALERTS</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          <button onclick="rsiTestSendAlert('bearish')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:3px 6px;font-size:7px;font-weight:800;color:#ef4444;cursor:pointer;font-family:'Space Mono',monospace;">🔴 BEAR</button>
+          <button onclick="rsiTestSendAlert('bullish')" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:3px 6px;font-size:7px;font-weight:800;color:#22c55e;cursor:pointer;font-family:'Space Mono',monospace;">🟢 BULL</button>
+          <button onclick="rsiTestSendAlert('hidden_bearish')" style="background:rgba(180,100,255,.08);border:1px solid rgba(180,100,255,.2);border-radius:6px;padding:3px 6px;font-size:7px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">▼ H.BEAR</button>
+          <button onclick="rsiTestSendAlert('hidden_bullish')" style="background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.2);border-radius:6px;padding:3px 6px;font-size:7px;font-weight:800;color:#00c896;cursor:pointer;font-family:'Space Mono',monospace;">▲ H.BULL</button>
+          <button onclick="rsiTestSendAlert('overbought')" style="background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.2);border-radius:6px;padding:3px 6px;font-size:7px;font-weight:800;color:#ff6a00;cursor:pointer;font-family:'Space Mono',monospace;">⚠️ OB</button>
+          <button onclick="rsiTestSendAlert('oversold')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:6px;padding:3px 6px;font-size:7px;font-weight:800;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;">⚠️ OS</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -17253,18 +17264,6 @@ function pnlDeleteTrade(id) {
     <button onclick="rsiToggleType('hidden_bullish')" class="rsi-type-btn" data-type="hidden_bullish" style="background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#00c896;cursor:pointer;font-weight:800;">▲ HIDDEN BULL</button>
     <button onclick="rsiToggleType('overbought')" class="rsi-type-btn" data-type="overbought" style="background:rgba(255,106,0,.15);border:1px solid rgba(255,106,0,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#ff6a00;cursor:pointer;font-weight:800;">⚠️ OVERBOUGHT</button>
     <button onclick="rsiToggleType('oversold')" class="rsi-type-btn" data-type="oversold" style="background:rgba(0,229,255,.15);border:1px solid rgba(0,229,255,.4);border-radius:6px;padding:4px 8px;font-size:8px;font-family:'Space Mono',monospace;color:#00e5ff;cursor:pointer;font-weight:800;">⚠️ OVERSOLD</button>
-  </div>
-
-  <!-- Send test alert button -->
-  <div style="margin:8px 8px 4px;display:flex;gap:6px;">
-    <button onclick="rsiTestSendAlert('bearish')" style="flex:1;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:10px;font-size:10px;font-weight:800;color:#ef4444;cursor:pointer;font-family:'Space Mono',monospace;">🔴 SEND BEAR TEST</button>
-    <button onclick="rsiTestSendAlert('bullish')" style="flex:1;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:10px;padding:10px;font-size:10px;font-weight:800;color:#22c55e;cursor:pointer;font-family:'Space Mono',monospace;">🟢 SEND BULL TEST</button>
-  </div>
-  <div style="margin:4px 8px 8px;display:flex;gap:6px;">
-    <button onclick="rsiTestSendAlert('hidden_bearish')" style="flex:1;background:rgba(180,100,255,.08);border:1px solid rgba(180,100,255,.2);border-radius:10px;padding:8px;font-size:9px;font-weight:800;color:#b464ff;cursor:pointer;font-family:'Space Mono',monospace;">▼ HIDDEN BEAR</button>
-    <button onclick="rsiTestSendAlert('hidden_bullish')" style="flex:1;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.2);border-radius:10px;padding:8px;font-size:9px;font-weight:800;color:#00c896;cursor:pointer;font-family:'Space Mono',monospace;">▲ HIDDEN BULL</button>
-    <button onclick="rsiTestSendAlert('overbought')" style="flex:1;background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.2);border-radius:10px;padding:8px;font-size:9px;font-weight:800;color:#ff6a00;cursor:pointer;font-family:'Space Mono',monospace;">⚠️ OB ZONE</button>
-    <button onclick="rsiTestSendAlert('oversold')" style="flex:1;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:8px;font-size:9px;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Space Mono',monospace;">⚠️ OS ZONE</button>
   </div>
 
   <!-- Live feed -->
