@@ -6007,8 +6007,8 @@ function renderViz4() {
       straddle:    h.straddle,
       breakEvenHi: h.be_hi,
       breakEvenLo: h.be_lo,
-      sigmas:      vis.map(lv => ({ n: lv.n, hi: lv.hi, lo: lv.lo, color: lv.color })),
-      allSigmas:   allLevels.map(lv => ({ n: lv.n, hi: lv.hi, lo: lv.lo }))
+      sigmas:      vis.map(lv => ({ n: lv.k, hi: lv.hi, lo: lv.lo, color: lv.color })),
+      allSigmas:   allLevels.map(lv => ({ n: lv.k, hi: lv.hi, lo: lv.lo }))
     };
   });
 
@@ -6021,25 +6021,41 @@ function renderViz4() {
   const plotH       = H - PAD.top  - PAD.bottom;
   const N           = dataPoints.length;
 
-  // ── 3. TRUE TIME SCALE (shared by both layers) ──
-  // xDomain = real timestamps so timeScale(date) always returns a valid pixel position
-  const tMin0 = parsedHistory[0]._date.getTime();
-  const tMax0 = parsedHistory[parsedHistory.length - 1]._date.getTime();
+  // ── 3. EQUAL DATE SPACING (each calculation gets equal horizontal space) ──
+  const xOf = i => {
+    if (N <= 1) return PAD.left + plotW / 2;
+    return PAD.left + (i / (N - 1)) * plotW;
+  };
 
+  // Time scale for markers (BUY/SELL) — interpolate between data points
   const markerTimes = (window.targetDates || [])
     .filter(t => t.date)
     .map(t => new Date(t.date + 'T12:00:00').getTime());
 
-  const tMin = tMin0;
-  const tMax = markerTimes.length
-    ? Math.max(tMax0, ...markerTimes)
-    : tMax0;
-  // Ensure tRange is never 0 (single point: extend by 1 day)
-  const tRange = (tMax - tMin) || 86400000;
-
-  const clamp    = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-  const timeScale = ms => PAD.left + ((ms - tMin) / tRange) * plotW;
-  const xOf      = i  => timeScale(dataPoints[i].date.getTime());
+  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+  const timeScale = ms => {
+    // Find which two data points this timestamp falls between
+    for (let i = 0; i < N - 1; i++) {
+      const t0 = dataPoints[i].date.getTime();
+      const t1 = dataPoints[i + 1].date.getTime();
+      if (ms >= t0 && ms <= t1) {
+        const frac = (t1 - t0) > 0 ? (ms - t0) / (t1 - t0) : 0;
+        return xOf(i) + frac * (xOf(i + 1) - xOf(i));
+      }
+    }
+    // Before first or after last — extrapolate
+    if (N >= 2) {
+      const t0 = dataPoints[0].date.getTime();
+      const tLast = dataPoints[N - 1].date.getTime();
+      if (ms < t0) return xOf(0);
+      if (ms > tLast) {
+        const avgGap = (tLast - t0) / (N - 1);
+        const extra = (ms - tLast) / (avgGap || 86400000);
+        return xOf(N - 1) + extra * (plotW / (N - 1));
+      }
+    }
+    return xOf(0);
+  };
 
   // ── 4. Y SCALE — use allSigmas as fallback if no visible sigmas ──
   const ySourceHi = dataPoints.map(p =>
@@ -6138,6 +6154,23 @@ function renderViz4() {
     svgChart += `<text x="${x}" y="${xAxisY + 30}" text-anchor="${anchor}" font-size="8" fill="rgba(255,255,255,.2)">${p.daysOut}d</text>`;
   });
 
+  // σ2 critical value labels — "WHERE PRICE WON'T BE"
+  dataPoints.forEach((p, i) => {
+    const sig2 = p.sigmas.find(s => s.n === 2);
+    if (!sig2) return;
+    const x = xPositions[i];
+    const yHi2 = yOf(sig2.hi);
+    const yLo2 = yOf(sig2.lo);
+    // Only show on first and last point to avoid clutter
+    if (i === 0 || i === N - 1) {
+      const anchor = i === 0 ? 'start' : 'end';
+      svgChart += `<text x="${x}" y="${yHi2 - 6}" text-anchor="${anchor}" font-size="8" fill="rgba(255,50,50,.7)" font-weight="700" font-family="JetBrains Mono">${fmtPrice(sig2.hi)}</text>`;
+      svgChart += `<text x="${x}" y="${yHi2 - 16}" text-anchor="${anchor}" font-size="7" fill="rgba(255,50,50,.4)" font-weight="600">2σ · 95%</text>`;
+      svgChart += `<text x="${x}" y="${yLo2 + 14}" text-anchor="${anchor}" font-size="8" fill="rgba(30,180,80,.7)" font-weight="700" font-family="JetBrains Mono">${fmtPrice(sig2.lo)}</text>`;
+      svgChart += `<text x="${x}" y="${yLo2 + 24}" text-anchor="${anchor}" font-size="7" fill="rgba(30,180,80,.4)" font-weight="600">2σ · 95%</text>`;
+    }
+  });
+
   // Axes
   svgChart += `<line x1="${PAD.left}" y1="${PAD.top}" x2="${PAD.left}" y2="${PAD.top + plotH}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;
   svgChart += `<line x1="${PAD.left}" y1="${PAD.top + plotH}" x2="${W - PAD.right}" y2="${PAD.top + plotH}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;
@@ -6145,7 +6178,7 @@ function renderViz4() {
   // Legend
   const legY = H - 10;
   svgChart += `<circle cx="${PAD.left}" cy="${legY}" r="4" fill="#ff6a00"/>`;
-  svgChart += `<text x="${PAD.left + 8}" y="${legY + 4}" font-size="9" fill="rgba(255,255,255,.45)">BREAKEVEN</text>`;
+  svgChart += `<text x="${PAD.left + 8}" y="${legY + 4}" font-size="9" fill="rgba(255,255,255,.45)">PRICE RANGE</text>`;
   svgChart += `<line x1="${PAD.left + 95}" y1="${legY}" x2="${PAD.left + 112}" y2="${legY}" stroke="rgba(255,50,50,.8)" stroke-width="2" stroke-dasharray="6,3"/>`;
   svgChart += `<text x="${PAD.left + 116}" y="${legY + 4}" font-size="9" fill="rgba(255,120,120,.9)">UPPER σ · sell/stop zone</text>`;
   svgChart += `<line x1="${PAD.left + 260}" y1="${legY}" x2="${PAD.left + 277}" y2="${legY}" stroke="rgba(30,180,80,.8)" stroke-width="2" stroke-dasharray="6,3"/>`;
@@ -6546,62 +6579,96 @@ function renderPayoffDiagram() {
 
 // ── VIZ 1: RANGE BAR (SVG, no overflow) ──
 function renderViz1() {
-  const { spot, levels } = lastResult;
+  const { spot, straddle, levels } = lastResult;
   const vis = levels.filter(l => l.show);
-  if (!vis.length) return;
+  if (!vis.length || !spot || !straddle) return;
 
-  const outer = vis[vis.length - 1];
-  const minV = outer.lo, maxV = outer.hi;
-  const range = maxV - minV;
+  const sigma = straddle / 0.7979; // convert straddle to 1σ
+  const W = 600, H = 280;
+  const PAD = { top: 30, right: 40, bottom: 50, left: 40 };
+  const plotW = W - PAD.left - PAD.right;
+  const plotH = H - PAD.top - PAD.bottom;
 
-  const W = 600, PAD = 50;
-  const barW = W - PAD * 2;
-  const barY = 52, barH = 10;
-  const toX = v => PAD + ((v - minV) / range) * barW;
+  // Use lognormal distribution (price can't go below 0)
+  const mu = Math.log(spot);
+  const sig = sigma / spot; // relative sigma
 
-  const cMap  = {1:'#f5c800',2:'#ff6a00',3:'#e03b3b',4:'#ff1a1a'};
-  const cRgb  = {1:'230,201,74',2:'255,140,0',3:'224,59,59',4:'255,26,26'};
+  // X range: spot ± 4σ
+  const outerSig = vis[vis.length - 1];
+  const xMin = Math.max(outerSig.lo * 0.95, spot * 0.5);
+  const xMax = outerSig.hi * 1.05;
+  const xRange = xMax - xMin;
 
-  // Calculate total SVG height based on sigma count
-  const n = vis.length;
-  const H = barY + barH/2 + n * 20 + 24;
-  const topH = barY - barH/2 + n * 20 + 16;
+  // Lognormal PDF
+  const lnPdf = x => {
+    if (x <= 0) return 0;
+    const lx = Math.log(x);
+    return (1 / (x * sig * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * ((lx - mu) / sig) ** 2);
+  };
 
-  let svg = `<svg viewBox="0 0 ${W} ${topH + H}" width="100%" style="display:block;" preserveAspectRatio="none">`;
-  const offset = topH - (barY - barH/2); // shift everything down by topH
+  // Sample curve
+  const N = 200;
+  const pts = [];
+  let maxY = 0;
+  for (let i = 0; i <= N; i++) {
+    const x = xMin + (i / N) * xRange;
+    const y = lnPdf(x);
+    if (y > maxY) maxY = y;
+    pts.push({ x, y });
+  }
+  if (maxY === 0) return;
 
-  // Track
-  svg += `<rect x="${PAD}" y="${offset + barY - barH/2}" width="${barW}" height="${barH}" rx="4" fill="#1e1e1e"/>`;
+  const toX = v => PAD.left + ((v - xMin) / xRange) * plotW;
+  const toY = v => PAD.top + plotH - (v / maxY) * plotH;
 
-  // Zone fills
+  const cMap = {1:'#f5c800',2:'#ff6a00',3:'#e03b3b',4:'#ff1a1a'};
+  const cRgb = {1:'245,200,0',2:'255,106,0',3:'224,59,59',4:'255,26,26'};
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;">`;
+
+  // Filled zones (from outer to inner so inner overlaps)
   [...vis].reverse().forEach(l => {
-    const x = toX(l.lo), w = toX(l.hi) - toX(l.lo);
-    const h = barH + (n - l.k + 2) * 5;
-    svg += `<rect x="${x}" y="${offset + barY - h/2}" width="${w}" height="${h}" rx="3" fill="rgba(${cRgb[l.k]},0.18)"/>`;
+    const zonePts = pts.filter(p => p.x >= l.lo && p.x <= l.hi);
+    if (zonePts.length < 2) return;
+    let d = `M${toX(zonePts[0].x)},${toY(0)}`;
+    zonePts.forEach(p => d += ` L${toX(p.x)},${toY(p.y)}`);
+    d += ` L${toX(zonePts[zonePts.length - 1].x)},${toY(0)} Z`;
+    svg += `<path d="${d}" fill="rgba(${cRgb[l.k]},0.12)"/>`;
   });
 
-  // Spot line
-  const sx = toX(spot);
-  svg += `<line x1="${sx}" y1="${offset + barY - 28}" x2="${sx}" y2="${offset + barY + 28}" stroke="#f0f0f0" stroke-width="2" stroke-linecap="round"/>`;
-  svg += `<text x="${sx}" y="${offset + barY - 32}" text-anchor="middle" fill="#666" font-size="9" font-family="Outfit" font-weight="700">SPOT</text>`;
-  svg += `<text x="${sx}" y="${offset + barY - 20}" text-anchor="middle" fill="#f0f0f0" font-size="10" font-family="JetBrains Mono" font-weight="700">${fmtPrice(spot)}</text>`;
+  // Main curve
+  let curvePath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${toX(p.x)},${toY(p.y)}`).join(' ');
+  svg += `<path d="${curvePath}" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/>`;
 
-  // Labels: lo prices go BELOW bar (stacked), hi prices go ABOVE (stacked)
-  vis.forEach((l, i) => {
-    const lx = toX(l.lo), hx = toX(l.hi);
+  // Sigma vertical lines
+  vis.forEach(l => {
     const col = cMap[l.k];
-    const yBot = offset + barY + barH/2 + 14 + i * 20;
-    const yTop = offset + barY - barH/2 - 14 - i * 20;
+    [l.lo, l.hi].forEach((v, vi) => {
+      if (v < xMin || v > xMax) return;
+      const x = toX(v);
+      const yVal = toY(lnPdf(v));
+      svg += `<line x1="${x}" y1="${toY(0)}" x2="${x}" y2="${yVal}" stroke="${col}" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>`;
+      svg += `<text x="${x}" y="${toY(0) + 14}" text-anchor="middle" font-size="8" fill="${col}" font-family="JetBrains Mono" font-weight="700">${fmtPrice(v)}</text>`;
+      svg += `<text x="${x}" y="${toY(0) + 24}" text-anchor="middle" font-size="7" fill="#555" font-family="Space Mono" font-weight="700">${vi === 0 ? '-' : '+'}${l.k}σ</text>`;
+    });
+  });
 
-    // lo (bottom)
-    svg += `<line x1="${lx}" y1="${offset + barY + barH/2}" x2="${lx}" y2="${yBot - 4}" stroke="${col}" stroke-width="0.8" opacity="0.4"/>`;
-    svg += `<text x="${lx}" y="${yBot + 4}" text-anchor="middle" fill="${col}" font-size="9" font-family="JetBrains Mono" font-weight="700">${fmtPrice(l.lo)}</text>`;
-    svg += `<text x="${lx}" y="${yBot + 14}" text-anchor="middle" fill="#444" font-size="7" font-family="Outfit" font-weight="700">${l.k}σ lo</text>`;
+  // Spot/Price center line
+  const sx = toX(spot);
+  const peakY = toY(lnPdf(spot));
+  svg += `<line x1="${sx}" y1="${toY(0)}" x2="${sx}" y2="${peakY}" stroke="#f0f0f0" stroke-width="2" opacity="0.8"/>`;
+  svg += `<text x="${sx}" y="${peakY - 8}" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">${fmtPrice(spot)}</text>`;
+  svg += `<text x="${sx}" y="${peakY - 20}" text-anchor="middle" font-size="7" fill="#666" font-weight="700">CURRENT PRICE</text>`;
 
-    // hi (top)
-    svg += `<line x1="${hx}" y1="${offset + barY - barH/2}" x2="${hx}" y2="${yTop + 4}" stroke="${col}" stroke-width="0.8" opacity="0.4"/>`;
-    svg += `<text x="${hx}" y="${yTop - 6}" text-anchor="middle" fill="${col}" font-size="9" font-family="JetBrains Mono" font-weight="700">${fmtPrice(l.hi)}</text>`;
-    svg += `<text x="${hx}" y="${yTop - 16}" text-anchor="middle" fill="#444" font-size="7" font-family="Outfit" font-weight="700">${l.k}σ hi</text>`;
+  // X axis
+  svg += `<line x1="${PAD.left}" y1="${toY(0)}" x2="${W - PAD.right}" y2="${toY(0)}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;
+
+  // Probability labels inside zones
+  const probMap = {1:'68.2%',2:'95.4%',3:'99.7%',4:'99.99%'};
+  vis.forEach(l => {
+    const midX = toX((l.lo + l.hi) / 2);
+    const probY = toY(maxY * 0.15 * (1 / l.k));
+    svg += `<text x="${midX}" y="${probY}" text-anchor="middle" font-size="10" fill="rgba(${cRgb[l.k]},0.5)" font-weight="800">${probMap[l.k] || l.prob}</text>`;
   });
 
   svg += `</svg>`;
@@ -6614,7 +6681,7 @@ function renderViz1() {
 
   document.getElementById('v1-bar-wrap').innerHTML = svg;
   document.getElementById('v1-legend').innerHTML = `
-    <div class="v1-legend-item"><div style="width:2px;height:12px;background:#f0f0f0;border-radius:1px;flex-shrink:0;"></div> Spot</div>
+    <div class="v1-legend-item"><div style="width:2px;height:12px;background:#f0f0f0;border-radius:1px;flex-shrink:0;"></div> Price</div>
     ${legendItems}
   `;
 }
@@ -10299,6 +10366,7 @@ async function fgiLoad() {
     }).join('');
     if (srcEl) srcEl.textContent = 'Source: alternative.me · Crypto Fear & Greed Index';
     _fgiCached = true; _fgiLastLoad = Date.now();
+    fgiLoadHistory();
   } catch(e) {
     valEl.textContent = '?';
     lblEl.textContent = 'Failed to load';
@@ -10368,6 +10436,181 @@ function fgiRenderGauge(val) {
   // Hide old needle
   const nw = document.getElementById('fgi-needle-wrap');
   if (nw) nw.style.display = 'none';
+}
+
+// ── FGI HISTORICAL CHART ──
+let _fgiFullData = null;
+let _fgiChartRange = '1Y';
+
+async function fgiLoadHistory() {
+  const wrap = document.getElementById('fgi-chart-svg');
+  const loading = document.getElementById('fgi-chart-loading');
+  if (!wrap) return;
+
+  // Render range buttons
+  const btnWrap = document.getElementById('fgi-range-btns');
+  if (btnWrap && !btnWrap.hasChildNodes()) {
+    ['3M','6M','1Y','2Y','ALL'].forEach(r => {
+      const b = document.createElement('button');
+      b.textContent = r;
+      b.style.cssText = `font-size:8px;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:6px;border:1px solid ${r === _fgiChartRange ? 'var(--orange)' : '#2a2a2a'};background:${r === _fgiChartRange ? 'rgba(255,106,0,.15)' : '#161616'};color:${r === _fgiChartRange ? 'var(--orange)' : '#555'};cursor:pointer;font-family:'Space Mono',monospace;`;
+      b.onclick = () => { _fgiChartRange = r; fgiRenderChart(); fgiUpdateRangeBtns(); };
+      btnWrap.appendChild(b);
+    });
+  }
+
+  if (_fgiFullData) { fgiRenderChart(); return; }
+
+  try {
+    const res = await fetch('https://api.alternative.me/fng/?limit=0&format=json');
+    const data = await res.json();
+    _fgiFullData = data.data.map(d => ({
+      value: parseInt(d.value),
+      label: d.value_classification,
+      ts: parseInt(d.timestamp) * 1000
+    })).reverse(); // oldest first
+    if (loading) loading.style.display = 'none';
+    fgiRenderChart();
+    fgiRenderStats();
+  } catch(e) {
+    if (loading) loading.textContent = 'Failed to load historical data';
+  }
+}
+
+function fgiUpdateRangeBtns() {
+  const btns = document.getElementById('fgi-range-btns');
+  if (!btns) return;
+  Array.from(btns.children).forEach(b => {
+    const active = b.textContent === _fgiChartRange;
+    b.style.border = `1px solid ${active ? 'var(--orange)' : '#2a2a2a'}`;
+    b.style.background = active ? 'rgba(255,106,0,.15)' : '#161616';
+    b.style.color = active ? 'var(--orange)' : '#555';
+  });
+}
+
+function fgiRenderChart() {
+  if (!_fgiFullData || !_fgiFullData.length) return;
+  const wrap = document.getElementById('fgi-chart-svg');
+  if (!wrap) return;
+
+  // Filter by range
+  const now = Date.now();
+  const rangeMs = { '3M': 90*86400000, '6M': 180*86400000, '1Y': 365*86400000, '2Y': 730*86400000, 'ALL': Infinity };
+  const cutoff = now - (rangeMs[_fgiChartRange] || Infinity);
+  const data = _fgiFullData.filter(d => d.ts >= cutoff);
+  if (!data.length) return;
+
+  const W = wrap.offsetWidth || 560;
+  const H = 200;
+  const PAD = { top: 15, right: 10, bottom: 25, left: 30 };
+  const plotW = W - PAD.left - PAD.right;
+  const plotH = H - PAD.top - PAD.bottom;
+
+  const tMin = data[0].ts, tMax = data[data.length - 1].ts;
+  const tRange = tMax - tMin || 1;
+  const toX = t => PAD.left + ((t - tMin) / tRange) * plotW;
+  const toY = v => PAD.top + plotH - (v / 100) * plotH;
+
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="width:100%;display:block;">`;
+
+  // Zone backgrounds
+  const zones = [
+    { from: 0, to: 25, color: 'rgba(239,68,68,.08)', label: 'Extreme Fear' },
+    { from: 25, to: 45, color: 'rgba(255,106,0,.06)' },
+    { from: 45, to: 55, color: 'rgba(245,200,0,.05)' },
+    { from: 55, to: 75, color: 'rgba(134,239,172,.05)' },
+    { from: 75, to: 100, color: 'rgba(34,197,94,.08)', label: 'Extreme Greed' },
+  ];
+  zones.forEach(z => {
+    svg += `<rect x="${PAD.left}" y="${toY(z.to)}" width="${plotW}" height="${toY(z.from) - toY(z.to)}" fill="${z.color}"/>`;
+  });
+
+  // Grid lines at 25, 50, 75
+  [25, 50, 75].forEach(v => {
+    svg += `<line x1="${PAD.left}" y1="${toY(v)}" x2="${W - PAD.right}" y2="${toY(v)}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>`;
+    svg += `<text x="${PAD.left - 4}" y="${toY(v) + 3}" text-anchor="end" font-size="8" fill="rgba(255,255,255,.2)">${v}</text>`;
+  });
+
+  // Downsample for performance (max ~500 points)
+  const step = Math.max(1, Math.floor(data.length / 500));
+  const sampled = data.filter((_, i) => i % step === 0 || i === data.length - 1);
+
+  // Gradient fill under curve
+  const fillPath = sampled.map((d, i) => `${i === 0 ? 'M' : 'L'}${toX(d.ts)},${toY(d.value)}`).join(' ');
+  svg += `<defs><linearGradient id="fgi-grad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="var(--orange)" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="var(--orange)" stop-opacity="0"/>
+  </linearGradient></defs>`;
+  svg += `<path d="${fillPath} L${toX(sampled[sampled.length-1].ts)},${toY(0)} L${toX(sampled[0].ts)},${toY(0)} Z" fill="url(#fgi-grad)"/>`;
+
+  // Line with color segments
+  for (let i = 1; i < sampled.length; i++) {
+    const d0 = sampled[i-1], d1 = sampled[i];
+    const avgVal = (d0.value + d1.value) / 2;
+    const col = fgiColor(avgVal);
+    svg += `<line x1="${toX(d0.ts)}" y1="${toY(d0.value)}" x2="${toX(d1.ts)}" y2="${toY(d1.value)}" stroke="${col}" stroke-width="1.5" opacity="0.85"/>`;
+  }
+
+  // Historical extremes
+  let minEntry = data[0], maxEntry = data[0];
+  data.forEach(d => {
+    if (d.value < minEntry.value) minEntry = d;
+    if (d.value > maxEntry.value) maxEntry = d;
+  });
+
+  // Min marker
+  const mnX = toX(minEntry.ts), mnY = toY(minEntry.value);
+  svg += `<circle cx="${mnX}" cy="${mnY}" r="4" fill="#ef4444" stroke="#0f0f0f" stroke-width="2"/>`;
+  svg += `<text x="${mnX}" y="${mnY + 14}" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="700">${minEntry.value}</text>`;
+
+  // Max marker
+  const mxX = toX(maxEntry.ts), mxY = toY(maxEntry.value);
+  svg += `<circle cx="${mxX}" cy="${mxY}" r="4" fill="#22c55e" stroke="#0f0f0f" stroke-width="2"/>`;
+  svg += `<text x="${mxX}" y="${mxY - 8}" text-anchor="middle" font-size="8" fill="#22c55e" font-weight="700">${maxEntry.value}</text>`;
+
+  // X axis date labels (6 evenly spaced)
+  const labelCount = Math.min(6, sampled.length);
+  for (let i = 0; i < labelCount; i++) {
+    const idx = Math.round(i * (sampled.length - 1) / (labelCount - 1));
+    const d = sampled[idx];
+    const dt = new Date(d.ts);
+    const label = dt.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+    svg += `<text x="${toX(d.ts)}" y="${H - 5}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.25)">${label}</text>`;
+  }
+
+  // Current value dot
+  const last = data[data.length - 1];
+  const lx = toX(last.ts), ly = toY(last.value);
+  svg += `<circle cx="${lx}" cy="${ly}" r="5" fill="${fgiColor(last.value)}" stroke="#0f0f0f" stroke-width="2"/>`;
+
+  svg += `</svg>`;
+  wrap.innerHTML = svg;
+}
+
+function fgiRenderStats() {
+  if (!_fgiFullData || !_fgiFullData.length) return;
+  const el = document.getElementById('fgi-chart-stats');
+  if (!el) return;
+
+  const data = _fgiFullData;
+  const avg = Math.round(data.reduce((s, d) => s + d.value, 0) / data.length);
+  const min = data.reduce((m, d) => d.value < m.value ? d : m, data[0]);
+  const max = data.reduce((m, d) => d.value > m.value ? d : m, data[0]);
+  const minDate = new Date(min.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
+  const maxDate = new Date(max.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
+  const fearDays = data.filter(d => d.value <= 25).length;
+  const greedDays = data.filter(d => d.value >= 75).length;
+
+  el.innerHTML = [
+    { label: 'ALL-TIME LOW', value: min.value, sub: minDate, color: '#ef4444' },
+    { label: 'ALL-TIME HIGH', value: max.value, sub: maxDate, color: '#22c55e' },
+    { label: 'AVERAGE', value: avg, sub: `${data.length} days`, color: fgiColor(avg) },
+    { label: 'EXTREMES', value: `${fearDays}/${greedDays}`, sub: 'fear/greed days', color: 'var(--orange)' },
+  ].map(s => `<div style="background:#131313;border:1px solid #1e1e1e;border-radius:10px;padding:10px;text-align:center;">
+    <div style="font-size:7px;color:rgba(255,255,255,.25);font-weight:700;letter-spacing:.8px;margin-bottom:4px;">${s.label}</div>
+    <div style="font-size:18px;font-weight:700;color:${s.color};font-family:'DM Sans',sans-serif;">${s.value}</div>
+    <div style="font-size:8px;color:rgba(255,255,255,.2);margin-top:2px;">${s.sub}</div>
+  </div>`).join('');
 }
 
 </script>
@@ -10514,6 +10757,20 @@ function fgiRenderGauge(val) {
 
     <!-- History row -->
     <div id="fgi-history" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:20px;"></div>
+
+    <!-- Historical chart -->
+    <div style="margin-top:20px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.3);margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+        <span style="display:inline-block;width:3px;height:14px;background:var(--orange);border-radius:2px;"></span>
+        HISTORICAL CHART
+        <div style="margin-left:auto;display:flex;gap:4px;" id="fgi-range-btns"></div>
+      </div>
+      <div id="fgi-chart-wrap" style="position:relative;min-height:200px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:12px;padding:8px;overflow:hidden;">
+        <div id="fgi-chart-loading" style="color:rgba(255,255,255,.3);text-align:center;padding:60px 0;font-size:11px;">Loading historical data…</div>
+        <div id="fgi-chart-svg"></div>
+      </div>
+      <div id="fgi-chart-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;"></div>
+    </div>
 
     <!-- Source note -->
     <div id="fgi-source" style="font-size:9px;color:#333;margin-top:14px;text-align:center;"></div>
