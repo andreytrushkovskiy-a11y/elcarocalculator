@@ -11836,8 +11836,8 @@ function initSigmaButtons() {
     <!-- ORACLE SPIN -->
     <div class="slabel">ORACLE VISION</div>
     <div class="spin-trigger" onclick="openSpin()">
-      <div style="font-size:34px"><img loading="lazy" src="icons/ORACLE SLOT MACHINE.webp" style="width:120px;height:120px;object-fit:contain;"></div>
-      <div style="flex:1"><div class="spin-title-txt">ORACLE SLOT MACHINE</div><div class="spin-sub-txt">1 FREE SPIN AVAILABLE TODAY</div></div>
+      <div style="font-size:34px"><img loading="lazy" src="icons/ORACLE SLOT MACHINE.webp" style="width:56px;height:56px;object-fit:contain;"></div>
+      <div style="flex:1;min-width:0;"><div class="spin-title-txt">ORACLE SLOT MACHINE</div><div class="spin-sub-txt">1 FREE SPIN AVAILABLE TODAY</div></div>
       <div class="spin-cta-pill">SPIN →</div>
     </div>
 
@@ -11872,9 +11872,7 @@ function initSigmaButtons() {
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">5-8 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"></div>
           </div>
-        </div>
-        <div style="padding:0 12px 16px;display:flex;justify-content:center;">
-          <div class="chest-card" style="border-color:#a8edff;text-align:center;width:calc(50% - 4px);" onclick="orcBuyChest('diamond')">
+          <div class="chest-card" style="grid-column:span 2;max-width:50%;justify-self:center;border-color:#a8edff;text-align:center;" onclick="orcBuyChest('diamond')">
             <div><img loading="lazy" src="icons/diamond chest.webp" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">10+ forecasts</div>
@@ -12497,7 +12495,7 @@ function initSigmaButtons() {
       <div class="o-label">ORACLE TRADERS <span class="o-label-action" id="oc-traders-count2"></span></div>
 
       <!-- Filter bar -->
-      <div style="display:flex;gap:6px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none;">
+      <div style="display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;scrollbar-width:none;">
         <button onclick="tradersFilter('all',this)" class="t-filter-btn active-tf" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid rgba(245,166,35,.4);background:rgba(245,166,35,.1);color:var(--orange);font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">ALL</button>
         <button onclick="tradersFilter('bull',this)" class="t-filter-btn" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid #222;background:#111;color:#555;font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">BUYING</button>
         <button onclick="tradersFilter('bear',this)" class="t-filter-btn" style="flex:none;padding:5px 12px;border-radius:9px;border:1px solid #222;background:#111;color:#555;font-size:9px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">SELLING</button>
@@ -13122,7 +13120,7 @@ function renderOracleCallsBets() {
     const betEl = document.getElementById(id+'-my-bet');
     const lblEl = document.getElementById(id+'-bet-label');
     if (betEl) betEl.style.display = 'block';
-    if (lblEl) lblEl.textContent = (bet.stake||bet.amount||'?').toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+(bet.side||'?').toUpperCase()+' · '+(bet.tf||'');
+    if (lblEl) lblEl.innerHTML = (bet.stake||bet.amount||'?').toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+(bet.side||'?').toUpperCase()+' · '+(bet.tf||'');
     // Hide YES/NO buttons for already-bet cards
     if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   });
@@ -13651,7 +13649,7 @@ function oracleRenderVault() {
     const dayCoins = [1,2,4,10,20,50,100];
     const earned = dayCoins[(OC.rewardDay-1) % dayCoins.length] || 20;
     btn.disabled = OC.checkedIn;
-    btn.textContent = OC.checkedIn
+    btn.innerHTML = OC.checkedIn
       ? '✓ CHECKED IN — COME BACK TOMORROW'
       : '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> CLAIM TODAY\'S +' + earned + ' COINS';
   }
@@ -13737,7 +13735,7 @@ function oracleRenderInventory() {
   // Diamond — centered below, same card size
   const dd = CHEST_DATA.diamond;
   const dq = OC.inventory.diamond||0;
-  html += `</div><div style="padding:0 12px 4px;display:flex;justify-content:center;"><div class="chest-card" style="border-color:${dd.border}${dq===0?';opacity:.4':''};width:calc(50% - 4px);"
+  html += `<div class="chest-card" style="grid-column:span 2;max-width:50%;justify-self:center;border-color:${dd.border}${dq===0?';opacity:.4':''};"
     onclick="orcChestPreview('diamond')">
     ${dq>0?`<div class="chest-count">${dq}</div>`:''}
     <div style="font-size:36px;${dq===0?'filter:grayscale(1);':''}">${dd.icon}</div>
@@ -13772,7 +13770,7 @@ function openSpin() {
   ['reel1','reel2','reel3'].forEach(id => document.getElementById(id)?.classList.remove('spinning'));
   const btn = document.getElementById('spin-btn');
   btn.disabled = false;
-  btn.textContent = spinUsed ? '🎰 SPIN AGAIN — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">' : '🎰 SPIN NOW — FREE';
+  btn.innerHTML = spinUsed ? '🎰 SPIN AGAIN — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">' : '<img loading="lazy" src="icons/slot machine spin button.webp" style="width:56px;height:56px;object-fit:contain;vertical-align:middle;"> SPIN NOW — FREE';
   document.getElementById('spin-modal').classList.add('open');
 }
 
@@ -13894,7 +13892,7 @@ function doSpin() {
     }
     if (isJackpot) document.getElementById('jackpot-banner').classList.add('show');
 
-    if (btn) { btn.disabled = false; btn.textContent = '🎰 SPIN AGAIN — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">'; }
+    if (btn) { btn.disabled = false; btn.innerHTML = '🎰 SPIN AGAIN — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">'; }
     oracleRenderVaultCoins();
     oracleRenderInventory();
     // Update profile if open
@@ -13925,12 +13923,12 @@ function orcChestPreview(type) {
   document.getElementById('op-cm-icon').innerHTML = d.icon;
   document.getElementById('op-cm-name').textContent = d.name+' CHEST';
   document.getElementById('op-cm-desc').textContent = d.desc;
-  document.getElementById('op-cm-sell-price').textContent = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('op-cm-sell-price').innerHTML = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   // Populate sell-option prices
   const qp = document.getElementById('op-cm-quick-price');
-  if (qp) qp.textContent = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  if (qp) qp.innerHTML = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   const sp = document.getElementById('op-cm-list-suggested');
-  if (sp) sp.textContent = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  if (sp) sp.innerHTML = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   const pi = document.getElementById('op-cm-list-price');
   if (pi) pi.value = d.coinValue;
   // Collapse sell options on open
@@ -14838,7 +14836,7 @@ function opRenderArenaDuels() {
   list.innerHTML = filtered.map(d => opDuelCardHTML(d)).join('');
   const total = Object.values(_opArenaStakes).reduce((s,b)=>s+b.amount,0);
   const stEl = document.getElementById('op-arena-staked');
-  if (stEl) stEl.textContent = total.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  if (stEl) stEl.innerHTML = total.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
 }
 
 function arenaFilter(f, el) {
@@ -14965,8 +14963,8 @@ function opOpenDuelBet(duelId, side) {
 function opUpdateBetDisplay(odds) {
   const amt = document.getElementById('bet-amt-display');
   const pay = document.getElementById('bet-payout-val');
-  if (amt) amt.textContent = opCurrentBetAmt.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
-  if (pay) pay.textContent = Math.round(opCurrentBetAmt*(parseFloat(odds)||1.62)).toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  if (amt) amt.innerHTML = opCurrentBetAmt.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  if (pay) pay.innerHTML = Math.round(opCurrentBetAmt*(parseFloat(odds)||1.62)).toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
 }
 
 // placeBet now defined as alias below
@@ -16237,7 +16235,7 @@ function placeBet(side) {
   const betEl = document.getElementById(cardId+'-my-bet');
   const lblEl = document.getElementById(cardId+'-bet-label');
   if (betEl) betEl.style.display = 'block';
-  if (lblEl) lblEl.textContent = opCurrentBetAmt.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+side+' · '+opCurrentBetTF;
+  if (lblEl) lblEl.innerHTML = opCurrentBetAmt.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+side+' · '+opCurrentBetTF;
   if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   oracleRenderVaultCoins();
   closeOverlay('bet-overlay');
@@ -16308,7 +16306,7 @@ document.addEventListener('keydown', e => {
     <div style="font-size:11px;color:#aaa;line-height:1.4;margin-bottom:12px;" id="vb-question">Will this forecast play out?</div>
     <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:6px;">YOUR VERDICT:</div>
     <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <button id="vb-yes-btn" onclick="setVerdictSide('yes')" style="flex:1;padding:11px;border-radius:12px;border:1px solid rgba(0,230,118,.3);background:rgba(0,230,118,.1);color:#00e676;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;" id="vb-yes-btn">✓ YES</button>
+      <button id="vb-yes-btn" onclick="setVerdictSide('yes')" style="flex:1;padding:11px;border-radius:12px;border:1px solid rgba(0,230,118,.3);background:rgba(0,230,118,.1);color:#00e676;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">✓ YES</button>
       <button id="vb-no-btn" onclick="setVerdictSide('no')" style="flex:1;padding:11px;border-radius:12px;border:1px solid rgba(255,71,87,.3);background:rgba(255,71,87,.1);color:#ff4757;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">✗ NO</button>
     </div>
     <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:6px;">STAKE AMOUNT:</div>
@@ -16433,11 +16431,17 @@ function openVerdictBet(asset, name, icon, tf, dir, cardId, side) {
   _vbStake = 200;
   updateVerdictPayout();
   highlightVerdictSide(_vbSide);
-  // Hide the side toggle buttons — choice already made
+  // Show both side buttons so user can switch
   const yBtn = document.getElementById('vb-yes-btn');
   const nBtn = document.getElementById('vb-no-btn');
-  if (yBtn) yBtn.style.display = _vbSide === 'yes' ? 'block' : 'none';
-  if (nBtn) nBtn.style.display = _vbSide === 'no' ? 'block' : 'none';
+  if (yBtn) yBtn.style.display = 'block';
+  if (nBtn) nBtn.style.display = 'block';
+  // Highlight default 200 chip
+  document.querySelectorAll('.verdict-stake-chip').forEach(b => {
+    b.style.borderColor = '#333'; b.style.background = '#111'; b.style.color = '#888';
+  });
+  const chips = document.querySelectorAll('.verdict-stake-chip');
+  if (chips[1]) { chips[1].style.borderColor='rgba(245,166,35,.8)'; chips[1].style.background='rgba(245,166,35,.12)'; chips[1].style.color='#f5a623'; }
   // Update confirm button text
   const confBtn = document.getElementById('vb-confirm-btn');
   if (confBtn) confBtn.textContent = _vbSide === 'yes' ? '🔮 PLACE VERDICT — YES' : '🔮 PLACE VERDICT — NO';
@@ -16495,7 +16499,7 @@ function updateVerdictPayout() {
   const payout = Math.round(_vbStake * mult);
   const el = document.getElementById('vb-payout-val');
   const ml = document.getElementById('vb-payout-mult');
-  if (el) el.textContent = '≈ ' + payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  if (el) el.innerHTML = '≈ ' + payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   if (ml) ml.textContent = '×' + mult.toFixed(2) + ' if correct · 10% platform fee';
 }
 function confirmVerdictBet() {
@@ -16508,7 +16512,7 @@ function confirmVerdictBet() {
   const betEl = document.getElementById(_vbCardId+'-my-bet');
   const lblEl = document.getElementById(_vbCardId+'-bet-label');
   if (betEl) betEl.style.display='block';
-  if (lblEl) lblEl.textContent = _vbStake+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+(_vbSide==='yes'?'YES ✓':'NO ✗')+' · '+_vbTF;
+  if (lblEl) lblEl.innerHTML = _vbStake+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+(_vbSide==='yes'?'YES ✓':'NO ✗')+' · '+_vbTF;
   // Hide verdict buttons for this card
   if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   closeOverlay('verdict-overlay');
@@ -16777,7 +16781,7 @@ function revealTraderStatus(handle) {
   if (tsAv) { tsAv.textContent = d.avatar; tsAv.style.background = d.avatarBg; }
   const tsN = document.getElementById('ts-name'); if (tsN) tsN.textContent = '@'+handle;
   const tsR = document.getElementById('ts-rank'); if (tsR) tsR.textContent = d.rank + ' · Score: ' + d.score;
-  const tsE = document.getElementById('ts-trader-earn'); if (tsE) tsE.textContent = d.earn + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  const tsE = document.getElementById('ts-trader-earn'); if (tsE) tsE.innerHTML = d.earn + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   if (OC_EXT.revealedStatuses[handle]) {
     document.getElementById('ts-locked-view').style.display = 'none';
     document.getElementById('ts-revealed-view').style.display = '';
@@ -16857,7 +16861,7 @@ function renderStreakInsurance() {
     if (btn) { btn.textContent='✅ INSURANCE ACTIVE — 1 skip protected'; btn.disabled=true; }
     if (status) { status.className='ins-active'; status.textContent=OC_EXT.insuranceUsed?'USED THIS MONTH':'ACTIVE · 1 day protected'; }
   } else {
-    if (btn) { btn.textContent='🛡 ACTIVATE INSURANCE — 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">'; btn.disabled=false; }
+    if (btn) { btn.innerHTML = '🛡 ACTIVATE INSURANCE — 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">'; btn.disabled=false; }
     if (status) { status.className='ins-inactive'; status.textContent='INACTIVE'; }
   }
 }
@@ -18716,23 +18720,8 @@ function ocRenderLeaderboard() {
 }
 
 function ocRenderOracleTraders() {
-  // Unified traders: render into oc-view-traders using same logic as op-traders
-  const list2 = document.getElementById('oc-traders-list2');
-  const cnt2 = document.getElementById('oc-traders-count2');
-  if (!list2) return;
-  // Reuse renderTradersList logic but target the oracle tab container
-  const origList = document.getElementById('traders-list');
-  const origCnt = document.getElementById('traders-count');
-  // Temporarily swap target IDs, render, then swap back
-  if (origList) origList.id = '_traders-list-tmp';
-  if (origCnt) origCnt.id = '_traders-count-tmp';
-  list2.id = 'traders-list';
-  cnt2.id = 'traders-count';
+  // Render traders directly into oc-traders-list2
   renderTradersList();
-  list2.id = 'oc-traders-list2';
-  cnt2.id = 'oc-traders-count2';
-  if (origList) origList.id = 'traders-list';
-  if (origCnt) origCnt.id = 'traders-count';
 }
 
 /* ════════════════════════════════════
@@ -18772,7 +18761,7 @@ function ocOpenBet(data) {
   document.getElementById('oc-bet-bar').style.width         = data.yesPct + '%';
   document.getElementById('oc-bet-yes-pct').textContent     = `YES ${data.yesPct}%`;
   document.getElementById('oc-bet-no-pct').textContent      = `NO ${noPool}%`;
-  document.getElementById('oc-calc-pool').textContent       = data.totalPool + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-calc-pool').innerHTML = data.totalPool + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
 
   // Лейблы кнопок
   const isDropSignal = data.dir === 'Bear';
@@ -18792,9 +18781,9 @@ function ocSelectAmt(el, amt) {
 
 function updateBetCalc() {
   const payout = Math.round(ocState.betAmt * ocState.betOdds * 0.9);
-  document.getElementById('oc-calc-bet').textContent    = ocState.betAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-calc-bet').innerHTML = ocState.betAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   document.getElementById('oc-calc-odds').textContent   = ocState.betOdds.toFixed(2) + 'x';
-  document.getElementById('oc-calc-payout').textContent = payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-calc-payout').innerHTML = payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
 }
 
 function ocPlaceBet(side) {
@@ -18828,7 +18817,7 @@ function ocOpenCopy(data) {
   av.textContent = data.icon; av.style.background = data.avatarBg;
   document.getElementById('oc-ct-name').textContent  = '@' + data.handle;
   document.getElementById('oc-ct-rank').textContent  = data.rank;
-  document.getElementById('oc-ct-balance-after').textContent = (OC.coins - 50).toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-ct-balance-after').innerHTML = (OC.coins - 50).toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
 
   const box = document.getElementById('oc-ct-status-box');
   const dot = document.getElementById('oc-ct-dot');
@@ -18881,8 +18870,8 @@ function ocOpenCopy(data) {
   const confirmBtn = document.querySelector('#oc-modal-copy [onclick="ocConfirmCopy()"]');
   if (confirmBtn) {
     if (!isSubbed) confirmBtn.textContent = '⚠ Subscribe First';
-    else if (isRevealed) confirmBtn.textContent = '✓ ALREADY REVEALED — REFRESH 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
-    else confirmBtn.textContent = '✓ CONFIRM — PAY 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+    else if (isRevealed) confirmBtn.innerHTML = '✓ ALREADY REVEALED — REFRESH 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+    else confirmBtn.innerHTML = '✓ CONFIRM — PAY 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
   }
 
   ocModal('oc-modal-copy',1);
@@ -18955,10 +18944,10 @@ function ocOpenMarket(data) {
   document.getElementById('oc-mkt-name').textContent          = data.name;
   document.getElementById('oc-mkt-meta').textContent          = data.meta;
   document.getElementById('oc-mkt-seller').textContent        = data.seller;
-  document.getElementById('oc-mkt-price').textContent         = data.price + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
-  document.getElementById('oc-mkt-seller-gets').textContent   = sellerGet.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
-  document.getElementById('oc-mkt-balance-after').textContent = (OC.coins - price).toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
-  document.getElementById('oc-mkt-buy-label').textContent     = data.price + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-mkt-price').innerHTML = data.price + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-mkt-seller-gets').innerHTML = sellerGet.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-mkt-balance-after').innerHTML = (OC.coins - price).toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
+  document.getElementById('oc-mkt-buy-label').innerHTML = data.price + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;">';
 
   ocModal('oc-modal-market',1);
 }
