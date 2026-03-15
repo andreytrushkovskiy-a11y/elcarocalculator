@@ -1867,7 +1867,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 .mhandle { width:36px; height:4px; background:#222; border-radius:2px; margin:12px auto 18px; }
 .mtitle { font-size:17px; font-weight:800; text-align:center; margin-bottom:4px; }
 .msub { font-size:10px; color:#777; text-align:center; font-family:'Space Mono',monospace; margin-bottom:20px; }
-.close-modal { text-align:center; margin-top:14px; font-size:12px; color:#777; cursor:pointer; font-family:'Space Mono',monospace; }
+.close-modal { text-align:center; margin-top:14px; font-size:13px; color:#777; cursor:pointer; font-family:'Space Mono',monospace; padding:12px 20px; min-height:44px; display:flex; align-items:center; justify-content:center; }
 
 /* Bet modal */
 .bet-content { padding:0 18px; }
@@ -12293,6 +12293,7 @@ function initSigmaButtons() {
     <div class="oracle-tab"        id="oc-ot-mybets"     onclick="ocSwitchTab('mybets')">MY BETS</div>
     <div class="oracle-tab"        id="oc-ot-leaderboard"onclick="ocSwitchTab('leaderboard')">TOP ORACLES</div>
     <div class="oracle-tab"        id="oc-ot-traders"    onclick="ocSwitchTab('traders')">TRADERS</div>
+    <div class="oracle-tab"        id="oc-ot-market"     onclick="ocSwitchTab('market')">MARKET</div>
   </div>
 
   <!-- ───────────────────────────────
@@ -12493,6 +12494,15 @@ function initSigmaButtons() {
     </div>
 
     <!-- ══════ VIEW: MARKETPLACE ══════ -->
+    <div id="oc-view-market" style="display:none">
+      <div class="o-label">MARKETPLACE</div>
+      <div style="display:flex;gap:6px;padding:0 12px 10px;">
+        <button id="op-mkt-tab-fc" onclick="orcSwitchMarketTab('forecasts')" style="flex:1;padding:8px 12px;border-radius:10px;border:1px solid rgba(245,166,35,.4);background:rgba(245,166,35,.08);color:#f5a623;font-size:10px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">📄 FORECASTS</button>
+        <button id="op-mkt-tab-ch" onclick="orcSwitchMarketTab('chests')" style="flex:1;padding:8px 12px;border-radius:10px;border:1px solid #2a2a2a;background:#111;color:#555;font-size:10px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;">📦 CHESTS</button>
+      </div>
+      <div id="op-mkt-forecasts" style="display:flex;flex-direction:column;gap:6px;padding:0 12px;"></div>
+      <div id="op-mkt-chests" style="display:none;flex-direction:column;gap:6px;padding:0 12px;"></div>
+    </div>
 
     <!-- ══════ VIEW: TRADERS (unified — uses dynamic renderTradersList) ══════ -->
     <div id="oc-view-traders" style="display:none">
@@ -12788,14 +12798,14 @@ function initSigmaButtons() {
       Additional spins: $1 or 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> each
     </div>
     <div style="text-align:center;margin-top:16px;">
-      <span style="color:#888;font-size:12px;cursor:pointer;" onclick="closeSpin()">✕ CLOSE</span>
+      <span style="color:#888;font-size:13px;cursor:pointer;padding:12px 20px;display:inline-block;min-height:44px;line-height:20px;" onclick="closeSpin()">✕ CLOSE</span>
     </div>
   </div>
 </div>
 
 
 <!-- BET MODAL -->
-<div class="overlay" id="bet-overlay">
+<div class="overlay" id="bet-overlay" onclick="if(event.target===this)closeOverlay('bet-overlay')">
   <div class="modal-sheet">
     <div class="mhandle"></div>
     <div class="mtitle">ORACLE FORESIGHT</div>
@@ -12828,7 +12838,7 @@ function initSigmaButtons() {
 </div>
 
 <!-- COPY TRADE MODAL -->
-<div class="overlay" id="copy-overlay">
+<div class="overlay" id="copy-overlay" onclick="if(event.target===this)closeOverlay('copy-overlay')">
   <div class="modal-sheet">
     <div class="mhandle"></div>
     <div class="mtitle"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE COPY TRADE</div>
@@ -12861,7 +12871,7 @@ function initSigmaButtons() {
 </div>
 
 <!-- GUILD TREASURY MODAL -->
-<div class="overlay" id="treasury-overlay">
+<div class="overlay" id="treasury-overlay" onclick="if(event.target===this)closeOverlay('treasury-overlay')">
   <div class="modal-sheet">
     <div class="mhandle"></div>
     <div class="mtitle">🔮 WEEKLY TREASURY OPENING</div>
@@ -13954,6 +13964,7 @@ function orcChestModalClose() {
 }
 function orcOpenChest() {
   const type=OC.activeChest, d=CHEST_DATA[type];
+  if (!d) { showToast('⚠ Unknown chest type'); return; }
   if ((OC.inventory[type]||0)<1) return;
   OC.inventory[type]--;
   OC.chestsOpened = (OC.chestsOpened||0) + 1;
@@ -18652,7 +18663,7 @@ async function rsiTestRender() {
 
 
 <!-- ══ OC MODALS ══ -->
-<div class="oc-overlay" id="oc-modal-bet" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+<div class="oc-overlay" id="oc-modal-bet" onclick="if(event.target===this)ocModal('oc-modal-bet',0)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
   <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
     <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
     <div style="padding:16px 18px 0;">
@@ -18682,12 +18693,12 @@ async function rsiTestRender() {
         <div id="oc-bet-btn-yes" onclick="ocPlaceBet('YES')" style="flex:1;background:linear-gradient(135deg,#00e676,#00c853);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;">✓ YES</div>
         <div id="oc-bet-btn-no"  onclick="ocPlaceBet('NO')"  style="flex:1;background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#fff;cursor:pointer;text-align:center;">✗ NO</div>
       </div>
-      <div onclick="ocModal('oc-modal-bet',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+      <div onclick="ocModal('oc-modal-bet',0)" style="text-align:center;color:#555;font-size:13px;cursor:pointer;padding:14px 20px;min-height:44px;">✕ CLOSE</div>
     </div>
   </div>
 </div>
 
-<div class="oc-overlay" id="oc-modal-copy" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+<div class="oc-overlay" id="oc-modal-copy" onclick="if(event.target===this)ocModal('oc-modal-copy',0)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
   <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
     <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
     <div style="padding:16px 18px 0;">
@@ -18713,12 +18724,12 @@ async function rsiTestRender() {
       <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:4px;">This view costs 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> · Trader earns 40<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"></div>
       <div style="font-size:9px;color:#333;font-family:'Space Mono',monospace;margin-bottom:12px;">Balance after: <span id="oc-ct-balance-after" style="color:#666;"></span></div>
       <div onclick="ocConfirmCopy()" style="background:linear-gradient(135deg,#00e5ff,#0097a7);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">✓ CONFIRM — PAY 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"></div>
-      <div onclick="ocModal('oc-modal-copy',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+      <div onclick="ocModal('oc-modal-copy',0)" style="text-align:center;color:#555;font-size:13px;cursor:pointer;padding:14px 20px;min-height:44px;">✕ CLOSE</div>
     </div>
   </div>
 </div>
 
-<div class="oc-overlay" id="oc-modal-subscribe" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+<div class="oc-overlay" id="oc-modal-subscribe" onclick="if(event.target===this)ocModal('oc-modal-subscribe',0)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
   <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
     <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
     <div style="padding:16px 18px 0;">
@@ -18734,12 +18745,12 @@ async function rsiTestRender() {
         <div style="font-size:11px;color:#bbb;"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> Priority copy trade access</div>
       </div>
       <div id="oc-sub-modal-sub" onclick="ocConfirmSub()" style="background:linear-gradient(135deg,var(--orange),#e65100);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">FOLLOW @TRADER</div>
-      <div onclick="ocModal('oc-modal-subscribe',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+      <div onclick="ocModal('oc-modal-subscribe',0)" style="text-align:center;color:#555;font-size:13px;cursor:pointer;padding:14px 20px;min-height:44px;">✕ CLOSE</div>
     </div>
   </div>
 </div>
 
-<div class="oc-overlay" id="oc-modal-market" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
+<div class="oc-overlay" id="oc-modal-market" onclick="if(event.target===this)ocModal('oc-modal-market',0)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.78);align-items:flex-end;justify-content:center;">
   <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
     <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
     <div style="padding:16px 18px 0;">
@@ -18755,7 +18766,7 @@ async function rsiTestRender() {
         <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;"><span style="color:#444;">BALANCE AFTER</span><span id="oc-mkt-balance-after" style="color:#ccc;"></span></div>
       </div>
       <div onclick="ocConfirmBuy()" style="background:linear-gradient(135deg,#ffd700,#ff8f00);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">🛒 BUY — <span id="oc-mkt-buy-label"></span></div>
-      <div onclick="ocModal('oc-modal-market',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
+      <div onclick="ocModal('oc-modal-market',0)" style="text-align:center;color:#555;font-size:13px;cursor:pointer;padding:14px 20px;min-height:44px;">✕ CLOSE</div>
     </div>
   </div>
 </div>
@@ -18789,7 +18800,7 @@ const ASSET_ICONS = { BTC:'₿', ETH:'Ξ', SOL:'◎', GOLD:'<img src="icons/REWA
    TAB SWITCHING
 ════════════════════════════════════ */
 function ocSwitchTab(tabName) {
-  const tabs = ['prophecies','mybets','leaderboard','traders'];
+  const tabs = ['prophecies','mybets','leaderboard','traders','market'];
   tabs.forEach(t => {
     const tabEl = document.getElementById('oc-ot-' + t);
     if (tabEl) tabEl.classList.toggle('active', t === tabName);
@@ -18802,6 +18813,7 @@ function ocSwitchTab(tabName) {
   if (tabName === 'mybets')     ocRenderMyBets();
   if (tabName === 'leaderboard') ocRenderLeaderboard();
   if (tabName === 'traders')    ocRenderOracleTraders();
+  if (tabName === 'market')     oracleRenderMarket();
 }
 
 function ocRenderMyBets() {
