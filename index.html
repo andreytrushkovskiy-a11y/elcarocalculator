@@ -4165,7 +4165,7 @@ input[type=range]::-webkit-slider-thumb {
   <div class="mode-switcher" style="max-width:100%;margin-bottom:0;flex-wrap:nowrap;overflow-x:auto;">
 
     <!-- === EQUAL-WIDTH GROUP: ALERTS · STRADDLE · ELCARO · GUILD === -->
-    <button class="mode-btn" id="mode-alerts-nav" onclick="setMode('alerts')"
+    <button class="mode-btn active" id="mode-alerts-nav" onclick="setMode('alerts')"
       title="Trading Filter Alerts" style="flex:1;min-width:0;color:#ff6a00;">
       🔔 ALERTS
     </button>
@@ -4200,7 +4200,7 @@ input[type=range]::-webkit-slider-thumb {
 
 </div>
 
-<div class="layout">
+<div class="layout" style="display:none;">
 
   <!-- ══ LEFT: INPUT ══ -->
   <div>
@@ -7286,10 +7286,10 @@ function acceptCalcDisclaimer() {
 
 // ═══════════════════ INIT ═══════════════════
 window.onload = () => {
+  setMode('alerts'); // ALERTS is the default landing page
   ocLoad(); // restore OC state from localStorage
   loadExpiryDates('BTC');
   liveCalc();
-  setMode('alerts'); // default screen on launch — HSHS alerts
   // Show mandatory disclaimer for non-whitelist users on first visit
   if (!isCalcDisclaimerAccepted()) {
     setTimeout(() => showCalcDisclaimer(false), 500);
@@ -17521,7 +17521,7 @@ async function rsiTestRender() {
 <!-- ═══════════════════════════════════════════
      ALERTS SECTION — Main Landing Page
 ═══════════════════════════════════════════ -->
-<div id="alerts-section" style="display:none;max-width:500px;margin:0 auto;padding:0 4px 20px;">
+<div id="alerts-section" style="display:block;max-width:500px;margin:0 auto;padding:0 4px 20px;">
 
   <!-- Hero header -->
   <div style="position:relative;overflow:hidden;border-radius:20px;margin:0 8px 14px;padding:22px 18px;background:linear-gradient(135deg,#1a0800 0%,#2a0e00 40%,#0d0d0d 100%);border:1px solid rgba(255,106,0,.2);">
