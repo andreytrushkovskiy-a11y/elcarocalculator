@@ -757,7 +757,7 @@ body {
 .tools-launcher-btn:active { transform:scale(.95); }
 .tools-launcher-btn:hover { transform:translateY(-3px) scale(1.06);box-shadow:0 0 16px rgba(255,106,0,.25), 0 8px 24px rgba(0,0,0,.3); }
 .tlb-icon { line-height:1; display:flex; align-items:center; justify-content:center; transition:all .25s ease; }
-.tlb-icon img { width:96px; height:96px; object-fit:contain; transition:all .25s ease; }
+.tlb-icon img { width:36px; height:36px; object-fit:contain; transition:all .25s ease; }
 .tools-launcher-btn:hover .tlb-icon img { transform:scale(1.1); filter:brightness(1.2); }
 .tlb-name { font-size:9px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.3px;margin-top:1px; transition:all .25s; }
 .tools-launcher-btn:hover .tlb-name { color:#fff !important; }
@@ -5539,11 +5539,11 @@ input[type=range]::-webkit-slider-thumb {
       <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <button id="pf-sim-tab-rand" onclick="pfSimSetMode('random')"
           style="padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;">
-          <img loading="lazy" src="icons/40 RANDOM SIMULATION.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;"> RANDOM SIMULATION
+          <img loading="lazy" src="icons/40 RANDOM SIMULATION.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;"> RANDOM SIMULATION
         </button>
         <button id="pf-sim-tab-mult" onclick="pfSimSetMode('multiplier')"
           style="padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
-          <img loading="lazy" src="icons/41 GROWTH MULTIPLIER.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;"> GROWTH MULTIPLIER
+          <img loading="lazy" src="icons/41 GROWTH MULTIPLIER.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;"> GROWTH MULTIPLIER
         </button>
         <button id="pf-sim-reroll" onclick="pfRunSimulation()"
           style="margin-left:auto;padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">
@@ -5626,10 +5626,10 @@ input[type=range]::-webkit-slider-thumb {
 
   <!-- Step nav -->
   <div class="agent-steps-nav" id="agent-steps-nav">
-    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)"><img loading="lazy" src="icons/30 GUILD.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Portfolio</button>
-    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled title="Complete previous step first"><img loading="lazy" src="icons/31 Analysis.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Analysis</button>
-    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled title="Complete previous step first"><img loading="lazy" src="icons/32 Signals.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Signals</button>
-    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled title="Complete previous step first"><img loading="lazy" src="icons/33 Plan.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Plan</button>
+    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)"><img loading="lazy" src="icons/30 GUILD.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Portfolio</button>
+    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled title="Complete previous step first"><img loading="lazy" src="icons/31 Analysis.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Analysis</button>
+    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled title="Complete previous step first"><img loading="lazy" src="icons/32 Signals.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Signals</button>
+    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled title="Complete previous step first"><img loading="lazy" src="icons/33 Plan.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Plan</button>
     <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
       <span style="font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text2);">BUDGET</span>
       <span id="agent-budget-display" style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;color:var(--orange);">$1,000,000</span>
@@ -5661,9 +5661,9 @@ input[type=range]::-webkit-slider-thumb {
 
     <!-- Category tabs -->
     <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
-      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')"><img loading="lazy" src="icons/34 Crypto.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')"><img loading="lazy" src="icons/35 ETFs.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:2px;"> ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')"><img loading="lazy" src="icons/36 Stocks.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')"><img loading="lazy" src="icons/34 Crypto.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')"><img loading="lazy" src="icons/35 ETFs.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:2px;"> ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')"><img loading="lazy" src="icons/36 Stocks.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
       <button id="agent-add-btn" onclick="agentToggleAddForm()"
         style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
         onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
@@ -5724,14 +5724,14 @@ input[type=range]::-webkit-slider-thumb {
   <!-- ── STEP 2: SIGNALS ── -->
   <div id="agent-step-2" style="display:none;">
     <div style="background:rgba(255,106,0,.05);border:1px solid rgba(255,106,0,.15);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:16px;"><img loading="lazy" src="icons/12 RSI TEST.webp" style="width:64px;height:64px;object-fit:contain;"></span>
+      <span style="font-size:16px;"><img loading="lazy" src="icons/12 RSI TEST.webp" style="width:24px;height:24px;object-fit:contain;"></span>
       <div>
         <div style="font-size:12px;font-weight:800;color:var(--orange);" id="agent-signal-tf-label">SIGNAL INPUT — 4H TIMEFRAME</div>
         <div style="font-size:9px;color:var(--text2);margin-top:2px;">Enter buy/sell zones and predicted top/bottom for each asset. These drive the hedge fund-style deployment plan.</div>
       </div>
     </div>
     <div id="agent-signal-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
-    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast(n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();"><img loading="lazy" src="icons/33 Plan.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:3px;"> GENERATE DEPLOYMENT PLAN →</button>
+    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast(n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();"><img loading="lazy" src="icons/33 Plan.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:3px;"> GENERATE DEPLOYMENT PLAN →</button>
   </div>
 
   <!-- ── STEP 3: PLAN ── -->
@@ -10174,7 +10174,7 @@ function agentRenderAnalysis(a) {
         </button>`).join('')}
     </div>
   </div>
-  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);"><img loading="lazy" src="icons/32 Signals.webp" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;margin-right:3px;"> INPUT ENTRY SIGNALS →</button>
+  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);"><img loading="lazy" src="icons/32 Signals.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:3px;"> INPUT ENTRY SIGNALS →</button>
   `;
 }
 
@@ -12236,10 +12236,10 @@ function initSigmaButtons() {
 
           <!-- FREE / PREMIUM TAB SWITCHER -->
           <div style="padding:0 12px 10px;display:flex;gap:6px;">
-            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img loading="lazy" src="icons/37 FREE.webp" style="width:64px;height:64px;object-fit:contain;"> FREE</div>
-            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img loading="lazy" src="icons/38 PREMIUM.webp" style="width:64px;height:64px;object-fit:contain;"> PREMIUM</div>
+            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img loading="lazy" src="icons/37 FREE.webp" style="width:24px;height:24px;object-fit:contain;"> FREE</div>
+            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img loading="lazy" src="icons/38 PREMIUM.webp" style="width:24px;height:24px;object-fit:contain;"> PREMIUM</div>
             <div style="flex:1;text-align:center;padding:8px;background:linear-gradient(135deg,rgba(108,63,255,.18),rgba(168,85,247,.1));border:1px solid rgba(108,63,255,.45);border-radius:9px;font-size:9px;font-weight:700;color:#b388ff;font-family:'Space Mono',monospace;cursor:pointer;position:relative;overflow:hidden;" onclick="window.open('https://waylight.me/tru/community/0c74c-db858','_blank')">
-              <img loading="lazy" src="icons/39 PRIVATE GROUP.webp" style="width:64px;height:64px;object-fit:contain;"> PRIVATE<br>GROUP
+              <img loading="lazy" src="icons/39 PRIVATE GROUP.webp" style="width:24px;height:24px;object-fit:contain;"> PRIVATE<br>GROUP
             </div>
           </div>
 
@@ -15951,7 +15951,7 @@ function opRenderProfile() {
   setTxt('oc-card-name-txt', 'ORACLE USER');
   setTxt('oc-card-rank-txt', rank);
   setTxt('oc-card-since-txt', `SINCE ${profGetJoinDate()} · ELCARO`);
-  setTxt('oc-card-title-badge-txt', `<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> ${rank} · Oracle Covenant`);
+  { const _e=document.getElementById('oc-card-title-badge-txt'); if(_e) _e.innerHTML=`<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> ${rank} · Oracle Covenant`; }
   setTxt('oracle-card-score-val', score);
   setTxt('oracle-card-streak', (OC.streak||0)+'🔥');
   setTxt('oracle-card-forecasts', OC.ownedForecasts.length);
@@ -16219,6 +16219,10 @@ function placeBet(side) {
       ocSave();
       saveArenaStakes();
       window._opCurrentDuelId = null;
+      // Save to myBets for MY BETS tab
+      if (!OC_EXT.myBets) OC_EXT.myBets = [];
+      const odds = (d.totalPool / (duelSide==='yes'?d.poolYes:d.poolNo) * 0.9);
+      OC_EXT.myBets.push({ asset:d.asset, tf:d.tf, dir:d.oracleCall, side:duelSide.toUpperCase(), amt:opCurrentBetAmt, payout:Math.round(opCurrentBetAmt*odds), date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', source:'arena' });
       showToast('🔮 ' + opCurrentBetAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> staked on ' + duelSide.toUpperCase() + '! 🏆');
       return;
     }
@@ -16516,6 +16520,10 @@ function confirmVerdictBet() {
   // Hide verdict buttons for this card
   if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   closeOverlay('verdict-overlay');
+  // Save to myBets for MY BETS tab
+  if (!OC_EXT.myBets) OC_EXT.myBets = [];
+  const mult = _vbSide==='yes' ? 2.25 : 1.75;
+  OC_EXT.myBets.push({ asset:_vbAsset, tf:_vbTF, dir:_vbSide==='yes'?'BULL':'BEAR', side:_vbSide.toUpperCase(), amt:_vbStake, payout:Math.round(_vbStake*mult), date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', source:'verdict' });
   showToast('🔮 Verdict placed! '+_vbStake+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+_vbSide.toUpperCase()+' · '+_vbAsset+' '+_vbTF);
   opAdvanceQuest && opAdvanceQuest('wq2');
   ocSave();
@@ -16683,6 +16691,7 @@ const TRADER_DATA = {
   sol_oracle:    { avatar:'◎',  rank:'Bronze Seer',    score:62,  accuracy:'62%', forecasts:54,   rankLabel:'Bronze',  rankColor:'var(--bronze)',  verified:false, action:'BUYING',   asset:'SOL',  pos:'LONG',  tf:'1H', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#100a00,#1a1400)', avatarBorder:'rgba(205,127,50,.2)', earn:20 },
   legend_01:     { avatar:'👑', rank:'Diamond Oracle', score:97,  accuracy:'97%', forecasts:1204, rankLabel:'Diamond', rankColor:'var(--diamond)', verified:true,  action:'BUYING',   asset:'SPX',  pos:'LONG',  tf:'1M', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#0d0010,#1a0020)', avatarBorder:'rgba(168,237,255,.3)', earn:50 },
   eth_wizard:    { avatar:'Ξ',  rank:'Silver Seer',    score:74,  accuracy:'74%', forecasts:163,  rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'BUYING',   asset:'ETH',  pos:'LONG',  tf:'4H', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#050520,#0a0a30)', avatarBorder:'rgba(98,126,234,.25)',earn:20 },
+  silver_prophet:{ avatar:'🌙', rank:'Silver Seer',    score:79,  accuracy:'79%', forecasts:156,  rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'WATCHING', asset:null,   pos:null,    tf:'1D', statusColor:'var(--text2)',  statusDot:'ls-idle', avatarBg:'linear-gradient(135deg,#0a0a15,#151525)', avatarBorder:'rgba(192,192,192,.2)', earn:20 },
 };
 
 let _tradersFilter = 'all';
@@ -18714,9 +18723,21 @@ function ocRenderMyBets() {
 }
 
 function ocRenderLeaderboard() {
-  // Already static but we update the YOU row with real score
-  const youScore = document.querySelectorAll('#oc-view-leaderboard .lb-score');
-  // update YOUR SCORE from OC if possible
+  // Update the YOU row with real score
+  const youRow = document.querySelector('#oc-view-leaderboard .lb-row.me');
+  if (!youRow) return;
+  const s = OC.streak || 0, a = OC.accuracy || 0, d = OC.daysActive || 1;
+  const score = Math.min(100, Math.round((a * 0.4) + (Math.min(s, 60) / 60 * 30) + (Math.min(d, 180) / 180 * 30)));
+  let rankLabel, rankColor;
+  if (score >= 90)      { rankLabel='Diamond Oracle'; rankColor='var(--diamond)'; }
+  else if (score >= 75) { rankLabel='Gold Oracle';    rankColor='var(--gold)'; }
+  else if (score >= 55) { rankLabel='Silver Seer';    rankColor='var(--silver)'; }
+  else if (score >= 35) { rankLabel='Bronze Seer';    rankColor='var(--bronze)'; }
+  else                  { rankLabel='Novice';         rankColor='var(--text2)'; }
+  const scoreEl = youRow.querySelector('.lb-score');
+  if (scoreEl) { scoreEl.textContent = score; scoreEl.style.color = rankColor; }
+  const subEl = youRow.querySelector('.lb-sub');
+  if (subEl) { subEl.textContent = rankLabel + ' · ' + OC.ownedForecasts.length + ' forecasts'; subEl.style.color = rankColor; }
 }
 
 function ocRenderOracleTraders() {
