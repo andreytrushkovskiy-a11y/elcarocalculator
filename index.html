@@ -133,24 +133,18 @@ body {
 .mode-switcher::-webkit-scrollbar { display:none; }
 .mode-btn { flex:1; min-width:55px; }
 .mode-btn {
-  flex:1; padding:9px 12px; border-radius:10px; border:2px solid transparent;
+  flex:1; padding:9px 12px; border-radius:10px; border:none;
   background:transparent; font-family:'Space Mono',monospace;
   font-size:10px; font-weight:800; letter-spacing:.6px;
-  color:#444; cursor:pointer; transition:all .2s ease;
+  color:#444; cursor:pointer; transition:all .18s;
   display:flex; align-items:center; justify-content:center; gap:5px;
 }
 .mode-btn.active {
-  background:#0a0a0a !important;
-  border-color:#ff6a00 !important;
-  color:#ff6a00 !important;
-  box-shadow:0 0 12px rgba(255,106,0,.3), inset 0 0 8px rgba(255,106,0,.05);
-  transform:scale(1.05);
+  background:linear-gradient(135deg,#ff6a00,#f5a623) !important;
+  color:#000 !important;
+  box-shadow:0 2px 16px rgba(255,106,0,.25);
 }
-.mode-btn:hover:not(.active) { color:#888; background:rgba(255,106,0,.04); transform:scale(1.03); }
-.mode-btn:active { transform:scale(.97); }
-.mode-btn img { transition:transform .2s ease; }
-.mode-btn:hover img { transform:scale(1.15); }
-.mode-btn.active img { filter:drop-shadow(0 0 4px rgba(255,106,0,.5)); }
+.mode-btn:hover:not(.active) { color:#888; background:rgba(255,106,0,.04); }
 
 /* ── AVG ASSET SELECTOR ── */
 .avg-asset-bar {
@@ -692,14 +686,12 @@ body {
 .tools-launcher-btn {
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:5px;padding:18px 8px 14px;border-radius:16px;cursor:pointer;
-  transition:transform .22s ease,box-shadow .22s ease,background .2s,border-color .2s;
+  transition:transform .18s,box-shadow .18s,background .2s;
   text-align:center;min-height:110px;
 }
-.tools-launcher-btn:active { transform:scale(.95); }
-.tools-launcher-btn:hover { transform:translateY(-3px) scale(1.04);box-shadow:0 8px 28px rgba(255,106,0,.15),0 4px 12px rgba(0,0,0,.3); border-color:rgba(255,106,0,.4) !important; }
-.tools-launcher-btn:hover .tlb-icon img { transform:scale(1.12); filter:drop-shadow(0 0 6px rgba(255,106,0,.4)); }
+.tools-launcher-btn:active { transform:scale(.96); }
+.tools-launcher-btn:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25); }
 .tlb-icon { line-height:1; }
-.tlb-icon img { transition:transform .22s ease,filter .22s ease; }
 .tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; }
 .tlb-sub  { font-size:8px;color:#666;font-family:'Space Mono',monospace;letter-spacing:.3px; }
 
@@ -2246,23 +2238,19 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .op-tab {
   flex:1; padding:6px 2px; text-align:center;
   font-size:8px; font-weight:700; letter-spacing:.5px;
-  color:#555; cursor:pointer; transition:all .2s ease;
+  color:#555; cursor:pointer; transition:all .15s;
   font-family:'DM Sans',Outfit,sans-serif;
-  border:2px solid transparent; border-radius:10px;
+  border-bottom:2px solid transparent;
 }
 #oracle-panel .op-tab.active {
-  background:#0a0a0a;
-  border-color:#ff6a00;
-  color:#ff6a00; font-weight:800; font-size:9px;
-  box-shadow:0 0 10px rgba(255,106,0,.25);
-  transform:scale(1.05);
+  background:linear-gradient(135deg,#ff6a00,#f5a623);
+  color:#000; font-weight:800; font-size:9px;
+  border-radius:10px; border-bottom-color:transparent;
+  box-shadow:0 2px 12px rgba(255,106,0,.25);
 }
-#oracle-panel .op-tab.active .op-tab-icon img { filter:drop-shadow(0 0 4px rgba(255,106,0,.5)); }
-.op-tab:hover:not(.active) { color:#888; transform:scale(1.03); }
-.op-tab:active { transform:scale(.96); }
-#oracle-panel .op-tab .op-tab-icon { display:block; margin-bottom:1px; transition:all .2s ease; }
-#oracle-panel .op-tab .op-tab-icon img { transition:transform .2s ease,filter .2s ease; }
-#oracle-panel .op-tab:hover .op-tab-icon img { transform:scale(1.15); }
+#oracle-panel .op-tab.active .op-tab-icon { font-size:17px; }
+.op-tab:hover:not(.active) { color:#888; }
+#oracle-panel .op-tab .op-tab-icon { font-size:14px; display:block; margin-bottom:1px; transition:font-size .15s; }
 
 /* Oracle body */
 #oracle-panel .op-body {
@@ -4179,17 +4167,17 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === EQUAL-WIDTH GROUP: ALERTS · STRADDLE · ELCARO · GUILD === -->
     <button class="mode-btn active" id="mode-alerts-nav" onclick="setMode('alerts')"
       title="Trading Filter Alerts" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/alerts.png" style="width:24px;height:24px;vertical-align:middle;"> ALERTS
+      <img src="icons/alerts.png" style="width:18px;height:18px;vertical-align:middle;"> ALERTS
     </button>
 
     <button class="mode-btn" id="mode-straddle" onclick="setMode('straddle')" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/range.png" style="width:24px;height:24px;vertical-align:middle;"> RANGE
+      <img src="icons/range.png" style="width:18px;height:18px;vertical-align:middle;"> RANGE
     </button>
 
     <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
       title="ORACLE — Vault, Market, News, Profile"
       style="flex:1;min-width:0;color:var(--orange);">
-      <img src="icons/elcaro.png" style="width:24px;height:24px;vertical-align:middle;"> ELCARO
+      <img src="icons/elcaro.png" style="width:18px;height:18px;vertical-align:middle;"> ELCARO
     </button>
 
     <!-- Divider -->
@@ -4197,13 +4185,13 @@ input[type=range]::-webkit-slider-thumb {
 
     <!-- === ICON-ONLY GROUP: TOOLS · MARKET === -->
     <button class="mode-btn" id="mode-tools-group" onclick="setMode('tools')"
-      title="Tools" style="flex:0 0 48px;padding:8px 0;justify-content:center;">
-      <img src="icons/tools.png" style="width:28px;height:28px;">
+      title="Tools" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
+      <img src="icons/tools.png" style="width:22px;height:22px;">
     </button>
 
     <button class="mode-btn" id="mode-market-group" onclick="setMode('market')"
-      title="Market Data" style="flex:0 0 48px;padding:8px 0;justify-content:center;">
-      <img src="icons/market-data.png" style="width:28px;height:28px;">
+      title="Market Data" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
+      <img src="icons/market-data.png" style="width:22px;height:22px;">
     </button>
 
 
@@ -4496,7 +4484,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- PORTFOLIO -->
     <div onclick="setMode('portfolio')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/portfolio.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/portfolio.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--emerald);">PORTFOLIO</div>
       <div class="tlb-sub">Tracker &amp; P&amp;L</div>
     </div>
@@ -4504,21 +4492,21 @@ input[type=range]::-webkit-slider-thumb {
     <!-- AGENT -->
     <div onclick="setMode('agent')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,106,0,.07),rgba(255,106,0,.03));border:1px solid rgba(255,106,0,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/agent.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/agent.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--orange);">AGENT</div>
       <div class="tlb-sub">AI Allocation</div>
     </div>
 
     <!-- AVG SIZER -->
     <div onclick="setMode('avg')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.2);">
-      <div class="tlb-icon"><img src="icons/avg-sizer.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/avg-sizer.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--gold);">AVG SIZER</div>
       <div class="tlb-sub">Position Size</div>
     </div>
 
     <!-- FUNDING -->
     <div onclick="setMode('funding')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.2);">
-      <div class="tlb-icon"><img src="icons/funding.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/funding.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--cyan);">FUNDING</div>
       <div class="tlb-sub">Rate Calc</div>
     </div>
@@ -4526,14 +4514,14 @@ input[type=range]::-webkit-slider-thumb {
     <!-- EXCHANGE -->
     <div onclick="setMode('exchange')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,200,255,.07),rgba(0,200,255,.03));border:1px solid rgba(0,200,255,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/exchange.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/exchange.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:#00c8ff;">EXCHANGE</div>
       <div class="tlb-sub">BloFin Trading</div>
     </div>
 
     <!-- PNL TRACKER -->
     <div onclick="setMode('pnl')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.2);">
-      <div class="tlb-icon"><img src="icons/pnl.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/pnl.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:#22c55e;">PNL</div>
       <div class="tlb-sub">Trade Tracker</div>
     </div>
@@ -4541,14 +4529,14 @@ input[type=range]::-webkit-slider-thumb {
     <!-- RSI TEST -->
     <div onclick="setMode('rsi-test')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(180,100,255,.07),rgba(180,100,255,.03));border:1px solid rgba(180,100,255,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#b464ff;box-shadow:0 0 6px #b464ff;animation:pulse-dot 2s infinite;"></span>
-      <div class="tlb-icon"><img src="icons/rsi-test.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/rsi-test.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:#b464ff;">RSI TEST</div>
       <div class="tlb-sub">Auto Alerts Demo</div>
     </div>
 
     <!-- F&G -->
     <div onclick="setMode('fgi')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,61,87,.07),rgba(255,61,87,.03));border:1px solid rgba(255,61,87,.2);">
-      <div class="tlb-icon"><img src="icons/fg.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/fg.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--red);">F&amp;G</div>
       <div class="tlb-sub">Fear &amp; Greed</div>
     </div>
@@ -4556,7 +4544,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- GEO -->
     <div onclick="setMode('geo')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(92,107,192,.07),rgba(92,107,192,.03));border:1px solid rgba(92,107,192,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/geo.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/geo.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:#7986cb;">GEO</div>
       <div class="tlb-sub">Geopolitical</div>
     </div>
@@ -4564,7 +4552,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- GPR -->
     <div onclick="setMode('gpr')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(245,166,35,.07),rgba(245,166,35,.03));border:1px solid rgba(245,166,35,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/gpr.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/gpr.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--orange);">GPR</div>
       <div class="tlb-sub">Risk Index</div>
     </div>
@@ -4572,7 +4560,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- ECON -->
     <div onclick="setMode('econ')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(124,77,255,.03));border:1px solid rgba(124,77,255,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/econ.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/econ.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--purple2);">ECON</div>
       <div class="tlb-sub">Calendar</div>
     </div>
@@ -4580,7 +4568,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- API -->
     <div onclick="setMode('ai-settings')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(137,212,245,.07),rgba(137,212,245,.03));border:1px solid rgba(137,212,245,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon"><img src="icons/api.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/api.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--diamond);">API</div>
       <div class="tlb-sub">Anthropic Key</div>
     </div>
@@ -4594,31 +4582,31 @@ input[type=range]::-webkit-slider-thumb {
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px;">
 
     <div onclick="setMode('chart')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(100,149,237,.08),rgba(100,149,237,.03));border:1px solid rgba(100,149,237,.2);">
-      <div class="tlb-icon"><img src="icons/chart.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon" style="font-size:28px;">📈</div>
       <div class="tlb-name" style="color:#6495ed;">CHART</div>
       <div class="tlb-sub">Live Price</div>
     </div>
 
     <div onclick="setMode('heatmap-stock')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);">
-      <div class="tlb-icon"><img src="icons/stock-map.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon" style="font-size:28px;">🟦</div>
       <div class="tlb-name" style="color:var(--emerald);">STOCK MAP</div>
       <div class="tlb-sub">Equities</div>
     </div>
 
     <div onclick="setMode('heatmap-crypto')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.2);">
-      <div class="tlb-icon"><img src="icons/crypto-map.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon" style="font-size:28px;">🔶</div>
       <div class="tlb-name" style="color:var(--gold);">CRYPTO MAP</div>
       <div class="tlb-sub">Crypto</div>
     </div>
 
     <div onclick="setMode('calendar')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(124,77,255,.03));border:1px solid rgba(124,77,255,.2);">
-      <div class="tlb-icon"><img src="icons/calendar.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon" style="font-size:28px;">📆</div>
       <div class="tlb-name" style="color:var(--purple2);">CALENDAR</div>
       <div class="tlb-sub">Events</div>
     </div>
 
     <div onclick="setMode('news')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.2);">
-      <div class="tlb-icon"><img src="icons/news.png" style="width:48px;height:48px;"></div>
+      <div class="tlb-icon"><img src="icons/news.png" style="width:36px;height:36px;"></div>
       <div class="tlb-name" style="color:var(--cyan);">NEWS</div>
       <div class="tlb-sub">Telegram &amp; YouTube</div>
     </div>
@@ -11566,25 +11554,25 @@ function initSigmaButtons() {
     <!-- Tabs -->
     <div class="op-tabs" id="op-tabs-row" style="overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
       <div class="op-tab active" onclick="oracleTab('vault',this)">
-        <span class="op-tab-icon"><img src="icons/vault.png" style="width:24px;height:24px;vertical-align:middle;"></span>VAULT
+        <span class="op-tab-icon"><img src="icons/vault.png" style="width:18px;height:18px;vertical-align:middle;"></span>VAULT
       </div>
       <div class="op-tab" onclick="oracleTab('quests',this)">
-        <span class="op-tab-icon"><img src="icons/quests.png" style="width:24px;height:24px;vertical-align:middle;"></span>QUESTS
+        <span class="op-tab-icon"><img src="icons/quests.png" style="width:18px;height:18px;vertical-align:middle;"></span>QUESTS
       </div>
       <div class="op-tab" onclick="oracleTab('prophecies',this)">
-        <span class="op-tab-icon"><img src="icons/arena.png" style="width:24px;height:24px;vertical-align:middle;"></span>ARENA
+        <span class="op-tab-icon"><img src="icons/arena.png" style="width:18px;height:18px;vertical-align:middle;"></span>ARENA
       </div>
       <div class="op-tab" onclick="oracleTab('news',this)">
-        <span class="op-tab-icon"><img src="icons/news.png" style="width:24px;height:24px;vertical-align:middle;"></span>NEWS
+        <span class="op-tab-icon"><img src="icons/news.png" style="width:18px;height:18px;vertical-align:middle;"></span>NEWS
       </div>
       <div class="op-tab" onclick="oracleTab('oracle',this)">
-        <span class="op-tab-icon"><img src="icons/oracle.png" style="width:24px;height:24px;vertical-align:middle;"></span>ORACLE
+        <span class="op-tab-icon"><img src="icons/oracle.png" style="width:18px;height:18px;vertical-align:middle;"></span>ORACLE
       </div>
       <div class="op-tab" onclick="oracleTab('profile',this)">
-        <span class="op-tab-icon"><img src="icons/profile.png" style="width:24px;height:24px;vertical-align:middle;"></span>PROFILE
+        <span class="op-tab-icon"><img src="icons/profile.png" style="width:18px;height:18px;vertical-align:middle;"></span>PROFILE
       </div>
       <div class="op-tab" onclick="oracleTab('guild',this)">
-        <span class="op-tab-icon"><img src="icons/guild.png" style="width:24px;height:24px;vertical-align:middle;"></span>GUILD
+        <span class="op-tab-icon"><img src="icons/guild.png" style="width:18px;height:18px;vertical-align:middle;"></span>GUILD
       </div>
     </div>
 
