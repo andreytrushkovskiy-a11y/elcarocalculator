@@ -4418,6 +4418,7 @@ input[type=range]::-webkit-slider-thumb {
         AUTO-FILL
       </button>
       <button class="btn-calc" onclick="calculate()">⚡ CALCULATE</button>
+      <button class="btn-calc" id="calc-all-btn" onclick="calculateAllDates()" style="background:linear-gradient(135deg,#6495ed,#4169e1);margin-top:6px;font-size:11px;padding:10px;">📊 CALCULATE ALL DATES</button>
 
     </div>
   </div>
@@ -7433,6 +7434,79 @@ async function autoFillFromDeribit() {
     btn.innerHTML = `${SVG_FILL} AUTO-FILL`;
     showToast(`⚠ ${err.message.slice(0, 70)}`);
   }
+}
+
+// ═══════════════════ CALCULATE ALL DATES ═══════════════════
+async function calculateAllDates() {
+  if (!availableExpiries || !availableExpiries.length) {
+    showToast('⚠ No expiry dates loaded'); return;
+  }
+  const btn = document.getElementById('calc-all-btn');
+  const origText = btn.innerHTML;
+  btn.disabled = true;
+  btn.style.opacity = '.6';
+
+  const asset = currentAsset;
+  const total = availableExpiries.length;
+  let success = 0, failed = 0;
+
+  for (let i = 0; i < total; i++) {
+    const iso = availableExpiries[i];
+    btn.innerHTML = `⏳ ${i+1}/${total} — ${fmtExpiry(iso)}...`;
+
+    selectDate(iso, false);
+
+    try {
+      const d = new Date(iso + 'T12:00:00Z');
+      const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+      const expiry = `${d.getUTCDate()}${months[d.getUTCMonth()]}${String(d.getUTCFullYear()).slice(2)}`;
+
+      const INDEX_NAMES = { BTC:'btc_usd', ETH:'eth_usd', SOL:'sol_usdc' };
+      const indexName = INDEX_NAMES[asset] || `${asset.toLowerCase()}_usd`;
+      const indexData = await deribitCall('public/get_index_price', { index_name: indexName });
+      const spot = parseFloat(indexData.index_price);
+      if (!spot || isNaN(spot)) throw new Error('No spot');
+
+      const params = getDeribitParams(asset);
+      const all = await deribitCall('public/get_instruments', {...params, kind:'option', expired:false});
+      const filt = filterInstruments(all, asset);
+      const expiryFilt = filt.filter(x => x.instrument_name.includes(`-${expiry}-`));
+      if (!expiryFilt.length) throw new Error('No options');
+
+      const strikes = [...new Set(expiryFilt.map(x => x.strike))].sort((a,b) => a - b);
+      const atmStrike = strikes.reduce((p, c) => Math.abs(c - spot) < Math.abs(p - spot) ? c : p, strikes[0]);
+
+      const prefix = DERIBIT_LINEAR.includes(asset) ? `${asset}_USDC` : asset;
+      const [callT, putT] = await Promise.all([
+        deribitCall('public/ticker', { instrument_name: `${prefix}-${expiry}-${atmStrike}-C` }),
+        deribitCall('public/ticker', { instrument_name: `${prefix}-${expiry}-${atmStrike}-P` }),
+      ]);
+
+      const isInverse = DERIBIT_INVERSE.includes(asset);
+      const callUSD = isInverse ? callT.mark_price * spot : callT.mark_price;
+      const putUSD  = isInverse ? putT.mark_price  * spot : putT.mark_price;
+
+      const rnd = p => p >= 100 ? Math.round(p) : p >= 10 ? Math.round(p*10)/10 : Math.round(p*100)/100;
+      document.getElementById('inp-spot').value = rnd(spot);
+      document.getElementById('inp-call').value = rnd(callUSD);
+      document.getElementById('inp-put').value  = rnd(putUSD);
+      liveCalc();
+      calculate();
+      success++;
+    } catch(e) {
+      failed++;
+    }
+    // Small delay to not hammer API
+    if (i < total - 1) await new Promise(r => setTimeout(r, 300));
+  }
+
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.innerHTML = origText;
+  showToast(`✅ ${success}/${total} dates calculated` + (failed ? ` · ${failed} failed` : '') + ' — check TIMELINE');
+
+  // Switch to timeline view if enough data
+  if (calcHistory.length >= 2) setViz(4);
 }
 
 // ═══════════════════ TOAST ═══════════════════
