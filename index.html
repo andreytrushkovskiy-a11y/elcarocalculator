@@ -755,7 +755,7 @@ body {
 .tools-launcher-btn:active { transform:scale(.95); }
 .tools-launcher-btn:hover { transform:translateY(-3px) scale(1.06);box-shadow:0 0 16px rgba(255,106,0,.25), 0 8px 24px rgba(0,0,0,.3); }
 .tlb-icon { line-height:1; display:flex; align-items:center; justify-content:center; transition:all .25s ease; }
-.tlb-icon img { width:120px; height:120px; object-fit:contain; transition:all .25s ease; }
+.tlb-icon img { width:96px; height:96px; object-fit:contain; transition:all .25s ease; }
 .tools-launcher-btn:hover .tlb-icon img { transform:scale(1.1); filter:brightness(1.2); }
 .tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; transition:all .25s; }
 .tools-launcher-btn:hover .tlb-name { color:#fff !important; }
@@ -1576,13 +1576,13 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 /* ── SPIN TRIGGER ── */
 #oracle-panel .spin-trigger {
   margin:0 12px 10px; background:linear-gradient(135deg,#100818,#0a0a18);
-  border:1px solid rgba(124,77,255,.5); border-radius:18px; padding:18px;
+  border:1px solid rgba(124,77,255,.5); border-radius:18px; padding:10px 14px;
   cursor:pointer; display:flex; align-items:center; gap:14px;
   transition:all .2s; box-shadow:0 0 18px rgba(124,77,255,.1);
 }
 #oracle-panel .spin-trigger:active { transform:scale(.98); }
 #oracle-panel .spin-cta-pill { background:#7c4dff; color:white; border-radius:10px; padding:7px 14px; font-size:11px; font-weight:700; white-space:nowrap; }
-#oracle-panel .spin-title-txt { font-size:13px; font-weight:800; color:#b388ff; margin-bottom:2px; }
+#oracle-panel .spin-title-txt { font-size:13px; font-weight:800; color:#b388ff; margin-bottom:2px; white-space:nowrap; }
 #oracle-panel .spin-sub-txt { font-size:9px; color:#777; font-family:'Space Mono',monospace; }
 
 /* ── CHEST GRID ── */
@@ -2435,7 +2435,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .spin-trigger {
   margin:0 12px 12px;
   background:linear-gradient(135deg,#0d0d1a,#1a0a2e);
-  border:1px solid #6c3fff; border-radius:16px; padding:16px;
+  border:1px solid #6c3fff; border-radius:16px; padding:10px 14px;
   cursor:pointer; display:flex; align-items:center; gap:12px;
 }
 
@@ -4566,7 +4566,7 @@ input[type=range]::-webkit-slider-thumb {
 <!-- ══ TOOLS LAUNCHER ══ -->
 <div id="tools-section" style="display:none;max-width:500px;margin:0 auto;padding:8px 4px 20px;">
   <div style="font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;letter-spacing:1.5px;text-align:center;margin-bottom:18px;padding-top:8px;">SELECT TOOL</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px;">
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 4px;">
 
     <!-- PORTFOLIO -->
     <div onclick="setMode('portfolio')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);position:relative;">
@@ -4666,7 +4666,7 @@ input[type=range]::-webkit-slider-thumb {
 <!-- ══ MARKET LAUNCHER ══ -->
 <div id="market-section" style="display:none;max-width:500px;margin:0 auto;padding:8px 4px 20px;">
   <div style="font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;letter-spacing:1.5px;text-align:center;margin-bottom:18px;padding-top:8px;">MARKET DATA</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px;">
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 4px;">
 
     <div onclick="setMode('chart')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(100,149,237,.08),rgba(100,149,237,.03));border:1px solid rgba(100,149,237,.2);">
       <div class="tlb-icon"><img loading="lazy" src="icons/18 CHART.webp"></div>
@@ -11728,7 +11728,7 @@ function initSigmaButtons() {
 
 
 <!-- ═══════════════════════════════════════
-     👁 ORACLE PANEL — Full Functional
+     <img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE PANEL — Full Functional
      ═══════════════════════════════════════ -->
 <div id="elcaro-section" style="display:none;max-width:500px;margin:0 auto;">
   <div id="oracle-panel">
@@ -11810,7 +11810,7 @@ function initSigmaButtons() {
         <div class="qi-desc">OPEN ANY BTC TIMEFRAME</div>
         <div class="qi-bar"><div class="qi-bar-fill" style="width:100%"></div></div>
       </div>
-      <div class="qi-reward"><div class="qi-coins">+30⬡</div><div class="qi-extra">DONE ✓</div></div>
+      <div class="qi-reward"><div class="qi-coins">+30<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="qi-extra">DONE ✓</div></div>
     </div>
     <div class="quest-item" onclick="shareToTelegram()">
       <div class="qi-icon"><img loading="lazy" src="icons/quest Share to Telegram.webp" style="width:144px;height:144px;object-fit:contain;"></div>
@@ -11819,7 +11819,7 @@ function initSigmaButtons() {
         <div class="qi-desc">REPOST ANY ORACLE SIGNAL</div>
         <div class="qi-bar"><div class="qi-bar-fill" style="width:0%"></div></div>
       </div>
-      <div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--wood)">+BRONZE</div></div>
+      <div class="qi-reward"><div class="qi-coins">+50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="qi-extra" style="color:var(--wood)">+BRONZE</div></div>
     </div>
     <div class="quest-item" onclick="showToast('Check 3 assets → +20 coins')">
       <div class="qi-icon"><img loading="lazy" src="icons/quest Browse 3 Assets.webp" style="width:144px;height:144px;object-fit:contain;"></div>
@@ -11828,7 +11828,7 @@ function initSigmaButtons() {
         <div class="qi-desc">1 / 3 ASSETS VIEWED TODAY</div>
         <div class="qi-bar"><div class="qi-bar-fill" style="width:33%"></div></div>
       </div>
-      <div class="qi-reward"><div class="qi-coins">+20⬡</div><div class="qi-extra" style="color:var(--text3)">1/3</div></div>
+      <div class="qi-reward"><div class="qi-coins">+20<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="qi-extra" style="color:var(--text3)">1/3</div></div>
     </div>
 
     <!-- ORACLE SPIN -->
@@ -11850,25 +11850,25 @@ function initSigmaButtons() {
             <div><img loading="lazy" src="icons/wooden chest.webp" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#c8961e;margin:3px 0 2px;">WOODEN</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">1-2 forecasts</div>
-            <div style="font-size:9px;font-weight:700;background:rgba(139,105,20,.2);color:#c8961e;border-radius:7px;padding:2px 6px;">200⬡</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(139,105,20,.2);color:#c8961e;border-radius:7px;padding:2px 6px;">200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
           <div class="chest-card" style="border-color:#cd7f32;" onclick="orcBuyChest('bronze')">
             <div><img loading="lazy" src="icons/bronze chest.webp" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#cd7f32;margin:3px 0 2px;">BRONZE</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">2-3 forecasts</div>
-            <div style="font-size:9px;font-weight:700;background:rgba(205,127,50,.2);color:#cd7f32;border-radius:7px;padding:2px 6px;">800⬡</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(205,127,50,.2);color:#cd7f32;border-radius:7px;padding:2px 6px;">800<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
           <div class="chest-card" style="border-color:#C0C0C0;" onclick="orcBuyChest('silver')">
             <div><img loading="lazy" src="icons/silver chest.webp" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#C0C0C0;margin:3px 0 2px;">SILVER</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">3-5 forecasts</div>
-            <div style="font-size:9px;font-weight:700;background:rgba(192,192,192,.1);color:#C0C0C0;border-radius:7px;padding:2px 6px;">2,000⬡</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(192,192,192,.1);color:#C0C0C0;border-radius:7px;padding:2px 6px;">2,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
           <div class="chest-card" style="border-color:#ffd700;" onclick="orcBuyChest('gold')">
             <div><img loading="lazy" src="icons/gold chest.webp" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#ffd700;margin:3px 0 2px;">GOLD</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">5-8 forecasts</div>
-            <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000⬡</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
         </div>
         <div style="padding:0 12px 16px;">
@@ -11876,7 +11876,7 @@ function initSigmaButtons() {
             <div><img loading="lazy" src="icons/diamond chest.webp" style="width:150px;height:150px;object-fit:contain;"></div>
             <div style="font-size:13px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">10+ forecasts · All timeframes</div>
-            <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 8px;display:inline-block;">15,000⬡</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 8px;display:inline-block;">15,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
         </div>
       </div>
@@ -11958,7 +11958,7 @@ function initSigmaButtons() {
         <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px;height:120px;">
           <!-- YES side -->
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
-            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">31,200⬡</div>
+            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">31,200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(0,230,118,.4),rgba(0,230,118,.15));border:1px solid rgba(0,230,118,.3);border-bottom:none;height:40%;min-height:20px;position:relative;">
               <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✓</div>
             </div>
@@ -11967,12 +11967,12 @@ function initSigmaButtons() {
           <!-- Center total -->
           <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:60px;">
             <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;letter-spacing:1px;">TOTAL</div>
-            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">78,400⬡</div>
+            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">78,400<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">40% / 60%</div>
           </div>
           <!-- NO side -->
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
-            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">47,200⬡</div>
+            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">47,200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(255,59,92,.4),rgba(255,59,92,.15));border:1px solid rgba(255,59,92,.3);border-bottom:none;height:60%;min-height:20px;position:relative;">
               <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✗</div>
             </div>
@@ -11991,7 +11991,7 @@ function initSigmaButtons() {
     <div class="verdict-item">
       <div class="verdict-header">
         <div class="verdict-asset-row">
-          <div class="verdict-icon" style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2)">⬡</div>
+          <div class="verdict-icon" style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2)"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           <div style="flex:1"><div class="verdict-asset-name">GOLD / XAU</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:1px;">SPOT · USD</div></div>
           <div class="verdict-tf-badge" style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:var(--gold)" id="gold-verdict-tf-badge">1M</div>
         </div>
@@ -11999,7 +11999,7 @@ function initSigmaButtons() {
         <div class="verdict-expire">⏳ Closes: Jun 30 '26 00:00 UTC · <span style="color:var(--gold)">MONTHLY TF</span></div>
       </div>
       <div class="verdict-body">
-        <div class="verdict-oracle-pos">👁 ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — YES</strong> · Confidence: <span style="color:var(--gold)">71%</span></div>
+        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — YES</strong> · Confidence: <span style="color:var(--gold)">71%</span></div>
         <div style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-bottom:6px;">SELECT TIMEFRAME TO BET ON:</div>
         <div class="verdict-tf-row" id="gold-tf-row">
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'gold','1H')">1H</button>
@@ -12010,7 +12010,7 @@ function initSigmaButtons() {
         </div>
         <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px;height:120px;">
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
-            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">142,000⬡</div>
+            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">142,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(0,230,118,.4),rgba(0,230,118,.15));border:1px solid rgba(0,230,118,.3);border-bottom:none;height:68%;min-height:20px;position:relative;">
               <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✓</div>
             </div>
@@ -12018,11 +12018,11 @@ function initSigmaButtons() {
           </div>
           <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:60px;">
             <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;letter-spacing:1px;">TOTAL</div>
-            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">210,000⬡</div>
+            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">210,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">68% / 32%</div>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
-            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">68,000⬡</div>
+            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">68,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(255,59,92,.4),rgba(255,59,92,.15));border:1px solid rgba(255,59,92,.3);border-bottom:none;height:32%;min-height:20px;position:relative;">
               <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✗</div>
             </div>
@@ -12031,8 +12031,8 @@ function initSigmaButtons() {
         </div>
         <div class="verdict-my-bet" id="gold-my-bet">✓ YOUR BET: <span id="gold-bet-label">—</span></div>
         <div class="verdict-btns">
-          <button class="verdict-btn-yes" onclick="openVerdictBet('GOLD','GOLD/XAU','⬡','1M','Bull','gold','yes')">✓ YES — WILL HIT</button>
-          <button class="verdict-btn-no" onclick="openVerdictBet('GOLD','GOLD/XAU','⬡','1M','Bull','gold','no')">✗ NO — WON'T</button>
+          <button class="verdict-btn-yes" onclick="openVerdictBet('GOLD','GOLD/XAU','<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">','1M','Bull','gold','yes')">✓ YES — WILL HIT</button>
+          <button class="verdict-btn-no" onclick="openVerdictBet('GOLD','GOLD/XAU','<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">','1M','Bull','gold','no')">✗ NO — WON'T</button>
         </div>
       </div>
     </div>
@@ -12049,7 +12049,7 @@ function initSigmaButtons() {
         <div class="verdict-expire">⏳ Closes: Mar 14 '26 23:59 UTC · <span style="color:var(--red)">BEAR ALERT</span></div>
       </div>
       <div class="verdict-body">
-        <div class="verdict-oracle-pos">👁 ORACLE: <strong style="color:var(--red);margin:0 4px">BEAR — YES, WILL DROP</strong> · Confidence: <span style="color:var(--gold)">65%</span></div>
+        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--red);margin:0 4px">BEAR — YES, WILL DROP</strong> · Confidence: <span style="color:var(--gold)">65%</span></div>
         <div style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-bottom:6px;">SELECT TIMEFRAME TO BET ON:</div>
         <div class="verdict-tf-row" id="spx-tf-row">
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'spx','4H')">4H</button>
@@ -12059,7 +12059,7 @@ function initSigmaButtons() {
         </div>
         <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px;height:120px;">
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
-            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">89,000⬡</div>
+            <div style="font-size:12px;font-weight:800;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:4px;">89,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(0,230,118,.4),rgba(0,230,118,.15));border:1px solid rgba(0,230,118,.3);border-bottom:none;height:46%;min-height:20px;position:relative;">
               <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✓</div>
             </div>
@@ -12067,11 +12067,11 @@ function initSigmaButtons() {
           </div>
           <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:60px;">
             <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;letter-spacing:1px;">TOTAL</div>
-            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">195,000⬡</div>
+            <div style="font-size:16px;font-weight:900;color:#ccc;font-family:'Space Mono',monospace;margin:4px 0;">195,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">46% / 54%</div>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">
-            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">106,000⬡</div>
+            <div style="font-size:12px;font-weight:800;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:4px;">106,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div style="width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(255,59,92,.4),rgba(255,59,92,.15));border:1px solid rgba(255,59,92,.3);border-bottom:none;height:54%;min-height:20px;position:relative;">
               <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;">✗</div>
             </div>
@@ -12101,9 +12101,9 @@ function initSigmaButtons() {
             <div class="om-tab" style="flex:none;padding:5px 10px;font-size:9px;" onclick="arenaFilter('mine',this)">MY BETS</div>
           </div>
           <div style="display:flex;gap:16px;padding:0 14px 12px;">
-            <div><div style="font-size:16px;font-weight:800;color:var(--gold);font-family:'Space Mono',monospace;" id="op-arena-pool">284,500⬡</div><div style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;">TOTAL POOL</div></div>
+            <div><div style="font-size:16px;font-weight:800;color:var(--gold);font-family:'Space Mono',monospace;" id="op-arena-pool">284,500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;">TOTAL POOL</div></div>
             <div><div style="font-size:16px;font-weight:800;color:var(--green);" id="op-arena-cnt">7</div><div style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;">ACTIVE DUELS</div></div>
-            <div><div style="font-size:16px;font-weight:800;color:var(--orange);font-family:'Space Mono',monospace;" id="op-arena-staked">0⬡</div><div style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;">MY STAKED</div></div>
+            <div><div style="font-size:16px;font-weight:800;color:var(--orange);font-family:'Space Mono',monospace;" id="op-arena-staked">0<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;">MY STAKED</div></div>
           </div>
           <div id="op-arena-list" style="padding:0 12px 16px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
@@ -12157,7 +12157,7 @@ function initSigmaButtons() {
         <span id="g-treasury-status-badge" style="font-size:8px;padding:2px 7px;border-radius:6px;background:rgba(0,230,118,.1);color:var(--emerald);font-family:'Space Mono',monospace;font-weight:700;">ACCUMULATING</span>
       </div>
       <div class="tc-row">
-        <div class="tc-item"><div class="tc-val" id="g-tc-coins">4,200</div><div class="tc-lbl">COINS ⬡</div></div>
+        <div class="tc-item"><div class="tc-val" id="g-tc-coins">4,200</div><div class="tc-lbl">COINS <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
         <div class="tc-item"><div class="tc-val" id="g-tc-chests">3</div><div class="tc-lbl">CHESTS 📦</div></div>
         <div class="tc-item"><div class="tc-val" id="g-tc-forecasts">7</div><div class="tc-lbl">FORECASTS 📄</div></div>
       </div>
@@ -12168,7 +12168,7 @@ function initSigmaButtons() {
     <div style="margin:0 12px 10px;background:var(--card);border:1px solid rgba(0,230,118,.15);border-radius:16px;padding:15px;">
       <div style="font-size:10px;color:var(--emerald);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px;">CONTRIBUTE TO TREASURY <span style="color:#555;font-weight:400">· builds guild rank</span></div>
       <div style="display:flex;gap:8px;">
-        <button onclick="guildContributeCoins()" style="flex:1;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--emerald);cursor:pointer;">+100⬡<br><span style="font-size:9px;font-weight:400;color:#555">COINS</span></button>
+        <button onclick="guildContributeCoins()" style="flex:1;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--emerald);cursor:pointer;">+100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"><br><span style="font-size:9px;font-weight:400;color:#555">COINS</span></button>
         <button onclick="openGuildContribModal('chest')" style="flex:1;background:rgba(139,105,20,.1);border:1px solid rgba(139,105,20,.25);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#c8961e;cursor:pointer;">📦 CHEST<br><span style="font-size:9px;font-weight:400;color:#555">FROM VAULT</span></button>
         <button onclick="openGuildContribModal('forecast')" style="flex:1;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:11px;padding:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--cyan);cursor:pointer;">📄 FORECAST<br><span style="font-size:9px;font-weight:400;color:#555">SHARE ONE</span></button>
       </div>
@@ -12208,7 +12208,7 @@ function initSigmaButtons() {
     </div>
     <div style="margin:0 12px 10px;background:var(--card);border:1px solid rgba(0,230,118,.15);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="guildOpenModal('guild-create-modal')">
       <span style="font-size:24px">✚</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--emerald)">CREATE NEW GUILD</div><div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">COST: 1,000⬡ · YOU BECOME GUILD MASTER</div></div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--emerald)">CREATE NEW GUILD</div><div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">COST: 1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> · YOU BECOME GUILD MASTER</div></div>
       <span style="font-size:18px;color:var(--emerald)">›</span>
     </div>
   </div>
@@ -12315,15 +12315,15 @@ function initSigmaButtons() {
           </div>
         </div>
         <div class="pc-oracle-pos">
-          <span>👁 ORACLE:</span>
+          <span><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE:</span>
           <strong class="oracle-bull">BULL — WILL WORK</strong>
           <span class="pc-confidence">CONFIDENCE 78%</span>
         </div>
         <div class="pc-body">
           <div class="pc-pools">
-            <div class="pool-item"><div class="pool-val" style="color:var(--green)">31,200</div><div class="pool-lbl">YES POOL ⬡</div></div>
-            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">78,400</div><div class="pool-lbl">TOTAL ⬡</div></div>
-            <div class="pool-item"><div class="pool-val" style="color:var(--red)">47,200</div><div class="pool-lbl">NO POOL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--green)">31,200</div><div class="pool-lbl">YES POOL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">78,400</div><div class="pool-lbl">TOTAL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--red)">47,200</div><div class="pool-lbl">NO POOL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
           </div>
           <div class="pc-bar-wrap"><div class="pc-bar-yes" style="width:40%"></div></div>
           <div class="pc-odds-row">
@@ -12343,7 +12343,7 @@ function initSigmaButtons() {
       <div class="prophecy-card">
         <div class="pc-header">
           <div class="pc-asset-row">
-            <div class="pc-icon">⬡</div>
+            <div class="pc-icon"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
             <div class="pc-name">GOLD / XAU</div>
             <div class="pc-tf-badge" style="background:rgba(255,215,0,.07);color:var(--gold);border-color:rgba(255,215,0,.2)">1M</div>
           </div>
@@ -12354,15 +12354,15 @@ function initSigmaButtons() {
           </div>
         </div>
         <div class="pc-oracle-pos">
-          <span>👁 ORACLE:</span>
+          <span><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE:</span>
           <strong class="oracle-bull">BULL — YES</strong>
           <span class="pc-confidence">CONFIDENCE 71%</span>
         </div>
         <div class="pc-body">
           <div class="pc-pools">
-            <div class="pool-item"><div class="pool-val" style="color:var(--green)">142,000</div><div class="pool-lbl">YES POOL ⬡</div></div>
-            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">210,000</div><div class="pool-lbl">TOTAL ⬡</div></div>
-            <div class="pool-item"><div class="pool-val" style="color:var(--red)">68,000</div><div class="pool-lbl">NO POOL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--green)">142,000</div><div class="pool-lbl">YES POOL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">210,000</div><div class="pool-lbl">TOTAL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--red)">68,000</div><div class="pool-lbl">NO POOL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
           </div>
           <div class="pc-bar-wrap"><div class="pc-bar-yes" style="width:68%"></div></div>
           <div class="pc-odds-row">
@@ -12371,8 +12371,8 @@ function initSigmaButtons() {
             <span style="color:var(--red)">NO 2.96x</span>
           </div>
           <div class="pc-buttons">
-            <div class="pc-btn pc-btn-yes" onclick="ocOpenBet({asset:'GOLD',icon:'⬡',tf:'1M',dir:'Bull',q:'Will GOLD reach $2,500 by end of monthly cycle?',yesPool:'142,000',totalPool:'210,000',yesPct:68,oraclePos:'BULL — YES',oracleBull:true})">✓ YES — WILL HIT</div>
-            <div class="pc-btn pc-btn-no"  onclick="ocOpenBet({asset:'GOLD',icon:'⬡',tf:'1M',dir:'Bear',q:'Will GOLD reach $2,500 by end of monthly cycle?',yesPool:'142,000',totalPool:'210,000',yesPct:68,oraclePos:'BULL — YES',oracleBull:true})">✗ NO — WON'T</div>
+            <div class="pc-btn pc-btn-yes" onclick="ocOpenBet({asset:'GOLD',icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',tf:'1M',dir:'Bull',q:'Will GOLD reach $2,500 by end of monthly cycle?',yesPool:'142,000',totalPool:'210,000',yesPct:68,oraclePos:'BULL — YES',oracleBull:true})">✓ YES — WILL HIT</div>
+            <div class="pc-btn pc-btn-no"  onclick="ocOpenBet({asset:'GOLD',icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',tf:'1M',dir:'Bear',q:'Will GOLD reach $2,500 by end of monthly cycle?',yesPool:'142,000',totalPool:'210,000',yesPct:68,oraclePos:'BULL — YES',oracleBull:true})">✗ NO — WON'T</div>
           </div>
           <div class="pc-footer-note">Platform takes 10% fee · Winners share the pool</div>
         </div>
@@ -12393,15 +12393,15 @@ function initSigmaButtons() {
           </div>
         </div>
         <div class="pc-oracle-pos">
-          <span>👁 ORACLE:</span>
+          <span><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE:</span>
           <strong class="oracle-bear">BEAR — YES, WILL DROP</strong>
           <span class="pc-confidence">CONFIDENCE 65%</span>
         </div>
         <div class="pc-body">
           <div class="pc-pools">
-            <div class="pool-item"><div class="pool-val" style="color:var(--green)">89,000</div><div class="pool-lbl">YES POOL ⬡</div></div>
-            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">195,000</div><div class="pool-lbl">TOTAL ⬡</div></div>
-            <div class="pool-item"><div class="pool-val" style="color:var(--red)">106,000</div><div class="pool-lbl">NO POOL ⬡</div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--green)">89,000</div><div class="pool-lbl">YES POOL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--text2)">195,000</div><div class="pool-lbl">TOTAL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
+            <div class="pool-item"><div class="pool-val" style="color:var(--red)">106,000</div><div class="pool-lbl">NO POOL <img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div>
           </div>
           <div class="pc-bar-wrap"><div class="pc-bar-yes" style="width:46%"></div></div>
           <div class="pc-odds-row">
@@ -12553,7 +12553,7 @@ function initSigmaButtons() {
           <div class="oc-cs"><div class="oc-cs-val" style="color:var(--purple2)">🔮</div><div class="oc-cs-lbl">GUILD</div></div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div class="oc-card-title-badge" id="oc-card-title-badge-txt">⬡ BRONZE SEER · Oracle Covenant</div>
+          <div class="oc-card-title-badge" id="oc-card-title-badge-txt"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> BRONZE SEER · Oracle Covenant</div>
         </div>
         <button class="oc-card-share-btn" onclick="showToast('📤 Oracle Card copied! Share on Telegram / Instagram')">📤 SHARE MY ORACLE CARD</button>
       </div>
@@ -12632,7 +12632,7 @@ function initSigmaButtons() {
         <span id="ins-status-lbl" class="ins-inactive">INACTIVE</span>
         <span style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">STREAK: <span id="oracle-stat-streak" style="color:var(--orange)">5</span> DAYS</span>
       </div>
-      <button class="ins-btn" id="ins-btn" onclick="buyStreakInsurance()">🛡 ACTIVATE INSURANCE — 100⬡</button>
+      <button class="ins-btn" id="ins-btn" onclick="buyStreakInsurance()">🛡 ACTIVATE INSURANCE — 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
     </div>
 
     <!-- COLLECTIBLE ASSET CARDS -->
@@ -12664,9 +12664,9 @@ function initSigmaButtons() {
 
     <!-- EARN MORE -->
     <div class="slabel">EARN MORE COINS</div>
-    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon"><img loading="lazy" src="icons/Share to Telegram.webp" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
-    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img loading="lazy" src="icons/quest Follow 2 Traders.webp" style="width:144px;height:144px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
-    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon"><img loading="lazy" src="icons/38 PREMIUM.webp" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
+    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon"><img loading="lazy" src="icons/Share to Telegram.webp" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
+    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img loading="lazy" src="icons/quest Follow 2 Traders.webp" style="width:144px;height:144px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
+    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon"><img loading="lazy" src="icons/38 PREMIUM.webp" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div></div>
 
     <!-- DISCLAIMER BUTTON -->
     <div style="margin-top:20px;padding:0 4px;">
@@ -12781,7 +12781,7 @@ function initSigmaButtons() {
       <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:7px 16px;font-size:10px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:.5px;"><img loading="lazy" src="icons/4 ELCARO.webp" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;"> VIEW IN PROFILE</button>
     </div>
     <div style="text-align:center;margin-top:10px;font-size:11px;color:#555;font-family:'Space Mono',monospace;">
-      Additional spins: $1 or 500⬡ each
+      Additional spins: $1 or 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> each
     </div>
     <div style="text-align:center;margin-top:16px;">
       <span style="color:#888;font-size:12px;cursor:pointer;" onclick="closeSpin()">✕ CLOSE</span>
@@ -12801,16 +12801,16 @@ function initSigmaButtons() {
       <div class="bet-q" id="bet-modal-q">Will this BTC 4H Bull forecast play out by the target date?</div>
       <div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;margin-bottom:10px;">SELECT BET AMOUNT:</div>
       <div class="bet-amount-row">
-        <div class="bet-amt-pill" onclick="selectBetAmt(this,'100')">100⬡</div>
-        <div class="bet-amt-pill sel" onclick="selectBetAmt(this,'200')">200⬡</div>
-        <div class="bet-amt-pill" onclick="selectBetAmt(this,'500')">500⬡</div>
-        <div class="bet-amt-pill" onclick="selectBetAmt(this,'1000')">1,000⬡</div>
+        <div class="bet-amt-pill" onclick="selectBetAmt(this,'100')">100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt-pill sel" onclick="selectBetAmt(this,'200')">200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt-pill" onclick="selectBetAmt(this,'500')">500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt-pill" onclick="selectBetAmt(this,'1000')">1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       </div>
       <div class="bet-payout">
-        <div class="bp-row"><span>YOUR BET</span><span id="bet-amt-display">200⬡</span></div>
+        <div class="bp-row"><span>YOUR BET</span><span id="bet-amt-display">200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span></div>
         <div class="bp-row"><span>CURRENT ODDS (YES)</span><span style="color:var(--green)">1.62x</span></div>
-        <div class="bp-row"><span>POTENTIAL PAYOUT</span><span style="color:var(--green)" id="bet-payout-val">810⬡</span></div>
-        <div class="bp-row"><span>POOL SIZE</span><span>78,400⬡</span></div>
+        <div class="bp-row"><span>POTENTIAL PAYOUT</span><span style="color:var(--green)" id="bet-payout-val">810<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span></div>
+        <div class="bp-row"><span>POOL SIZE</span><span>78,400<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span></div>
         <div class="bp-row"><span>PLATFORM FEE</span><span style="color:var(--text3)">10%</span></div>
       </div>
       <div class="bet-btns" id="bet-btns-row">
@@ -12827,7 +12827,7 @@ function initSigmaButtons() {
 <div class="overlay" id="copy-overlay">
   <div class="modal-sheet">
     <div class="mhandle"></div>
-    <div class="mtitle">👁 ORACLE COPY TRADE</div>
+    <div class="mtitle"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE COPY TRADE</div>
     <div class="msub">SEE WHAT THIS TRADER IS DOING RIGHT NOW</div>
     <div class="ct-content">
       <div class="ct-trader">
@@ -12849,8 +12849,8 @@ function initSigmaButtons() {
           </div>
         </div>
       </div>
-      <div class="ct-cost">This view costs 50⬡. Trader @oracle_x receives 40⬡.</div>
-      <button class="ct-confirm" onclick="confirmCopy()">✓ CONFIRM — PAY 50⬡</button>
+      <div class="ct-cost">This view costs 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">. Trader @oracle_x receives 40<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">.</div>
+      <button class="ct-confirm" onclick="confirmCopy()">✓ CONFIRM — PAY 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
     </div>
     <div class="close-modal" onclick="closeOverlay('copy-overlay')">✕ CLOSE</div>
   </div>
@@ -12869,7 +12869,7 @@ function initSigmaButtons() {
           <span style="font-size:28px">📦</span><div style="flex:1"><div style="font-size:13px;font-weight:700">3x Bronze Chests</div><div style="font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;">From guild members contributions</div></div>
         </div>
         <div style="background:var(--bg3);border-radius:13px;padding:14px;display:flex;align-items:center;gap:12px;">
-          <span style="font-size:28px">⬡</span><div style="flex:1"><div style="font-size:13px;font-weight:700">4,200 Oracle Coins</div><div style="font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;">Distributed equally: 525⬡ per member</div></div>
+          <span style="font-size:28px"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span><div style="flex:1"><div style="font-size:13px;font-weight:700">4,200 Oracle Coins</div><div style="font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;">Distributed equally: 525<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> per member</div></div>
         </div>
         <div style="background:var(--bg3);border-radius:13px;padding:14px;display:flex;align-items:center;gap:12px;">
           <span style="font-size:28px">📄</span><div style="flex:1"><div style="font-size:13px;font-weight:700">7 Forecasts to distribute</div><div style="font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;">BTC 4H ×2, GOLD 1D ×2, SOL 1H ×3</div></div>
@@ -12902,14 +12902,14 @@ function initSigmaButtons() {
 <!-- Sell on marketplace — expandable -->
       <div id="op-cm-sell-wrap">
         <button onclick="orcToggleSellOptions(this)" style="background:transparent;border:1px solid #555;border-radius:13px;padding:12px;width:100%;font-family:'DM Sans',Outfit,sans-serif;font-size:13px;font-weight:700;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-          💰 SELL ON MARKETPLACE — <span id="op-cm-sell-price">150⬡</span>
+          💰 SELL ON MARKETPLACE — <span id="op-cm-sell-price">150<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span>
           <span id="op-cm-sell-chevron" style="font-size:10px;transition:transform .25s;">▼</span>
         </button>
         <div id="op-cm-sell-options" style="display:none;flex-direction:column;gap:8px;margin-top:8px;">
           <!-- Instant sell to system -->
           <button onclick="orcSellChestQuick()" style="background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.3);border-radius:11px;padding:12px 14px;width:100%;font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--orange);cursor:pointer;text-align:left;">
             <div style="font-size:11px;font-weight:800;letter-spacing:.5px;margin-bottom:3px;">⚡ INSTANT SELL TO SYSTEM</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:400;">Receive <span id="op-cm-quick-price" style="color:var(--orange);font-weight:700;">150⬡</span> immediately</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:400;">Receive <span id="op-cm-quick-price" style="color:var(--orange);font-weight:700;">150<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span> immediately</div>
           </button>
           <!-- List on marketplace -->
           <div style="background:rgba(255,255,255,.03);border:1px solid #2a2a2a;border-radius:11px;padding:12px 14px;">
@@ -12919,9 +12919,9 @@ function initSigmaButtons() {
                 style="flex:1;background:#111;border:1px solid #333;border-radius:8px;padding:7px 10px;color:#fff;font-size:13px;font-family:'Space Mono',monospace;font-weight:700;outline:none;"
                 placeholder="Your price"
                 onfocus="this.style.borderColor='rgba(255,106,0,.5)'" onblur="this.style.borderColor='#333'"/>
-              <span style="font-size:13px;color:var(--orange);font-weight:800;">⬡</span>
+              <span style="font-size:13px;color:var(--orange);font-weight:800;"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span>
             </div>
-            <div style="font-size:10px;color:#555;margin-bottom:8px;">Market price: <span id="op-cm-list-suggested" style="color:#777;">150⬡</span> · 2% fee on sale</div>
+            <div style="font-size:10px;color:#555;margin-bottom:8px;">Market price: <span id="op-cm-list-suggested" style="color:#777;">150<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span> · 2% fee on sale</div>
             <button onclick="orcListChestOnMarket()" style="width:100%;background:#1a1a1a;border:1px solid #444;border-radius:9px;padding:9px;font-family:'DM Sans',Outfit,sans-serif;font-size:12px;font-weight:800;color:#fff;cursor:pointer;">
               POST LISTING
             </button>
@@ -12946,7 +12946,7 @@ function initSigmaButtons() {
 </div>
 <script>
 // ═══════════════════════════════════════════════════
-//  👁  ORACLE ENGINE — Full game mechanics
+//  <img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;">  ORACLE ENGINE — Full game mechanics
 // ═══════════════════════════════════════════════════
 
 // ── State ──────────────────────────────────────────
@@ -13026,7 +13026,7 @@ const ASSETS_POOL = [
   {sym:'AMZN', name:'Amazon',   icon:'A',  color:'#ff9900'},
   {sym:'AAPL', name:'Apple',    icon:'🍎', color:'#aaaaaa'},
   {sym:'TSLA', name:'Tesla',    icon:'T',  color:'#e82127'},
-  {sym:'GOLD', name:'Gold',     icon:'⬡',  color:'#ffd700'},
+  {sym:'GOLD', name:'Gold',     icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',  color:'#ffd700'},
   {sym:'SPX',  name:'S&P 500',  icon:'S',  color:'#e8463a'},
   {sym:'NQ',   name:'NASDAQ',   icon:'N',  color:'#00b4d8'},
 ];
@@ -13120,7 +13120,7 @@ function renderOracleCallsBets() {
     const betEl = document.getElementById(id+'-my-bet');
     const lblEl = document.getElementById(id+'-bet-label');
     if (betEl) betEl.style.display = 'block';
-    if (lblEl) lblEl.textContent = (bet.stake||bet.amount||'?').toLocaleString()+'⬡ on '+(bet.side||'?').toUpperCase()+' · '+(bet.tf||'');
+    if (lblEl) lblEl.textContent = (bet.stake||bet.amount||'?').toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> on '+(bet.side||'?').toUpperCase()+' · '+(bet.tf||'');
     // Hide YES/NO buttons for already-bet cards
     if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   });
@@ -13651,7 +13651,7 @@ function oracleRenderVault() {
     btn.disabled = OC.checkedIn;
     btn.textContent = OC.checkedIn
       ? '✓ CHECKED IN — COME BACK TOMORROW'
-      : '⬡ CLAIM TODAY\'S +' + earned + ' COINS';
+      : '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> CLAIM TODAY\'S +' + earned + ' COINS';
   }
 }
 
@@ -13683,7 +13683,7 @@ function oracleRenderRewards() {
     return `<div class="${cls}">
       ${done?'<div class="day-chk">✓</div>':''}
       <div class="day-n">DAY ${day}</div>
-      <div class="day-ico">${special?'🎁':'⬡'}</div>
+      <div class="day-ico">${special?'🎁':'<img src="icons/REWARDS coin.webp" style="width:16px;height:16px;object-fit:contain;border-radius:50%;">'}</div>
       <div class="day-coins" style="${special?'color:var(--gold)':''}">+${coins}</div>
     </div>`;
   }).join('') + `<div class="day-box" style="border-style:dashed;min-width:72px">
@@ -13711,7 +13711,7 @@ function oracleCheckin() {
   if (document.getElementById('op-profile')?.classList.contains('active')) {
     oracleRenderProfile();
   }
-  showToast('⬡ +'+earned+' ORACLE COINS CLAIMED! Streak: '+OC.streak+' days 🔥');
+  showToast('<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> +'+earned+' ORACLE COINS CLAIMED! Streak: '+OC.streak+' days 🔥');
   opAdvanceQuest('dq5'); // daily check-in quest
 }
 
@@ -13758,7 +13758,7 @@ function openSpin() {
   ['reel1','reel2','reel3'].forEach(id => document.getElementById(id)?.classList.remove('spinning'));
   const btn = document.getElementById('spin-btn');
   btn.disabled = false;
-  btn.textContent = spinUsed ? '🎰 SPIN AGAIN — 500⬡' : '🎰 SPIN NOW — FREE';
+  btn.textContent = spinUsed ? '🎰 SPIN AGAIN — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">' : '🎰 SPIN NOW — FREE';
   document.getElementById('spin-modal').classList.add('open');
 }
 
@@ -13880,7 +13880,7 @@ function doSpin() {
     }
     if (isJackpot) document.getElementById('jackpot-banner').classList.add('show');
 
-    if (btn) { btn.disabled = false; btn.textContent = '🎰 SPIN AGAIN — 500⬡'; }
+    if (btn) { btn.disabled = false; btn.textContent = '🎰 SPIN AGAIN — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">'; }
     oracleRenderVaultCoins();
     oracleRenderInventory();
     // Update profile if open
@@ -13911,12 +13911,12 @@ function orcChestPreview(type) {
   document.getElementById('op-cm-icon').innerHTML = d.icon;
   document.getElementById('op-cm-name').textContent = d.name+' CHEST';
   document.getElementById('op-cm-desc').textContent = d.desc;
-  document.getElementById('op-cm-sell-price').textContent = orcFmt(d.coinValue)+'⬡';
+  document.getElementById('op-cm-sell-price').textContent = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   // Populate sell-option prices
   const qp = document.getElementById('op-cm-quick-price');
-  if (qp) qp.textContent = orcFmt(d.coinValue)+'⬡';
+  if (qp) qp.textContent = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   const sp = document.getElementById('op-cm-list-suggested');
-  if (sp) sp.textContent = orcFmt(d.coinValue)+'⬡';
+  if (sp) sp.textContent = orcFmt(d.coinValue)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   const pi = document.getElementById('op-cm-list-price');
   if (pi) pi.value = d.coinValue;
   // Collapse sell options on open
@@ -13967,7 +13967,7 @@ function orcOpenChest() {
       ✨ CHEST OPENED! YOU RECEIVED:
     </div>
     <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,106,0,.1));border:1px solid rgba(255,215,0,.3);border-radius:12px;padding:14px;text-align:center;margin-bottom:8px;">
-      <div style="font-size:28px;font-weight:900;color:#ffd700;font-family:'Space Mono',monospace;">+${bonus}⬡</div>
+      <div style="font-size:28px;font-weight:900;color:#ffd700;font-family:'Space Mono',monospace;">+${bonus}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       <div style="font-size:10px;color:#f5a623;margin-top:2px;">ORACLE COINS</div>
     </div>
     ${won.map(f=>`
@@ -13980,7 +13980,7 @@ function orcOpenChest() {
       </div>`).join('')}
     ${extraRewards}
     <button onclick="orcChestModalClose()" style="width:100%;background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:800;color:#000;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;">✓ CLAIM REWARDS</button>
-    <button onclick="orcChestModalClose();oracleOpenOnTab('profile')" style="width:100%;margin-top:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;">👁 VIEW IN PROFILE →</button>
+    <button onclick="orcChestModalClose();oracleOpenOnTab('profile')" style="width:100%;margin-top:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'DM Sans',Outfit,sans-serif;"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> VIEW IN PROFILE →</button>
   `;
   oracleRenderVaultCoins();
   oracleRenderInventory();
@@ -13990,7 +13990,7 @@ function orcOpenChest() {
   if (document.getElementById('op-profile')?.classList.contains('active')) {
     oracleRenderProfile();
   }
-  showToast(`📦 ${d.icon} Chest opened! ${count} forecast${count>1?'s':''} + ${bonus}⬡ received!`);
+  showToast(`📦 ${d.icon} Chest opened! ${count} forecast${count>1?'s':''} + ${bonus}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> received!`);
 }
 
 function orcToggleSellOptions() {
@@ -14018,7 +14018,7 @@ function orcSellChestQuick() {
   oracleRenderInventory();
   oracleRenderProfile();
   ocSave();
-  showToast(`⚡ ${d.icon} ${d.name} sold instantly for ${orcFmt(d.coinValue)}⬡`);
+  showToast(`⚡ ${d.icon} ${d.name} sold instantly for ${orcFmt(d.coinValue)}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">`);
 }
 
 function orcListChestOnMarket() {
@@ -14042,7 +14042,7 @@ function orcListChestOnMarket() {
   if (document.getElementById('op-market')?.classList.contains('active')) {
     oracleRenderMarketChests();
   }
-  showToast(`🏷 ${d.icon} ${d.name} listed for ${orcFmt(price)}⬡ — visible on Market!`);
+  showToast(`🏷 ${d.icon} ${d.name} listed for ${orcFmt(price)}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> — visible on Market!`);
 }
 function orcSaveChest() {
   orcChestModalClose();
@@ -14093,7 +14093,7 @@ function oracleRenderMarket() {
 const STATIC_FORECASTS = [
   {id:'sf1', asset:'NVDA', name:'Nvidia',  icon:'N',  tf:'4H', dir:'BULL', mult:'x2', price:280,  seller:'@oracle_pro'},
   {id:'sf2', asset:'BTC',  name:'Bitcoin', icon:'₿',  tf:'1W', dir:'BEAR', mult:'x1', price:1200, seller:'@whale_trader'},
-  {id:'sf3', asset:'XAU',  name:'Gold',    icon:'⬡',  tf:'1D', dir:'BULL', mult:'x3', price:600,  seller:'@gold_master'},
+  {id:'sf3', asset:'XAU',  name:'Gold',    icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',  tf:'1D', dir:'BULL', mult:'x3', price:600,  seller:'@gold_master'},
   {id:'sf4', asset:'SOL',  name:'Solana',  icon:'◎',  tf:'1H', dir:'BULL', mult:'x2', price:150,  seller:'@sol_king'},
   {id:'sf5', asset:'SPX',  name:'S&P 500', icon:'S',  tf:'1M', dir:'BULL', mult:'x5', price:3500, seller:'@algo_elite', rare:true},
 ];
@@ -14113,7 +14113,7 @@ function oracleRenderMarketForecasts() {
         <div style="background:#1a1a1a;border-radius:6px;padding:2px 6px;font-size:9px;font-weight:700;color:${item.rare?'#a8edff':'#f5a623'};">${item.tf}</div>
         ${owned
           ? `<div style="font-size:9px;color:#22c55e;font-family:'Space Mono',monospace;">✓ OWNED</div>`
-          : `<button onclick="orcBuyForecast('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;">${orcFmt(item.price)}⬡</button>`
+          : `<button onclick="orcBuyForecast('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;">${orcFmt(item.price)}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>`
         }
       </div>
     </div>`;
@@ -14167,7 +14167,7 @@ function oracleRenderMarketChests() {
         <div style="font-size:12px;font-weight:700;">${d.name} Chest <span style="font-size:8px;color:${d.color};">${d.rarity}</span></div>
         <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-top:2px;">FROM ${item.seller} · ${d.desc.split('·')[0].trim()}</div>
       </div>
-      <button onclick="orcBuyChestMarket('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;white-space:nowrap;">${orcFmt(item.price)}⬡</button>
+      <button onclick="orcBuyChestMarket('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;white-space:nowrap;">${orcFmt(item.price)}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
     </div>`;
   }).join('');
 }
@@ -14205,7 +14205,7 @@ function orcSellForecast(idx) {
   if (document.getElementById('op-market')?.classList.contains('active')) {
     oracleRenderMarket();
   }
-  showToast(`💰 ${f.asset.sym} forecast listed for ${price}⬡!`);
+  showToast(`💰 ${f.asset.sym} forecast listed for ${price}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">!`);
 }
 
 // ══════════════════════════════════════════════════
@@ -14520,7 +14520,7 @@ let _opGuildMsgs = [
 
 const OP_ASSETS = [
   {sym:'BTC',icon:'₿'},{sym:'ETH',icon:'Ξ'},{sym:'SOL',icon:'◎'},{sym:'NVDA',icon:'N'},
-  {sym:'AAPL',icon:'🍎'},{sym:'TSLA',icon:'T'},{sym:'GOLD',icon:'⬡'},{sym:'SPX',icon:'S'},
+  {sym:'AAPL',icon:'🍎'},{sym:'TSLA',icon:'T'},{sym:'GOLD',icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">'},{sym:'SPX',icon:'S'},
   {sym:'BNB',icon:'B'},{sym:'XRP',icon:'✕'},
 ];
 
@@ -14529,7 +14529,7 @@ const OP_ARENA_DUELS = [
   {id:'d2',cat:'macro',asset:'S&P500',icon:'S',tf:'Q2',question:'S&P500 drops more than 5% in Q2 2026?',oracleCall:'BEAR',oracleConf:61,poolYes:32000,poolNo:88000,totalPool:120000,deadline:'2026-06-30',resolved:false,userBet:null},
   {id:'d3',cat:'stocks',asset:'NVDA',icon:'N',tf:'3M',question:'NVIDIA sets new ATH by end of Q2?',oracleCall:'BULL',oracleConf:58,poolYes:21000,poolNo:29000,totalPool:50000,deadline:'2026-06-30',resolved:false,userBet:null},
   {id:'d4',cat:'crypto',asset:'ETH',icon:'Ξ',tf:'1W',question:'ETH/BTC ratio recovers above 0.055 this month?',oracleCall:'BEAR',oracleConf:65,poolYes:8500,poolNo:19000,totalPool:27500,deadline:'2026-03-31',resolved:false,userBet:null},
-  {id:'d5',cat:'macro',asset:'GOLD',icon:'⬡',tf:'1M',question:'Gold price holds above $3,000 through April?',oracleCall:'BULL',oracleConf:81,poolYes:33000,poolNo:9500,totalPool:42500,deadline:'2026-04-30',resolved:false,userBet:null},
+  {id:'d5',cat:'macro',asset:'GOLD',icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',tf:'1M',question:'Gold price holds above $3,000 through April?',oracleCall:'BULL',oracleConf:81,poolYes:33000,poolNo:9500,totalPool:42500,deadline:'2026-04-30',resolved:false,userBet:null},
   {id:'d6',cat:'crypto',asset:'SOL',icon:'◎',tf:'1W',question:'SOL outperforms BTC this week?',oracleCall:'BULL',oracleConf:54,poolYes:5200,poolNo:6800,totalPool:12000,deadline:'2026-03-10',resolved:true,outcome:'yes',userBet:{side:'yes',amount:200}},
 ];
 // ── Duel state persistence ──
@@ -14713,9 +14713,9 @@ function opClaimQuest(qid) {
     const ct = def.extra.toLowerCase();
     OC.inventory[ct] = (OC.inventory[ct] || 0) + 1;
     oracleRenderInventory();
-    showToast(`✅ Quest complete! +${def.reward}⬡ + ${def.extra} Chest! 🎁`);
+    showToast(`✅ Quest complete! +${def.reward}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + ${def.extra} Chest! 🎁`);
   } else {
-    showToast(`✅ Quest complete! +${def.reward}⬡`);
+    showToast(`✅ Quest complete! +${def.reward}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">`);
   }
   // BP XP
   _opBpXP += def.reward;
@@ -14763,7 +14763,7 @@ function opQuestItemHTML(q) {
       ${q.max>1?`<div style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;margin-top:2px;">${q.progress}/${q.max}</div>`:''}
     </div>
     <div class="qi-reward">
-      <div class="qi-coins">+${q.reward}⬡</div>
+      <div class="qi-coins">+${q.reward}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       ${q.extra?`<div class="qi-extra" style="color:var(--bronze)">+${q.extra}</div>`:''}
       ${claimable?`<button onclick="opClaimQuest('${q.id}')" style="background:var(--green);border:none;border-radius:7px;padding:5px 10px;font-size:9px;font-weight:800;color:#000;cursor:pointer;margin-top:3px;font-family:'Space Mono',monospace;">CLAIM ✓</button>`:''}
     </div>
@@ -14824,7 +14824,7 @@ function opRenderArenaDuels() {
   list.innerHTML = filtered.map(d => opDuelCardHTML(d)).join('');
   const total = Object.values(_opArenaStakes).reduce((s,b)=>s+b.amount,0);
   const stEl = document.getElementById('op-arena-staked');
-  if (stEl) stEl.textContent = total.toLocaleString()+'⬡';
+  if (stEl) stEl.textContent = total.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
 }
 
 function arenaFilter(f, el) {
@@ -14848,7 +14848,7 @@ function opDuelCardHTML(d) {
     if (won && !alreadyCollected) {
       const payout = Math.round(stake.amount * (d.totalPool / (d.outcome==='yes'?d.poolYes:d.poolNo)) * 0.9);
       btnsHTML = `<div style="padding:10px 14px;text-align:center;">
-        <div style="font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green);margin-bottom:8px;">🏆 YOU WON! +${payout.toLocaleString()}⬡</div>
+        <div style="font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green);margin-bottom:8px;">🏆 YOU WON! +${payout.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
         <button onclick="opCollectDuelWin('${d.id}')" style="background:linear-gradient(135deg,#00e676,#00bfa5);border:none;border-radius:10px;padding:9px 20px;font-size:11px;font-weight:800;color:#000;cursor:pointer;font-family:'Space Mono',monospace;width:100%;">💰 COLLECT WINNINGS</button>
       </div>`;
     } else if (won && alreadyCollected) {
@@ -14857,7 +14857,7 @@ function opDuelCardHTML(d) {
       btnsHTML = `<div style="padding:10px 14px;text-align:center;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;color:var(--red);">❌ RESOLVED — ${d.outcome==='yes'?'YES':'NO'} WINS</div>`;
     }
   } else if (stake) {
-    btnsHTML = `<div style="padding:0 14px 12px;font-size:10px;color:var(--gold);font-family:'Space Mono',monospace;">Your bet: <b>${stake.side.toUpperCase()}</b> · ${stake.amount.toLocaleString()}⬡ staked</div>`;
+    btnsHTML = `<div style="padding:0 14px 12px;font-size:10px;color:var(--gold);font-family:'Space Mono',monospace;">Your bet: <b>${stake.side.toUpperCase()}</b> · ${stake.amount.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> staked</div>`;
   } else {
     btnsHTML = `<div class="pm-btns" style="padding:0 14px 12px;">
       <button class="pm-btn pm-btn-yes" onclick="opOpenDuelBet('${d.id}','yes')">✅ YES ${yPct}%</button>
@@ -14875,11 +14875,11 @@ function opDuelCardHTML(d) {
       <div class="pm-expire">⏳ ${d.resolved ? 'RESOLVED' : 'Closes in '+duelTimeRemaining(d.deadline)}</div>
     </div>
     <div class="pm-body">
-      <div class="pm-oracle-pos">👁 ORACLE: <strong style="margin-left:4px;color:${isBull?'var(--green)':'var(--red)'}">${d.oracleCall} — ${d.oracleConf}% CONFIDENCE</strong></div>
+      <div class="pm-oracle-pos"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="margin-left:4px;color:${isBull?'var(--green)':'var(--red)'}">${d.oracleCall} — ${d.oracleConf}% CONFIDENCE</strong></div>
       <div class="pm-pool">
-        <div class="pm-pool-item"><div class="pm-pool-val" style="color:var(--green)">${d.poolYes.toLocaleString()}⬡</div><div class="pm-pool-lbl">YES POOL</div></div>
-        <div class="pm-pool-item"><div class="pm-pool-val" style="color:var(--text2)">${d.totalPool.toLocaleString()}⬡</div><div class="pm-pool-lbl">TOTAL POOL</div></div>
-        <div class="pm-pool-item"><div class="pm-pool-val" style="color:var(--red)">${d.poolNo.toLocaleString()}⬡</div><div class="pm-pool-lbl">NO POOL</div></div>
+        <div class="pm-pool-item"><div class="pm-pool-val" style="color:var(--green)">${d.poolYes.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="pm-pool-lbl">YES POOL</div></div>
+        <div class="pm-pool-item"><div class="pm-pool-val" style="color:var(--text2)">${d.totalPool.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="pm-pool-lbl">TOTAL POOL</div></div>
+        <div class="pm-pool-item"><div class="pm-pool-val" style="color:var(--red)">${d.poolNo.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div><div class="pm-pool-lbl">NO POOL</div></div>
       </div>
       <div class="pm-bar-wrap"><div class="pm-bar-yes" style="width:${yPct}%"></div></div>
     </div>
@@ -14899,7 +14899,7 @@ function opCollectDuelWin(duelId) {
   opAdvanceQuest('wq5'); // weekly: win an arena duel
   ocSave();
   saveDuelState();
-  showToast('💰 +' + payout.toLocaleString() + '⬡ winnings collected! 🏆');
+  showToast('💰 +' + payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> winnings collected! 🏆');
   opRenderArenaDuels();
 }
 
@@ -14951,8 +14951,8 @@ function opOpenDuelBet(duelId, side) {
 function opUpdateBetDisplay(odds) {
   const amt = document.getElementById('bet-amt-display');
   const pay = document.getElementById('bet-payout-val');
-  if (amt) amt.textContent = opCurrentBetAmt.toLocaleString()+'⬡';
-  if (pay) pay.textContent = Math.round(opCurrentBetAmt*(parseFloat(odds)||1.62)).toLocaleString()+'⬡';
+  if (amt) amt.textContent = opCurrentBetAmt.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
+  if (pay) pay.textContent = Math.round(opCurrentBetAmt*(parseFloat(odds)||1.62)).toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
 }
 
 // placeBet now defined as alias below
@@ -14985,7 +14985,7 @@ function renderArenaMkt() {
   const forecasts = [
     {id:'sf1', type:'forecast', asset:'NVDA', name:'NVIDIA', icon:'🟢', tf:'4H', dir:'BULL', mult:'x2', price:280,  seller:'@oracle_x'},
     {id:'sf2', type:'forecast', asset:'BTC',  name:'BITCOIN',icon:'₿',  tf:'1W', dir:'BEAR', mult:'x1', price:1200, seller:'@diamond_oracle'},
-    {id:'sf3', type:'forecast', asset:'GOLD', name:'GOLD',   icon:'⬡',  tf:'1D', dir:'BULL', mult:'x3', price:600,  seller:'@gold_seer'},
+    {id:'sf3', type:'forecast', asset:'GOLD', name:'GOLD',   icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',  tf:'1D', dir:'BULL', mult:'x3', price:600,  seller:'@gold_seer'},
     {id:'sf4', type:'forecast', asset:'ETH',  name:'ETHEREUM',icon:'Ξ', tf:'4H', dir:'BULL', mult:'x2', price:450,  seller:'@eth_wizard'},
     {id:'sf5', type:'forecast', asset:'SOL',  name:'SOLANA', icon:'◎',  tf:'1H', dir:'BULL', mult:'x4', price:320,  seller:'@sol_oracle'},
     ...OC.marketListings.filter(i=>i.type==='forecast').map(i=>({...i, type:'forecast'})),
@@ -15020,7 +15020,7 @@ function renderArenaMkt() {
           <div class="mkt-tf-badge">${item.tf}</div>
           ${owned
             ? `<div style="font-size:9px;color:#22c55e;font-family:'Space Mono',monospace;">✓ OWNED</div>`
-            : `<button onclick="arenaBuyForecast('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;">${item.price.toLocaleString()}⬡</button>`
+            : `<button onclick="arenaBuyForecast('${item.id}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;">${item.price.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>`
           }
         </div>
       </div>`;
@@ -15032,7 +15032,7 @@ function renderArenaMkt() {
           <div class="mkt-name">${cd.name} Chest <span style="font-size:8px;color:${cd.color};">${cd.rarity}</span></div>
           <div class="mkt-meta">from ${item.seller} · ${item.chestType==='wood'?'1-2':item.chestType==='bronze'?'2-3':item.chestType==='silver'?'3-5':item.chestType==='gold'?'5-8':'10+'} forecasts</div>
         </div>
-        <button onclick="arenaBuyChest('${item.id}','${item.chestType}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;white-space:nowrap;">${item.price.toLocaleString()}⬡</button>
+        <button onclick="arenaBuyChest('${item.id}','${item.chestType}')" style="background:linear-gradient(135deg,#ff6b00,#f5a623);border:none;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:800;color:#000;cursor:pointer;white-space:nowrap;">${item.price.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
       </div>`;
     }
   }).join('') || `<div style="text-align:center;color:#555;font-family:'Space Mono',monospace;font-size:10px;padding:24px;">NO ITEMS FOUND</div>`;
@@ -15042,7 +15042,7 @@ function arenaBuyForecast(id) {
   const all = [
     {id:'sf1',asset:'NVDA',name:'NVIDIA', icon:'🟢',tf:'4H',dir:'BULL',mult:'x2',price:280, seller:'@oracle_x'},
     {id:'sf2',asset:'BTC', name:'BITCOIN',icon:'₿', tf:'1W',dir:'BEAR',mult:'x1',price:1200,seller:'@diamond_oracle'},
-    {id:'sf3',asset:'GOLD',name:'GOLD',   icon:'⬡', tf:'1D',dir:'BULL',mult:'x3',price:600, seller:'@gold_seer'},
+    {id:'sf3',asset:'GOLD',name:'GOLD',   icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">', tf:'1D',dir:'BULL',mult:'x3',price:600, seller:'@gold_seer'},
     {id:'sf4',asset:'ETH', name:'ETHEREUM',icon:'Ξ',tf:'4H',dir:'BULL',mult:'x2',price:450, seller:'@eth_wizard'},
     {id:'sf5',asset:'SOL', name:'SOLANA', icon:'◎', tf:'1H',dir:'BULL',mult:'x4',price:320, seller:'@sol_oracle'},
     ...OC.marketListings.filter(i=>i.type==='forecast'),
@@ -15579,7 +15579,7 @@ const GUILD_MEMBERS = [
 const GUILD_LEADERBOARD = [
   {rank:1,  name:'IRON COVENANT',      emblem:'🏛️', members:10, score:91, status:'full'},
   {rank:2,  name:'SIGMA ORACLES',      emblem:'🔱', members:9,  score:88, status:'open'},
-  {rank:3,  name:'GOLDEN PROPHETS',    emblem:'⬡',  members:8,  score:85, status:'open'},
+  {rank:3,  name:'GOLDEN PROPHETS',    emblem:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',  members:8,  score:85, status:'open'},
   {rank:5,  name:'BEAR HUNTERS',       emblem:'🐻', members:7,  score:80, status:'open'},
   {rank:14, name:'ORACLE COVENANT',    emblem:'🔮', members:8,  score:83, status:'you', isMine:true},
   {rank:15, name:'CRYPTO WOLVES',      emblem:'🐺', members:6,  score:77, status:'open'},
@@ -15647,21 +15647,21 @@ function claimTreasury() {
   closeOverlay('treasury-overlay');
   guildCloseModal('guild-treasury-modal');
   opRenderGuild();
-  guildSystemMsg('🔮 Treasury distributed! You received '+perMember+'⬡ + Bronze Chest!');
-  showToast('🔮 Treasury opened! +'+perMember+'⬡ + Bronze Chest + '+forecPerMember+' forecast!');
+  guildSystemMsg('🔮 Treasury distributed! You received '+perMember+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + Bronze Chest!');
+  showToast('🔮 Treasury opened! +'+perMember+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + Bronze Chest + '+forecPerMember+' forecast!');
   opAdvanceQuest('wq3');
 }
 
 function guildContributeCoins() {
-  if (OC.coins < 100) { showToast('⚠ Need 100⬡ to contribute'); return; }
+  if (OC.coins < 100) { showToast('⚠ Need 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to contribute'); return; }
   OC.coins -= 100;
   OC_EXT.guildTreasury.coins += 100;
   guildState.coins += 100;
   oracleRenderVaultCoins();
   ocSave();
   opRenderGuild();
-  guildSystemMsg('⬡ YOU contributed 100⬡ to the guild treasury.');
-  showToast('⬡ +100 OC contributed to treasury! Guild rank improves 📈');
+  guildSystemMsg('<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> YOU contributed 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to the guild treasury.');
+  showToast('<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> +100 OC contributed to treasury! Guild rank improves 📈');
   opAdvanceQuest('wq3');
 }
 
@@ -15672,11 +15672,11 @@ function guildOpenContribCoins() {
   const chips = amounts.map(a => {
     const canAfford = OC.coins >= a;
     return '<div class="comb-btn" style="background:rgba(255,106,0,.06);border-color:rgba(255,106,0,.3);color:'+(canAfford?'var(--orange)':'#333')+';'+(canAfford?'cursor:pointer':'opacity:.4;pointer-events:none')+'" onclick="guildContribute(\'coins\','+a+');guildCloseModal(\'guild-contrib-coins-modal\')">' +
-      '<span style="font-size:22px">⬡</span>' +
+      '<span style="font-size:22px"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span>' +
       '<div style="font-size:15px;font-weight:800;margin:4px 0">'+a+'</div>' +
       '<div style="font-size:9px;color:#555;font-family:\'Space Mono\',monospace">ORACLE COINS</div></div>';
   }).join('');
-  _showGuildPickerModal('guild-contrib-coins-modal', '⬡ CONTRIBUTE COINS', 'YOUR BALANCE: '+OC.coins.toLocaleString()+'⬡', chips);
+  _showGuildPickerModal('guild-contrib-coins-modal', '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> CONTRIBUTE COINS', 'YOUR BALANCE: '+OC.coins.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">', chips);
 }
 
 function guildOpenContribChest() {
@@ -15749,11 +15749,11 @@ function guildDistributeTreasury() {
 
   // Open chests — Gold/Diamond can contain ORACLE CARDS + PASS ACCESS
   const CHEST_REWARDS = {
-    wood: { coins: 50, label: 'Wood Chest: +50⬡' },
-    bronze: { coins: 100, label: 'Bronze Chest: +100⬡' },
-    silver: { coins: 250, label: 'Silver Chest: +250⬡' },
-    gold: { coins: 500, oracleCard: true, label: 'Gold Chest: +500⬡ + 🃏 ORACLE CARD' },
-    diamond: { coins: 1000, oracleCard: true, passAccess: true, label: 'Diamond Chest: +1000⬡ + 🃏 ORACLE CARD + 🔑 PASS ACCESS' }
+    wood: { coins: 50, label: 'Wood Chest: +50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">' },
+    bronze: { coins: 100, label: 'Bronze Chest: +100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">' },
+    silver: { coins: 250, label: 'Silver Chest: +250<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">' },
+    gold: { coins: 500, oracleCard: true, label: 'Gold Chest: +500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + 🃏 ORACLE CARD' },
+    diamond: { coins: 1000, oracleCard: true, passAccess: true, label: 'Diamond Chest: +1000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + 🃏 ORACLE CARD + 🔑 PASS ACCESS' }
   };
   let bonusCoins = 0;
   let gotOracleCard = false;
@@ -15793,8 +15793,8 @@ function guildDistributeTreasury() {
 
   // Build result summary
   let summary = '🔮 TREASURY DISTRIBUTED!\n';
-  summary += '⬡ ' + coinsPerMember + ' coins per member';
-  if (bonusCoins > 0) summary += ' + ' + bonusCoins + '⬡ from chests';
+  summary += '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> ' + coinsPerMember + ' coins per member';
+  if (bonusCoins > 0) summary += ' + ' + bonusCoins + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> from chests';
   if (forecsPerMember > 0) summary += '\n📄 ' + forecsPerMember + ' forecasts received';
   if (gotOracleCard) summary += '\n🃏 ORACLE CARD unlocked!';
   if (gotPassAccess) summary += '\n🔑 PASS ACCESS granted!';
@@ -15809,7 +15809,7 @@ function guildDistributeTreasury() {
   updateGuildTreasuryUI();
   opRenderGuild();
 
-  guildSystemMsg('🔮 Treasury distributed! Each member received ' + coinsPerMember + '⬡' + (bonusCoins > 0 ? ' + ' + bonusCoins + '⬡ from chests' : '') + (forecsPerMember > 0 ? ' + ' + forecsPerMember + ' forecasts' : '') + (gotOracleCard ? ' + 🃏 Oracle Card' : '') + (gotPassAccess ? ' + 🔑 Pass Access' : ''));
+  guildSystemMsg('🔮 Treasury distributed! Each member received ' + coinsPerMember + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">' + (bonusCoins > 0 ? ' + ' + bonusCoins + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> from chests' : '') + (forecsPerMember > 0 ? ' + ' + forecsPerMember + ' forecasts' : '') + (gotOracleCard ? ' + 🃏 Oracle Card' : '') + (gotPassAccess ? ' + 🔑 Pass Access' : ''));
   showToast(summary);
   opAdvanceQuest('wq3');
 }
@@ -15831,7 +15831,7 @@ function guildJoin(name) {
     return;
   }
   if (OC.coins < 500) {
-    showToast('⚠ Need 500⬡ to switch guilds');
+    showToast('⚠ Need 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to switch guilds');
     return;
   }
   const prev = guildState.name;
@@ -15840,7 +15840,7 @@ function guildJoin(name) {
   oracleRenderVaultCoins();
   ocSave();
   guildSystemMsg('👋 YOU left ' + prev + ' and joined ' + name + '!');
-  showToast('✅ Joined ' + name + '! (500⬡ guild transfer fee)');
+  showToast('✅ Joined ' + name + '! (500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> guild transfer fee)');
 }
 
 function _postChatMsg(txt) {
@@ -15892,10 +15892,10 @@ function sendChat() {
 function opRenderTraders() { renderTradersList(); }
 function openCopyModal(trader) { revealTraderStatus(trader); }
 function confirmCopy() {
-  if (OC.coins < 500) { showToast('⚠️ Need 500⬡ to unlock trader status'); return; }
+  if (OC.coins < 500) { showToast('⚠️ Need 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to unlock trader status'); return; }
   OC.coins -= 500; oracleRenderVaultCoins();
   closeOverlay('copy-overlay');
-  showToast(`👁 Status unlocked! @${opCtTrader} is ${opCtAction} ${opCtAsset} ${opCtTF}`);
+  showToast(`<img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> Status unlocked! @${opCtTrader} is ${opCtAction} ${opCtAsset} ${opCtTF}`);
   opAdvanceQuest('wq4');
 }
 
@@ -15939,7 +15939,7 @@ function opRenderProfile() {
   setTxt('oc-card-name-txt', 'ORACLE USER');
   setTxt('oc-card-rank-txt', rank);
   setTxt('oc-card-since-txt', `SINCE ${profGetJoinDate()} · ELCARO`);
-  setTxt('oc-card-title-badge-txt', `⬡ ${rank} · Oracle Covenant`);
+  setTxt('oc-card-title-badge-txt', `<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> ${rank} · Oracle Covenant`);
   setTxt('oracle-card-score-val', score);
   setTxt('oracle-card-streak', (OC.streak||0)+'🔥');
   setTxt('oracle-card-forecasts', OC.ownedForecasts.length);
@@ -15958,7 +15958,7 @@ function opRenderProfile() {
   if (barsEl) {
     const assetAccuracy = OC.assetAccuracy || {};
     const assets = ['BTC','ETH','GOLD','SOL','SPX'];
-    const assetIcons = {BTC:'₿',ETH:'Ξ',GOLD:'⬡',SOL:'◎',SPX:'📊'};
+    const assetIcons = {BTC:'₿',ETH:'Ξ',GOLD:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',SOL:'◎',SPX:'📊'};
     const bars = assets.filter(a => assetAccuracy[a] !== undefined || (OC.accuracy||0) > 0);
     if (bars.length === 0 && (OC.accuracy||0) > 0) {
       // Show overall if no per-asset data
@@ -16012,8 +16012,8 @@ function opRenderProfile() {
     { ico:'🔮', name:'Prophecy Winner',  desc:'Win 3 Oracle Foresight bets',         done:wonBets>=3,                 total:3,  cur:Math.min(wonBets,3) },
     { ico:'📈', name:'10 Forecasts',     desc:'Own 10 forecasts total',              done:OC.ownedForecasts.length>=10, total:10, cur:Math.min(OC.ownedForecasts.length,10) },
     { ico:'👥', name:'Social Oracle',    desc:'Follow 2 traders',                    done:(OC_EXT.subscribedTraders||[]).length>=2, total:2, cur:Math.min((OC_EXT.subscribedTraders||[]).length,2) },
-    { ico:'⬡',  name:'Coin Collector',   desc:'Accumulate 10,000 Oracle Coins',      done:OC.coins>=10000,            total:10000, cur:Math.min(OC.coins,10000), fmt:'coins' },
-    { ico:'👑', name:'30-Day Legend',    desc:'30 consecutive days · +1,000⬡ bonus', done:(OC.streak||0)>=30,         total:30, cur:Math.min(OC.streak||0,30), reward:1000 },
+    { ico:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',  name:'Coin Collector',   desc:'Accumulate 10,000 Oracle Coins',      done:OC.coins>=10000,            total:10000, cur:Math.min(OC.coins,10000), fmt:'coins' },
+    { ico:'👑', name:'30-Day Legend',    desc:'30 consecutive days · +1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> bonus', done:(OC.streak||0)>=30,         total:30, cur:Math.min(OC.streak||0,30), reward:1000 },
     { ico:'🌟', name:'Diamond Oracle',   desc:'Reach 90+ Oracle Score',              done:score>=90,                  total:100, cur:score },
   ];
 
@@ -16022,7 +16022,7 @@ function opRenderProfile() {
     OC.legend30Claimed = true;
     OC.coins += 1000;
     ocSave();
-    setTimeout(()=>showToast('👑 30-Day Legend unlocked! +1,000⬡ bonus!'), 500);
+    setTimeout(()=>showToast('👑 30-Day Legend unlocked! +1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> bonus!'), 500);
   }
 
   const done = ACHIEVEMENTS.filter(a=>a.done).length;
@@ -16090,7 +16090,7 @@ function profEarnShare(btn) {
   oracleRenderInventory();
   ocSave();
   if (btn) { btn.style.opacity='0.5'; btn.querySelector('.qi-coins').textContent='✅ DONE'; }
-  showToast('📢 Shared! +50⬡ + Bronze Chest earned!');
+  showToast('📢 Shared! +50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + Bronze Chest earned!');
   opAdvanceQuest('dq2');
 }
 
@@ -16098,7 +16098,7 @@ function profEarnRefer() {
   const refLink = 'https://t.me/elcarocalculator_bot?start=ref_oracle';
   if (navigator.clipboard) {
     navigator.clipboard.writeText(refLink).then(()=>{
-      showToast('👥 Referral link copied! Share it with friends → +500⬡ when they join');
+      showToast('👥 Referral link copied! Share it with friends → +500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> when they join');
     });
   } else {
     showToast('👥 Your link: ' + refLink);
@@ -16107,7 +16107,7 @@ function profEarnRefer() {
 
 function profEarnReview() {
   window.open('https://t.me/elcarocalculator_bot','_blank');
-  showToast('⭐ Thanks! After leaving a review, +200⬡ will be credited within 24h');
+  showToast('⭐ Thanks! After leaving a review, +200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> will be credited within 24h');
 }
 
 // ══════════════════════════
@@ -16116,7 +16116,7 @@ function profEarnReview() {
 function openBetModal(asset, tf, dir) {
   window._opCurrentDuelId = null; // clear arena context
   opCurrentBetAsset = asset; opCurrentBetTF = tf;
-  const icons={BTC:'₿',ETH:'Ξ',SOL:'◎',GOLD:'⬡',SPX:'📊',NVDA:'N',AAPL:'🍎',TSLA:'T'};
+  const icons={BTC:'₿',ETH:'Ξ',SOL:'◎',GOLD:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',SPX:'📊',NVDA:'N',AAPL:'🍎',TSLA:'T'};
   const el_icon = document.getElementById('bet-icon');
   const el_name = document.getElementById('bet-asset-name');
   const el_tf   = document.getElementById('bet-tf-label');
@@ -16156,7 +16156,7 @@ function shareToTelegram() {
   // Build share text based on current asset/signal
   const asset = typeof currentAsset !== 'undefined' ? currentAsset : 'BTC';
   const text = encodeURIComponent(
-    `📊 ELCARO ORACLE SIGNAL — ${asset}\n\n👁 Oracle says: Watch this asset!\nCheck the full analysis 👇\n\nhttps://t.me/elcarocalculator_bot`
+    `📊 ELCARO ORACLE SIGNAL — ${asset}\n\n<img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> Oracle says: Watch this asset!\nCheck the full analysis 👇\n\nhttps://t.me/elcarocalculator_bot`
   );
   // Try Telegram WebApp share first
   const tg = window.Telegram?.WebApp;
@@ -16179,7 +16179,7 @@ function shareToTelegram() {
       // Update quest item visually
       const questEl = document.querySelector('.quest-item[onclick="shareToTelegram()"]');
       if (questEl) questEl.classList.add('done');
-      showToast('📢 Shared! +50⬡ + 📦 Bronze Chest received!');
+      showToast('📢 Shared! +50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> + 📦 Bronze Chest received!');
     }, 800);
   } else {
     showToast('📢 Opening Telegram share…');
@@ -16207,7 +16207,7 @@ function placeBet(side) {
       ocSave();
       saveArenaStakes();
       window._opCurrentDuelId = null;
-      showToast('🔮 ' + opCurrentBetAmt.toLocaleString() + '⬡ staked on ' + duelSide.toUpperCase() + '! 🏆');
+      showToast('🔮 ' + opCurrentBetAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> staked on ' + duelSide.toUpperCase() + '! 🏆');
       return;
     }
   }
@@ -16223,13 +16223,13 @@ function placeBet(side) {
   const betEl = document.getElementById(cardId+'-my-bet');
   const lblEl = document.getElementById(cardId+'-bet-label');
   if (betEl) betEl.style.display = 'block';
-  if (lblEl) lblEl.textContent = opCurrentBetAmt.toLocaleString()+'⬡ on '+side+' · '+opCurrentBetTF;
+  if (lblEl) lblEl.textContent = opCurrentBetAmt.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> on '+side+' · '+opCurrentBetTF;
   if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   oracleRenderVaultCoins();
   closeOverlay('bet-overlay');
   opAdvanceQuest('wq2');
   ocSave();
-  showToast('🔮 Bet placed! ' + opCurrentBetAmt.toLocaleString() + '⬡ on ' + side + ' — ' + opCurrentBetAsset + ' ' + opCurrentBetTF);
+  showToast('🔮 Bet placed! ' + opCurrentBetAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> on ' + side + ' — ' + opCurrentBetAsset + ' ' + opCurrentBetTF);
 }
 
 // switchOmTab — inner tabs within ORACLE CALLS section
@@ -16299,22 +16299,22 @@ document.addEventListener('keydown', e => {
     </div>
     <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-bottom:6px;">STAKE AMOUNT:</div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
-      <button onclick="setVerdictStake(50,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">50⬡</button>
-      <button onclick="setVerdictStake(200,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">200⬡</button>
-      <button onclick="setVerdictStake(500,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">500⬡</button>
-      <button onclick="setVerdictStake(1000,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">1,000⬡</button>
+      <button onclick="setVerdictStake(50,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
+      <button onclick="setVerdictStake(200,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
+      <button onclick="setVerdictStake(500,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
+      <button onclick="setVerdictStake(1000,this)" class="verdict-stake-chip" style="flex:none;padding:6px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#888;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;">1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;background:#111;border-radius:12px;padding:10px 14px;margin-bottom:14px;">
       <span style="color:#555;font-family:'Space Mono',monospace;font-size:11px;">STAKE:</span>
       <input id="vb-stake-input" type="number" value="200" min="50" style="flex:1;background:transparent;border:none;color:#fff;font-family:'Space Mono',monospace;font-size:16px;font-weight:800;outline:none;" oninput="updateVerdictPayout()">
-      <span style="color:#ffd700;font-family:'Space Mono',monospace;font-size:11px;">⬡</span>
+      <span style="color:#ffd700;font-family:'Space Mono',monospace;font-size:11px;"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span>
     </div>
     <div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:12px;margin-bottom:14px;">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
         <span style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">POTENTIAL PAYOUT</span>
         <span style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">90% pool to winners</span>
       </div>
-      <div style="font-size:22px;font-weight:900;font-family:'Space Mono',monospace;color:#ffd700;" id="vb-payout-val">≈ 450⬡</div>
+      <div style="font-size:22px;font-weight:900;font-family:'Space Mono',monospace;color:#ffd700;" id="vb-payout-val">≈ 450<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       <div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:2px;" id="vb-payout-mult">×2.25 if correct</div>
     </div>
     <button onclick="confirmVerdictBet()" style="width:100%;background:linear-gradient(135deg,#7c3fff,#c084fc);border:none;border-radius:13px;padding:14px;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;color:#fff;cursor:pointer;letter-spacing:1px;" id="vb-confirm-btn">🔮 PLACE VERDICT</button>
@@ -16344,17 +16344,17 @@ document.addEventListener('keydown', e => {
           <div style="text-align:center;"><div style="font-size:11px;color:#ffd700;font-weight:700;font-family:'Space Mono',monospace">ASSET + TF</div><div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;">POSITION</div></div>
           <div style="text-align:center;"><div style="font-size:11px;color:#c084fc;font-weight:700;font-family:'Space Mono',monospace">LONG/SHORT</div><div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;">DIRECTION</div></div>
         </div>
-        <div style="font-size:10px;color:#666;font-family:'Space Mono',monospace;margin-bottom:4px;">COST: <span style="color:#fff;font-weight:700;">500⬡</span> per unlock</div>
-        <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;">Trader earns <span id="ts-trader-earn">40⬡</span> per view</div>
+        <div style="font-size:10px;color:#666;font-family:'Space Mono',monospace;margin-bottom:4px;">COST: <span style="color:#fff;font-weight:700;">500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span> per unlock</div>
+        <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;">Trader earns <span id="ts-trader-earn">40<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span> per view</div>
       </div>
-      <button onclick="unlockTraderStatus()" style="width:100%;background:linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,229,160,.08));border:1px solid rgba(0,229,160,.4);border-radius:13px;padding:14px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#00e5a0;cursor:pointer;">👁 UNLOCK STATUS — 500⬡</button>
+      <button onclick="unlockTraderStatus()" style="width:100%;background:linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,229,160,.08));border:1px solid rgba(0,229,160,.4);border-radius:13px;padding:14px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#00e5a0;cursor:pointer;"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> UNLOCK STATUS — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
     </div>
     <!-- REVEALED STATE -->
     <div id="ts-revealed-view" style="display:none;">
       <div class="trader-status-revealed" id="ts-status-card">
         <div class="tsr-action" id="ts-action-label">BUYING</div>
         <div class="tsr-detail" id="ts-detail-label">BTC · LONG · 4H TIMEFRAME</div>
-        <div class="tsr-reward">Trader earned 40⬡ for this reveal</div>
+        <div class="tsr-reward">Trader earned 40<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> for this reveal</div>
       </div>
       <div style="margin-top:10px;padding:10px 12px;background:#111;border-radius:12px;font-size:10px;color:#666;font-family:'Space Mono',monospace;line-height:1.5;">
         ⚠ This is the trader's live status, not a signal or advice. ELCARO does not recommend copying any positions. Decisions are yours alone.
@@ -16481,11 +16481,11 @@ function updateVerdictPayout() {
   const payout = Math.round(_vbStake * mult);
   const el = document.getElementById('vb-payout-val');
   const ml = document.getElementById('vb-payout-mult');
-  if (el) el.textContent = '≈ ' + payout.toLocaleString() + '⬡';
+  if (el) el.textContent = '≈ ' + payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   if (ml) ml.textContent = '×' + mult.toFixed(2) + ' if correct · 10% platform fee';
 }
 function confirmVerdictBet() {
-  if (!_vbStake || _vbStake < 50) { showToast('⚠ Minimum stake: 50⬡'); return; }
+  if (!_vbStake || _vbStake < 50) { showToast('⚠ Minimum stake: 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">'); return; }
   if (OC.coins < _vbStake) { showToast('⚠ Not enough Oracle Coins'); return; }
   OC.coins -= _vbStake; oracleRenderVaultCoins();
   const key = _vbCardId + '_' + _vbTF;
@@ -16494,11 +16494,11 @@ function confirmVerdictBet() {
   const betEl = document.getElementById(_vbCardId+'-my-bet');
   const lblEl = document.getElementById(_vbCardId+'-bet-label');
   if (betEl) betEl.style.display='block';
-  if (lblEl) lblEl.textContent = _vbStake+'⬡ on '+(_vbSide==='yes'?'YES ✓':'NO ✗')+' · '+_vbTF;
+  if (lblEl) lblEl.textContent = _vbStake+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> on '+(_vbSide==='yes'?'YES ✓':'NO ✗')+' · '+_vbTF;
   // Hide verdict buttons for this card
   if (betEl) { const btnsDiv = betEl.parentElement.querySelector('.verdict-btns'); if (btnsDiv) btnsDiv.style.display='none'; }
   closeOverlay('verdict-overlay');
-  showToast('🔮 Verdict placed! '+_vbStake+'⬡ on '+_vbSide.toUpperCase()+' · '+_vbAsset+' '+_vbTF);
+  showToast('🔮 Verdict placed! '+_vbStake+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> on '+_vbSide.toUpperCase()+' · '+_vbAsset+' '+_vbTF);
   opAdvanceQuest && opAdvanceQuest('wq2');
   ocSave();
 }
@@ -16545,8 +16545,8 @@ function guildContribute(type, val) {
     if (OC.coins < amt) { showToast('⚠ Not enough coins'); return; }
     OC.coins -= amt; oracleRenderVaultCoins();
     OC_EXT.guildTreasury.coins += amt;
-    showToast('⬡ +'+amt+' contributed to guild treasury! 🏛️');
-    guildSystemMsg('⬡ YOU contributed '+amt+'⬡ to the guild treasury.');
+    showToast('<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> +'+amt+' contributed to guild treasury! 🏛️');
+    guildSystemMsg('<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> YOU contributed '+amt+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to the guild treasury.');
   } else if (type==='chest') {
     const k = val;
     if ((OC.inventory[k]||0)<1) { showToast('⚠ No '+k+' chests'); return; }
@@ -16641,7 +16641,7 @@ function shareGuildForecast(idx) {
   div.innerHTML = `<div class="cm-avatar" style="background:linear-gradient(135deg,#080a0a,#101818)">⚡</div>
     <div class="cm-body">
       <div class="cm-name" style="color:var(--cyan)">YOU</div>
-      <div class="cm-text">Check this forecast I'm watching 👁</div>
+      <div class="cm-text">Check this forecast I'm watching <img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"></div>
       <div class="guild-msg-forecast">
         <span style="font-size:20px">${f.icon||'📄'}</span>
         <div><div style="font-size:11px;font-weight:700;color:#fff">${f.sym||f.asset} · ${f.tf} · ${dir}</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;">${f.mult||'x1'} · Expires ${f.expires||'soon'}</div></div>
@@ -16659,7 +16659,7 @@ const TRADER_DATA = {
   diamond_seer:  { avatar:'🌿', rank:'Diamond Oracle', score:94,  accuracy:'94%', forecasts:512,  rankLabel:'Diamond', rankColor:'var(--diamond)', verified:true,  action:'SELLING',  asset:'GOLD', pos:'SHORT', tf:'1D', statusColor:'var(--cyan)',   statusDot:'ls-bear', avatarBg:'linear-gradient(135deg,#00100a,#001808)', avatarBorder:'rgba(0,229,160,.25)', earn:40 },
   algo_king:     { avatar:'⚡', rank:'Silver Seer',    score:71,  accuracy:'71%', forecasts:98,   rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'WATCHING', asset:null,   pos:null,    tf:'4H', statusColor:'var(--text2)',  statusDot:'ls-idle', avatarBg:'linear-gradient(135deg,#100010,#1a0020)', avatarBorder:'rgba(124,77,255,.2)',  earn:20 },
   whale_vault:   { avatar:'🐋', rank:'Diamond Oracle', score:91,  accuracy:'91%', forecasts:673,  rankLabel:'Diamond', rankColor:'var(--diamond)', verified:true,  action:'BUYING',   asset:'BTC',  pos:'LONG',  tf:'1W', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#001020,#002040)', avatarBorder:'rgba(0,100,255,.3)',  earn:40 },
-  gold_seer:     { avatar:'⬡',  rank:'Gold Oracle',    score:83,  accuracy:'83%', forecasts:341,  rankLabel:'Gold',    rankColor:'var(--gold)',    verified:true,  action:'BUYING',   asset:'GOLD', pos:'LONG',  tf:'1D', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#1a1000,#2a2000)', avatarBorder:'rgba(255,215,0,.25)', earn:40 },
+  gold_seer:     { avatar:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',  rank:'Gold Oracle',    score:83,  accuracy:'83%', forecasts:341,  rankLabel:'Gold',    rankColor:'var(--gold)',    verified:true,  action:'BUYING',   asset:'GOLD', pos:'LONG',  tf:'1D', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#1a1000,#2a2000)', avatarBorder:'rgba(255,215,0,.25)', earn:40 },
   crypto_prophet:{ avatar:'🔮', rank:'Gold Oracle',    score:79,  accuracy:'79%', forecasts:215,  rankLabel:'Gold',    rankColor:'var(--gold)',    verified:false, action:'SELLING',  asset:'ETH',  pos:'SHORT', tf:'4H', statusColor:'var(--red)',    statusDot:'ls-bear', avatarBg:'linear-gradient(135deg,#0a0020,#150030)', avatarBorder:'rgba(160,90,255,.25)', earn:40 },
   macro_mind:    { avatar:'📊', rank:'Silver Seer',    score:68,  accuracy:'68%', forecasts:127,  rankLabel:'Silver',  rankColor:'var(--silver)',  verified:false, action:'WATCHING', asset:null,   pos:null,    tf:'1W', statusColor:'var(--text2)',  statusDot:'ls-idle', avatarBg:'linear-gradient(135deg,#0a0a0a,#151515)', avatarBorder:'rgba(200,200,200,.15)',earn:20 },
   sol_oracle:    { avatar:'◎',  rank:'Bronze Seer',    score:62,  accuracy:'62%', forecasts:54,   rankLabel:'Bronze',  rankColor:'var(--bronze)',  verified:false, action:'BUYING',   asset:'SOL',  pos:'LONG',  tf:'1H', statusColor:'var(--green)',  statusDot:'ls-bull', avatarBg:'linear-gradient(135deg,#100a00,#1a1400)', avatarBorder:'rgba(205,127,50,.2)', earn:20 },
@@ -16719,7 +16719,7 @@ function renderTradersList() {
         </div>
       </div>
       <div class="live-status">${statusLine}</div>
-      <div class="live-cost">Unlock live status: 500⬡ per view · Trader earns ${d.earn}⬡</div>
+      <div class="live-cost">Unlock live status: 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> per view · Trader earns ${d.earn}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       <div class="trader-stats">
         <div class="ts-item"><div class="ts-val" style="color:${d.statusColor}">${d.accuracy}</div><div class="ts-lbl">ACCURACY</div></div>
         <div class="ts-item"><div class="ts-val">${d.forecasts.toLocaleString()}</div><div class="ts-lbl">FORECASTS</div></div>
@@ -16730,7 +16730,7 @@ function renderTradersList() {
           ${isSubbed ? '✓ SUBSCRIBED' : 'SUBSCRIBE'}
         </button>
         <button class="copy-reveal-btn" onclick="revealTraderStatus('${handle}')">
-          👁 ${isRevealed ? 'VIEW STATUS' : 'COPY STATUS — 500⬡'}
+          <img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ${isRevealed ? 'VIEW STATUS' : 'COPY STATUS — 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">'}
         </button>
         ${isMirrored ? '<div style="font-size:8px;color:var(--cyan);font-family:\'Space Mono\',monospace;text-align:center;margin-top:4px;">🔔 MIRRORING</div>' : ''}
       </div>
@@ -16763,7 +16763,7 @@ function revealTraderStatus(handle) {
   if (tsAv) { tsAv.textContent = d.avatar; tsAv.style.background = d.avatarBg; }
   const tsN = document.getElementById('ts-name'); if (tsN) tsN.textContent = '@'+handle;
   const tsR = document.getElementById('ts-rank'); if (tsR) tsR.textContent = d.rank + ' · Score: ' + d.score;
-  const tsE = document.getElementById('ts-trader-earn'); if (tsE) tsE.textContent = d.earn + '⬡';
+  const tsE = document.getElementById('ts-trader-earn'); if (tsE) tsE.textContent = d.earn + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   if (OC_EXT.revealedStatuses[handle]) {
     document.getElementById('ts-locked-view').style.display = 'none';
     document.getElementById('ts-revealed-view').style.display = '';
@@ -16780,7 +16780,7 @@ function unlockTraderStatus() {
   if (!OC_EXT.subscribedTraders.includes(handle)) {
     showToast('⚠ Subscribe to @'+handle+' first'); return;
   }
-  if (OC.coins < 500) { showToast('⚠ Need 500⬡ to unlock trader status'); return; }
+  if (OC.coins < 500) { showToast('⚠ Need 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to unlock trader status'); return; }
   const d = TRADER_DATA[handle];
   OC.coins -= 500;
   if (d) OC.coins += d.earn;
@@ -16790,7 +16790,7 @@ function unlockTraderStatus() {
   document.getElementById('ts-revealed-view').style.display = '';
   _showRevealedCard(d || {});
   renderTradersList();
-  showToast('👁 Status unlocked! @'+handle+' earned '+(d?.earn||40)+'⬡');
+  showToast('<img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> Status unlocked! @'+handle+' earned '+(d?.earn||40)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">');
 }
 
 function _showRevealedCard(d) {
@@ -16829,7 +16829,7 @@ function followTraderAction() {
 // ── STREAK INSURANCE ──────────────────────────────
 function buyStreakInsurance() {
   if (OC_EXT.streakInsurance) { showToast('✅ Streak Insurance already active!'); return; }
-  if (OC.coins < 100) { showToast("⚠ Need 100⬡ for Streak Insurance"); return; }
+  if (OC.coins < 100) { showToast("⚠ Need 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> for Streak Insurance"); return; }
   OC.coins -= 100; oracleRenderVaultCoins();
   OC_EXT.streakInsurance = true;
   OC_EXT.insuranceUsed = false;
@@ -16843,7 +16843,7 @@ function renderStreakInsurance() {
     if (btn) { btn.textContent='✅ INSURANCE ACTIVE — 1 skip protected'; btn.disabled=true; }
     if (status) { status.className='ins-active'; status.textContent=OC_EXT.insuranceUsed?'USED THIS MONTH':'ACTIVE · 1 day protected'; }
   } else {
-    if (btn) { btn.textContent='🛡 ACTIVATE INSURANCE — 100⬡'; btn.disabled=false; }
+    if (btn) { btn.textContent='🛡 ACTIVATE INSURANCE — 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">'; btn.disabled=false; }
     if (status) { status.className='ins-inactive'; status.textContent='INACTIVE'; }
   }
 }
@@ -17001,8 +17001,8 @@ function profForecastTrade(idx) {
   fc.splice(idx, 1);
   if (correct) {
     OC.accuracy = Math.min(100, OC.accuracy + 1);
-    showToast('✅ TRADE WON! +'+pnl+'⬡ · Accuracy +1%');
-    guildSystemMsg('📈 YOU traded a '+name+' '+(f.tf||'')+' forecast and WON +'+pnl+'⬡!');
+    showToast('✅ TRADE WON! +'+pnl+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> · Accuracy +1%');
+    guildSystemMsg('📈 YOU traded a '+name+' '+(f.tf||'')+' forecast and WON +'+pnl+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">!');
   } else {
     OC.accuracy = Math.max(0, OC.accuracy - 1);
     showToast('❌ TRADE LOST · Accuracy -1% — next time!');
@@ -17021,7 +17021,7 @@ function profForecastPass(idx) {
   var name = _fcName(f);
   fc.splice(idx, 1);
   OC.coins += 10;
-  showToast('⏭ PASSED on '+name+' '+(f.tf||'')+' · +10⬡ discipline bonus');
+  showToast('⏭ PASSED on '+name+' '+(f.tf||'')+' · +10<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> discipline bonus');
   oracleRenderVaultCoins();
   ocSave();
   renderProfileForecasts();
@@ -17058,7 +17058,7 @@ function renderCollectibleCards() {
   const CARD_INFO = {
     BTC: {icon:'₿',name:'BITCOIN',color:'#f7931a'},
     ETH: {icon:'Ξ',name:'ETHEREUM',color:'#627eea'},
-    GOLD:{icon:'⬡',name:'GOLD',color:'#ffd700'},
+    GOLD:{icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',name:'GOLD',color:'#ffd700'},
     SOL: {icon:'◎',name:'SOLANA',color:'#9945ff'},
     SPX: {icon:'📊',name:'S&P 500',color:'#e8463a'},
     NVDA:{icon:'N',name:'NVIDIA',color:'#76b900'},
@@ -17080,7 +17080,7 @@ function renderCollectibleCards() {
       <div class="ac-card-sym" style="color:${info.color}">${sym}</div>
       <div class="ac-card-rarity" style="color:${rarityColor[c.rarity]}">${c.rarity.toUpperCase()}</div>
       <div class="ac-card-level" style="color:#555">LVL ${c.level}</div>
-      <div style="font-size:7px;color:#444;font-family:'Space Mono',monospace">+${boostPct}% ACC · ${sellValue}⬡</div>
+      <div style="font-size:7px;color:#444;font-family:'Space Mono',monospace">+${boostPct}% ACC · ${sellValue}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
     </div>`;
   }).join('');
 }
@@ -17088,7 +17088,7 @@ function renderCollectibleCards() {
 function openCardAction(sym) {
   var c = OC_EXT.collectedCards[sym];
   if (!c) return;
-  var CARD_INFO = {BTC:{icon:'₿',name:'BITCOIN'},ETH:{icon:'Ξ',name:'ETHEREUM'},GOLD:{icon:'⬡',name:'GOLD'},SOL:{icon:'◎',name:'SOLANA'},SPX:{icon:'📊',name:'S&P 500'},NVDA:{icon:'N',name:'NVIDIA'},TSLA:{icon:'T',name:'TESLA'},XRP:{icon:'✕',name:'RIPPLE'}};
+  var CARD_INFO = {BTC:{icon:'₿',name:'BITCOIN'},ETH:{icon:'Ξ',name:'ETHEREUM'},GOLD:{icon:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',name:'GOLD'},SOL:{icon:'◎',name:'SOLANA'},SPX:{icon:'📊',name:'S&P 500'},NVDA:{icon:'N',name:'NVIDIA'},TSLA:{icon:'T',name:'TESLA'},XRP:{icon:'✕',name:'RIPPLE'}};
   var info = CARD_INFO[sym] || {icon:'?',name:sym};
   var boostPct = {common:5,rare:10,epic:15,legendary:25}[c.rarity]||5;
   var sellValue = {common:50,rare:150,epic:400,legendary:1000}[c.rarity]||50;
@@ -17104,8 +17104,8 @@ function openCardAction(sym) {
     '<div class="gsheet-sub">'+c.rarity.toUpperCase()+' · LEVEL '+c.level+' · USED '+c.uses+'×</div>' +
     '<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">' +
       '<button onclick="useCardBoost(\''+sym+'\')" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(0,230,118,.3);background:rgba(0,230,118,.06);color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif;">📈 USE IN FORECAST — +'+boostPct+'% Accuracy Boost</button>' +
-      '<button onclick="levelUpCard(\''+sym+'\')" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(192,132,252,.3);background:rgba(192,132,252,.06);color:var(--purple2);font-size:11px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif;">⬆ LEVEL UP — Cost '+(c.level*100)+'⬡</button>' +
-      '<button onclick="sellCard(\''+sym+'\')" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,215,0,.3);background:rgba(255,215,0,.06);color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif;">💰 SELL — '+sellValue+'⬡</button>' +
+      '<button onclick="levelUpCard(\''+sym+'\')" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(192,132,252,.3);background:rgba(192,132,252,.06);color:var(--purple2);font-size:11px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif;">⬆ LEVEL UP — Cost '+(c.level*100)+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>' +
+      '<button onclick="sellCard(\''+sym+'\')" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,215,0,.3);background:rgba(255,215,0,.06);color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif;">💰 SELL — '+sellValue+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>' +
     '</div>' +
     '<button onclick="guildCloseModal(\''+id+'\')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif;margin-top:8px;">CLOSE</button>' +
     '</div>';
@@ -17129,7 +17129,7 @@ function levelUpCard(sym) {
   var c = OC_EXT.collectedCards[sym];
   if (!c) return;
   var cost = c.level * 100;
-  if (OC.coins < cost) { showToast('⚠ Need '+cost+'⬡ to level up'); return; }
+  if (OC.coins < cost) { showToast('⚠ Need '+cost+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to level up'); return; }
   OC.coins -= cost;
   c.level++;
   oracleRenderVaultCoins(); ocSave();
@@ -17146,7 +17146,7 @@ function sellCard(sym) {
   delete OC_EXT.collectedCards[sym];
   oracleRenderVaultCoins(); ocSave();
   guildCloseModal('card-action-modal');
-  showToast('💰 Sold '+sym+' card for '+sellValue+'⬡!');
+  showToast('💰 Sold '+sym+' card for '+sellValue+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">!');
   renderCollectibleCards();
 }
 
@@ -17271,7 +17271,7 @@ function guildCreate() {
   const name = (document.getElementById('guild-name-input').value || '').trim();
   const motto = (document.getElementById('guild-motto-input').value || '').trim();
   if (!name) { showToast('⚠ Enter a guild name!'); return; }
-  if (OC.coins < 1000) { showToast('⚠ Need 1,000⬡ to create a guild'); return; }
+  if (OC.coins < 1000) { showToast('⚠ Need 1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to create a guild'); return; }
   OC.coins -= 1000;
   oracleRenderVaultCoins();
   guildState.name = name;
@@ -18282,7 +18282,7 @@ async function rsiTestRender() {
       <div class="treasury-timer" id="guild-treasury-timer">⏰ Opens: SUN 00:00 UTC</div>
     </div>
     <div class="treasury-grid">
-      <div class="treasury-cell"><span class="tc-icon">⬡</span><div class="tc-val" id="gtc-coins">4,200</div><div class="tc-lbl">COINS</div></div>
+      <div class="treasury-cell"><span class="tc-icon"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span><div class="tc-val" id="gtc-coins">4,200</div><div class="tc-lbl">COINS</div></div>
       <div class="treasury-cell"><span class="tc-icon">📦</span><div class="tc-val" id="gtc-chests">3</div><div class="tc-lbl">CHESTS</div></div>
       <div class="treasury-cell"><span class="tc-icon">📄</span><div class="tc-val" id="gtc-forecasts">7</div><div class="tc-lbl">FORECASTS</div></div>
     </div>
@@ -18299,7 +18299,7 @@ async function rsiTestRender() {
   <div class="contribute-card">
     <div class="contribute-title">YOUR WEEKLY CONTRIBUTION</div>
     <div class="contribute-grid">
-      <div class="contrib-btn cb-coins" onclick="guildOpenContribCoins()"><span class="cb-icon">⬡</span><div class="cb-name">COINS</div><div class="cb-sub">CHOOSE AMOUNT</div></div>
+      <div class="contrib-btn cb-coins" onclick="guildOpenContribCoins()"><span class="cb-icon"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span><div class="cb-name">COINS</div><div class="cb-sub">CHOOSE AMOUNT</div></div>
       <div class="contrib-btn cb-chest" onclick="guildOpenContribChest()"><span class="cb-icon">📦</span><div class="cb-name">CHEST</div><div class="cb-sub">FROM VAULT</div></div>
       <div class="contrib-btn cb-forecast" onclick="guildOpenContribForecast()"><span class="cb-icon">📄</span><div class="cb-name">FORECAST</div><div class="cb-sub">UNUSED</div></div>
     </div>
@@ -18346,7 +18346,7 @@ async function rsiTestRender() {
       <div class="gchat-online" id="guild-chat-online">5 online</div>
     </div>
     <div class="gchat-messages" id="guild-gchat-msgs">
-      <div class="chat-msg system"><div class="chat-body"><div class="chat-from">SYSTEM</div><div class="chat-text">🔮 oracle_x opened the weekly treasury! 3 Bronze Chests + 4,200⬡ distributed.</div><div class="chat-time">2h ago</div></div></div>
+      <div class="chat-msg system"><div class="chat-body"><div class="chat-from">SYSTEM</div><div class="chat-text">🔮 oracle_x opened the weekly treasury! 3 Bronze Chests + 4,200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> distributed.</div><div class="chat-time">2h ago</div></div></div>
       <div class="chat-msg"><div class="chat-avatar" style="background:linear-gradient(135deg,#1a0e00,#2a1800)">🧿</div><div class="chat-body"><div class="chat-from" style="color:var(--orange)">oracle_x 👑</div><div class="chat-text">BTC looking strong on 4H — my long is up +8%. Treasury opened, check your rewards 🔥</div><div class="chat-time">1h ago</div></div></div>
       <div class="chat-msg"><div class="chat-avatar" style="background:var(--bg3)">🌙</div><div class="chat-body"><div class="chat-from" style="color:var(--silver2)">silver_prophet</div><div class="chat-text">Gold 1D setup looks clean. Contributing 2 forecasts to next treasury 💎</div><div class="chat-time">45m ago</div></div></div>
       <div class="chat-msg system"><div class="chat-body"><div class="chat-from">SYSTEM</div><div class="chat-text">📄 silver_prophet contributed 2 GOLD 1D forecasts to treasury.</div><div class="chat-time">44m ago</div></div></div>
@@ -18360,15 +18360,15 @@ async function rsiTestRender() {
 
   <!-- RANKINGS -->
   <div class="g-label">GUILD RANKINGS</div>
-  <div class="leaderboard-item" onclick="showToast('🏛️ IRON COVENANT — #1 ranked guild this season')"><div class="lb-rank" style="color:var(--gold)">#1</div><div class="lb-emblem">🏛️</div><div class="lb-info"><div class="lb-name">IRON COVENANT</div><div class="lb-meta">10 MEMBERS · AVG SCORE: 91 · 18,200⬡</div></div></div>
-  <div class="leaderboard-item" onclick="showToast('🔱 TRIDENT ORDER — #2 ranked guild')"><div class="lb-rank" style="color:var(--silver2)">#2</div><div class="lb-emblem">🔱</div><div class="lb-info"><div class="lb-name">TRIDENT ORDER</div><div class="lb-meta">9 MEMBERS · AVG SCORE: 88 · 15,800⬡</div></div></div>
-  <div class="leaderboard-item" onclick="showToast('⚔️ VOID PACT — #3 ranked guild')"><div class="lb-rank" style="color:var(--bronze2)">#3</div><div class="lb-emblem">⚔️</div><div class="lb-info"><div class="lb-name">VOID PACT</div><div class="lb-meta">10 MEMBERS · AVG SCORE: 85 · 14,200⬡</div></div></div>
-  <div class="leaderboard-item my-guild"><div class="lb-rank" style="color:var(--emerald)">#14</div><div class="lb-emblem">🔮</div><div class="lb-info"><div class="lb-name">ORACLE COVENANT <span style="font-size:9px;color:var(--cyan)">← you</span></div><div class="lb-meta">8 MEMBERS · AVG SCORE: 83 · 12,400⬡</div></div></div>
+  <div class="leaderboard-item" onclick="showToast('🏛️ IRON COVENANT — #1 ranked guild this season')"><div class="lb-rank" style="color:var(--gold)">#1</div><div class="lb-emblem">🏛️</div><div class="lb-info"><div class="lb-name">IRON COVENANT</div><div class="lb-meta">10 MEMBERS · AVG SCORE: 91 · 18,200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div></div>
+  <div class="leaderboard-item" onclick="showToast('🔱 TRIDENT ORDER — #2 ranked guild')"><div class="lb-rank" style="color:var(--silver2)">#2</div><div class="lb-emblem">🔱</div><div class="lb-info"><div class="lb-name">TRIDENT ORDER</div><div class="lb-meta">9 MEMBERS · AVG SCORE: 88 · 15,800<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div></div>
+  <div class="leaderboard-item" onclick="showToast('⚔️ VOID PACT — #3 ranked guild')"><div class="lb-rank" style="color:var(--bronze2)">#3</div><div class="lb-emblem">⚔️</div><div class="lb-info"><div class="lb-name">VOID PACT</div><div class="lb-meta">10 MEMBERS · AVG SCORE: 85 · 14,200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div></div>
+  <div class="leaderboard-item my-guild"><div class="lb-rank" style="color:var(--emerald)">#14</div><div class="lb-emblem">🔮</div><div class="lb-info"><div class="lb-name">ORACLE COVENANT <span style="font-size:9px;color:var(--cyan)">← you</span></div><div class="lb-meta">8 MEMBERS · AVG SCORE: 83 · 12,400<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div></div></div>
 
   <!-- CREATE GUILD -->
   <div class="create-guild-btn" onclick="guildOpenModal('guild-create-modal')">
     <div class="create-icon">✚</div>
-    <div><div class="create-name">CREATE NEW GUILD</div><div class="create-meta">COST: 1,000⬡ · MAX 10 MEMBERS · LEADER ROLE</div></div>
+    <div><div class="create-name">CREATE NEW GUILD</div><div class="create-meta">COST: 1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> · MAX 10 MEMBERS · LEADER ROLE</div></div>
   </div>
 
 </div><!-- end guild-section -->
@@ -18400,10 +18400,10 @@ async function rsiTestRender() {
 <div class="guild-overlay" id="guild-contrib-modal" onclick="if(event.target===this)guildCloseModal('guild-contrib-modal')">
   <div class="guild-sheet">
     <div class="gsheet-handle"></div>
-    <div class="gsheet-title">⬡ CONTRIBUTE TO TREASURY</div>
+    <div class="gsheet-title"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> CONTRIBUTE TO TREASURY</div>
     <div class="gsheet-sub">CHOOSE WHAT TO DONATE THIS WEEK</div>
     <div class="contrib-modal-grid">
-      <div class="comb-btn" onclick="guildContribute('coins',100)" style="background:rgba(255,106,0,.06);border-color:rgba(255,106,0,.3);color:var(--orange)"><span class="comb-icon">⬡</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">100 OC</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ORACLE COINS</div></div>
+      <div class="comb-btn" onclick="guildContribute('coins',100)" style="background:rgba(255,106,0,.06);border-color:rgba(255,106,0,.3);color:var(--orange)"><span class="comb-icon"><img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span><div style="font-size:13px;font-weight:800;margin-bottom:3px">100 OC</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">ORACLE COINS</div></div>
       <div class="comb-btn" onclick="guildContributeBestChest()" style="background:rgba(205,127,50,.06);border-color:rgba(205,127,50,.3);color:var(--bronze2)"><span class="comb-icon">📦</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">CHEST</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">FROM VAULT</div></div>
       <div class="comb-btn" onclick="guildContribute('forecast')" style="background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.3);color:var(--cyan)"><span class="comb-icon">📄</span><div style="font-size:13px;font-weight:800;margin-bottom:3px">FORECAST</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace">UNUSED</div></div>
     </div>
@@ -18437,7 +18437,7 @@ async function rsiTestRender() {
   <div class="guild-sheet">
     <div class="gsheet-handle"></div>
     <div class="gsheet-title">✚ CREATE NEW GUILD</div>
-    <div class="gsheet-sub">COST: 1,000⬡ · YOU BECOME GUILD MASTER</div>
+    <div class="gsheet-sub">COST: 1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> · YOU BECOME GUILD MASTER</div>
     <div style="margin-bottom:12px;">
       <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#555;margin-bottom:6px;">GUILD NAME</div>
       <input id="guild-name-input" type="text" placeholder="Enter guild name..." maxlength="24" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.04);color:#fff;font-size:13px;font-family:'Syne',sans-serif;outline:none;box-sizing:border-box;">
@@ -18460,10 +18460,10 @@ async function rsiTestRender() {
         <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🌟</div>
         <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🐉</div>
         <div class="cmb-emblem" onclick="guildSelectEmblem(this)">🦁</div>
-        <div class="cmb-emblem" onclick="guildSelectEmblem(this)">👁</div>
+        <div class="cmb-emblem" onclick="guildSelectEmblem(this)"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"></div>
       </div>
     </div>
-    <button onclick="guildCreate()" class="cmb-create">✚ CREATE GUILD — 1,000⬡</button>
+    <button onclick="guildCreate()" class="cmb-create">✚ CREATE GUILD — 1,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></button>
     <button onclick="guildCloseModal('guild-create-modal')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;margin-top:8px;">CANCEL</button>
   </div>
 </div>
@@ -18493,7 +18493,7 @@ async function rsiTestRender() {
       </div>
       <div style="background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.15);border-radius:12px;padding:12px;">
         <div style="font-size:12px;font-weight:800;color:#8b5cf6;margin-bottom:4px;">5. GUILD TRANSFER</div>
-        <div style="font-size:10px;color:#888;font-family:'Space Mono',monospace;line-height:1.5;">Switching guilds costs 500⬡ transfer fee. You keep your Oracle Score and rank. Cooldown: 7 days between transfers.</div>
+        <div style="font-size:10px;color:#888;font-family:'Space Mono',monospace;line-height:1.5;">Switching guilds costs 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> transfer fee. You keep your Oracle Score and rank. Cooldown: 7 days between transfers.</div>
       </div>
     </div>
     <button onclick="guildCloseModal('guild-rules-modal')" style="width:100%;padding:12px;border-radius:12px;border:1px solid #2a2a2a;background:transparent;color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">CLOSE</button>
@@ -18511,22 +18511,22 @@ async function rsiTestRender() {
         <div><div id="oc-bet-asset-name" style="font-size:14px;font-weight:800;"></div><div id="oc-bet-asset-tf" style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-top:2px;"></div></div>
       </div>
       <div id="oc-bet-question" style="font-size:11px;color:#aaa;margin-bottom:10px;line-height:1.5;"></div>
-      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:7px;">👁 ORACLE: <span id="oc-bet-oracle-pos" style="color:var(--green);"></span></div>
+      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:7px;"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE: <span id="oc-bet-oracle-pos" style="color:var(--green);"></span></div>
       <div style="height:5px;background:#181818;border-radius:3px;overflow:hidden;margin-bottom:5px;"><div id="oc-bet-bar" style="height:100%;background:var(--green);width:40%;transition:width .3s;"></div></div>
       <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:14px;"><span id="oc-bet-yes-pct" style="color:var(--green);"></span><span id="oc-bet-no-pct" style="color:var(--red);"></span></div>
       <div style="display:flex;gap:5px;margin-bottom:11px;">
-        <div class="bet-amt" onclick="ocSelectAmt(this,100)"  style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">100⬡</div>
-        <div class="bet-amt selected" onclick="ocSelectAmt(this,200)"  style="flex:1;background:rgba(245,166,35,.08);border:1px solid var(--orange);border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:var(--orange);">200⬡</div>
-        <div class="bet-amt" onclick="ocSelectAmt(this,500)"  style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">500⬡</div>
-        <div class="bet-amt" onclick="ocSelectAmt(this,1000)" style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">1K⬡</div>
-        <div class="bet-amt" onclick="ocSelectAmt(this,5000)" style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">5K⬡</div>
+        <div class="bet-amt" onclick="ocSelectAmt(this,100)"  style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt selected" onclick="ocSelectAmt(this,200)"  style="flex:1;background:rgba(245,166,35,.08);border:1px solid var(--orange);border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:var(--orange);">200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt" onclick="ocSelectAmt(this,500)"  style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt" onclick="ocSelectAmt(this,1000)" style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">1K<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div class="bet-amt" onclick="ocSelectAmt(this,5000)" style="flex:1;background:#181818;border:1px solid #252525;border-radius:9px;padding:8px 2px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;color:#666;">5K<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       </div>
       <div style="background:#181818;border-radius:12px;padding:12px;margin-bottom:11px;border:1px solid #222;">
-        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">YOUR BET</span><span id="oc-calc-bet" style="color:#ccc;">200⬡</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">YOUR BET</span><span id="oc-calc-bet" style="color:#ccc;">200<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span></div>
         <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">ODDS</span><span id="oc-calc-odds" style="color:#ffd700;">2.41x</span></div>
         <div style="display:flex;justify-content:space-between;font-size:9px;font-family:'Space Mono',monospace;margin-bottom:5px;"><span style="color:#444;">TOTAL POOL</span><span id="oc-calc-pool" style="color:#444;"></span></div>
         <div style="border-top:1px solid #222;margin:7px 0;"></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;"><span style="color:#777;">IF WIN</span><span id="oc-calc-payout" style="color:var(--green);">+1,085⬡</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;font-family:'Space Mono',monospace;"><span style="color:#777;">IF WIN</span><span id="oc-calc-payout" style="color:var(--green);">+1,085<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></span></div>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:10px;">
         <div id="oc-bet-btn-yes" onclick="ocPlaceBet('YES')" style="flex:1;background:linear-gradient(135deg,#00e676,#00c853);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;">✓ YES</div>
@@ -18541,7 +18541,7 @@ async function rsiTestRender() {
   <div style="background:#111;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:0 0 40px;border-top:1px solid #2a2a2a;">
     <div style="width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;"></div>
     <div style="padding:16px 18px 0;">
-      <div style="font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:4px;">👁 ORACLE COPY TRADE</div>
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:4px;"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE COPY TRADE</div>
       <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:14px;">SEE WHAT THIS TRADER IS DOING RIGHT NOW</div>
       <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
         <div id="oc-ct-av" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"></div>
@@ -18560,9 +18560,9 @@ async function rsiTestRender() {
           <div id="oc-ct-tag-time"  style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.15);border-radius:7px;padding:4px 8px;font-size:9px;font-weight:700;color:#ffd700;"></div>
         </div>
       </div>
-      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:4px;">This view costs 50⬡ · Trader earns 40⬡</div>
+      <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:4px;">This view costs 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> · Trader earns 40<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       <div style="font-size:9px;color:#333;font-family:'Space Mono',monospace;margin-bottom:12px;">Balance after: <span id="oc-ct-balance-after" style="color:#666;"></span></div>
-      <div onclick="ocConfirmCopy()" style="background:linear-gradient(135deg,#00e5ff,#0097a7);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">✓ CONFIRM — PAY 50⬡</div>
+      <div onclick="ocConfirmCopy()" style="background:linear-gradient(135deg,#00e5ff,#0097a7);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">✓ CONFIRM — PAY 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       <div onclick="ocModal('oc-modal-copy',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
     </div>
   </div>
@@ -18581,7 +18581,7 @@ async function rsiTestRender() {
         <div style="font-size:9px;color:#444;font-family:'Space Mono',monospace;margin-bottom:8px;">SUBSCRIPTION INCLUDES:</div>
         <div style="font-size:11px;color:#bbb;margin-bottom:5px;">🔔 Signal notifications</div>
         <div style="font-size:11px;color:#bbb;margin-bottom:5px;">📊 Full accuracy history</div>
-        <div style="font-size:11px;color:#bbb;">👁 Priority copy trade access</div>
+        <div style="font-size:11px;color:#bbb;"><img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> Priority copy trade access</div>
       </div>
       <div id="oc-sub-modal-sub" onclick="ocConfirmSub()" style="background:linear-gradient(135deg,var(--orange),#e65100);border-radius:12px;padding:13px;font-weight:800;font-size:12px;color:#000;cursor:pointer;text-align:center;margin-bottom:10px;">FOLLOW @TRADER</div>
       <div onclick="ocModal('oc-modal-subscribe',0)" style="text-align:center;color:#444;font-size:11px;cursor:pointer;padding:6px;">✕ CLOSE</div>
@@ -18633,7 +18633,7 @@ const ocState = {
   currentMarket: null,
 };
 
-const ASSET_ICONS = { BTC:'₿', ETH:'Ξ', SOL:'◎', GOLD:'⬡', SPX:'📊', NVDA:'N', TSLA:'T', BNB:'B', XRP:'✕' };
+const ASSET_ICONS = { BTC:'₿', ETH:'Ξ', SOL:'◎', GOLD:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">', SPX:'📊', NVDA:'N', TSLA:'T', BNB:'B', XRP:'✕' };
 
 /* ════════════════════════════════════
    TAB SWITCHING
@@ -18657,20 +18657,20 @@ function ocRenderMyBets() {
   const bets = OC_EXT.myBets || [];
   const active = bets.filter(b => b.status === 'active');
   const closed = bets.filter(b => b.status !== 'active');
-  const iconMap = {BTC:'₿',ETH:'Ξ',SOL:'◎',GOLD:'⬡',SPX:'📊',NVDA:'N',TSLA:'T',BNB:'B',XRP:'✕'};
+  const iconMap = {BTC:'₿',ETH:'Ξ',SOL:'◎',GOLD:'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">',SPX:'📊',NVDA:'N',TSLA:'T',BNB:'B',XRP:'✕'};
 
   const betRow = (b, dim) => `
     <div class="my-bet-row" ${dim?'style="opacity:.65"':''}>
-      <div class="mbi-icon">${iconMap[b.asset]||'⬡'}</div>
+      <div class="mbi-icon">${iconMap[b.asset]||'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">'}</div>
       <div class="mbi-info">
         <div class="mbi-name">${b.asset} ${b.tf} — ${b.dir||''}</div>
-        <div class="mbi-meta">BET: ${b.amt.toLocaleString()}⬡ · SIDE: <span class="bet-side-${b.side==='YES'?'yes':'no'}">${b.side}</span></div>
+        <div class="mbi-meta">BET: ${b.amt.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> · SIDE: <span class="bet-side-${b.side==='YES'?'yes':'no'}">${b.side}</span></div>
         <div class="mbi-status" style="color:${b.status==='won'?'var(--green)':b.status==='lost'?'var(--red)':'var(--text3)'}">
           ${b.status==='active'?'Active bet':b.status==='won'?'✓ WON · '+b.date:'✗ LOST · '+b.date}
         </div>
       </div>
       <div style="text-align:right">
-        <div class="${b.status==='lost'?'mbi-pnl-neg':'mbi-pnl-pos'}">${b.status==='lost'?'-'+b.amt.toLocaleString():'+'+b.payout.toLocaleString()}⬡</div>
+        <div class="${b.status==='lost'?'mbi-pnl-neg':'mbi-pnl-pos'}">${b.status==='lost'?'-'+b.amt.toLocaleString():'+'+b.payout.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
         <div style="font-size:8px;color:${b.status==='won'?'var(--green)':b.status==='lost'?'var(--red)':'var(--text2)'};font-family:'Space Mono',monospace">
           ${b.status==='active'?'IF WIN':b.status==='won'?'PAID OUT':'LOST'}
         </div>
@@ -18685,11 +18685,11 @@ function ocRenderMyBets() {
   const winRate    = totalBets ? Math.round(closed.filter(b=>b.status==='won').length/totalBets*100) : 0;
 
   wrap.innerHTML = `
-    <div class="o-label">ACTIVE BETS <span class="o-label-action">${active.length ? '+'+pendingPnl.toLocaleString()+'⬡ PENDING' : '0 ACTIVE'}</span></div>
+    <div class="o-label">ACTIVE BETS <span class="o-label-action">${active.length ? '+'+pendingPnl.toLocaleString()+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> PENDING' : '0 ACTIVE'}</span></div>
     ${active.length ? active.map(b=>betRow(b,false)).join('') : '<div style="text-align:center;padding:20px;color:#555;font-family:Space Mono,monospace;font-size:10px;">No active bets yet — place a bet in PROPHECIES</div>'}
     ${closed.length ? `<div class="o-label">CLOSED BETS</div>${closed.map(b=>betRow(b,true)).join('')}
     <div class="pnl-summary">
-      <div class="pnl-val" style="color:${netClosed>=0?'var(--gold)':'var(--red)'}">${netClosed>=0?'+':''}${netClosed.toLocaleString()}⬡</div>
+      <div class="pnl-val" style="color:${netClosed>=0?'var(--gold)':'var(--red)'}">${netClosed>=0?'+':''}${netClosed.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
       <div class="pnl-sub">NET CLOSED P&L${totalBets ? ' · WIN RATE '+closed.filter(b=>b.status==='won').length+'/'+totalBets+' ('+winRate+'%)' : ''}</div>
     </div>` : ''}
   `;
@@ -18758,7 +18758,7 @@ function ocOpenBet(data) {
   document.getElementById('oc-bet-bar').style.width         = data.yesPct + '%';
   document.getElementById('oc-bet-yes-pct').textContent     = `YES ${data.yesPct}%`;
   document.getElementById('oc-bet-no-pct').textContent      = `NO ${noPool}%`;
-  document.getElementById('oc-calc-pool').textContent       = data.totalPool + '⬡';
+  document.getElementById('oc-calc-pool').textContent       = data.totalPool + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
 
   // Лейблы кнопок
   const isDropSignal = data.dir === 'Bear';
@@ -18778,9 +18778,9 @@ function ocSelectAmt(el, amt) {
 
 function updateBetCalc() {
   const payout = Math.round(ocState.betAmt * ocState.betOdds * 0.9);
-  document.getElementById('oc-calc-bet').textContent    = ocState.betAmt.toLocaleString() + '⬡';
+  document.getElementById('oc-calc-bet').textContent    = ocState.betAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   document.getElementById('oc-calc-odds').textContent   = ocState.betOdds.toFixed(2) + 'x';
-  document.getElementById('oc-calc-payout').textContent = payout.toLocaleString() + '⬡';
+  document.getElementById('oc-calc-payout').textContent = payout.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
 }
 
 function ocPlaceBet(side) {
@@ -18799,7 +18799,7 @@ function ocPlaceBet(side) {
   ocRenderMyBets();
   ocSave();
   opAdvanceQuest('wq2');
-  showToast(`🔮 Bet placed! ${ocState.betAmt.toLocaleString()}⬡ on ${side} — ${asset} ${tf} · If win: +${payout.toLocaleString()}⬡`);
+  showToast(`🔮 Bet placed! ${ocState.betAmt.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> on ${side} — ${asset} ${tf} · If win: +${payout.toLocaleString()}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">`);
 }
 
 /* ════════════════════════════════════
@@ -18814,7 +18814,7 @@ function ocOpenCopy(data) {
   av.textContent = data.icon; av.style.background = data.avatarBg;
   document.getElementById('oc-ct-name').textContent  = '@' + data.handle;
   document.getElementById('oc-ct-rank').textContent  = data.rank;
-  document.getElementById('oc-ct-balance-after').textContent = (OC.coins - 50).toLocaleString() + '⬡';
+  document.getElementById('oc-ct-balance-after').textContent = (OC.coins - 50).toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
 
   const box = document.getElementById('oc-ct-status-box');
   const dot = document.getElementById('oc-ct-dot');
@@ -18867,15 +18867,15 @@ function ocOpenCopy(data) {
   const confirmBtn = document.querySelector('#oc-modal-copy [onclick="ocConfirmCopy()"]');
   if (confirmBtn) {
     if (!isSubbed) confirmBtn.textContent = '⚠ Subscribe First';
-    else if (isRevealed) confirmBtn.textContent = '✓ ALREADY REVEALED — REFRESH 50⬡';
-    else confirmBtn.textContent = '✓ CONFIRM — PAY 50⬡';
+    else if (isRevealed) confirmBtn.textContent = '✓ ALREADY REVEALED — REFRESH 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
+    else confirmBtn.textContent = '✓ CONFIRM — PAY 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
   }
 
   ocModal('oc-modal-copy',1);
 }
 
 function ocConfirmCopy() {
-  if (OC.coins < 50) { showToast('⚠️ Need 50⬡ to unlock trader status'); return; }
+  if (OC.coins < 50) { showToast('⚠️ Need 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"> to unlock trader status'); return; }
   const d = ocState.currentCopy;
   if (!OC_EXT.subscribedTraders.includes(d.handle)) {
     showToast('⚠ Subscribe to @'+d.handle+' first to unlock status'); return;
@@ -18886,7 +18886,7 @@ function ocConfirmCopy() {
   ocModal('oc-modal-copy',0);
   oracleRenderVaultCoins(); ocSave();
   opAdvanceQuest('wq4');
-  showToast(`👁 Status unlocked! @${d.handle} is ${d.action} ${d.asset !== '—' ? d.asset + ' ' + d.pos + ' ' + d.tf : '— monitoring markets'}`);
+  showToast(`<img src="icons/4 ELCARO.webp" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> Status unlocked! @${d.handle} is ${d.action} ${d.asset !== '—' ? d.asset + ' ' + d.pos + ' ' + d.tf : '— monitoring markets'}`);
 }
 
 /* ════════════════════════════════════
@@ -18941,10 +18941,10 @@ function ocOpenMarket(data) {
   document.getElementById('oc-mkt-name').textContent          = data.name;
   document.getElementById('oc-mkt-meta').textContent          = data.meta;
   document.getElementById('oc-mkt-seller').textContent        = data.seller;
-  document.getElementById('oc-mkt-price').textContent         = data.price + '⬡';
-  document.getElementById('oc-mkt-seller-gets').textContent   = sellerGet.toLocaleString() + '⬡';
-  document.getElementById('oc-mkt-balance-after').textContent = (OC.coins - price).toLocaleString() + '⬡';
-  document.getElementById('oc-mkt-buy-label').textContent     = data.price + '⬡';
+  document.getElementById('oc-mkt-price').textContent         = data.price + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
+  document.getElementById('oc-mkt-seller-gets').textContent   = sellerGet.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
+  document.getElementById('oc-mkt-balance-after').textContent = (OC.coins - price).toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
+  document.getElementById('oc-mkt-buy-label').textContent     = data.price + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">';
 
   ocModal('oc-modal-market',1);
 }
@@ -18963,7 +18963,7 @@ function ocConfirmBuy() {
   }
   ocModal('oc-modal-market',0);
   oracleRenderVaultCoins(); ocSave();
-  showToast(`🛒 Purchased ${d.name} from ${d.seller} for ${d.price}⬡!`);
+  showToast(`🛒 Purchased ${d.name} from ${d.seller} for ${d.price}<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;">!`);
 }
 
 /* ════════════════════════════════════
