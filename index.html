@@ -754,7 +754,7 @@ body {
 .tools-launcher-btn:active { transform:scale(.95); }
 .tools-launcher-btn:hover { transform:translateY(-3px) scale(1.06);box-shadow:0 0 16px rgba(255,106,0,.25), 0 8px 24px rgba(0,0,0,.3); }
 .tlb-icon { line-height:1; display:flex; align-items:center; justify-content:center; transition:all .25s ease; }
-.tlb-icon img { width:28px; height:28px; object-fit:contain; transition:all .25s ease; }
+.tlb-icon img { width:48px; height:48px; object-fit:contain; transition:all .25s ease; }
 .tools-launcher-btn:hover .tlb-icon img { transform:scale(1.1); filter:brightness(1.2); }
 .tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; transition:all .25s; }
 .tools-launcher-btn:hover .tlb-name { color:#fff !important; }
@@ -2333,8 +2333,8 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .op-tab.active .op-tab-icon { font-size:17px; }
 .op-tab:hover:not(.active) { color:#888; }
 #oracle-panel .op-tab .op-tab-icon { font-size:14px; display:flex; align-items:center; justify-content:center; margin-bottom:1px; transition:all .25s; }
-#oracle-panel .op-tab .op-tab-icon img { width:14px; height:14px; object-fit:contain; transition:all .25s; opacity:.5; filter:grayscale(40%); }
-#oracle-panel .op-tab.active .op-tab-icon img { width:17px; height:17px; opacity:1; filter:grayscale(0%) brightness(1.3); }
+#oracle-panel .op-tab .op-tab-icon img { width:28px; height:28px; object-fit:contain; transition:all .25s; opacity:.5; filter:grayscale(40%); }
+#oracle-panel .op-tab.active .op-tab-icon img { width:34px; height:34px; opacity:1; filter:grayscale(0%) brightness(1.3); }
 #oracle-panel .op-tab:hover:not(.active) .op-tab-icon img { opacity:.75; filter:grayscale(20%); }
 
 /* Oracle body */
@@ -4253,18 +4253,18 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === EQUAL-WIDTH GROUP: ALERTS · STRADDLE · ELCARO · GUILD === -->
     <button class="mode-btn active" id="mode-alerts-nav" onclick="setMode('alerts')"
       title="Trading Filter Alerts" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/5 ALERTS.png" style="width:16px;height:16px;object-fit:contain;"> ALERTS
+      <img src="icons/5 ALERTS.png" style="width:24px;height:24px;object-fit:contain;"> ALERTS
     </button>
 
     <button class="mode-btn" id="mode-straddle" onclick="setMode('straddle')" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/2 RANGE.png" style="width:16px;height:16px;object-fit:contain;">
+      <img src="icons/2 RANGE.png" style="width:24px;height:24px;object-fit:contain;">
       RANGE
     </button>
 
     <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
       title="ORACLE — Vault, Market, News, Profile"
       style="flex:1;min-width:0;color:var(--orange);">
-      <img src="icons/4 ELCARO.png" style="width:16px;height:16px;object-fit:contain;"> ELCARO
+      <img src="icons/4 ELCARO.png" style="width:24px;height:24px;object-fit:contain;"> ELCARO
     </button>
 
     <!-- Divider -->
@@ -4273,12 +4273,12 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === ICON-ONLY GROUP: TOOLS · MARKET === -->
     <button class="mode-btn" id="mode-tools-group" onclick="setMode('tools')"
       title="Tools" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <img src="icons/1 TOOLS.png" style="width:18px;height:18px;object-fit:contain;">
+      <img src="icons/1 TOOLS.png" style="width:22px;height:22px;object-fit:contain;">
     </button>
 
     <button class="mode-btn" id="mode-market-group" onclick="setMode('market')"
       title="Market Data" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <img src="icons/3 MARKET.png" style="width:18px;height:18px;object-fit:contain;">
+      <img src="icons/3 MARKET.png" style="width:22px;height:22px;object-fit:contain;">
     </button>
 
 
@@ -4414,7 +4414,7 @@ input[type=range]::-webkit-slider-thumb {
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
         AUTO-FILL
       </button>
-      <button class="btn-calc" onclick="calculate()"><img src="icons/42 CALCULATE.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CALCULATE</button>
+      <button class="btn-calc" onclick="calculate()"><img src="icons/42 CALCULATE.png" style="width:28px;height:28px;object-fit:contain;vertical-align:middle;"> CALCULATE</button>
 
     </div>
   </div>
@@ -4794,7 +4794,7 @@ input[type=range]::-webkit-slider-thumb {
           ADD AVERAGING LEG
         </button>
 
-        <button class="avg-calc-btn" onclick="avgCalculate()"><img src="icons/43 CALCULATE AVERAGE.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CALCULATE AVERAGE</button>
+        <button class="avg-calc-btn" onclick="avgCalculate()"><img src="icons/43 CALCULATE AVERAGE.png" style="width:28px;height:28px;object-fit:contain;vertical-align:middle;"> CALCULATE AVERAGE</button>
       </div>
     </div>
 
@@ -5087,7 +5087,7 @@ input[type=range]::-webkit-slider-thumb {
             oninput="sizerSyncPcts(); sizerCalc()">
         </div>
 
-        <button class="sizer-calc-btn" onclick="sizerCalc()"><img src="icons/44 CALCULATE POSITION SIZE.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CALCULATE POSITION SIZE</button>
+        <button class="sizer-calc-btn" onclick="sizerCalc()"><img src="icons/44 CALCULATE POSITION SIZE.png" style="width:28px;height:28px;object-fit:contain;vertical-align:middle;"> CALCULATE POSITION SIZE</button>
       </div>
     </div>
 
@@ -5537,11 +5537,11 @@ input[type=range]::-webkit-slider-thumb {
       <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <button id="pf-sim-tab-rand" onclick="pfSimSetMode('random')"
           style="padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;">
-          <img src="icons/40 RANDOM SIMULATION.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> RANDOM SIMULATION
+          <img src="icons/40 RANDOM SIMULATION.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;"> RANDOM SIMULATION
         </button>
         <button id="pf-sim-tab-mult" onclick="pfSimSetMode('multiplier')"
           style="padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
-          <img src="icons/41 GROWTH MULTIPLIER.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> GROWTH MULTIPLIER
+          <img src="icons/41 GROWTH MULTIPLIER.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;"> GROWTH MULTIPLIER
         </button>
         <button id="pf-sim-reroll" onclick="pfRunSimulation()"
           style="margin-left:auto;padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">
@@ -5624,10 +5624,10 @@ input[type=range]::-webkit-slider-thumb {
 
   <!-- Step nav -->
   <div class="agent-steps-nav" id="agent-steps-nav">
-    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)"><img src="icons/30 GUILD.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Portfolio</button>
-    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled title="Complete previous step first"><img src="icons/31 Analysis.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Analysis</button>
-    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled title="Complete previous step first"><img src="icons/32 Signals.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Signals</button>
-    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled title="Complete previous step first"><img src="icons/33 Plan.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Plan</button>
+    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)"><img src="icons/30 GUILD.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Portfolio</button>
+    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled title="Complete previous step first"><img src="icons/31 Analysis.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Analysis</button>
+    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled title="Complete previous step first"><img src="icons/32 Signals.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Signals</button>
+    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled title="Complete previous step first"><img src="icons/33 Plan.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Plan</button>
     <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
       <span style="font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text2);">BUDGET</span>
       <span id="agent-budget-display" style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;color:var(--orange);">$1,000,000</span>
@@ -5659,9 +5659,9 @@ input[type=range]::-webkit-slider-thumb {
 
     <!-- Category tabs -->
     <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
-      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')"><img src="icons/34 Crypto.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')"><img src="icons/35 ETFs.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:2px;"> ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')"><img src="icons/36 Stocks.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')"><img src="icons/34 Crypto.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')"><img src="icons/35 ETFs.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:2px;"> ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')"><img src="icons/36 Stocks.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
       <button id="agent-add-btn" onclick="agentToggleAddForm()"
         style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
         onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
@@ -5729,7 +5729,7 @@ input[type=range]::-webkit-slider-thumb {
       </div>
     </div>
     <div id="agent-signal-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
-    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast(n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();"><img src="icons/33 Plan.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> GENERATE DEPLOYMENT PLAN →</button>
+    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast(n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();"><img src="icons/33 Plan.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:3px;"> GENERATE DEPLOYMENT PLAN →</button>
   </div>
 
   <!-- ── STEP 3: PLAN ── -->
@@ -10062,7 +10062,7 @@ function agentRenderAnalysis(a) {
         </button>`).join('')}
     </div>
   </div>
-  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);"><img src="icons/32 Signals.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> INPUT ENTRY SIGNALS →</button>
+  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);"><img src="icons/32 Signals.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:3px;"> INPUT ENTRY SIGNALS →</button>
   `;
 }
 
@@ -11694,7 +11694,7 @@ function initSigmaButtons() {
     <!-- DAILY QUESTS -->
     <div class="slabel">DAILY QUESTS</div>
     <div class="quest-item done">
-      <div class="qi-icon"><img src="icons/quest Check BTC Signal.png" style="width:24px;height:24px;object-fit:contain;"></div>
+      <div class="qi-icon"><img src="icons/quest Check BTC Signal.png" style="width:48px;height:48px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Check BTC Signal</div>
         <div class="qi-desc">OPEN ANY BTC TIMEFRAME</div>
@@ -11703,7 +11703,7 @@ function initSigmaButtons() {
       <div class="qi-reward"><div class="qi-coins">+30⬡</div><div class="qi-extra">DONE ✓</div></div>
     </div>
     <div class="quest-item" onclick="shareToTelegram()">
-      <div class="qi-icon"><img src="icons/quest Share to Telegram.png" style="width:24px;height:24px;object-fit:contain;"></div>
+      <div class="qi-icon"><img src="icons/quest Share to Telegram.png" style="width:48px;height:48px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Share to Telegram</div>
         <div class="qi-desc">REPOST ANY ORACLE SIGNAL</div>
@@ -11712,7 +11712,7 @@ function initSigmaButtons() {
       <div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--wood)">+BRONZE</div></div>
     </div>
     <div class="quest-item" onclick="showToast('Check 3 assets → +20 coins')">
-      <div class="qi-icon"><img src="icons/quest Browse 3 Assets.png" style="width:24px;height:24px;object-fit:contain;"></div>
+      <div class="qi-icon"><img src="icons/quest Browse 3 Assets.png" style="width:48px;height:48px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Browse 3 Assets</div>
         <div class="qi-desc">1 / 3 ASSETS VIEWED TODAY</div>
@@ -11836,7 +11836,7 @@ function initSigmaButtons() {
         <div class="verdict-expire">⏳ Closes: May 03 '26 12:30 UTC</div>
       </div>
       <div class="verdict-body">
-        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — WILL WORK</strong> · Confidence: <span style="color:var(--gold)">78%</span></div>
+        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — WILL WORK</strong> · Confidence: <span style="color:var(--gold)">78%</span></div>
         <div style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-bottom:6px;">SELECT TIMEFRAME TO BET ON:</div>
         <div class="verdict-tf-row" id="btc-tf-row">
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'btc','15M')">15M</button>
@@ -12126,10 +12126,10 @@ function initSigmaButtons() {
 
           <!-- FREE / PREMIUM TAB SWITCHER -->
           <div style="padding:0 12px 10px;display:flex;gap:6px;">
-            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img src="icons/37 FREE.png" style="width:14px;height:14px;object-fit:contain;"> FREE</div>
-            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img src="icons/38 PREMIUM.png" style="width:14px;height:14px;object-fit:contain;"> PREMIUM</div>
+            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img src="icons/37 FREE.png" style="width:16px;height:16px;object-fit:contain;"> FREE</div>
+            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img src="icons/38 PREMIUM.png" style="width:16px;height:16px;object-fit:contain;"> PREMIUM</div>
             <div style="flex:1;text-align:center;padding:8px;background:linear-gradient(135deg,rgba(108,63,255,.18),rgba(168,85,247,.1));border:1px solid rgba(108,63,255,.45);border-radius:9px;font-size:9px;font-weight:700;color:#b388ff;font-family:'Space Mono',monospace;cursor:pointer;position:relative;overflow:hidden;" onclick="window.open('https://waylight.me/tru/community/0c74c-db858','_blank')">
-              <img src="icons/39 PRIVATE GROUP.png" style="width:14px;height:14px;object-fit:contain;"> PRIVATE<br>GROUP
+              <img src="icons/39 PRIVATE GROUP.png" style="width:16px;height:16px;object-fit:contain;"> PRIVATE<br>GROUP
             </div>
           </div>
 
@@ -12554,9 +12554,9 @@ function initSigmaButtons() {
 
     <!-- EARN MORE -->
     <div class="slabel">EARN MORE COINS</div>
-    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon"><img src="icons/Share to Telegram.png" style="width:24px;height:24px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
-    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img src="icons/quest Follow 2 Traders.png" style="width:24px;height:24px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
-    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon"><img src="icons/38 PREMIUM.png" style="width:24px;height:24px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
+    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon"><img src="icons/Share to Telegram.png" style="width:48px;height:48px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
+    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img src="icons/quest Follow 2 Traders.png" style="width:48px;height:48px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
+    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon"><img src="icons/38 PREMIUM.png" style="width:48px;height:48px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
 
     <!-- DISCLAIMER BUTTON -->
     <div style="margin-top:20px;padding:0 4px;">
@@ -14476,18 +14476,18 @@ checkDuelDeadlines();
 
 // ── Quest definitions (progress & done state stored in OC) ──
 const OP_DAILY_QUEST_DEFS = [
-  {id:'dq1',icon:'<img src="icons/quest Check BTC Signal.png" style="width:24px;height:24px;object-fit:contain;">', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
-  {id:'dq2',icon:'<img src="icons/quest Share to Telegram.png" style="width:24px;height:24px;object-fit:contain;">',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
-  {id:'dq3',icon:'<img src="icons/quest Browse 3 Assets.png" style="width:24px;height:24px;object-fit:contain;">', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
-  {id:'dq4',icon:'<img src="icons/quest Use Oracle Slot.png" style="width:24px;height:24px;object-fit:contain;">',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
-  {id:'dq5',icon:'<img src="icons/quest Daily Check-in.png" style="width:24px;height:24px;object-fit:contain;">',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
+  {id:'dq1',icon:'<img src="icons/quest Check BTC Signal.png" style="width:48px;height:48px;object-fit:contain;">', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
+  {id:'dq2',icon:'<img src="icons/quest Share to Telegram.png" style="width:48px;height:48px;object-fit:contain;">',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
+  {id:'dq3',icon:'<img src="icons/quest Browse 3 Assets.png" style="width:48px;height:48px;object-fit:contain;">', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
+  {id:'dq4',icon:'<img src="icons/quest Use Oracle Slot.png" style="width:48px;height:48px;object-fit:contain;">',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
+  {id:'dq5',icon:'<img src="icons/quest Daily Check-in.png" style="width:48px;height:48px;object-fit:contain;">',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
 ];
 const OP_WEEKLY_QUEST_DEFS = [
-  {id:'wq1',icon:'<img src="icons/quest Open 2 Chests.png" style="width:24px;height:24px;object-fit:contain;">',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
-  {id:'wq2',icon:'<img src="icons/quest Place 3 Arena Bets.png" style="width:24px;height:24px;object-fit:contain;">',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
-  {id:'wq3',icon:'<img src="icons/quest Contribute to Guild.png" style="width:24px;height:24px;object-fit:contain;">',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
-  {id:'wq4',icon:'<img src="icons/quest Follow 2 Traders.png" style="width:24px;height:24px;object-fit:contain;">',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
-  {id:'wq5',icon:'<img src="icons/quest Win an Arena Duel.png" style="width:24px;height:24px;object-fit:contain;">',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
+  {id:'wq1',icon:'<img src="icons/quest Open 2 Chests.png" style="width:48px;height:48px;object-fit:contain;">',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
+  {id:'wq2',icon:'<img src="icons/quest Place 3 Arena Bets.png" style="width:48px;height:48px;object-fit:contain;">',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
+  {id:'wq3',icon:'<img src="icons/quest Contribute to Guild.png" style="width:48px;height:48px;object-fit:contain;">',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
+  {id:'wq4',icon:'<img src="icons/quest Follow 2 Traders.png" style="width:48px;height:48px;object-fit:contain;">',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
+  {id:'wq5',icon:'<img src="icons/quest Win an Arena Duel.png" style="width:48px;height:48px;object-fit:contain;">',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
 ];
 
 // ── Legacy arrays for backward compat (filled dynamically) ──
