@@ -136,15 +136,17 @@ body {
   flex:1; padding:9px 12px; border-radius:10px; border:none;
   background:transparent; font-family:'Space Mono',monospace;
   font-size:10px; font-weight:800; letter-spacing:.6px;
-  color:#444; cursor:pointer; transition:all .18s;
+  color:#444; cursor:pointer; transition:all .2s ease;
   display:flex; align-items:center; justify-content:center; gap:5px;
 }
 .mode-btn.active {
   background:linear-gradient(135deg,#ff6a00,#f5a623) !important;
   color:#000 !important;
   box-shadow:0 2px 16px rgba(255,106,0,.25);
+  transform:scale(1.06);
 }
-.mode-btn:hover:not(.active) { color:#888; background:rgba(255,106,0,.04); }
+.mode-btn:hover:not(.active) { color:#888; background:rgba(255,106,0,.04); transform:scale(1.04); }
+.mode-btn:active { transform:scale(.96); }
 
 /* ── AVG ASSET SELECTOR ── */
 .avg-asset-bar {
@@ -689,8 +691,8 @@ body {
   transition:transform .18s,box-shadow .18s,background .2s;
   text-align:center;min-height:110px;
 }
-.tools-launcher-btn:active { transform:scale(.96); }
-.tools-launcher-btn:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25); }
+.tools-launcher-btn:active { transform:scale(.95); }
+.tools-launcher-btn:hover { transform:translateY(-3px) scale(1.04);box-shadow:0 8px 24px rgba(0,0,0,.3); }
 .tlb-icon { line-height:1; }
 .tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; }
 .tlb-sub  { font-size:8px;color:#666;font-family:'Space Mono',monospace;letter-spacing:.3px; }
@@ -2238,7 +2240,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .op-tab {
   flex:1; padding:6px 2px; text-align:center;
   font-size:8px; font-weight:700; letter-spacing:.5px;
-  color:#555; cursor:pointer; transition:all .15s;
+  color:#555; cursor:pointer; transition:all .2s ease;
   font-family:'DM Sans',Outfit,sans-serif;
   border-bottom:2px solid transparent;
 }
@@ -2247,7 +2249,10 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   color:#000; font-weight:800; font-size:9px;
   border-radius:10px; border-bottom-color:transparent;
   box-shadow:0 2px 12px rgba(255,106,0,.25);
+  transform:scale(1.06);
 }
+#oracle-panel .op-tab:hover:not(.active) { transform:scale(1.04); }
+#oracle-panel .op-tab:active { transform:scale(.95); }
 #oracle-panel .op-tab.active .op-tab-icon { font-size:17px; }
 .op-tab:hover:not(.active) { color:#888; }
 #oracle-panel .op-tab .op-tab-icon { font-size:14px; display:block; margin-bottom:1px; transition:font-size .15s; }
