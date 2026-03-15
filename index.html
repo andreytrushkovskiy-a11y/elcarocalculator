@@ -62,6 +62,11 @@
   --text3:  #3a3a3a;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
+
+/* ══ GLOBAL LIQUID GLASS ACTIVE SYSTEM ══ */
+/* Icons in inactive buttons are dimmed; active buttons glow */
+button img, .clickable img { transition:all .25s ease; }
+
 /* ══ FORCE DARK THEME — overrides Telegram Mini App light mode ══ */
 :root {
   color-scheme: dark !important;
@@ -134,18 +139,22 @@ body {
 .mode-btn { flex:1; min-width:55px; }
 .mode-btn {
   flex:1; padding:9px 12px; border-radius:10px; border:none;
-  background:transparent; font-family:'Space Mono',monospace;
+  background:rgba(26,26,26,.8); font-family:'Space Mono',monospace;
   font-size:10px; font-weight:800; letter-spacing:.6px;
-  color:#444; cursor:pointer; transition:all .2s ease;
+  color:#666; cursor:pointer; transition:all .25s ease;
   display:flex; align-items:center; justify-content:center; gap:5px;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
 }
+.mode-btn img { opacity:.5; transition:all .25s ease; filter:grayscale(40%); }
 .mode-btn.active {
   background:linear-gradient(135deg,#ff6a00,#f5a623) !important;
   color:#000 !important;
-  box-shadow:0 2px 16px rgba(255,106,0,.25);
+  box-shadow:0 0 14px rgba(255,106,0,.4), 0 2px 16px rgba(255,106,0,.2);
   transform:scale(1.06);
 }
-.mode-btn:hover:not(.active) { color:#888; background:rgba(255,106,0,.04); transform:scale(1.04); }
+.mode-btn.active img { opacity:1; filter:grayscale(0%) brightness(1.2); }
+.mode-btn:hover:not(.active) { color:#999; background:rgba(255,106,0,.06); transform:scale(1.03); }
+.mode-btn:hover:not(.active) img { opacity:.75; filter:grayscale(20%); }
 .mode-btn:active { transform:scale(.96); }
 
 /* ── AVG ASSET SELECTOR ── */
@@ -154,11 +163,17 @@ body {
 }
 .avg-asset-chip {
   padding:8px 14px; border-radius:10px; border:1px solid #2a2a2a;
-  background:#161616; font-family:'Space Mono',monospace;
+  background:rgba(26,26,26,.8); font-family:'Space Mono',monospace;
   font-size:11px; font-weight:700; color:#555;
-  cursor:pointer; transition:all .15s; letter-spacing:.5px;
+  cursor:pointer; transition:all .25s ease; letter-spacing:.5px;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
 }
-.avg-asset-chip.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.1); }
+.avg-asset-chip.active {
+  border-color:#ff6500; color:#ff6500;
+  background:linear-gradient(135deg,rgba(255,101,0,.15),rgba(255,101,0,.06));
+  box-shadow:0 0 10px rgba(255,101,0,.25);
+  transform:scale(1.06);
+}
 .avg-asset-chip:hover:not(.active) { border-color:#3a3a3a; color:#aaa; }
 .avg-asset-custom {
   flex:1; min-width:80px; padding:8px 10px; border-radius:10px;
@@ -197,11 +212,22 @@ body {
 .pos-btn {
   padding:13px; border:none; font-family:'Space Mono',monospace;
   font-size:11px; font-weight:700; letter-spacing:.8px;
-  cursor:pointer; transition:all .18s; background:#161616;
+  cursor:pointer; transition:all .25s ease; background:rgba(26,26,26,.8);
   color:#555; display:flex; align-items:center; justify-content:center; gap:7px;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
 }
-.pos-btn.long.active  { background:rgba(0,229,160,.1); color:#00e5a0; border-bottom:2px solid #00e5a0; }
-.pos-btn.short.active { background:rgba(255,61,87,.1); color:#ff3d57; border-bottom:2px solid #ff3d57; }
+.pos-btn.long.active  {
+  background:linear-gradient(135deg,rgba(0,229,160,.15),rgba(0,229,160,.06));
+  color:#00e5a0; border-bottom:2px solid #00e5a0;
+  box-shadow:0 0 12px rgba(0,229,160,.25);
+  transform:scale(1.03);
+}
+.pos-btn.short.active {
+  background:linear-gradient(135deg,rgba(255,61,87,.15),rgba(255,61,87,.06));
+  color:#ff3d57; border-bottom:2px solid #ff3d57;
+  box-shadow:0 0 12px rgba(255,61,87,.25);
+  transform:scale(1.03);
+}
 .pos-btn:hover:not(.active) { background:rgba(255,255,255,.03); color:#aaa; }
 .pos-indicator {
   display:inline-flex; align-items:center; gap:5px;
@@ -259,11 +285,14 @@ body {
   width:100%; padding:15px; border-radius:14px; border:none;
   background:linear-gradient(135deg,#ff6500,#f5a623);
   font-family:'Syne',sans-serif; font-size:14px; font-weight:800;
-  color:#000; cursor:pointer; transition:all .2s;
+  color:#000; cursor:pointer; transition:all .25s ease;
   letter-spacing:.4px; margin-top:10px;
-  box-shadow:0 4px 18px rgba(245,166,35,.2);
+  box-shadow:0 0 16px rgba(245,166,35,.35), 0 4px 18px rgba(245,166,35,.2);
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.avg-calc-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(245,166,35,.3); }
+.avg-calc-btn img { filter:brightness(0); }
+.avg-calc-btn:hover { transform:translateY(-2px) scale(1.02); box-shadow:0 0 24px rgba(245,166,35,.45), 0 6px 24px rgba(245,166,35,.3); }
+.avg-calc-btn:active { transform:scale(.97); }
 
 /* ── AVG RESULTS ── */
 
@@ -324,11 +353,14 @@ body {
   width:100%; padding:15px; border-radius:14px; border:none;
   background:linear-gradient(135deg,#ff6500,#f5a623);
   font-family:'Syne',sans-serif; font-size:14px; font-weight:800;
-  color:#000; cursor:pointer; transition:all .2s;
+  color:#000; cursor:pointer; transition:all .25s ease;
   letter-spacing:.4px; margin-top:10px;
-  box-shadow:0 4px 18px rgba(245,166,35,.2);
+  box-shadow:0 0 16px rgba(245,166,35,.35), 0 4px 18px rgba(245,166,35,.2);
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.sizer-calc-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(245,166,35,.3); }
+.sizer-calc-btn img { filter:brightness(0); }
+.sizer-calc-btn:hover { transform:translateY(-2px) scale(1.02); box-shadow:0 0 24px rgba(245,166,35,.45), 0 6px 24px rgba(245,166,35,.3); }
+.sizer-calc-btn:active { transform:scale(.97); }
 
 /* ── PORTFOLIO ── */
 /* ═══════════════════════════════════════
@@ -458,11 +490,15 @@ body {
 .risk-bar-fill { height:100%; border-radius:4px; transition:width .4s; }
 .sizer-calc-btn {
   width:100%; padding:14px; border-radius:10px; border:none;
-  background:var(--orange); font-family:'Outfit',sans-serif;
+  background:linear-gradient(135deg,#ff6a00,#f5a623); font-family:'Outfit',sans-serif;
   font-size:14px; font-weight:900; color:#000; cursor:pointer;
-  transition:all .18s; letter-spacing:.3px; margin-top:8px;
+  transition:all .25s ease; letter-spacing:.3px; margin-top:8px;
+  box-shadow:0 0 14px rgba(255,106,0,.3);
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.sizer-calc-btn:hover { background:var(--orange2); transform:translateY(-1px); }
+.sizer-calc-btn img { filter:brightness(0); }
+.sizer-calc-btn:hover { transform:translateY(-2px) scale(1.02); box-shadow:0 0 22px rgba(255,106,0,.4); }
+.sizer-calc-btn:active { transform:scale(.97); }
 
 /* ── PORTFOLIO ── */
 .pf-section { max-width:1100px; margin:0 auto; }
@@ -573,16 +609,24 @@ body {
 .agent-steps-nav { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
 .agent-step-btn {
   display:flex; align-items:center; gap:7px;
-  padding:9px 18px; border-radius:8px;
-  border:1px solid var(--border); background:transparent;
+  padding:9px 18px; border-radius:10px;
+  border:1px solid var(--border); background:rgba(26,26,26,.8);
   font-family:'Outfit',sans-serif; font-size:12px; font-weight:600;
-  color:var(--text2); cursor:pointer; transition:all .18s;
+  color:var(--text2); cursor:pointer; transition:all .25s ease;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
 }
+.agent-step-btn img { opacity:.45; filter:grayscale(40%); transition:all .25s; }
 .agent-step-btn.active {
-  border-color:var(--orange); background:rgba(255,106,0,.08); color:var(--orange);
+  border-color:var(--orange); background:linear-gradient(135deg,rgba(255,106,0,.15),rgba(245,166,35,.08)); color:var(--orange);
+  box-shadow:0 0 12px rgba(255,106,0,.3);
+  transform:scale(1.06);
 }
+.agent-step-btn.active img { opacity:1; filter:grayscale(0%) brightness(1.2); }
 .agent-step-btn.done { border-color:#22c55e30; color:#22c55e; }
+.agent-step-btn.done img { opacity:.7; filter:hue-rotate(90deg) brightness(1.1); }
 .agent-step-btn:disabled { opacity:.3; cursor:not-allowed; }
+.agent-step-btn:hover:not(.active):not(:disabled) { border-color:rgba(255,106,0,.3); color:#999; }
+.agent-step-btn:hover:not(.active):not(:disabled) img { opacity:.65; filter:grayscale(20%); }
 
 /* Budget presets */
 .agent-budget-preset {
@@ -590,17 +634,32 @@ body {
   background:var(--bg3); font-family:'Outfit',sans-serif; font-size:12px;
   font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
 }
-.agent-budget-preset.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.08); }
+.agent-budget-preset.active {
+  border-color:var(--orange); color:var(--orange);
+  background:linear-gradient(135deg,rgba(255,106,0,.12),rgba(255,106,0,.05));
+  box-shadow:0 0 10px rgba(255,106,0,.25);
+  transform:scale(1.06);
+}
 .agent-budget-preset:hover:not(.active) { border-color:var(--border2); color:var(--text); }
 
 /* Category tabs */
 .agent-cat-btn {
-  flex:1; padding:12px; border-radius:10px; border:1px solid var(--border);
-  background:var(--bg3); font-family:'Outfit',sans-serif; font-size:13px;
-  font-weight:700; color:var(--text2); cursor:pointer; transition:all .15s;
+  flex:1; padding:12px; border-radius:12px; border:1px solid var(--border);
+  background:rgba(26,26,26,.8); font-family:'Outfit',sans-serif; font-size:13px;
+  font-weight:700; color:var(--text2); cursor:pointer; transition:all .25s ease;
   display:flex; align-items:center; justify-content:center; gap:7px;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
 }
-.agent-cat-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,106,0,.07); }
+.agent-cat-btn img { opacity:.45; filter:grayscale(40%); transition:all .25s; }
+.agent-cat-btn.active {
+  border-color:var(--orange); color:var(--orange);
+  background:linear-gradient(135deg,rgba(255,106,0,.12),rgba(245,166,35,.06));
+  box-shadow:0 0 12px rgba(255,106,0,.3);
+  transform:scale(1.06);
+}
+.agent-cat-btn.active img { opacity:1; filter:grayscale(0%) brightness(1.2); }
+.agent-cat-btn:hover:not(.active) { border-color:rgba(255,106,0,.25); color:#999; }
+.agent-cat-btn:hover:not(.active) img { opacity:.65; filter:grayscale(20%); }
 
 /* Asset cards */
 .agent-asset-card {
@@ -688,13 +747,17 @@ body {
 .tools-launcher-btn {
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:5px;padding:18px 8px 14px;border-radius:16px;cursor:pointer;
-  transition:transform .18s,box-shadow .18s,background .2s;
+  transition:all .25s ease;
   text-align:center;min-height:110px;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
 }
 .tools-launcher-btn:active { transform:scale(.95); }
-.tools-launcher-btn:hover { transform:translateY(-3px) scale(1.04);box-shadow:0 8px 24px rgba(0,0,0,.3); }
-.tlb-icon { line-height:1; }
-.tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; }
+.tools-launcher-btn:hover { transform:translateY(-3px) scale(1.06);box-shadow:0 0 16px rgba(255,106,0,.25), 0 8px 24px rgba(0,0,0,.3); }
+.tlb-icon { line-height:1; display:flex; align-items:center; justify-content:center; transition:all .25s ease; }
+.tlb-icon img { width:28px; height:28px; object-fit:contain; transition:all .25s ease; }
+.tools-launcher-btn:hover .tlb-icon img { transform:scale(1.1); filter:brightness(1.2); }
+.tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; transition:all .25s; }
+.tools-launcher-btn:hover .tlb-name { color:#fff !important; }
 .tlb-sub  { font-size:8px;color:#666;font-family:'Space Mono',monospace;letter-spacing:.3px; }
 
 /* ── FUNDING RATE ── */
@@ -702,10 +765,16 @@ body {
 @media(max-width:800px){ .funding-layout{ grid-template-columns:1fr; } }
 .funding-asset-btn {
   padding:8px 14px; border-radius:10px; border:1px solid #2a2a2a;
-  background:#161616; font-family:'Space Mono',monospace; font-size:11px;
-  font-weight:700; color:#555; cursor:pointer; transition:all .15s; letter-spacing:.3px;
+  background:rgba(26,26,26,.8); font-family:'Space Mono',monospace; font-size:11px;
+  font-weight:700; color:#555; cursor:pointer; transition:all .25s ease; letter-spacing:.3px;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
 }
-.funding-asset-btn.active { border-color:#ff6500; color:#ff6500; background:rgba(255,101,0,.1); }
+.funding-asset-btn.active {
+  border-color:#ff6500; color:#ff6500; background:linear-gradient(135deg,rgba(255,101,0,.15),rgba(255,101,0,.06));
+  box-shadow:0 0 10px rgba(255,101,0,.3);
+  transform:scale(1.06);
+}
+.funding-asset-btn:hover:not(.active) { border-color:rgba(255,101,0,.3); color:#888; }
 .funding-asset-btn:hover:not(.active) { border-color:#3a3a3a; color:#aaa; }
 .funding-period-card {
   background:#131313; border:1px solid #1e1e1e; border-radius:14px;
@@ -973,11 +1042,14 @@ body {
   padding:15px; border-radius:14px; border:none;
   background:linear-gradient(135deg,#ff6a00,#f5a623) !important; color:#000 !important;
   font-family:'Syne',sans-serif; font-size:14px; font-weight:800;
-  cursor:pointer; letter-spacing:.4px; transition:all .2s;
+  cursor:pointer; letter-spacing:.4px; transition:all .25s ease;
   width:100%; margin-top:10px;
-  box-shadow:0 4px 20px rgba(255,106,0,.2);
+  box-shadow:0 0 16px rgba(255,106,0,.35), 0 4px 20px rgba(255,106,0,.2);
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.btn-calc:hover { transform:translateY(-1px); box-shadow:0 6px 28px rgba(255,106,0,.3); }
+.btn-calc img { filter:brightness(0); }
+.btn-calc:hover { transform:translateY(-2px) scale(1.02); box-shadow:0 0 24px rgba(255,106,0,.45), 0 6px 28px rgba(255,106,0,.3); }
+.btn-calc:active { transform:scale(.97); }
 
 /* ── EDIT PANEL ── */
 .edit-toggle {
@@ -1375,9 +1447,11 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   border: none; border-radius: 14px; padding: 16px;
   font-size: 15px; font-weight: 800; color: white; cursor: pointer;
   letter-spacing: 1px; text-transform: uppercase;
-  box-shadow: 0 4px 20px rgba(108,63,255,0.4); transition: all 0.2s;
+  box-shadow: 0 0 16px rgba(108,63,255,.45), 0 4px 20px rgba(108,63,255,0.3); transition: all 0.25s ease;
   font-family: 'Syne', sans-serif;
+  display:flex; align-items:center; justify-content:center; gap:8px;
 }
+.spin-btn:hover { transform:scale(1.03); box-shadow: 0 0 24px rgba(108,63,255,.55), 0 6px 24px rgba(108,63,255,0.4); }
 .spin-btn:active { transform: scale(0.98); }
 .spin-btn:disabled { opacity: 0.5; }
 .spin-result { text-align: center; padding: 12px; font-size: 13px; color: #ffd700; font-weight: 700; min-height: 40px; }
@@ -2240,22 +2314,28 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .op-tab {
   flex:1; padding:6px 2px; text-align:center;
   font-size:8px; font-weight:700; letter-spacing:.5px;
-  color:#555; cursor:pointer; transition:all .2s ease;
+  color:#555; cursor:pointer; transition:all .25s ease;
   font-family:'DM Sans',Outfit,sans-serif;
   border-bottom:2px solid transparent;
+  border-radius:10px;
+  background:rgba(26,26,26,.6);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
 }
 #oracle-panel .op-tab.active {
   background:linear-gradient(135deg,#ff6a00,#f5a623);
   color:#000; font-weight:800; font-size:9px;
-  border-radius:10px; border-bottom-color:transparent;
-  box-shadow:0 2px 12px rgba(255,106,0,.25);
+  border-bottom-color:transparent;
+  box-shadow:0 0 14px rgba(255,106,0,.4), 0 2px 12px rgba(255,106,0,.2);
   transform:scale(1.06);
 }
-#oracle-panel .op-tab:hover:not(.active) { transform:scale(1.04); }
+#oracle-panel .op-tab:hover:not(.active) { transform:scale(1.04); background:rgba(255,106,0,.06); }
 #oracle-panel .op-tab:active { transform:scale(.95); }
 #oracle-panel .op-tab.active .op-tab-icon { font-size:17px; }
 .op-tab:hover:not(.active) { color:#888; }
-#oracle-panel .op-tab .op-tab-icon { font-size:14px; display:block; margin-bottom:1px; transition:font-size .15s; }
+#oracle-panel .op-tab .op-tab-icon { font-size:14px; display:flex; align-items:center; justify-content:center; margin-bottom:1px; transition:all .25s; }
+#oracle-panel .op-tab .op-tab-icon img { width:14px; height:14px; object-fit:contain; transition:all .25s; opacity:.5; filter:grayscale(40%); }
+#oracle-panel .op-tab.active .op-tab-icon img { width:17px; height:17px; opacity:1; filter:grayscale(0%) brightness(1.3); }
+#oracle-panel .op-tab:hover:not(.active) .op-tab-icon img { opacity:.75; filter:grayscale(20%); }
 
 /* Oracle body */
 #oracle-panel .op-body {
@@ -2313,10 +2393,11 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
   border:none; border-radius:14px; padding:15px;
   font-family:'DM Sans',Outfit,sans-serif; font-size:14px; font-weight:800;
   color:#000; cursor:pointer; letter-spacing:.5px; text-transform:uppercase;
-  box-shadow:0 4px 16px rgba(245,166,35,.3);
-  transition:all .2s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  box-shadow:0 0 16px rgba(245,166,35,.4), 0 4px 16px rgba(245,166,35,.25);
+  transition:all .25s ease; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
-.checkin-btn:hover:not(:disabled) { box-shadow:0 6px 26px rgba(245,166,35,.45); filter:brightness(1.06); }
+.checkin-btn:hover:not(:disabled) { box-shadow:0 0 24px rgba(245,166,35,.5), 0 6px 26px rgba(245,166,35,.35); transform:scale(1.02); filter:brightness(1.06); }
 .checkin-btn:disabled { opacity:.5; cursor:default; }
 .checkin-btn:active:not(:disabled) { transform:scale(.98); }
 #oracle-panel .checkin-btn:disabled { opacity:.5; }
@@ -4172,18 +4253,18 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === EQUAL-WIDTH GROUP: ALERTS · STRADDLE · ELCARO · GUILD === -->
     <button class="mode-btn active" id="mode-alerts-nav" onclick="setMode('alerts')"
       title="Trading Filter Alerts" style="flex:1;min-width:0;color:#ff6a00;">
-      🔔 ALERTS
+      <img src="icons/5 ALERTS.png" style="width:16px;height:16px;object-fit:contain;"> ALERTS
     </button>
 
     <button class="mode-btn" id="mode-straddle" onclick="setMode('straddle')" style="flex:1;min-width:0;color:#ff6a00;">
-      <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-      σ RANGE
+      <img src="icons/2 RANGE.png" style="width:16px;height:16px;object-fit:contain;">
+      RANGE
     </button>
 
     <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
       title="ORACLE — Vault, Market, News, Profile"
       style="flex:1;min-width:0;color:var(--orange);">
-      👁 ELCARO
+      <img src="icons/4 ELCARO.png" style="width:16px;height:16px;object-fit:contain;"> ELCARO
     </button>
 
     <!-- Divider -->
@@ -4192,12 +4273,12 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === ICON-ONLY GROUP: TOOLS · MARKET === -->
     <button class="mode-btn" id="mode-tools-group" onclick="setMode('tools')"
       title="Tools" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <img src="icons/1 TOOLS.png" style="width:18px;height:18px;object-fit:contain;">
     </button>
 
     <button class="mode-btn" id="mode-market-group" onclick="setMode('market')"
       title="Market Data" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <img src="icons/3 MARKET.png" style="width:18px;height:18px;object-fit:contain;">
     </button>
 
 
@@ -4320,7 +4401,7 @@ input[type=range]::-webkit-slider-thumb {
       </div>
       <!-- Target Dates -->
       <div class="target-dates-wrap" id="target-dates-wrap">
-        <div class="target-dates-label">📅 FORECAST DATES</div>
+        <div class="target-dates-label"><img src="icons/16 ECON.png" style="width:12px;height:12px;object-fit:contain;vertical-align:middle;"> FORECAST DATES</div>
         <div id="target-dates-list"></div>
         <div style="display:flex;gap:6px;margin-top:4px;">
           <button class="add-target-btn" onclick="addTargetDate('peak')">+ Add SELL (PEAK)</button>
@@ -4333,7 +4414,7 @@ input[type=range]::-webkit-slider-thumb {
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
         AUTO-FILL
       </button>
-      <button class="btn-calc" onclick="calculate()">⚡ CALCULATE</button>
+      <button class="btn-calc" onclick="calculate()"><img src="icons/42 CALCULATE.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CALCULATE</button>
 
     </div>
   </div>
@@ -4490,7 +4571,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- PORTFOLIO -->
     <div onclick="setMode('portfolio')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">💼</div>
+      <div class="tlb-icon"><img src="icons/6 PORTFOLIO.png"></div>
       <div class="tlb-name" style="color:var(--emerald);">PORTFOLIO</div>
       <div class="tlb-sub">Tracker &amp; P&amp;L</div>
     </div>
@@ -4498,21 +4579,21 @@ input[type=range]::-webkit-slider-thumb {
     <!-- AGENT -->
     <div onclick="setMode('agent')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,106,0,.07),rgba(255,106,0,.03));border:1px solid rgba(255,106,0,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">🤖</div>
+      <div class="tlb-icon"><img src="icons/7AGENT.png"></div>
       <div class="tlb-name" style="color:var(--orange);">AGENT</div>
       <div class="tlb-sub">AI Allocation</div>
     </div>
 
     <!-- AVG SIZER -->
     <div onclick="setMode('avg')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.2);">
-      <div class="tlb-icon" style="font-size:28px;">⚖️</div>
+      <div class="tlb-icon"><img src="icons/8 AVG SIZER.png"></div>
       <div class="tlb-name" style="color:var(--gold);">AVG SIZER</div>
       <div class="tlb-sub">Position Size</div>
     </div>
 
     <!-- FUNDING -->
     <div onclick="setMode('funding')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.2);">
-      <div class="tlb-icon" style="font-size:28px;">💰</div>
+      <div class="tlb-icon"><img src="icons/9 FUNDING.png"></div>
       <div class="tlb-name" style="color:var(--cyan);">FUNDING</div>
       <div class="tlb-sub">Rate Calc</div>
     </div>
@@ -4520,14 +4601,14 @@ input[type=range]::-webkit-slider-thumb {
     <!-- EXCHANGE -->
     <div onclick="setMode('exchange')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,200,255,.07),rgba(0,200,255,.03));border:1px solid rgba(0,200,255,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">🏦</div>
+      <div class="tlb-icon"><img src="icons/10 EXCHANGE.png"></div>
       <div class="tlb-name" style="color:#00c8ff;">EXCHANGE</div>
       <div class="tlb-sub">BloFin Trading</div>
     </div>
 
     <!-- PNL TRACKER -->
     <div onclick="setMode('pnl')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.2);">
-      <div class="tlb-icon" style="font-size:28px;">💲</div>
+      <div class="tlb-icon"><img src="icons/11 PNL.png"></div>
       <div class="tlb-name" style="color:#22c55e;">PNL</div>
       <div class="tlb-sub">Trade Tracker</div>
     </div>
@@ -4535,14 +4616,14 @@ input[type=range]::-webkit-slider-thumb {
     <!-- RSI TEST -->
     <div onclick="setMode('rsi-test')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(180,100,255,.07),rgba(180,100,255,.03));border:1px solid rgba(180,100,255,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#b464ff;box-shadow:0 0 6px #b464ff;animation:pulse-dot 2s infinite;"></span>
-      <div class="tlb-icon" style="font-size:28px;">📡</div>
+      <div class="tlb-icon"><img src="icons/12 RSI TEST.png"></div>
       <div class="tlb-name" style="color:#b464ff;">RSI TEST</div>
       <div class="tlb-sub">Auto Alerts Demo</div>
     </div>
 
     <!-- F&G -->
     <div onclick="setMode('fgi')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,61,87,.07),rgba(255,61,87,.03));border:1px solid rgba(255,61,87,.2);">
-      <div class="tlb-icon" style="font-size:28px;">😱</div>
+      <div class="tlb-icon"><img src="icons/13 F&G.png"></div>
       <div class="tlb-name" style="color:var(--red);">F&amp;G</div>
       <div class="tlb-sub">Fear &amp; Greed</div>
     </div>
@@ -4550,7 +4631,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- GEO -->
     <div onclick="setMode('geo')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(92,107,192,.07),rgba(92,107,192,.03));border:1px solid rgba(92,107,192,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">🌍</div>
+      <div class="tlb-icon"><img src="icons/14 GEO.png"></div>
       <div class="tlb-name" style="color:#7986cb;">GEO</div>
       <div class="tlb-sub">Geopolitical</div>
     </div>
@@ -4558,7 +4639,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- GPR -->
     <div onclick="setMode('gpr')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(245,166,35,.07),rgba(245,166,35,.03));border:1px solid rgba(245,166,35,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">⚠️</div>
+      <div class="tlb-icon"><img src="icons/15 GPR.png"></div>
       <div class="tlb-name" style="color:var(--orange);">GPR</div>
       <div class="tlb-sub">Risk Index</div>
     </div>
@@ -4566,7 +4647,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- ECON -->
     <div onclick="setMode('econ')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(124,77,255,.03));border:1px solid rgba(124,77,255,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">📅</div>
+      <div class="tlb-icon"><img src="icons/16 ECON.png"></div>
       <div class="tlb-name" style="color:var(--purple2);">ECON</div>
       <div class="tlb-sub">Calendar</div>
     </div>
@@ -4574,7 +4655,7 @@ input[type=range]::-webkit-slider-thumb {
     <!-- API -->
     <div onclick="setMode('ai-settings')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(137,212,245,.07),rgba(137,212,245,.03));border:1px solid rgba(137,212,245,.2);position:relative;">
       <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
-      <div class="tlb-icon" style="font-size:28px;">🔑</div>
+      <div class="tlb-icon"><img src="icons/17 API.png"></div>
       <div class="tlb-name" style="color:var(--diamond);">API</div>
       <div class="tlb-sub">Anthropic Key</div>
     </div>
@@ -4588,31 +4669,31 @@ input[type=range]::-webkit-slider-thumb {
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px;">
 
     <div onclick="setMode('chart')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(100,149,237,.08),rgba(100,149,237,.03));border:1px solid rgba(100,149,237,.2);">
-      <div class="tlb-icon" style="font-size:28px;">📈</div>
+      <div class="tlb-icon"><img src="icons/18 CHART.png"></div>
       <div class="tlb-name" style="color:#6495ed;">CHART</div>
       <div class="tlb-sub">Live Price</div>
     </div>
 
     <div onclick="setMode('heatmap-stock')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(0,230,118,.03));border:1px solid rgba(0,230,118,.2);">
-      <div class="tlb-icon" style="font-size:28px;">🟦</div>
+      <div class="tlb-icon"><img src="icons/19 STOCK MAP.png"></div>
       <div class="tlb-name" style="color:var(--emerald);">STOCK MAP</div>
       <div class="tlb-sub">Equities</div>
     </div>
 
     <div onclick="setMode('heatmap-crypto')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.2);">
-      <div class="tlb-icon" style="font-size:28px;">🔶</div>
+      <div class="tlb-icon"><img src="icons/20 CRYPTO MAP.png"></div>
       <div class="tlb-name" style="color:var(--gold);">CRYPTO MAP</div>
       <div class="tlb-sub">Crypto</div>
     </div>
 
     <div onclick="setMode('calendar')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(124,77,255,.03));border:1px solid rgba(124,77,255,.2);">
-      <div class="tlb-icon" style="font-size:28px;">📆</div>
+      <div class="tlb-icon"><img src="icons/21 CALENDAR.png"></div>
       <div class="tlb-name" style="color:var(--purple2);">CALENDAR</div>
       <div class="tlb-sub">Events</div>
     </div>
 
     <div onclick="setMode('news')" class="tools-launcher-btn" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.2);">
-      <div class="tlb-icon" style="font-size:28px;">📰</div>
+      <div class="tlb-icon"><img src="icons/22 NEWS.png"></div>
       <div class="tlb-name" style="color:var(--cyan);">NEWS</div>
       <div class="tlb-sub">Telegram &amp; YouTube</div>
     </div>
@@ -4713,7 +4794,7 @@ input[type=range]::-webkit-slider-thumb {
           ADD AVERAGING LEG
         </button>
 
-        <button class="avg-calc-btn" onclick="avgCalculate()">⚡ CALCULATE AVERAGE</button>
+        <button class="avg-calc-btn" onclick="avgCalculate()"><img src="icons/43 CALCULATE AVERAGE.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CALCULATE AVERAGE</button>
       </div>
     </div>
 
@@ -5006,7 +5087,7 @@ input[type=range]::-webkit-slider-thumb {
             oninput="sizerSyncPcts(); sizerCalc()">
         </div>
 
-        <button class="sizer-calc-btn" onclick="sizerCalc()">⚡ CALCULATE POSITION SIZE</button>
+        <button class="sizer-calc-btn" onclick="sizerCalc()"><img src="icons/44 CALCULATE POSITION SIZE.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CALCULATE POSITION SIZE</button>
       </div>
     </div>
 
@@ -5456,11 +5537,11 @@ input[type=range]::-webkit-slider-thumb {
       <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <button id="pf-sim-tab-rand" onclick="pfSimSetMode('random')"
           style="padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;">
-          🎲 RANDOM SIMULATION
+          <img src="icons/40 RANDOM SIMULATION.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> RANDOM SIMULATION
         </button>
         <button id="pf-sim-tab-mult" onclick="pfSimSetMode('multiplier')"
           style="padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;">
-          📈 GROWTH MULTIPLIER
+          <img src="icons/41 GROWTH MULTIPLIER.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> GROWTH MULTIPLIER
         </button>
         <button id="pf-sim-reroll" onclick="pfRunSimulation()"
           style="margin-left:auto;padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;">
@@ -5543,10 +5624,10 @@ input[type=range]::-webkit-slider-thumb {
 
   <!-- Step nav -->
   <div class="agent-steps-nav" id="agent-steps-nav">
-    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)">◆ Portfolio</button>
-    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled title="Complete previous step first">◈ Analysis</button>
-    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled title="Complete previous step first">◇ Signals</button>
-    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled title="Complete previous step first">▣ Plan</button>
+    <button class="agent-step-btn active" id="agent-nav-0" onclick="agentGoStep(0)"><img src="icons/30 GUILD.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Portfolio</button>
+    <button class="agent-step-btn" id="agent-nav-1" onclick="agentGoStep(1)" disabled title="Complete previous step first"><img src="icons/31 Analysis.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Analysis</button>
+    <button class="agent-step-btn" id="agent-nav-2" onclick="agentGoStep(2)" disabled title="Complete previous step first"><img src="icons/32 Signals.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Signals</button>
+    <button class="agent-step-btn" id="agent-nav-3" onclick="agentGoStep(3)" disabled title="Complete previous step first"><img src="icons/33 Plan.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> Plan</button>
     <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
       <span style="font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text2);">BUDGET</span>
       <span id="agent-budget-display" style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:900;color:var(--orange);">$1,000,000</span>
@@ -5578,9 +5659,9 @@ input[type=range]::-webkit-slider-thumb {
 
     <!-- Category tabs -->
     <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
-      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')">₿ Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')">📊 ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
-      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')">📈 Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')"><img src="icons/34 Crypto.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')"><img src="icons/35 ETFs.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:2px;"> ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+      <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')"><img src="icons/36 Stocks.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
       <button id="agent-add-btn" onclick="agentToggleAddForm()"
         style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
         onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
@@ -5641,14 +5722,14 @@ input[type=range]::-webkit-slider-thumb {
   <!-- ── STEP 2: SIGNALS ── -->
   <div id="agent-step-2" style="display:none;">
     <div style="background:rgba(255,106,0,.05);border:1px solid rgba(255,106,0,.15);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:16px;">📡</span>
+      <span style="font-size:16px;"><img src="icons/12 RSI TEST.png" style="width:16px;height:16px;object-fit:contain;"></span>
       <div>
         <div style="font-size:12px;font-weight:800;color:var(--orange);" id="agent-signal-tf-label">SIGNAL INPUT — 4H TIMEFRAME</div>
         <div style="font-size:9px;color:var(--text2);margin-top:2px;">Enter buy/sell zones and predicted top/bottom for each asset. These drive the hedge fund-style deployment plan.</div>
       </div>
     </div>
     <div id="agent-signal-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
-    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast('🔔 '+n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();">▣ GENERATE DEPLOYMENT PLAN →</button>
+    <button class="agent-action-btn" onclick="agentGoStep(3); agentRegisterSignalAlerts().then(n=>{ if(n) showToast(n+' Telegram alert'+(n>1?'s':'')+' scheduled'); }); agentGeneratePlan();"><img src="icons/33 Plan.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> GENERATE DEPLOYMENT PLAN →</button>
   </div>
 
   <!-- ── STEP 3: PLAN ── -->
@@ -8996,12 +9077,13 @@ function pfSimSetMode(mode) {
   const tabMult = document.getElementById('pf-sim-tab-mult');
   const reroll  = document.getElementById('pf-sim-reroll');
 
-  // Active tab style
-  const activeStyle  = 'padding:7px 13px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.1);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .15s;';
-  const inactiveStyle= 'padding:7px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .15s;';
+  // Active tab style — liquid glass + glow
+  const activeStyle  = 'padding:7px 13px;border-radius:10px;border:1px solid var(--orange);background:linear-gradient(135deg,rgba(255,106,0,.15),rgba(255,106,0,.06));font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;transition:all .25s ease;box-shadow:0 0 12px rgba(255,106,0,.3);transform:scale(1.06);';
+  const inactiveStyle= 'padding:7px 13px;border-radius:10px;border:1px solid var(--border2);background:rgba(26,26,26,.8);font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:var(--text2);cursor:pointer;transition:all .25s ease;backdrop-filter:blur(6px);';
+  const greenActive  = 'padding:7px 13px;border-radius:10px;border:1px solid #22c55e;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.06));font-family:Outfit,sans-serif;font-size:11px;font-weight:800;color:#22c55e;cursor:pointer;transition:all .25s ease;box-shadow:0 0 12px rgba(34,197,94,.3);transform:scale(1.06);';
 
   if (tabRand) tabRand.style.cssText = isRand ? activeStyle : inactiveStyle;
-  if (tabMult) tabMult.style.cssText = isRand ? inactiveStyle : activeStyle.replace('var(--orange)','#22c55e').replace('rgba(255,106,0,.1)','rgba(34,197,94,.08)').replace('var(--orange)','#22c55e');
+  if (tabMult) tabMult.style.cssText = isRand ? inactiveStyle : greenActive;
 
   document.getElementById('pf-sim-random-panel').style.display = isRand ? 'block' : 'none';
   document.getElementById('pf-sim-mult-panel').style.display   = isRand ? 'none' : 'block';
@@ -9980,7 +10062,7 @@ function agentRenderAnalysis(a) {
         </button>`).join('')}
     </div>
   </div>
-  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);">◇ INPUT ENTRY SIGNALS →</button>
+  <button class="agent-action-btn" onclick="agentInitSignals(); agentGoStep(2);"><img src="icons/32 Signals.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:3px;"> INPUT ENTRY SIGNALS →</button>
   `;
 }
 
@@ -10052,7 +10134,7 @@ function agentRenderSignals() {
 
         <!-- BOTTOM -->
         <div style="background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.18);border-radius:8px;padding:8px;">
-          <div style="font-size:7px;font-weight:700;color:#6495ed;letter-spacing:.6px;margin-bottom:6px;">📅 BOTTOM (BUY)</div>
+          <div style="font-size:7px;font-weight:700;color:#6495ed;letter-spacing:.6px;margin-bottom:6px;"><img src="icons/16 ECON.png" style="width:10px;height:10px;object-fit:contain;vertical-align:middle;"> BOTTOM (BUY)</div>
           <input type="date" value="${ed.bottomDate||''}" min="${todayStr}"
             onchange="agentEntryData['${a.ticker}'].bottomDate=this.value"
             oninput="agentEntryData['${a.ticker}'].bottomDate=this.value"
@@ -10064,13 +10146,13 @@ function agentRenderSignals() {
           <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:9px;color:#6495ed;font-weight:600;">
             <input type="checkbox" ${ed.alertBottom?'checked':''} onchange="agentEntryData['${a.ticker}'].alertBottom=this.checked"
               style="accent-color:#6495ed;width:12px;height:12px;flex-shrink:0;cursor:pointer;">
-            🔔 Notify
+            <img src="icons/5 ALERTS.png" style="width:10px;height:10px;object-fit:contain;vertical-align:middle;"> Notify
           </label>
         </div>
 
         <!-- TOP -->
         <div style="background:rgba(255,106,0,.04);border:1px solid rgba(255,106,0,.18);border-radius:8px;padding:8px;">
-          <div style="font-size:7px;font-weight:700;color:var(--orange);letter-spacing:.6px;margin-bottom:6px;">📈 TOP (SELL)</div>
+          <div style="font-size:7px;font-weight:700;color:var(--orange);letter-spacing:.6px;margin-bottom:6px;"><img src="icons/18 CHART.png" style="width:10px;height:10px;object-fit:contain;vertical-align:middle;"> TOP (SELL)</div>
           <input type="date" value="${ed.topDate||''}" min="${todayStr}"
             onchange="agentEntryData['${a.ticker}'].topDate=this.value"
             oninput="agentEntryData['${a.ticker}'].topDate=this.value"
@@ -10082,7 +10164,7 @@ function agentRenderSignals() {
           <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:9px;color:var(--orange);font-weight:600;">
             <input type="checkbox" ${ed.alertTop?'checked':''} onchange="agentEntryData['${a.ticker}'].alertTop=this.checked"
               style="accent-color:var(--orange);width:12px;height:12px;flex-shrink:0;cursor:pointer;">
-            🔔 Notify
+            <img src="icons/5 ALERTS.png" style="width:10px;height:10px;object-fit:contain;vertical-align:middle;"> Notify
           </label>
         </div>
       </div>
@@ -10668,7 +10750,7 @@ function fgiRenderStats() {
       console.anthropic.com → API Keys → Create Key<br>
       <span style="color:rgba(255,255,255,.25);font-size:9px;">Powers live GEO news · GPR index · Economic calendar</span>
     </div>
-    <div style="font-size:8px;color:rgba(255,255,255,.2);margin-top:10px;">🔒 Key saved locally in your browser only · Never sent to ELCARO servers</div>
+    <div style="font-size:8px;color:rgba(255,255,255,.2);margin-top:10px;"><img src="icons/39 PRIVATE GROUP.png" style="width:10px;height:10px;object-fit:contain;vertical-align:middle;opacity:.5;"> Key saved locally in your browser only · Never sent to ELCARO servers</div>
   </div>
 </div>
 
@@ -11548,7 +11630,7 @@ function initSigmaButtons() {
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="background:rgba(255,166,35,.1);border:1px solid rgba(255,166,35,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#ffd700;font-family:'Space Mono',monospace;">
-          ⬡ <span id="oracle-hdr-coins">999,999</span>
+          <img src="icons/23 VAULT.png" style="width:12px;height:12px;object-fit:contain;vertical-align:middle;"> <span id="oracle-hdr-coins">999,999</span>
         </div>
         <div onclick="oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#00e5ff;font-family:'Space Mono',monospace;cursor:pointer;" title="My Forecasts">
           📋 <span id="oracle-hdr-forecasts">0</span>
@@ -11560,25 +11642,25 @@ function initSigmaButtons() {
     <!-- Tabs -->
     <div class="op-tabs" id="op-tabs-row" style="overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
       <div class="op-tab active" onclick="oracleTab('vault',this)">
-        <span class="op-tab-icon">⬡</span>VAULT
+        <span class="op-tab-icon"><img src="icons/23 VAULT.png"></span>VAULT
       </div>
       <div class="op-tab" onclick="oracleTab('quests',this)">
-        <span class="op-tab-icon">📜</span>QUESTS
+        <span class="op-tab-icon"><img src="icons/24 QUESTS.png"></span>QUESTS
       </div>
       <div class="op-tab" onclick="oracleTab('prophecies',this)">
-        <span class="op-tab-icon">⚔️</span>ARENA
+        <span class="op-tab-icon"><img src="icons/25 ARENA.png"></span>ARENA
       </div>
       <div class="op-tab" onclick="oracleTab('news',this)">
-        <span class="op-tab-icon">📰</span>NEWS
+        <span class="op-tab-icon"><img src="icons/26 NEWS.png"></span>NEWS
       </div>
       <div class="op-tab" onclick="oracleTab('oracle',this)">
-        <span class="op-tab-icon">🔮</span>ORACLE
+        <span class="op-tab-icon"><img src="icons/27 ORACLE.png"></span>ORACLE
       </div>
       <div class="op-tab" onclick="oracleTab('profile',this)">
-        <span class="op-tab-icon">👤</span>PROFILE
+        <span class="op-tab-icon"><img src="icons/28 PROFILE.png"></span>PROFILE
       </div>
       <div class="op-tab" onclick="oracleTab('guild',this)">
-        <span class="op-tab-icon">🛡️</span>GUILD
+        <span class="op-tab-icon"><img src="icons/29 GUILD.png"></span>GUILD
       </div>
     </div>
 
@@ -11607,12 +11689,12 @@ function initSigmaButtons() {
     <div class="day-scroll" id="op-rewards-scroll"></div>
 
     <!-- CHECK-IN BTN -->
-    <button class="checkin-btn" id="checkin-btn" onclick="doCheckin()">⬡ CLAIM TODAY'S +20 COINS</button>
+    <button class="checkin-btn" id="checkin-btn" onclick="doCheckin()"><img src="icons/23 VAULT.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> CLAIM TODAY'S +20 COINS</button>
 
     <!-- DAILY QUESTS -->
     <div class="slabel">DAILY QUESTS</div>
     <div class="quest-item done">
-      <div class="qi-icon">₿</div>
+      <div class="qi-icon"><img src="icons/quest Check BTC Signal.png" style="width:24px;height:24px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Check BTC Signal</div>
         <div class="qi-desc">OPEN ANY BTC TIMEFRAME</div>
@@ -11621,7 +11703,7 @@ function initSigmaButtons() {
       <div class="qi-reward"><div class="qi-coins">+30⬡</div><div class="qi-extra">DONE ✓</div></div>
     </div>
     <div class="quest-item" onclick="shareToTelegram()">
-      <div class="qi-icon">📢</div>
+      <div class="qi-icon"><img src="icons/quest Share to Telegram.png" style="width:24px;height:24px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Share to Telegram</div>
         <div class="qi-desc">REPOST ANY ORACLE SIGNAL</div>
@@ -11629,8 +11711,8 @@ function initSigmaButtons() {
       </div>
       <div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--wood)">+BRONZE</div></div>
     </div>
-    <div class="quest-item" onclick="showToast('👀 Check 3 assets → +20⬡')">
-      <div class="qi-icon">👁</div>
+    <div class="quest-item" onclick="showToast('Check 3 assets → +20 coins')">
+      <div class="qi-icon"><img src="icons/quest Browse 3 Assets.png" style="width:24px;height:24px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Browse 3 Assets</div>
         <div class="qi-desc">1 / 3 ASSETS VIEWED TODAY</div>
@@ -11642,7 +11724,7 @@ function initSigmaButtons() {
     <!-- ORACLE SPIN -->
     <div class="slabel">ORACLE VISION</div>
     <div class="spin-trigger" onclick="openSpin()">
-      <div style="font-size:34px">🎰</div>
+      <div style="font-size:34px"><img src="icons/ORACLE SLOT MACHINE.png" style="width:34px;height:34px;object-fit:contain;"></div>
       <div style="flex:1"><div class="spin-title-txt">ORACLE SLOT MACHINE</div><div class="spin-sub-txt">1 FREE SPIN AVAILABLE TODAY</div></div>
       <div class="spin-cta-pill">SPIN →</div>
     </div>
@@ -11655,25 +11737,25 @@ function initSigmaButtons() {
         <div class="o-section">BUY CHESTS</div>
         <div class="chest-grid">
           <div class="chest-card" style="border-color:#8B6914;" onclick="orcBuyChest('wood')">
-            <div style="font-size:30px;">🪵</div>
+            <div><img src="icons/wooden chest.png" style="width:30px;height:30px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#c8961e;margin:3px 0 2px;">WOODEN</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">1-2 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(139,105,20,.2);color:#c8961e;border-radius:7px;padding:2px 6px;">200⬡</div>
           </div>
           <div class="chest-card" style="border-color:#cd7f32;" onclick="orcBuyChest('bronze')">
-            <div style="font-size:30px;">📦</div>
+            <div><img src="icons/bronze chest.png" style="width:30px;height:30px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#cd7f32;margin:3px 0 2px;">BRONZE</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">2-3 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(205,127,50,.2);color:#cd7f32;border-radius:7px;padding:2px 6px;">800⬡</div>
           </div>
           <div class="chest-card" style="border-color:#C0C0C0;" onclick="orcBuyChest('silver')">
-            <div style="font-size:30px;">🥈</div>
+            <div><img src="icons/silver chest.png" style="width:30px;height:30px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#C0C0C0;margin:3px 0 2px;">SILVER</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">3-5 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(192,192,192,.1);color:#C0C0C0;border-radius:7px;padding:2px 6px;">2,000⬡</div>
           </div>
           <div class="chest-card" style="border-color:#ffd700;" onclick="orcBuyChest('gold')">
-            <div style="font-size:30px;">🏆</div>
+            <div><img src="icons/gold chest.png" style="width:30px;height:30px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#ffd700;margin:3px 0 2px;">GOLD</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">5-8 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000⬡</div>
@@ -11681,7 +11763,7 @@ function initSigmaButtons() {
         </div>
         <div style="padding:0 12px 16px;">
           <div class="chest-card" style="border-color:#a8edff;text-align:center;width:100%;" onclick="orcBuyChest('diamond')">
-            <div style="font-size:44px;">💎</div>
+            <div><img src="icons/diamond chest.png" style="width:44px;height:44px;object-fit:contain;"></div>
             <div style="font-size:13px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">10+ forecasts · All timeframes</div>
             <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 8px;display:inline-block;">15,000⬡</div>
@@ -11715,7 +11797,7 @@ function initSigmaButtons() {
             <div class="bp-bar-wrap"><div class="bp-bar-fill" id="op-bp-barfill" style="width:7%"></div></div>
             <span class="bp-lvl-txt">100</span>
           </div>
-          <button class="bp-buy-btn" onclick="event.stopPropagation();bpBuy()">🎫 UPGRADE PASS — $9.99</button>
+          <button class="bp-buy-btn" onclick="event.stopPropagation();bpBuy()"><img src="icons/SEASON PASS - upgrade pass.png" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;"> UPGRADE PASS — $9.99</button>
         </div>
 
         <div class="slabel">DAILY QUESTS <span id="op-daily-timer" style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;float:right;padding-top:1px;">Resets in —</span></div>
@@ -11746,7 +11828,7 @@ function initSigmaButtons() {
     <div class="verdict-item">
       <div class="verdict-header">
         <div class="verdict-asset-row">
-          <div class="verdict-icon" style="background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.2)">₿</div>
+          <div class="verdict-icon" style="background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.2)"><img src="icons/34 Crypto.png" style="width:20px;height:20px;object-fit:contain;"></div>
           <div style="flex:1"><div class="verdict-asset-name">BITCOIN</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:1px;">BTC / USD</div></div>
           <div class="verdict-tf-badge" style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--cyan)" id="btc-verdict-tf-badge">4H</div>
         </div>
@@ -11754,7 +11836,7 @@ function initSigmaButtons() {
         <div class="verdict-expire">⏳ Closes: May 03 '26 12:30 UTC</div>
       </div>
       <div class="verdict-body">
-        <div class="verdict-oracle-pos">👁 ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — WILL WORK</strong> · Confidence: <span style="color:var(--gold)">78%</span></div>
+        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — WILL WORK</strong> · Confidence: <span style="color:var(--gold)">78%</span></div>
         <div style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-bottom:6px;">SELECT TIMEFRAME TO BET ON:</div>
         <div class="verdict-tf-row" id="btc-tf-row">
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'btc','15M')">15M</button>
@@ -12044,10 +12126,10 @@ function initSigmaButtons() {
 
           <!-- FREE / PREMIUM TAB SWITCHER -->
           <div style="padding:0 12px 10px;display:flex;gap:6px;">
-            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;" onclick="newsTab('free')">📢 FREE</div>
-            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;" onclick="newsTab('premium')">⭐ PREMIUM</div>
+            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img src="icons/37 FREE.png" style="width:14px;height:14px;object-fit:contain;"> FREE</div>
+            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img src="icons/38 PREMIUM.png" style="width:14px;height:14px;object-fit:contain;"> PREMIUM</div>
             <div style="flex:1;text-align:center;padding:8px;background:linear-gradient(135deg,rgba(108,63,255,.18),rgba(168,85,247,.1));border:1px solid rgba(108,63,255,.45);border-radius:9px;font-size:9px;font-weight:700;color:#b388ff;font-family:'Space Mono',monospace;cursor:pointer;position:relative;overflow:hidden;" onclick="window.open('https://waylight.me/tru/community/0c74c-db858','_blank')">
-              🔒 PRIVATE<br>GROUP
+              <img src="icons/39 PRIVATE GROUP.png" style="width:14px;height:14px;object-fit:contain;"> PRIVATE<br>GROUP
             </div>
           </div>
 
@@ -12472,9 +12554,9 @@ function initSigmaButtons() {
 
     <!-- EARN MORE -->
     <div class="slabel">EARN MORE COINS</div>
-    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon">📢</div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
-    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon">👥</div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
-    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon">⭐</div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
+    <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon"><img src="icons/Share to Telegram.png" style="width:24px;height:24px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
+    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img src="icons/quest Follow 2 Traders.png" style="width:24px;height:24px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
+    <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon"><img src="icons/38 PREMIUM.png" style="width:24px;height:24px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
 
     <!-- DISCLAIMER BUTTON -->
     <div style="margin-top:20px;padding:0 4px;">
@@ -12583,10 +12665,10 @@ function initSigmaButtons() {
 
     <div class="spin-result" id="spin-result"></div>
     <button class="spin-btn" id="spin-btn" onclick="doSpin()">
-      🎰 SPIN NOW — FREE
+      <img src="icons/slot machine spin button.png" style="width:18px;height:18px;object-fit:contain;vertical-align:middle;"> SPIN NOW — FREE
     </button>
     <div id="spin-view-profile" style="display:none;text-align:center;margin-top:8px;">
-      <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:7px 16px;font-size:10px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:.5px;">👁 VIEW IN PROFILE</button>
+      <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:7px 16px;font-size:10px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:.5px;"><img src="icons/4 ELCARO.png" style="width:12px;height:12px;object-fit:contain;vertical-align:middle;"> VIEW IN PROFILE</button>
     </div>
     <div style="text-align:center;margin-top:10px;font-size:11px;color:#555;font-family:'Space Mono',monospace;">
       Additional spins: $1 or 500⬡ each
@@ -12818,11 +12900,11 @@ const OC = {
 };
 
 const CHEST_DATA = {
-  wood:    { icon:'🪵', name:'WOODEN',  color:'#c8961e', border:'#8B6914', rarity:'COMMON',    forecastCount:[1,2],  coinValue:150,  desc:'1-2 forecasts · Common rarity' },
-  bronze:  { icon:'📦', name:'BRONZE',  color:'#cd7f32', border:'#cd7f32', rarity:'UNCOMMON',  forecastCount:[2,3],  coinValue:600,  desc:'2-3 forecasts · Uncommon' },
-  silver:  { icon:'🥈', name:'SILVER',  color:'#C0C0C0', border:'#C0C0C0', rarity:'RARE',      forecastCount:[3,5],  coinValue:1500, desc:'3-5 forecasts · Rare' },
-  gold:    { icon:'🏆', name:'GOLD',    color:'#ffd700', border:'#ffd700', rarity:'EPIC',      forecastCount:[5,8],  coinValue:4000, desc:'5-8 forecasts · Epic' },
-  diamond: { icon:'💎', name:'DIAMOND', color:'#a8edff', border:'#a8edff', rarity:'LEGENDARY', forecastCount:[10,14],coinValue:12000,desc:'10+ forecasts · Legendary' },
+  wood:    { icon:'<img src="icons/wooden chest.png" style="width:30px;height:30px;object-fit:contain;">', name:'WOODEN',  color:'#c8961e', border:'#8B6914', rarity:'COMMON',    forecastCount:[1,2],  coinValue:150,  desc:'1-2 forecasts · Common rarity' },
+  bronze:  { icon:'<img src="icons/bronze chest.png" style="width:30px;height:30px;object-fit:contain;">', name:'BRONZE',  color:'#cd7f32', border:'#cd7f32', rarity:'UNCOMMON',  forecastCount:[2,3],  coinValue:600,  desc:'2-3 forecasts · Uncommon' },
+  silver:  { icon:'<img src="icons/silver chest.png" style="width:30px;height:30px;object-fit:contain;">', name:'SILVER',  color:'#C0C0C0', border:'#C0C0C0', rarity:'RARE',      forecastCount:[3,5],  coinValue:1500, desc:'3-5 forecasts · Rare' },
+  gold:    { icon:'<img src="icons/gold chest.png" style="width:30px;height:30px;object-fit:contain;">', name:'GOLD',    color:'#ffd700', border:'#ffd700', rarity:'EPIC',      forecastCount:[5,8],  coinValue:4000, desc:'5-8 forecasts · Epic' },
+  diamond: { icon:'<img src="icons/diamond chest.png" style="width:44px;height:44px;object-fit:contain;">', name:'DIAMOND', color:'#a8edff', border:'#a8edff', rarity:'LEGENDARY', forecastCount:[10,14],coinValue:12000,desc:'10+ forecasts · Legendary' },
 };
 
 const ASSETS_POOL = [
@@ -13187,11 +13269,11 @@ function alertUpdateMarketBadge() {
   if (!badge || !emoji || !label) return;
   const w = _alertPhase.phases['1W'] || 'down';
   if (w === 'up') {
-    emoji.textContent = '🐂';
+    emoji.innerHTML = '<img src="icons/bull market logo.png" style="width:20px;height:20px;object-fit:contain;">';
     label.textContent = 'BULL MARKET';
     label.style.color = 'var(--green)';
   } else {
-    emoji.textContent = '🐻';
+    emoji.innerHTML = '<img src="icons/bear market logo.png" style="width:20px;height:20px;object-fit:contain;">';
     label.textContent = 'BEAR MARKET';
     label.style.color = 'var(--red)';
   }
@@ -14041,8 +14123,20 @@ function newsTab(tab) {
   const tabPrem  = document.getElementById('news-tab-premium');
   if (freePane) freePane.style.display = tab === 'free' ? '' : 'none';
   if (premPane) premPane.style.display = tab === 'premium' ? '' : 'none';
-  if (tabFree)  { tabFree.style.borderColor = tab==='free'?'#f5a623':'#2a2a2a'; tabFree.style.color = tab==='free'?'#f5a623':'#555'; }
-  if (tabPrem)  { tabPrem.style.borderColor = tab==='premium'?'rgba(108,63,255,.5)':'#2a2a2a'; tabPrem.style.color = tab==='premium'?'#b388ff':'#555'; }
+  if (tabFree)  {
+    tabFree.style.borderColor = tab==='free'?'#f5a623':'#2a2a2a';
+    tabFree.style.color = tab==='free'?'#f5a623':'#555';
+    tabFree.style.boxShadow = tab==='free'?'0 0 10px rgba(245,166,35,.3)':'none';
+    tabFree.style.background = tab==='free'?'linear-gradient(135deg,rgba(245,166,35,.12),rgba(245,166,35,.04))':'#161616';
+    tabFree.style.transform = tab==='free'?'scale(1.04)':'scale(1)';
+  }
+  if (tabPrem)  {
+    tabPrem.style.borderColor = tab==='premium'?'rgba(108,63,255,.5)':'#2a2a2a';
+    tabPrem.style.color = tab==='premium'?'#b388ff':'#555';
+    tabPrem.style.boxShadow = tab==='premium'?'0 0 10px rgba(108,63,255,.3)':'none';
+    tabPrem.style.background = tab==='premium'?'linear-gradient(135deg,rgba(108,63,255,.12),rgba(108,63,255,.04))':'#161616';
+    tabPrem.style.transform = tab==='premium'?'scale(1.04)':'scale(1)';
+  }
   if (tab === 'premium' && OC.premiumNews) loadYouTubeContent();
 }
 
@@ -14382,18 +14476,18 @@ checkDuelDeadlines();
 
 // ── Quest definitions (progress & done state stored in OC) ──
 const OP_DAILY_QUEST_DEFS = [
-  {id:'dq1',icon:'₿', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
-  {id:'dq2',icon:'📢',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
-  {id:'dq3',icon:'👁', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
-  {id:'dq4',icon:'🎰',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
-  {id:'dq5',icon:'✅',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
+  {id:'dq1',icon:'<img src="icons/quest Check BTC Signal.png" style="width:24px;height:24px;object-fit:contain;">', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
+  {id:'dq2',icon:'<img src="icons/quest Share to Telegram.png" style="width:24px;height:24px;object-fit:contain;">',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
+  {id:'dq3',icon:'<img src="icons/quest Browse 3 Assets.png" style="width:24px;height:24px;object-fit:contain;">', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
+  {id:'dq4',icon:'<img src="icons/quest Use Oracle Slot.png" style="width:24px;height:24px;object-fit:contain;">',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
+  {id:'dq5',icon:'<img src="icons/quest Daily Check-in.png" style="width:24px;height:24px;object-fit:contain;">',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
 ];
 const OP_WEEKLY_QUEST_DEFS = [
-  {id:'wq1',icon:'📦',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
-  {id:'wq2',icon:'🔮',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
-  {id:'wq3',icon:'🏰',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
-  {id:'wq4',icon:'👥',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
-  {id:'wq5',icon:'🎯',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
+  {id:'wq1',icon:'<img src="icons/quest Open 2 Chests.png" style="width:24px;height:24px;object-fit:contain;">',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
+  {id:'wq2',icon:'<img src="icons/quest Place 3 Arena Bets.png" style="width:24px;height:24px;object-fit:contain;">',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
+  {id:'wq3',icon:'<img src="icons/quest Contribute to Guild.png" style="width:24px;height:24px;object-fit:contain;">',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
+  {id:'wq4',icon:'<img src="icons/quest Follow 2 Traders.png" style="width:24px;height:24px;object-fit:contain;">',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
+  {id:'wq5',icon:'<img src="icons/quest Win an Arena Duel.png" style="width:24px;height:24px;object-fit:contain;">',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
 ];
 
 // ── Legacy arrays for backward compat (filled dynamically) ──
