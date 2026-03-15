@@ -4480,6 +4480,7 @@ input[type=range]::-webkit-slider-thumb {
           <div class="viz-tabs" style="margin-bottom:0;">
             <button class="viz-tab active" onclick="setViz(5)" id="viz-tab-5">PAYOFF</button>
             <button class="viz-tab" onclick="setViz(1)" id="viz-tab-1">DISTRIBUTION</button>
+            <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
             <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
             <button class="viz-tab" id="viz-tab-4" onclick="setViz(4)"
               title="Available after calculating 5 different expiry dates"
@@ -5898,10 +5899,14 @@ function setAsset(sym) {
 
 function saveAssetValues(sym) {
   if (!assetData[sym]) assetData[sym] = {};
-  assetData[sym].spot  = document.getElementById('inp-spot').value;
-  assetData[sym].call  = document.getElementById('inp-call').value;
-  assetData[sym].put   = document.getElementById('inp-put').value;
-  assetData[sym].round = document.getElementById('inp-round').value;
+  const spotEl = document.getElementById('inp-spot');
+  const callEl = document.getElementById('inp-call');
+  const putEl  = document.getElementById('inp-put');
+  const roundEl = document.getElementById('inp-round');
+  if (spotEl) assetData[sym].spot = spotEl.value;
+  if (callEl) assetData[sym].call = callEl.value;
+  if (putEl)  assetData[sym].put  = putEl.value;
+  if (roundEl) assetData[sym].round = roundEl.value;
 }
 
 // ═══════════════════ ADD CUSTOM ASSET ═══════════════════
@@ -13094,8 +13099,11 @@ function oracleOpenOnTab(name) {
     setMode('elcaro');
     oracleRenderAll();
   }
-  const tab = document.querySelector(`#oracle-panel .op-tab[onclick*="'${name}'"]`);
-  if (tab) oracleTab(name, tab);
+  const tabs = document.querySelectorAll('#op-tabs-row .op-tab');
+  let matchedTab = null;
+  tabs.forEach(t => { if (t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + name + "'")) matchedTab = t; });
+  if (matchedTab) oracleTab(name, matchedTab);
+  else oracleTab(name, null);
 }
 function oracleRenderAll() {
   oracleRenderVaultCoins();
