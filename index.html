@@ -142,7 +142,8 @@ body {
   background:rgba(26,26,26,.8); font-family:'Space Mono',monospace;
   font-size:10px; font-weight:800; letter-spacing:.6px;
   color:#666; cursor:pointer; transition:all .25s ease;
-  display:flex; align-items:center; justify-content:center; gap:5px;
+  display:flex; align-items:center; justify-content:center; gap:2px;
+  flex-direction:column;
   backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
 }
 .mode-btn img { opacity:.5; transition:all .25s ease; filter:grayscale(40%); }
@@ -754,7 +755,7 @@ body {
 .tools-launcher-btn:active { transform:scale(.95); }
 .tools-launcher-btn:hover { transform:translateY(-3px) scale(1.06);box-shadow:0 0 16px rgba(255,106,0,.25), 0 8px 24px rgba(0,0,0,.3); }
 .tlb-icon { line-height:1; display:flex; align-items:center; justify-content:center; transition:all .25s ease; }
-.tlb-icon img { width:192px; height:192px; object-fit:contain; transition:all .25s ease; }
+.tlb-icon img { width:120px; height:120px; object-fit:contain; transition:all .25s ease; }
 .tools-launcher-btn:hover .tlb-icon img { transform:scale(1.1); filter:brightness(1.2); }
 .tlb-name { font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.5px;margin-top:2px; transition:all .25s; }
 .tools-launcher-btn:hover .tlb-name { color:#fff !important; }
@@ -1560,7 +1561,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 }
 #oracle-panel .qi-icon {
   font-size:24px; width:44px; height:44px; display:flex;
-  align-items:center; justify-content:center; background:#161616;
+  align-items:center; justify-content:center; background:transparent;
   border-radius:12px; flex-shrink:0;
 }
 #oracle-panel .qi-info { flex:1; }
@@ -4253,18 +4254,17 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === EQUAL-WIDTH GROUP: ALERTS · STRADDLE · ELCARO · GUILD === -->
     <button class="mode-btn active" id="mode-alerts-nav" onclick="setMode('alerts')"
       title="Trading Filter Alerts" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/5 ALERTS.png" style="width:36px;height:36px;object-fit:contain;"> ALERTS
+      <img src="icons/5 ALERTS.png" style="width:56px;height:56px;object-fit:contain;display:block;margin:0 auto;"><span style="display:block;margin-top:2px;">ALERTS</span>
     </button>
 
     <button class="mode-btn" id="mode-straddle" onclick="setMode('straddle')" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/2 RANGE.png" style="width:36px;height:36px;object-fit:contain;">
-      RANGE
+      <img src="icons/2 RANGE.png" style="width:56px;height:56px;object-fit:contain;display:block;margin:0 auto;"><span style="display:block;margin-top:2px;">RANGE</span>
     </button>
 
     <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
       title="ORACLE — Vault, Market, News, Profile"
       style="flex:1;min-width:0;color:var(--orange);">
-      <img src="icons/4 ELCARO.png" style="width:36px;height:36px;object-fit:contain;"> ELCARO
+      <img src="icons/4 ELCARO.png" style="width:56px;height:56px;object-fit:contain;display:block;margin:0 auto;"><span style="display:block;margin-top:2px;">ELCARO</span>
     </button>
 
     <!-- Divider -->
@@ -4273,12 +4273,12 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === ICON-ONLY GROUP: TOOLS · MARKET === -->
     <button class="mode-btn" id="mode-tools-group" onclick="setMode('tools')"
       title="Tools" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <img src="icons/1 TOOLS.png" style="width:64px;height:64px;object-fit:contain;">
+      <img src="icons/1 TOOLS.png" style="width:48px;height:48px;object-fit:contain;">
     </button>
 
     <button class="mode-btn" id="mode-market-group" onclick="setMode('market')"
       title="Market Data" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <img src="icons/3 MARKET.png" style="width:72px;height:72px;object-fit:contain;">
+      <img src="icons/3 MARKET.png" style="width:48px;height:48px;object-fit:contain;">
     </button>
 
 
@@ -11834,7 +11834,7 @@ function initSigmaButtons() {
     <!-- ORACLE SPIN -->
     <div class="slabel">ORACLE VISION</div>
     <div class="spin-trigger" onclick="openSpin()">
-      <div style="font-size:34px"><img src="icons/ORACLE SLOT MACHINE.png" style="width:170px;height:170px;object-fit:contain;"></div>
+      <div style="font-size:34px"><img src="icons/ORACLE SLOT MACHINE.png" style="width:120px;height:120px;object-fit:contain;"></div>
       <div style="flex:1"><div class="spin-title-txt">ORACLE SLOT MACHINE</div><div class="spin-sub-txt">1 FREE SPIN AVAILABLE TODAY</div></div>
       <div class="spin-cta-pill">SPIN →</div>
     </div>
@@ -11938,7 +11938,7 @@ function initSigmaButtons() {
     <div class="verdict-item">
       <div class="verdict-header">
         <div class="verdict-asset-row">
-          <div class="verdict-icon" style="background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.2)"><img src="icons/34 Crypto.png" style="width:80px;height:80px;object-fit:contain;"></div>
+          <div class="verdict-icon" style="background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.2)"><img src="icons/34 Crypto.png" style="width:40px;height:40px;object-fit:contain;"></div>
           <div style="flex:1"><div class="verdict-asset-name">BITCOIN</div><div style="font-size:9px;color:#555;font-family:'Space Mono',monospace;margin-top:1px;">BTC / USD</div></div>
           <div class="verdict-tf-badge" style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--cyan)" id="btc-verdict-tf-badge">4H</div>
         </div>
@@ -11946,7 +11946,7 @@ function initSigmaButtons() {
         <div class="verdict-expire">⏳ Closes: May 03 '26 12:30 UTC</div>
       </div>
       <div class="verdict-body">
-        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.png" style="width:96px;height:96px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — WILL WORK</strong> · Confidence: <span style="color:var(--gold)">78%</span></div>
+        <div class="verdict-oracle-pos"><img src="icons/4 ELCARO.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;"> ORACLE: <strong style="color:var(--green);margin:0 4px">BULL — WILL WORK</strong> · Confidence: <span style="color:var(--gold)">78%</span></div>
         <div style="font-size:9px;color:#666;font-family:'Space Mono',monospace;margin-bottom:6px;">SELECT TIMEFRAME TO BET ON:</div>
         <div class="verdict-tf-row" id="btc-tf-row">
           <button class="verdict-tf-btn" onclick="selectVerdictTF(this,'btc','15M')">15M</button>
@@ -12236,8 +12236,8 @@ function initSigmaButtons() {
 
           <!-- FREE / PREMIUM TAB SWITCHER -->
           <div style="padding:0 12px 10px;display:flex;gap:6px;">
-            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img src="icons/37 FREE.png" style="width:64px;height:64px;object-fit:contain;"> FREE</div>
-            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img src="icons/38 PREMIUM.png" style="width:64px;height:64px;object-fit:contain;"> PREMIUM</div>
+            <div id="news-tab-free" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #f5a623;border-radius:9px;font-size:9px;font-weight:700;color:#f5a623;font-family:'Space Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('free')"><img src="icons/37 FREE.png" style="width:64px;height:64px;object-fit:contain;"> FREE</div>
+            <div id="news-tab-premium" style="flex:1;text-align:center;padding:8px;background:#161616;border:1px solid #2a2a2a;border-radius:9px;font-size:9px;font-weight:700;color:#555;font-family:'Space Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;" onclick="newsTab('premium')"><img src="icons/38 PREMIUM.png" style="width:64px;height:64px;object-fit:contain;"> PREMIUM</div>
             <div style="flex:1;text-align:center;padding:8px;background:linear-gradient(135deg,rgba(108,63,255,.18),rgba(168,85,247,.1));border:1px solid rgba(108,63,255,.45);border-radius:9px;font-size:9px;font-weight:700;color:#b388ff;font-family:'Space Mono',monospace;cursor:pointer;position:relative;overflow:hidden;" onclick="window.open('https://waylight.me/tru/community/0c74c-db858','_blank')">
               <img src="icons/39 PRIVATE GROUP.png" style="width:64px;height:64px;object-fit:contain;"> PRIVATE<br>GROUP
             </div>
@@ -12737,7 +12737,7 @@ function initSigmaButtons() {
 <div class="modal-overlay" id="spin-modal" onclick="if(event.target===this)closeSpin()">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title"><img src="icons/ORACLE SLOT MACHINE.png" style="width:170px;height:170px;object-fit:contain;vertical-align:middle;"> ORACLE SLOT MACHINE</div>
+    <div class="modal-title"><img src="icons/ORACLE SLOT MACHINE.png" style="width:120px;height:120px;object-fit:contain;vertical-align:middle;"> ORACLE SLOT MACHINE</div>
     <div class="modal-sub">SPIN TO WIN FORECASTS &amp; CHESTS</div>
 
     <div class="jackpot-banner" id="jackpot-banner">
@@ -12778,7 +12778,7 @@ function initSigmaButtons() {
       <img src="icons/slot machine spin button.png" style="width:56px;height:56px;object-fit:contain;vertical-align:middle;"> SPIN NOW — FREE
     </button>
     <div id="spin-view-profile" style="display:none;text-align:center;margin-top:8px;">
-      <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:7px 16px;font-size:10px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:.5px;"><img src="icons/4 ELCARO.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;"> VIEW IN PROFILE</button>
+      <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:7px 16px;font-size:10px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:.5px;"><img src="icons/4 ELCARO.png" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;"> VIEW IN PROFILE</button>
     </div>
     <div style="text-align:center;margin-top:10px;font-size:11px;color:#555;font-family:'Space Mono',monospace;">
       Additional spins: $1 or 500⬡ each
@@ -13379,11 +13379,11 @@ function alertUpdateMarketBadge() {
   if (!badge || !emoji || !label) return;
   const w = _alertPhase.phases['1W'] || 'down';
   if (w === 'up') {
-    emoji.innerHTML = '<img src="icons/bull market logo.png" style="width:240px;height:240px;object-fit:contain;">';
+    emoji.innerHTML = '<img src="icons/bull market logo.png" style="width:120px;height:120px;object-fit:contain;">';
     label.textContent = 'BULL MARKET';
     label.style.color = 'var(--green)';
   } else {
-    emoji.innerHTML = '<img src="icons/bear market logo.png" style="width:240px;height:240px;object-fit:contain;">';
+    emoji.innerHTML = '<img src="icons/bear market logo.png" style="width:120px;height:120px;object-fit:contain;">';
     label.textContent = 'BEAR MARKET';
     label.style.color = 'var(--red)';
   }
