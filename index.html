@@ -2333,8 +2333,8 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 #oracle-panel .op-tab.active .op-tab-icon { font-size:17px; }
 .op-tab:hover:not(.active) { color:#888; }
 #oracle-panel .op-tab .op-tab-icon { font-size:14px; display:flex; align-items:center; justify-content:center; margin-bottom:1px; transition:all .25s; }
-#oracle-panel .op-tab .op-tab-icon img { width:112px; height:112px; object-fit:contain; transition:all .25s; opacity:.5; filter:grayscale(40%); }
-#oracle-panel .op-tab.active .op-tab-icon img { width:136px; height:136px; opacity:1; filter:grayscale(0%) brightness(1.3); }
+#oracle-panel .op-tab .op-tab-icon img { width:56px; height:56px; object-fit:contain; transition:all .25s; opacity:.5; filter:grayscale(40%); }
+#oracle-panel .op-tab.active .op-tab-icon img { width:56px; height:56px; opacity:1; filter:grayscale(0%) brightness(1.3); }
 #oracle-panel .op-tab:hover:not(.active) .op-tab-icon img { opacity:.75; filter:grayscale(20%); }
 
 /* Oracle body */
@@ -4253,18 +4253,18 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === EQUAL-WIDTH GROUP: ALERTS · STRADDLE · ELCARO · GUILD === -->
     <button class="mode-btn active" id="mode-alerts-nav" onclick="setMode('alerts')"
       title="Trading Filter Alerts" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/5 ALERTS.png" style="width:96px;height:96px;object-fit:contain;"> ALERTS
+      <img src="icons/5 ALERTS.png" style="width:36px;height:36px;object-fit:contain;"> ALERTS
     </button>
 
     <button class="mode-btn" id="mode-straddle" onclick="setMode('straddle')" style="flex:1;min-width:0;color:#ff6a00;">
-      <img src="icons/2 RANGE.png" style="width:96px;height:96px;object-fit:contain;">
+      <img src="icons/2 RANGE.png" style="width:36px;height:36px;object-fit:contain;">
       RANGE
     </button>
 
     <button class="mode-btn" id="mode-elcaro-nav" onclick="oracleOpen()"
       title="ORACLE — Vault, Market, News, Profile"
       style="flex:1;min-width:0;color:var(--orange);">
-      <img src="icons/4 ELCARO.png" style="width:96px;height:96px;object-fit:contain;"> ELCARO
+      <img src="icons/4 ELCARO.png" style="width:36px;height:36px;object-fit:contain;"> ELCARO
     </button>
 
     <!-- Divider -->
@@ -4273,12 +4273,12 @@ input[type=range]::-webkit-slider-thumb {
     <!-- === ICON-ONLY GROUP: TOOLS · MARKET === -->
     <button class="mode-btn" id="mode-tools-group" onclick="setMode('tools')"
       title="Tools" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <img src="icons/1 TOOLS.png" style="width:88px;height:88px;object-fit:contain;">
+      <img src="icons/1 TOOLS.png" style="width:64px;height:64px;object-fit:contain;">
     </button>
 
     <button class="mode-btn" id="mode-market-group" onclick="setMode('market')"
       title="Market Data" style="flex:0 0 42px;padding:8px 0;justify-content:center;">
-      <img src="icons/3 MARKET.png" style="width:88px;height:88px;object-fit:contain;">
+      <img src="icons/3 MARKET.png" style="width:72px;height:72px;object-fit:contain;">
     </button>
 
 
@@ -11740,7 +11740,7 @@ function initSigmaButtons() {
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="background:rgba(255,166,35,.1);border:1px solid rgba(255,166,35,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#ffd700;font-family:'Space Mono',monospace;">
-          <img src="icons/REWARDS coin.jpeg" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;border-radius:50%;"> <span id="oracle-hdr-coins">999,999</span>
+          <img src="icons/REWARDS coin.jpeg" style="width:12px;height:12px;object-fit:contain;vertical-align:middle;border-radius:50%;"> <span id="oracle-hdr-coins">999,999</span>
         </div>
         <div onclick="oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#00e5ff;font-family:'Space Mono',monospace;cursor:pointer;" title="My Forecasts">
           📋 <span id="oracle-hdr-forecasts">0</span>
@@ -11799,12 +11799,12 @@ function initSigmaButtons() {
     <div class="day-scroll" id="op-rewards-scroll"></div>
 
     <!-- CHECK-IN BTN -->
-    <button class="checkin-btn" id="checkin-btn" onclick="doCheckin()"><img src="icons/REWARDS coin.jpeg" style="width:64px;height:64px;object-fit:contain;vertical-align:middle;border-radius:50%;"> CLAIM TODAY'S +20 COINS</button>
+    <button class="checkin-btn" id="checkin-btn" onclick="doCheckin()"><img src="icons/REWARDS coin.jpeg" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;border-radius:50%;"> CLAIM TODAY'S +20 COINS</button>
 
     <!-- DAILY QUESTS -->
     <div class="slabel">DAILY QUESTS</div>
     <div class="quest-item done">
-      <div class="qi-icon"><img src="icons/quest Check BTC Signal.png" style="width:192px;height:192px;object-fit:contain;"></div>
+      <div class="qi-icon"><img src="icons/quest Check BTC Signal.png" style="width:144px;height:144px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Check BTC Signal</div>
         <div class="qi-desc">OPEN ANY BTC TIMEFRAME</div>
@@ -11813,7 +11813,7 @@ function initSigmaButtons() {
       <div class="qi-reward"><div class="qi-coins">+30⬡</div><div class="qi-extra">DONE ✓</div></div>
     </div>
     <div class="quest-item" onclick="shareToTelegram()">
-      <div class="qi-icon"><img src="icons/quest Share to Telegram.png" style="width:192px;height:192px;object-fit:contain;"></div>
+      <div class="qi-icon"><img src="icons/quest Share to Telegram.png" style="width:144px;height:144px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Share to Telegram</div>
         <div class="qi-desc">REPOST ANY ORACLE SIGNAL</div>
@@ -11822,7 +11822,7 @@ function initSigmaButtons() {
       <div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--wood)">+BRONZE</div></div>
     </div>
     <div class="quest-item" onclick="showToast('Check 3 assets → +20 coins')">
-      <div class="qi-icon"><img src="icons/quest Browse 3 Assets.png" style="width:192px;height:192px;object-fit:contain;"></div>
+      <div class="qi-icon"><img src="icons/quest Browse 3 Assets.png" style="width:144px;height:144px;object-fit:contain;"></div>
       <div class="qi-info">
         <div class="qi-name">Browse 3 Assets</div>
         <div class="qi-desc">1 / 3 ASSETS VIEWED TODAY</div>
@@ -11834,7 +11834,7 @@ function initSigmaButtons() {
     <!-- ORACLE SPIN -->
     <div class="slabel">ORACLE VISION</div>
     <div class="spin-trigger" onclick="openSpin()">
-      <div style="font-size:34px"><img src="icons/ORACLE SLOT MACHINE.png" style="width:272px;height:272px;object-fit:contain;"></div>
+      <div style="font-size:34px"><img src="icons/ORACLE SLOT MACHINE.png" style="width:170px;height:170px;object-fit:contain;"></div>
       <div style="flex:1"><div class="spin-title-txt">ORACLE SLOT MACHINE</div><div class="spin-sub-txt">1 FREE SPIN AVAILABLE TODAY</div></div>
       <div class="spin-cta-pill">SPIN →</div>
     </div>
@@ -11847,25 +11847,25 @@ function initSigmaButtons() {
         <div class="o-section">BUY CHESTS</div>
         <div class="chest-grid">
           <div class="chest-card" style="border-color:#8B6914;" onclick="orcBuyChest('wood')">
-            <div><img src="icons/wooden chest.png" style="width:360px;height:360px;object-fit:contain;"></div>
+            <div><img src="icons/wooden chest.png" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#c8961e;margin:3px 0 2px;">WOODEN</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">1-2 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(139,105,20,.2);color:#c8961e;border-radius:7px;padding:2px 6px;">200⬡</div>
           </div>
           <div class="chest-card" style="border-color:#cd7f32;" onclick="orcBuyChest('bronze')">
-            <div><img src="icons/bronze chest.png" style="width:360px;height:360px;object-fit:contain;"></div>
+            <div><img src="icons/bronze chest.png" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#cd7f32;margin:3px 0 2px;">BRONZE</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">2-3 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(205,127,50,.2);color:#cd7f32;border-radius:7px;padding:2px 6px;">800⬡</div>
           </div>
           <div class="chest-card" style="border-color:#C0C0C0;" onclick="orcBuyChest('silver')">
-            <div><img src="icons/silver chest.png" style="width:360px;height:360px;object-fit:contain;"></div>
+            <div><img src="icons/silver chest.png" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#C0C0C0;margin:3px 0 2px;">SILVER</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">3-5 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(192,192,192,.1);color:#C0C0C0;border-radius:7px;padding:2px 6px;">2,000⬡</div>
           </div>
           <div class="chest-card" style="border-color:#ffd700;" onclick="orcBuyChest('gold')">
-            <div><img src="icons/gold chest.png" style="width:360px;height:360px;object-fit:contain;"></div>
+            <div><img src="icons/gold chest.png" style="width:120px;height:120px;object-fit:contain;"></div>
             <div style="font-size:11px;font-weight:700;color:#ffd700;margin:3px 0 2px;">GOLD</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">5-8 forecasts</div>
             <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000⬡</div>
@@ -11873,7 +11873,7 @@ function initSigmaButtons() {
         </div>
         <div style="padding:0 12px 16px;">
           <div class="chest-card" style="border-color:#a8edff;text-align:center;width:100%;" onclick="orcBuyChest('diamond')">
-            <div><img src="icons/diamond chest.png" style="width:528px;height:528px;object-fit:contain;"></div>
+            <div><img src="icons/diamond chest.png" style="width:150px;height:150px;object-fit:contain;"></div>
             <div style="font-size:13px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
             <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">10+ forecasts · All timeframes</div>
             <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 8px;display:inline-block;">15,000⬡</div>
@@ -12665,7 +12665,7 @@ function initSigmaButtons() {
     <!-- EARN MORE -->
     <div class="slabel">EARN MORE COINS</div>
     <div class="quest-item" id="earn-share-btn" onclick="profEarnShare(this)"><div class="qi-icon"><img src="icons/Share to Telegram.png" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Share to Social</div><div class="qi-desc">TELEGRAM / X / INSTAGRAM</div></div><div class="qi-reward"><div class="qi-coins">+50⬡</div><div class="qi-extra" style="color:var(--bronze)">+BRONZE</div></div></div>
-    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img src="icons/quest Follow 2 Traders.png" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
+    <div class="quest-item" onclick="profEarnRefer()"><div class="qi-icon"><img src="icons/quest Follow 2 Traders.png" style="width:144px;height:144px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Refer a Friend</div><div class="qi-desc" id="earn-refer-desc">COPY YOUR REFERRAL LINK</div></div><div class="qi-reward"><div class="qi-coins">+500⬡</div><div class="qi-extra" style="color:var(--silver)">+SILVER</div></div></div>
     <div class="quest-item" style="margin-bottom:8px" onclick="profEarnReview()"><div class="qi-icon"><img src="icons/38 PREMIUM.png" style="width:192px;height:192px;object-fit:contain;"></div><div class="qi-info"><div class="qi-name">Write a Review</div><div class="qi-desc">APP STORE / GOOGLE PLAY</div></div><div class="qi-reward"><div class="qi-coins">+200⬡</div></div></div>
 
     <!-- DISCLAIMER BUTTON -->
@@ -12737,7 +12737,7 @@ function initSigmaButtons() {
 <div class="modal-overlay" id="spin-modal" onclick="if(event.target===this)closeSpin()">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title"><img src="icons/ORACLE SLOT MACHINE.png" style="width:128px;height:128px;object-fit:contain;vertical-align:middle;"> ORACLE SLOT MACHINE</div>
+    <div class="modal-title"><img src="icons/ORACLE SLOT MACHINE.png" style="width:170px;height:170px;object-fit:contain;vertical-align:middle;"> ORACLE SLOT MACHINE</div>
     <div class="modal-sub">SPIN TO WIN FORECASTS &amp; CHESTS</div>
 
     <div class="jackpot-banner" id="jackpot-banner">
@@ -12775,7 +12775,7 @@ function initSigmaButtons() {
 
     <div class="spin-result" id="spin-result"></div>
     <button class="spin-btn" id="spin-btn" onclick="doSpin()">
-      <img src="icons/slot machine spin button.png" style="width:72px;height:72px;object-fit:contain;vertical-align:middle;"> SPIN NOW — FREE
+      <img src="icons/slot machine spin button.png" style="width:56px;height:56px;object-fit:contain;vertical-align:middle;"> SPIN NOW — FREE
     </button>
     <div id="spin-view-profile" style="display:none;text-align:center;margin-top:8px;">
       <button onclick="closeSpin();oracleOpenOnTab('profile')" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:7px 16px;font-size:10px;font-weight:700;color:#00e5ff;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:.5px;"><img src="icons/4 ELCARO.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;"> VIEW IN PROFILE</button>
@@ -13010,11 +13010,11 @@ const OC = {
 };
 
 const CHEST_DATA = {
-  wood:    { icon:'<img src="icons/wooden chest.png" style="width:360px;height:360px;object-fit:contain;">', name:'WOODEN',  color:'#c8961e', border:'#8B6914', rarity:'COMMON',    forecastCount:[1,2],  coinValue:150,  desc:'1-2 forecasts · Common rarity' },
-  bronze:  { icon:'<img src="icons/bronze chest.png" style="width:360px;height:360px;object-fit:contain;">', name:'BRONZE',  color:'#cd7f32', border:'#cd7f32', rarity:'UNCOMMON',  forecastCount:[2,3],  coinValue:600,  desc:'2-3 forecasts · Uncommon' },
-  silver:  { icon:'<img src="icons/silver chest.png" style="width:360px;height:360px;object-fit:contain;">', name:'SILVER',  color:'#C0C0C0', border:'#C0C0C0', rarity:'RARE',      forecastCount:[3,5],  coinValue:1500, desc:'3-5 forecasts · Rare' },
-  gold:    { icon:'<img src="icons/gold chest.png" style="width:360px;height:360px;object-fit:contain;">', name:'GOLD',    color:'#ffd700', border:'#ffd700', rarity:'EPIC',      forecastCount:[5,8],  coinValue:4000, desc:'5-8 forecasts · Epic' },
-  diamond: { icon:'<img src="icons/diamond chest.png" style="width:528px;height:528px;object-fit:contain;">', name:'DIAMOND', color:'#a8edff', border:'#a8edff', rarity:'LEGENDARY', forecastCount:[10,14],coinValue:12000,desc:'10+ forecasts · Legendary' },
+  wood:    { icon:'<img src="icons/wooden chest.png" style="width:120px;height:120px;object-fit:contain;">', name:'WOODEN',  color:'#c8961e', border:'#8B6914', rarity:'COMMON',    forecastCount:[1,2],  coinValue:150,  desc:'1-2 forecasts · Common rarity' },
+  bronze:  { icon:'<img src="icons/bronze chest.png" style="width:120px;height:120px;object-fit:contain;">', name:'BRONZE',  color:'#cd7f32', border:'#cd7f32', rarity:'UNCOMMON',  forecastCount:[2,3],  coinValue:600,  desc:'2-3 forecasts · Uncommon' },
+  silver:  { icon:'<img src="icons/silver chest.png" style="width:120px;height:120px;object-fit:contain;">', name:'SILVER',  color:'#C0C0C0', border:'#C0C0C0', rarity:'RARE',      forecastCount:[3,5],  coinValue:1500, desc:'3-5 forecasts · Rare' },
+  gold:    { icon:'<img src="icons/gold chest.png" style="width:120px;height:120px;object-fit:contain;">', name:'GOLD',    color:'#ffd700', border:'#ffd700', rarity:'EPIC',      forecastCount:[5,8],  coinValue:4000, desc:'5-8 forecasts · Epic' },
+  diamond: { icon:'<img src="icons/diamond chest.png" style="width:150px;height:150px;object-fit:contain;">', name:'DIAMOND', color:'#a8edff', border:'#a8edff', rarity:'LEGENDARY', forecastCount:[10,14],coinValue:12000,desc:'10+ forecasts · Legendary' },
 };
 
 const ASSETS_POOL = [
@@ -14586,18 +14586,18 @@ checkDuelDeadlines();
 
 // ── Quest definitions (progress & done state stored in OC) ──
 const OP_DAILY_QUEST_DEFS = [
-  {id:'dq1',icon:'<img src="icons/quest Check BTC Signal.png" style="width:192px;height:192px;object-fit:contain;">', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
-  {id:'dq2',icon:'<img src="icons/quest Share to Telegram.png" style="width:192px;height:192px;object-fit:contain;">',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
-  {id:'dq3',icon:'<img src="icons/quest Browse 3 Assets.png" style="width:192px;height:192px;object-fit:contain;">', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
-  {id:'dq4',icon:'<img src="icons/quest Use Oracle Slot.png" style="width:192px;height:192px;object-fit:contain;">',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
-  {id:'dq5',icon:'<img src="icons/quest Daily Check-in.png" style="width:192px;height:192px;object-fit:contain;">',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
+  {id:'dq1',icon:'<img src="icons/quest Check BTC Signal.png" style="width:144px;height:144px;object-fit:contain;">', title:'Check BTC Signal',  desc:'OPEN ANY BTC TIMEFRAME',          reward:30,  max:1},
+  {id:'dq2',icon:'<img src="icons/quest Share to Telegram.png" style="width:144px;height:144px;object-fit:contain;">',title:'Share to Telegram', desc:'REPOST ANY ORACLE SIGNAL',         reward:50,  max:1, extra:'BRONZE'},
+  {id:'dq3',icon:'<img src="icons/quest Browse 3 Assets.png" style="width:144px;height:144px;object-fit:contain;">', title:'Browse 3 Assets',  desc:'VIEW 3 DIFFERENT ASSET PAGES',     reward:20,  max:3},
+  {id:'dq4',icon:'<img src="icons/quest Use Oracle Slot.png" style="width:144px;height:144px;object-fit:contain;">',title:'Use Oracle Slot',   desc:'SPIN ONCE TODAY',                  reward:20,  max:1},
+  {id:'dq5',icon:'<img src="icons/quest Daily Check-in.png" style="width:144px;height:144px;object-fit:contain;">',title:'Daily Check-in',    desc:'CLAIM YOUR DAILY REWARD',          reward:15,  max:1},
 ];
 const OP_WEEKLY_QUEST_DEFS = [
-  {id:'wq1',icon:'<img src="icons/quest Open 2 Chests.png" style="width:192px;height:192px;object-fit:contain;">',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
-  {id:'wq2',icon:'<img src="icons/quest Place 3 Arena Bets.png" style="width:192px;height:192px;object-fit:contain;">',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
-  {id:'wq3',icon:'<img src="icons/quest Contribute to Guild.png" style="width:192px;height:192px;object-fit:contain;">',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
-  {id:'wq4',icon:'<img src="icons/quest Follow 2 Traders.png" style="width:192px;height:192px;object-fit:contain;">',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
-  {id:'wq5',icon:'<img src="icons/quest Win an Arena Duel.png" style="width:192px;height:192px;object-fit:contain;">',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
+  {id:'wq1',icon:'<img src="icons/quest Open 2 Chests.png" style="width:144px;height:144px;object-fit:contain;">',title:'Open 2 Chests',      desc:'ANY CHEST TYPE COUNTS',            reward:200, max:2},
+  {id:'wq2',icon:'<img src="icons/quest Place 3 Arena Bets.png" style="width:144px;height:144px;object-fit:contain;">',title:'Place 3 Arena Bets', desc:'BET IN ORACLE ARENA',              reward:500, max:3},
+  {id:'wq3',icon:'<img src="icons/quest Contribute to Guild.png" style="width:144px;height:144px;object-fit:contain;">',title:'Contribute to Guild',desc:'DONATE COINS, FORECAST, CHEST',    reward:300, max:1},
+  {id:'wq4',icon:'<img src="icons/quest Follow 2 Traders.png" style="width:144px;height:144px;object-fit:contain;">',title:'Follow 2 Traders',   desc:'SUBSCRIBE TO ORACLE TRADERS',      reward:150, max:2},
+  {id:'wq5',icon:'<img src="icons/quest Win an Arena Duel.png" style="width:144px;height:144px;object-fit:contain;">',title:'Win an Arena Duel',  desc:'BET ON A CORRECTLY RESOLVED DUEL', reward:1000,max:1},
 ];
 
 // ── Legacy arrays for backward compat (filled dynamically) ──
