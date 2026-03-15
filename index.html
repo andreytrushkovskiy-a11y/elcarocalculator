@@ -12095,10 +12095,6 @@ function initSigmaButtons() {
     </div>
     </div>
 
-    <!-- MARKETPLACE TAB -->
-    <div
-        </div>
-
         <!-- ARENA DUELS -->
         <div id="op-tab-duels" style="display:none;">
           <div style="display:flex;gap:6px;padding:10px 12px 8px;overflow-x:auto;scrollbar-width:none;">
@@ -13119,7 +13115,8 @@ function oracleRenderTab(name) {
   if (name==='guild')       { opRenderGuild(); }
   if (name==='news')        { oracleRenderNews(); oracleUpdateNewsStatus(); }
   if (name==='oracle')      { ocSwitchTab('prophecies'); }
-      if (name==='profile')     { opRenderProfile(); }
+  if (name==='profile')     { opRenderProfile(); }
+  if (name==='traders')     { renderTradersList(); }
 }
 
 // Restore Oracle Calls bet indicators from saved OC_EXT state
@@ -14986,7 +14983,17 @@ function selectBetAmt(el, amt) {
   document.querySelectorAll('.bet-amt-pill').forEach(p=>p.classList.remove('sel'));
   el.classList.add('sel');
   opCurrentBetAmt = parseInt(amt);
-  opUpdateBetDisplay('1.62');
+  // Use actual duel odds if available, fallback to 1.62
+  var currentOdds = '1.62';
+  if (window._opCurrentDuelId) {
+    var _d = OP_ARENA_DUELS.find(function(x){return x.id===window._opCurrentDuelId});
+    if (_d) {
+      var _side = window._opCurrentDuelSide || 'yes';
+      var _pool = _side==='yes' ? _d.poolYes : _d.poolNo;
+      currentOdds = (_d.totalPool / _pool * 0.9).toFixed(2);
+    }
+  }
+  opUpdateBetDisplay(currentOdds);
 }
 // alias
 function selectOpBetAmt(el, amt) { selectBetAmt(el, amt); }
@@ -15614,6 +15621,65 @@ function opRenderGuild() {
   // guild-section is shown directly inside op-body by oracleTab()
   const msgs = document.getElementById('guild-gchat-msgs');
   if (msgs) msgs.scrollTop = msgs.scrollHeight;
+
+  // Update guild stats
+  const gMembers = document.getElementById('g-members');
+  if (gMembers) gMembers.textContent = guildState.members;
+  const gCoins = document.getElementById('g-coins');
+  if (gCoins) gCoins.textContent = guildState.coins.toLocaleString();
+  const gRank = document.getElementById('g-rank');
+  if (gRank) gRank.textContent = '#' + guildState.rank;
+  const gAvg = document.getElementById('g-avgscore');
+  if (gAvg) gAvg.textContent = guildState.avgScore + '%';
+
+  // Render members list
+  const membersList = document.getElementById('g-members-list');
+  if (membersList) {
+    const myScore = calcGuildScore();
+    membersList.innerHTML = GUILD_MEMBERS.map(function(m) {
+      var sc = m.isYou ? myScore : m.score;
+      var streak = m.isYou ? (OC.streak||0) : m.streak;
+      var nameDisplay = m.isYou ? 'YOU' : '@' + m.handle;
+      var leaderBadge = m.isLeader ? ' 👑' : '';
+      return '<div style="margin:0 12px 6px;background:var(--card);border:1px solid '+(m.isYou?'rgba(0,229,255,.2)':'#1e1e1e')+';border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;">' +
+        '<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:'+m.avatarBg+';border:1px solid '+(m.isLeader?'rgba(255,106,0,.3)':'#222')+';flex-shrink:0;">'+m.icon+'</div>' +
+        '<div style="flex:1;overflow:hidden;">' +
+          '<div style="font-size:12px;font-weight:700;color:'+(m.isYou?'var(--cyan)':'#ccc')+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+nameDisplay+leaderBadge+'</div>' +
+          '<div style="font-size:9px;color:'+m.rankColor+';font-family:\'Space Mono\',monospace;margin-top:1px;">'+m.rank+'</div>' +
+        '</div>' +
+        '<div style="text-align:right;">' +
+          '<div style="font-size:14px;font-weight:800;color:'+m.rankColor+';font-family:\'Space Mono\',monospace;">'+sc+'</div>' +
+          '<div style="font-size:8px;color:#555;font-family:\'Space Mono\',monospace;">'+streak+'🔥</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // Render guild leaderboard
+  var leaderboard = document.getElementById('g-leaderboard-list');
+  if (leaderboard) {
+    leaderboard.innerHTML = GUILD_LEADERBOARD.map(function(g) {
+      var isMine = g.isMine;
+      var borderColor = isMine ? 'rgba(0,230,118,.2)' : '#1e1e1e';
+      var nameColor = isMine ? 'var(--emerald)' : '#ccc';
+      return '<div style="background:var(--card);border:1px solid '+borderColor+';border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;">' +
+        '<div style="font-size:11px;font-weight:800;color:'+(g.rank<=3?'var(--gold)':'#555')+';font-family:\'Space Mono\',monospace;min-width:28px;">#'+g.rank+'</div>' +
+        '<div style="font-size:18px;">'+g.emblem+'</div>' +
+        '<div style="flex:1;">' +
+          '<div style="font-size:11px;font-weight:700;color:'+nameColor+';">'+g.name+(isMine?' ← YOU':'')+'</div>' +
+          '<div style="font-size:9px;color:#555;font-family:\'Space Mono\',monospace;">'+g.members+' members · '+(g.status==='full'?'FULL':g.status==='you'?'YOUR GUILD':'JOIN')+'</div>' +
+        '</div>' +
+        '<div style="font-size:14px;font-weight:800;color:'+(g.score>=85?'var(--gold)':g.score>=75?'var(--green)':'#888')+';font-family:\'Space Mono\',monospace;">'+g.score+'</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // Update treasury values
+  updateGuildTreasuryUI();
+
+  // Update member badge
+  var mBadge = document.getElementById('g-members-badge');
+  if (mBadge) mBadge.textContent = guildState.members + '/' + guildState.maxMembers;
 }
 
 function calcGuildScore() {
@@ -15631,6 +15697,7 @@ function getMyRankLabel() {
 
 function guildOpenTreasury() {
   // Update treasury modal values before opening
+  if (!OC_EXT.guildTreasury) OC_EXT.guildTreasury = { coins:0, chests:{}, forecasts:0 };
   const t = OC_EXT.guildTreasury;
   const totalC = typeof t.chests==='number'?t.chests:Object.values(t.chests||{}).reduce((a,b)=>a+b,0);
   const gtmC = document.getElementById('gtm-coins');
@@ -15645,6 +15712,7 @@ function guildOpenTreasury() {
 
 function claimTreasury() {
   // Give user their share
+  if (!OC_EXT.guildTreasury) OC_EXT.guildTreasury = { coins:0, chests:{}, forecasts:0 };
   const t = OC_EXT.guildTreasury;
   const perMember = Math.floor(t.coins / guildState.members);
   OC.coins += perMember;
@@ -15680,6 +15748,7 @@ function claimTreasury() {
 function guildContributeCoins() {
   if (OC.coins < 100) { showToast('⚠ Need 100<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> to contribute'); return; }
   OC.coins -= 100;
+  if (!OC_EXT.guildTreasury) OC_EXT.guildTreasury = { coins:0, chests:{}, forecasts:0 };
   OC_EXT.guildTreasury.coins += 100;
   guildState.coins += 100;
   oracleRenderVaultCoins();
@@ -15952,7 +16021,9 @@ function opRenderProfile() {
 
   // ── Profile header ──────────────────────────────
   const setTxt = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-  setTxt('prof-username', 'ORACLE USER');
+  var _tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+  var _userName = _tgUser ? (_tgUser.first_name || _tgUser.username || 'ORACLE USER') : 'ORACLE USER';
+  setTxt('prof-username', _userName);
   setTxt('prof-rank-txt', rank);
   setTxt('prof-joined-txt', `MEMBER SINCE ${profGetJoinDate()} · ${OC.daysActive||1} DAY${OC.daysActive!==1?'S':''} ACTIVE`);
   setTxt('prof-xp-badge', `LVL ${bpLvl}`);
@@ -15961,7 +16032,7 @@ function opRenderProfile() {
   if (av) { av.textContent = avatar; av.style.background = `linear-gradient(135deg,${color}33,${color}11)`; av.style.borderColor = color+'66'; }
 
   // ── Oracle Card ──────────────────────────────────
-  setTxt('oc-card-name-txt', 'ORACLE USER');
+  setTxt('oc-card-name-txt', _userName);
   setTxt('oc-card-rank-txt', rank);
   setTxt('oc-card-since-txt', `SINCE ${profGetJoinDate()} · ELCARO`);
   { const _e=document.getElementById('oc-card-title-badge-txt'); if(_e) _e.innerHTML=`<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> ${rank} · Oracle Covenant`; }
@@ -16025,7 +16096,7 @@ function opRenderProfile() {
   setTxt('oracle-stat-streak', OC.streak||0);
 
   // ── Achievements ─────────────────────────────────
-  const wonBets = (OC_EXT.myBets||[]).filter(b=>b.won).length;
+  const wonBets = (OC_EXT.myBets||[]).filter(b=>b.status==='won').length;
   const ACHIEVEMENTS = [
     { ico:'🔥', name:'First Day',        desc:'Log in for the first time',           done: true,                      total:1, cur:1 },
     { ico:'🔥', name:'7-Day Streak',     desc:'Log in 7 days in a row',              done:(OC.streak||0)>=7,          total:7,  cur:Math.min(OC.streak||0,7) },
@@ -16600,6 +16671,7 @@ function guildContribute(type, val) {
     if (!OC.ownedForecasts || !OC.ownedForecasts.length) { showToast('⚠ No forecasts to contribute'); return; }
     if (!OC.ownedForecasts[idx]) { showToast('⚠ Forecast not found'); return; }
     const f = OC.ownedForecasts.splice(idx,1)[0];
+    if (!OC_EXT.guildTreasury) OC_EXT.guildTreasury = { coins:0, chests:{}, forecasts:0 };
     OC_EXT.guildTreasury.forecasts++;
     showToast('📄 Forecast contributed to guild! Members will see this in treasury.');
     guildSystemMsg('📄 YOU contributed a '+( f.sym||f.asset||'')+ ' '+(f.tf||'')+' forecast to the guild treasury.');
@@ -16641,6 +16713,7 @@ function guildSystemMsg(text) {
   }
 }
 function updateGuildTreasuryUI() {
+  if (!OC_EXT.guildTreasury) OC_EXT.guildTreasury = { coins:0, chests:{}, forecasts:0 };
   const t = OC_EXT.guildTreasury;
   const total = Object.values(t.chests||{}).reduce((a,b)=>a+b,0);
   // Update treasury grid in guild section
@@ -16728,11 +16801,11 @@ function renderTradersList() {
   if (_tradersFilter === 'bull')       entries = entries.filter(([,d]) => d.action === 'BUYING');
   if (_tradersFilter === 'bear')       entries = entries.filter(([,d]) => d.action === 'SELLING');
   if (_tradersFilter === 'top')        entries = entries.filter(([,d]) => d.score >= 85);
-  if (_tradersFilter === 'subscribed') entries = entries.filter(([h]) => OC_EXT.subscribedTraders.includes(h));
+  if (_tradersFilter === 'subscribed') entries = entries.filter(([h]) => (OC_EXT.subscribedTraders||[]).includes(h));
   entries.sort((a,b) => b[1].score - a[1].score);
   if (cnt) cnt.textContent = entries.length + ' TRADERS';
   list.innerHTML = entries.map(([handle, d]) => {
-    const isSubbed   = OC_EXT.subscribedTraders.includes(handle);
+    const isSubbed   = (OC_EXT.subscribedTraders||[]).includes(handle);
     const isRevealed = OC_EXT.revealedStatuses[handle];
     const isMirrored = (OC_EXT.mirroredTraders||[]).includes(handle);
     const statusLine = d.asset
@@ -16779,7 +16852,7 @@ function renderTradersList() {
 }
 
 function traderSubscribe(handle, btn) {
-  if (OC_EXT.subscribedTraders.includes(handle)) {
+  if ((OC_EXT.subscribedTraders||[]).includes(handle)) {
     // Unsubscribe
     OC_EXT.subscribedTraders = OC_EXT.subscribedTraders.filter(h => h !== handle);
     if (btn) { btn.textContent = 'SUBSCRIBE'; btn.classList.remove('subbed'); }
@@ -16817,7 +16890,7 @@ function revealTraderStatus(handle) {
 
 function unlockTraderStatus() {
   const handle = OC_EXT.currentTraderModal; if (!handle) return;
-  if (!OC_EXT.subscribedTraders.includes(handle)) {
+  if (!(OC_EXT.subscribedTraders||[]).includes(handle)) {
     showToast('⚠ Subscribe to @'+handle+' first'); return;
   }
   if (OC.coins < 500) { showToast('⚠ Need 500<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> to unlock trader status'); return; }
@@ -17196,10 +17269,12 @@ function renderOracleCard() {
   const streak = document.getElementById('oracle-card-streak');
   const forecasts = document.getElementById('oracle-card-forecasts');
   const days = document.getElementById('oracle-card-days');
-  if (el) el.textContent = OC.accuracy;
-  if (streak) streak.textContent = OC.streak;
+  const s = OC.streak || 0, a = OC.accuracy || 0, d = OC.daysActive || 1;
+  const score = Math.min(100, Math.round((a * 0.4) + (Math.min(s, 60) / 60 * 30) + (Math.min(d, 180) / 180 * 30)));
+  if (el) el.textContent = score;
+  if (streak) streak.textContent = (OC.streak||0)+'🔥';
   if (forecasts) forecasts.textContent = OC.ownedForecasts.length;
-  if (days) days.textContent = OC.daysActive;
+  if (days) days.textContent = OC.daysActive||1;
 }
 
 // ── INIT ──────────────────────────────────────────
@@ -17293,7 +17368,7 @@ function guildOpenMemberModal(handle, icon, avatarBg, rank, score, btc, gold, et
   // Update follow button state
   const followBtn = document.getElementById('gmm-follow-btn');
   if (followBtn) {
-    const isSubbed = OC_EXT.subscribedTraders.includes(handle);
+    const isSubbed = (OC_EXT.subscribedTraders||[]).includes(handle);
     followBtn.textContent = isSubbed ? '✓ FOLLOWING' : '🔔 FOLLOW';
     followBtn.style.borderColor = isSubbed ? 'rgba(0,230,118,.6)' : 'rgba(0,230,118,.3)';
     followBtn.style.background = isSubbed ? 'rgba(0,230,118,.15)' : 'rgba(0,230,118,.06)';
@@ -17342,7 +17417,7 @@ function guildCreate() {
 function guildFollowMember() {
   const handle = currentGuildMember;
   if (!handle) return;
-  const isSubbed = OC_EXT.subscribedTraders.includes(handle);
+  const isSubbed = (OC_EXT.subscribedTraders||[]).includes(handle);
   const btn = document.getElementById('gmm-follow-btn');
   if (isSubbed) {
     OC_EXT.subscribedTraders = OC_EXT.subscribedTraders.filter(h => h !== handle);
@@ -18686,6 +18761,7 @@ function ocSwitchTab(tabName) {
     if (v) v.style.display = (t === tabName) ? 'block' : 'none';
   });
   document.getElementById('oc-oracle-scroll').scrollTop = 0;
+  if (tabName === 'prophecies')  renderOracleCallsBets();
   if (tabName === 'mybets')     ocRenderMyBets();
   if (tabName === 'leaderboard') ocRenderLeaderboard();
   if (tabName === 'traders')    ocRenderOracleTraders();
@@ -18844,7 +18920,7 @@ function ocPlaceBet(side) {
 ════════════════════════════════════ */
 function ocOpenCopy(data) {
   ocState.currentCopy = data;
-  const isSubbed   = OC_EXT.subscribedTraders.includes(data.handle);
+  const isSubbed   = (OC_EXT.subscribedTraders||[]).includes(data.handle);
   const isRevealed = OC_EXT.revealedStatuses && OC_EXT.revealedStatuses[data.handle];
 
   const av = document.getElementById('oc-ct-av');
@@ -18914,7 +18990,7 @@ function ocOpenCopy(data) {
 function ocConfirmCopy() {
   if (OC.coins < 50) { showToast('⚠️ Need 50<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> to unlock trader status'); return; }
   const d = ocState.currentCopy;
-  if (!OC_EXT.subscribedTraders.includes(d.handle)) {
+  if (!(OC_EXT.subscribedTraders||[]).includes(d.handle)) {
     showToast('⚠ Subscribe to @'+d.handle+' first to unlock status'); return;
   }
   OC.coins -= 50;
@@ -18954,7 +19030,7 @@ function ocSubscribe(handle, btnId) {
 
 function ocConfirmSub() {
   const handle = ocState.currentSubHandle;
-  if (handle && !OC_EXT.subscribedTraders.includes(handle)) {
+  if (handle && !(OC_EXT.subscribedTraders||[]).includes(handle)) {
     OC_EXT.subscribedTraders.push(handle);
     opAdvanceQuest('wq4');
     const btn = document.getElementById(ocState.currentSubBtnId);
