@@ -1492,7 +1492,7 @@ div[class*="tgme"], div[id*="tgme"] { display:none !important; }
 
 /* -- scrollable-op -- */
 #oracle-panel .scrollable-op {
-  overflow-y:visible; padding-bottom:10px;
+  overflow-y:auto; padding-bottom:10px;
 }
 #oracle-panel .scrollable-op::-webkit-scrollbar { display:none; }
 
@@ -4501,7 +4501,12 @@ input[type=range]::-webkit-slider-thumb {
         </div>
 
         <!-- VIZ 2: Gauge arcs -->
-        <div id="viz-2" style="display:none;"></div>
+        <div id="viz-2" style="display:none;">
+          <div class="v2-wrap">
+            <svg id="v2-svg" width="340" height="315" viewBox="0 0 340 315" style="width:100%;max-width:340px;display:block;margin:0 auto;"></svg>
+            <div class="v2-sigma-row" id="v2-sigma-row"></div>
+          </div>
+        </div>
 
         <!-- VIZ 3: Price Ladder -->
         <div id="viz-3" style="display:none;">
@@ -12730,13 +12735,13 @@ function initSigmaButtons() {
       <div class="bp-season-title">BULL MARKET CHRONICLES</div>
       <div class="bp-season-sub">SEASON 1 · MAR–JUN 2026 · 100 LEVELS</div>
       <div class="bp-lvl-row">
-        <div class="bp-lvl-badge" id="op-bp-curlvl">12</div>
+        <div class="bp-lvl-badge" id="prof-bp-curlvl">12</div>
         <div>
-          <div class="bp-xp-txt" id="op-bp-lvltxt">LVL 12 · 840/1000 XP</div>
+          <div class="bp-xp-txt" id="prof-bp-lvltxt">LVL 12 · 840/1000 XP</div>
           <div class="bp-lvl-max">100 LEVELS TOTAL</div>
         </div>
       </div>
-      <div class="bp-progress-wrap"><div class="bp-progress-fill" id="op-bp-barfill" style="width:12%"></div></div>
+      <div class="bp-progress-wrap"><div class="bp-progress-fill" id="prof-bp-barfill" style="width:12%"></div></div>
       <div class="bp-tracks" style="margin-top:12px;">
         <div class="bp-track free">
           <div class="bp-track-title" style="color:#aaa">FREE TRACK</div>
@@ -16211,13 +16216,20 @@ function opRenderProfile() {
   setTxt('prof-stat-days', OC.daysActive||1);
   setTxt('prof-stat-acc', (OC.accuracy||0)+'%');
 
-  // ── Battle Pass ──────────────────────────────────
-  const lvlEl = document.getElementById('op-bp-curlvl');
-  const txtEl = document.getElementById('op-bp-lvltxt');
-  const barEl = document.getElementById('op-bp-barfill');
+  // ── Battle Pass (profile-specific IDs) ──────────
+  const lvlEl = document.getElementById('prof-bp-curlvl');
+  const txtEl = document.getElementById('prof-bp-lvltxt');
+  const barEl = document.getElementById('prof-bp-barfill');
   if (lvlEl) lvlEl.textContent = bpLvl;
   if (txtEl) txtEl.textContent = `LVL ${bpLvl} · ${xpInLevel}/${xpPerLevel} XP`;
   if (barEl) barEl.style.width = Math.round(xpInLevel/xpPerLevel*100)+'%';
+  // Also update the vault battle pass section
+  const vLvl = document.getElementById('op-bp-curlvl');
+  const vTxt = document.getElementById('op-bp-lvltxt');
+  const vBar = document.getElementById('op-bp-barfill');
+  if (vLvl) vLvl.textContent = bpLvl;
+  if (vTxt) vTxt.textContent = 'LVL ' + bpLvl;
+  if (vBar) vBar.style.width = Math.round(xpInLevel/xpPerLevel*100)+'%';
 
   // ── My Forecasts ───────────────────────────────
   renderProfileForecasts();
