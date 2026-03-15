@@ -6670,8 +6670,63 @@ function renderPayoffDiagram() {
   svg += `<text x="${leftMidX}" y="${labelY}" text-anchor="middle" font-size="7" fill="rgba(255,80,80,.5)" font-weight="600">PRICE WON'T BE HERE</text>`;
   svg += `<text x="${rightMidX}" y="${labelY}" text-anchor="middle" font-size="7" fill="rgba(255,80,80,.5)" font-weight="600">PRICE WON'T BE HERE</text>`;
 
+  // Interactive crosshair elements
+  svg += `<line id="payoff-crosshair" x1="0" y1="${PAD.top}" x2="0" y2="${PAD.top + chartH}" stroke="rgba(255,255,255,.5)" stroke-width="1" stroke-dasharray="3,2" visibility="hidden"/>`;
+  svg += `<circle id="payoff-dot" cx="0" cy="0" r="4" fill="#ff6a00" stroke="#000" stroke-width="1.5" visibility="hidden"/>`;
+  svg += `<rect id="payoff-tooltip-bg" x="0" y="0" width="120" height="38" rx="6" fill="rgba(0,0,0,.85)" stroke="rgba(255,106,0,.4)" stroke-width="1" visibility="hidden"/>`;
+  svg += `<text id="payoff-tooltip-price" x="0" y="0" text-anchor="middle" font-size="9" fill="#fff" font-weight="700" font-family="JetBrains Mono,monospace" visibility="hidden"></text>`;
+  svg += `<text id="payoff-tooltip-pnl" x="0" y="0" text-anchor="middle" font-size="8" fill="#00e676" font-weight="600" font-family="JetBrains Mono,monospace" visibility="hidden"></text>`;
+  // Invisible touch/mouse capture rect
+  svg += `<rect x="${PAD.left}" y="${PAD.top}" width="${chartW}" height="${chartH}" fill="transparent" style="cursor:crosshair;touch-action:none;" id="payoff-touch-area"/>`;
+
   svg += '</svg>';
   wrap.innerHTML = svg;
+
+  // Attach interactive events for crosshair
+  const svgEl = wrap.querySelector('svg');
+  const touchArea = document.getElementById('payoff-touch-area');
+  if (svgEl && touchArea) {
+    const _xMin=xMin, _xRange=xRange, _pnl=pnl, _toX=toX, _toY=toY, _PAD=PAD, _chartH=chartH;
+    const getPrice = (evt) => {
+      const rect = svgEl.getBoundingClientRect();
+      const pt = svgEl.createSVGPoint();
+      const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+      const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+      pt.x = clientX; pt.y = clientY;
+      const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+      return _xMin + ((svgPt.x - _PAD.left) / (W - _PAD.left - _PAD.right)) * _xRange;
+    };
+    const showCrosshair = (price) => {
+      if (price < _xMin || price > _xMin + _xRange) return;
+      const pnlVal = _pnl(price);
+      const cx = _toX(price), cy = _toY(pnlVal);
+      const ch = document.getElementById('payoff-crosshair');
+      const dot = document.getElementById('payoff-dot');
+      const bg = document.getElementById('payoff-tooltip-bg');
+      const tp = document.getElementById('payoff-tooltip-price');
+      const tl = document.getElementById('payoff-tooltip-pnl');
+      ch.setAttribute('x1',cx); ch.setAttribute('x2',cx); ch.setAttribute('visibility','visible');
+      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy); dot.setAttribute('visibility','visible');
+      const tx = Math.max(_PAD.left+62, Math.min(cx, W-_PAD.right-62));
+      const ty = Math.max(_PAD.top+48, cy-12);
+      bg.setAttribute('x',tx-60); bg.setAttribute('y',ty-38); bg.setAttribute('visibility','visible');
+      tp.setAttribute('x',tx); tp.setAttribute('y',ty-23); tp.setAttribute('visibility','visible');
+      tp.textContent = '$'+fmtPrice(price);
+      tl.setAttribute('x',tx); tl.setAttribute('y',ty-10); tl.setAttribute('visibility','visible');
+      tl.textContent = (pnlVal>=0?'+':'')+fmtPrice(pnlVal);
+      tl.setAttribute('fill', pnlVal>=0 ? '#00e676' : '#ff3d3d');
+    };
+    const hideCrosshair = () => {
+      ['payoff-crosshair','payoff-dot','payoff-tooltip-bg','payoff-tooltip-price','payoff-tooltip-pnl'].forEach(id => {
+        const el=document.getElementById(id); if(el) el.setAttribute('visibility','hidden');
+      });
+    };
+    touchArea.addEventListener('mousemove', e => showCrosshair(getPrice(e)));
+    touchArea.addEventListener('mouseleave', hideCrosshair);
+    touchArea.addEventListener('touchmove', e => { e.preventDefault(); showCrosshair(getPrice(e)); }, {passive:false});
+    touchArea.addEventListener('touchstart', e => { e.preventDefault(); showCrosshair(getPrice(e)); }, {passive:false});
+    touchArea.addEventListener('touchend', hideCrosshair);
+  }
 }
 
 // ── VIZ 1: RANGE BAR (SVG, no overflow) ──
@@ -6768,6 +6823,14 @@ function renderViz1() {
     svg += `<text x="${midX}" y="${probY}" text-anchor="middle" font-size="10" fill="rgba(${cRgb[l.k]},0.5)" font-weight="800">${probMap[l.k] || l.prob}</text>`;
   });
 
+  // Interactive crosshair elements
+  svg += `<line id="dist-crosshair" x1="0" y1="${PAD.top}" x2="0" y2="${PAD.top + plotH}" stroke="rgba(255,255,255,.5)" stroke-width="1" stroke-dasharray="3,2" visibility="hidden"/>`;
+  svg += `<circle id="dist-dot" cx="0" cy="0" r="4" fill="#ff6a00" stroke="#000" stroke-width="1.5" visibility="hidden"/>`;
+  svg += `<rect id="dist-tooltip-bg" x="0" y="0" width="130" height="38" rx="6" fill="rgba(0,0,0,.85)" stroke="rgba(255,106,0,.4)" stroke-width="1" visibility="hidden"/>`;
+  svg += `<text id="dist-tooltip-price" x="0" y="0" text-anchor="middle" font-size="9" fill="#fff" font-weight="700" font-family="JetBrains Mono,monospace" visibility="hidden"></text>`;
+  svg += `<text id="dist-tooltip-prob" x="0" y="0" text-anchor="middle" font-size="8" fill="#f5c800" font-weight="600" font-family="JetBrains Mono,monospace" visibility="hidden"></text>`;
+  svg += `<rect x="${PAD.left}" y="${PAD.top}" width="${plotW}" height="${plotH}" fill="transparent" style="cursor:crosshair;touch-action:none;" id="dist-touch-area"/>`;
+
   svg += `</svg>`;
 
   const legendItems = vis.map(l => `
@@ -6781,6 +6844,53 @@ function renderViz1() {
     <div class="v1-legend-item"><div style="width:2px;height:12px;background:#f0f0f0;border-radius:1px;flex-shrink:0;"></div> Price</div>
     ${legendItems}
   `;
+
+  // Attach interactive events for distribution crosshair
+  const svgEl = document.querySelector('#v1-bar-wrap svg');
+  const touchArea = document.getElementById('dist-touch-area');
+  if (svgEl && touchArea) {
+    const _xMin=xMin, _xRange=xRange, _lnPdf=lnPdf, _toX=toX, _toY=toY, _PAD=PAD, _maxY=maxY, _spot=spot, _sigma=sigma;
+    const getPrice = (evt) => {
+      const pt = svgEl.createSVGPoint();
+      const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+      pt.x = clientX; pt.y = 0;
+      const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+      return _xMin + ((svgPt.x - _PAD.left) / (W - _PAD.left - _PAD.right)) * _xRange;
+    };
+    const showCrosshair = (price) => {
+      if (price < _xMin || price > _xMin + _xRange) return;
+      const density = _lnPdf(price);
+      const cx = _toX(price), cy = _toY(density);
+      const ch = document.getElementById('dist-crosshair');
+      const dot = document.getElementById('dist-dot');
+      const bg = document.getElementById('dist-tooltip-bg');
+      const tp = document.getElementById('dist-tooltip-price');
+      const tl = document.getElementById('dist-tooltip-prob');
+      ch.setAttribute('x1',cx); ch.setAttribute('x2',cx); ch.setAttribute('visibility','visible');
+      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy); dot.setAttribute('visibility','visible');
+      // Determine which sigma zone this price falls in
+      const distFromSpot = Math.abs(price - _spot);
+      const sigmaCount = distFromSpot / _sigma;
+      let zoneLabel = sigmaCount < 1 ? '< 1σ (68.2%)' : sigmaCount < 2 ? '1-2σ (95.4%)' : sigmaCount < 3 ? '2-3σ (99.7%)' : '> 3σ';
+      const tx = Math.max(_PAD.left+67, Math.min(cx, W-_PAD.right-67));
+      const ty = Math.max(_PAD.top+48, cy-12);
+      bg.setAttribute('x',tx-65); bg.setAttribute('y',ty-38); bg.setAttribute('visibility','visible');
+      tp.setAttribute('x',tx); tp.setAttribute('y',ty-23); tp.setAttribute('visibility','visible');
+      tp.textContent = '$'+fmtPrice(price);
+      tl.setAttribute('x',tx); tl.setAttribute('y',ty-10); tl.setAttribute('visibility','visible');
+      tl.textContent = zoneLabel;
+    };
+    const hideCrosshair = () => {
+      ['dist-crosshair','dist-dot','dist-tooltip-bg','dist-tooltip-price','dist-tooltip-prob'].forEach(id => {
+        const el=document.getElementById(id); if(el) el.setAttribute('visibility','hidden');
+      });
+    };
+    touchArea.addEventListener('mousemove', e => showCrosshair(getPrice(e)));
+    touchArea.addEventListener('mouseleave', hideCrosshair);
+    touchArea.addEventListener('touchmove', e => { e.preventDefault(); showCrosshair(getPrice(e)); }, {passive:false});
+    touchArea.addEventListener('touchstart', e => { e.preventDefault(); showCrosshair(getPrice(e)); }, {passive:false});
+    touchArea.addEventListener('touchend', hideCrosshair);
+  }
 }
 
 // ── VIZ 2: GAUGE ARCS — σ1 innermost, σ4 outermost ──
@@ -7318,7 +7428,7 @@ async function autoFillFromDeribit() {
 let toastTimer = null;
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  t.innerHTML = msg;
   t.classList.add('show');
   if (toastTimer) clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
@@ -13798,7 +13908,7 @@ function orcChestPreview(type) {
   const d = CHEST_DATA[type];
   const qty = OC.inventory[type]||0;
   const modal = document.getElementById('op-chest-modal');
-  document.getElementById('op-cm-icon').textContent = d.icon;
+  document.getElementById('op-cm-icon').innerHTML = d.icon;
   document.getElementById('op-cm-name').textContent = d.name+' CHEST';
   document.getElementById('op-cm-desc').textContent = d.desc;
   document.getElementById('op-cm-sell-price').textContent = orcFmt(d.coinValue)+'⬡';
