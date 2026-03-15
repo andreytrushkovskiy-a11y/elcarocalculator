@@ -5662,12 +5662,14 @@ input[type=range]::-webkit-slider-thumb {
     </div>
 
     <!-- Category tabs -->
-    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+    <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center;flex-wrap:wrap;">
       <button class="agent-cat-btn active" id="agent-cat-crypto" onclick="agentSetCat('crypto')"><img loading="lazy" src="icons/34 Crypto.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Crypto <span id="agent-count-crypto" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
       <button class="agent-cat-btn" id="agent-cat-etf" onclick="agentSetCat('etf')"><img loading="lazy" src="icons/35 ETFs.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:2px;"> ETFs <span id="agent-count-etf" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
       <button class="agent-cat-btn" id="agent-cat-stocks" onclick="agentSetCat('stocks')"><img loading="lazy" src="icons/36 Stocks.webp" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:2px;"> Stocks <span id="agent-count-stocks" style="font-size:9px;background:rgba(255,255,255,.05);padding:1px 6px;border-radius:8px;">10</span></button>
+    </div>
+    <div style="margin-bottom:12px;">
       <button id="agent-add-btn" onclick="agentToggleAddForm()"
-        style="margin-left:auto;padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
+        style="padding:8px 16px;border-radius:8px;border:1px solid var(--orange);background:rgba(255,106,0,.08);font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;"
         onmouseover="this.style.background='rgba(255,106,0,.15)'" onmouseout="this.style.background='rgba(255,106,0,.08)'">
         <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         ADD ASSET
