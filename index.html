@@ -4481,7 +4481,6 @@ input[type=range]::-webkit-slider-thumb {
           <div class="viz-tabs" style="margin-bottom:0;">
             <button class="viz-tab active" onclick="setViz(5)" id="viz-tab-5">PAYOFF</button>
             <button class="viz-tab" onclick="setViz(1)" id="viz-tab-1">DISTRIBUTION</button>
-            <button class="viz-tab" onclick="setViz(2)" id="viz-tab-2">GAUGE</button>
             <button class="viz-tab" onclick="setViz(3)" id="viz-tab-3">LADDER</button>
             <button class="viz-tab" id="viz-tab-4" onclick="setViz(4)"
               title="Available after calculating 5 different expiry dates"
@@ -4500,13 +4499,6 @@ input[type=range]::-webkit-slider-thumb {
           <div class="v1-legend" id="v1-legend"></div>
         </div>
 
-        <!-- VIZ 2: Gauge arcs -->
-        <div id="viz-2" style="display:none;">
-          <div class="v2-wrap">
-            <svg id="v2-svg" width="340" height="315" viewBox="0 0 340 315" style="width:100%;max-width:340px;display:block;margin:0 auto;"></svg>
-            <div class="v2-sigma-row" id="v2-sigma-row"></div>
-          </div>
-        </div>
 
         <!-- VIZ 3: Price Ladder -->
         <div id="viz-3" style="display:none;">
