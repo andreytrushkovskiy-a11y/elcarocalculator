@@ -16306,7 +16306,7 @@ function placeBet(side) {
       // Save to myBets for MY BETS tab
       if (!OC_EXT.myBets) OC_EXT.myBets = [];
       const odds = (d.totalPool / (duelSide==='yes'?d.poolYes:d.poolNo) * 0.9);
-      OC_EXT.myBets.push({ asset:d.asset, tf:d.tf, dir:d.oracleCall, side:duelSide.toUpperCase(), amt:opCurrentBetAmt, payout:Math.round(opCurrentBetAmt*odds), date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', source:'arena' });
+      OC_EXT.myBets.push({ asset:d.asset, tf:d.tf, dir:d.oracleCall, side:duelSide.toUpperCase(), amt:opCurrentBetAmt, payout:Math.round(opCurrentBetAmt*odds), date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', source:'arena', _placed:Date.now() });
       showToast('🔮 ' + opCurrentBetAmt.toLocaleString() + '<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> staked on ' + duelSide.toUpperCase() + '! 🏆');
       return;
     }
@@ -16473,7 +16473,12 @@ document.addEventListener('keydown', e => {
 
 // ── STATE ─────────────────────────────────────────
 const OC_EXT = {
-  myBets: [],
+  myBets: [
+    { asset:'BTC', tf:'4H', dir:'BULL', side:'YES', amt:500, payout:1125, date:'28 Feb 26', status:'won', source:'verdict', _placed:0 },
+    { asset:'GOLD', tf:'1D', dir:'BULL', side:'YES', amt:200, payout:450, date:'01 Mar 26', status:'won', source:'verdict', _placed:0 },
+    { asset:'SPX', tf:'1W', dir:'BEAR', side:'NO', amt:300, payout:525, date:'05 Mar 26', status:'lost', source:'verdict', _placed:0 },
+    { asset:'ETH', tf:'4H', dir:'BULL', side:'YES', amt:200, payout:480, date:'10 Mar 26', status:'won', source:'arena', _placed:0 },
+  ],
   bpLevel: 12,
   bpXP: 840,
   bpXPMax: 1000,
@@ -16607,7 +16612,7 @@ function confirmVerdictBet() {
   // Save to myBets for MY BETS tab
   if (!OC_EXT.myBets) OC_EXT.myBets = [];
   const mult = _vbSide==='yes' ? 2.25 : 1.75;
-  OC_EXT.myBets.push({ asset:_vbAsset, tf:_vbTF, dir:_vbSide==='yes'?'BULL':'BEAR', side:_vbSide.toUpperCase(), amt:_vbStake, payout:Math.round(_vbStake*mult), date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', source:'verdict' });
+  OC_EXT.myBets.push({ asset:_vbAsset, tf:_vbTF, dir:_vbSide==='yes'?'BULL':'BEAR', side:_vbSide.toUpperCase(), amt:_vbStake, payout:Math.round(_vbStake*mult), date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', source:'verdict', _placed:Date.now() });
   showToast('🔮 Verdict placed! '+_vbStake+'<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-left:2px;"> on '+_vbSide.toUpperCase()+' · '+_vbAsset+' '+_vbTF);
   opAdvanceQuest && opAdvanceQuest('wq2');
   ocSave();
@@ -17277,9 +17282,39 @@ function renderOracleCard() {
   if (days) days.textContent = OC.daysActive||1;
 }
 
+// ── BET AUTO-RESOLUTION ──────────────────────────
+// Resolve active bets after ~2 hours with 60% win rate
+function autoResolveBets() {
+  if (!OC_EXT.myBets || !OC_EXT.myBets.length) return;
+  var changed = false;
+  var now = Date.now();
+  OC_EXT.myBets.forEach(function(b) {
+    if (b.status !== 'active') return;
+    if (!b._placed) b._placed = now - Math.floor(Math.random() * 3600000);
+    var elapsed = now - b._placed;
+    if (elapsed > 7200000) { // 2 hours
+      var won = Math.random() < 0.6;
+      b.status = won ? 'won' : 'lost';
+      b.date = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'});
+      if (won) {
+        OC.coins += b.payout;
+        OC.accuracy = Math.min(100, (OC.accuracy||0) + 1);
+      }
+      changed = true;
+    }
+  });
+  if (changed) {
+    oracleRenderVaultCoins();
+    ocSave();
+  }
+}
+// Check every 5 minutes
+setInterval(autoResolveBets, 300000);
+
 // ── INIT ──────────────────────────────────────────
 (function initNewFeatures() {
   renderBattlePass();
+  autoResolveBets(); // Resolve any pending bets on load
   // Render DNA when oracle panel opens (canvas needs to be visible)
   const origOpen = window.oracleOpen || function(){};
   // Hook into profile tab activation
@@ -18905,7 +18940,7 @@ function ocPlaceBet(side) {
   const tf     = ocState.currentBet?.tf    || '?';
   const dir    = ocState.currentBet?.dir   || '';
   OC.coins -= ocState.betAmt;
-  const bet = { asset, tf, dir, side, amt: ocState.betAmt, payout, date: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active' };
+  const bet = { asset, tf, dir, side, amt: ocState.betAmt, payout, date: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}), status:'active', _placed:Date.now() };
   ocState.activeBets.push(bet);
   if (!OC_EXT.myBets) OC_EXT.myBets = [];
   OC_EXT.myBets.push(bet);
