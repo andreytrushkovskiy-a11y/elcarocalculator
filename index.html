@@ -18756,11 +18756,13 @@ const ASSET_ICONS = { BTC:'₿', ETH:'Ξ', SOL:'◎', GOLD:'<img src="icons/REWA
 function ocSwitchTab(tabName) {
   const tabs = ['prophecies','mybets','leaderboard','traders'];
   tabs.forEach(t => {
-    document.getElementById('oc-ot-' + t).classList.toggle('active', t === tabName);
+    const tabEl = document.getElementById('oc-ot-' + t);
+    if (tabEl) tabEl.classList.toggle('active', t === tabName);
     const v = document.getElementById('oc-view-' + t);
     if (v) v.style.display = (t === tabName) ? 'block' : 'none';
   });
-  document.getElementById('oc-oracle-scroll').scrollTop = 0;
+  const scrollEl = document.getElementById('oc-oracle-scroll');
+  if (scrollEl) scrollEl.scrollTop = 0;
   if (tabName === 'prophecies')  renderOracleCallsBets();
   if (tabName === 'mybets')     ocRenderMyBets();
   if (tabName === 'leaderboard') ocRenderLeaderboard();
