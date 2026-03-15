@@ -11871,12 +11871,12 @@ function initSigmaButtons() {
             <div style="font-size:9px;font-weight:700;background:rgba(255,215,0,.1);color:#ffd700;border-radius:7px;padding:2px 6px;">5,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
         </div>
-        <div style="padding:0 12px 16px;">
-          <div class="chest-card" style="border-color:#a8edff;text-align:center;width:100%;" onclick="orcBuyChest('diamond')">
-            <div><img loading="lazy" src="icons/diamond chest.webp" style="width:150px;height:150px;object-fit:contain;"></div>
-            <div style="font-size:13px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
-            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:6px;">10+ forecasts · All timeframes</div>
-            <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 8px;display:inline-block;">15,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
+        <div style="padding:0 12px 16px;display:flex;justify-content:center;">
+          <div class="chest-card" style="border-color:#a8edff;text-align:center;width:calc(50% - 4px);" onclick="orcBuyChest('diamond')">
+            <div><img loading="lazy" src="icons/diamond chest.webp" style="width:120px;height:120px;object-fit:contain;"></div>
+            <div style="font-size:11px;font-weight:700;color:#a8edff;margin:4px 0 2px;">DIAMOND</div>
+            <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;margin-bottom:5px;">10+ forecasts</div>
+            <div style="font-size:9px;font-weight:700;background:rgba(168,237,255,.1);color:#a8edff;border-radius:7px;padding:2px 6px;display:inline-block;">15,000<img src="icons/REWARDS coin.webp" style="width:10px;height:10px;object-fit:contain;border-radius:50%;vertical-align:middle;"></div>
           </div>
         </div>
       </div>
@@ -13719,19 +13719,31 @@ function oracleCheckin() {
 function oracleRenderInventory() {
   const wrap = document.getElementById('op-my-chests');
   if (!wrap) return;
-  const types = ['wood','bronze','silver','gold','diamond'];
-  wrap.innerHTML = types.map(t=>{
+  const regular = ['wood','bronze','silver','gold'];
+  let html = regular.map(t=>{
     const d = CHEST_DATA[t];
     const qty = OC.inventory[t]||0;
     return `<div class="chest-card" style="border-color:${d.border}${qty===0?';opacity:.4':''};"
       onclick="orcChestPreview('${t}')">
       ${qty>0?`<div class="chest-count">${qty}</div>`:''}
-      <div style="font-size:${t==='diamond'?'36':'32'}px;${qty===0?'filter:grayscale(1);':''}">${d.icon}</div>
+      <div style="font-size:32px;${qty===0?'filter:grayscale(1);':''}">${d.icon}</div>
       <div style="font-size:11px;font-weight:700;color:${d.color};margin:4px 0 2px;">${d.name}</div>
       <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;">${d.desc.split('·')[0].trim()}</div>
       ${qty===0?`<div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:3px;">NOT OWNED</div>`:''}
     </div>`;
   }).join('');
+  // Diamond — centered below, same card size
+  const dd = CHEST_DATA.diamond;
+  const dq = OC.inventory.diamond||0;
+  html += `</div><div style="padding:0 12px 4px;display:flex;justify-content:center;"><div class="chest-card" style="border-color:${dd.border}${dq===0?';opacity:.4':''};width:calc(50% - 4px);"
+    onclick="orcChestPreview('diamond')">
+    ${dq>0?`<div class="chest-count">${dq}</div>`:''}
+    <div style="font-size:36px;${dq===0?'filter:grayscale(1);':''}">${dd.icon}</div>
+    <div style="font-size:11px;font-weight:700;color:${dd.color};margin:4px 0 2px;">${dd.name}</div>
+    <div style="font-size:8px;color:#888;font-family:'Space Mono',monospace;">${dd.desc.split('·')[0].trim()}</div>
+    ${dq===0?`<div style="font-size:8px;color:#555;font-family:'Space Mono',monospace;margin-top:3px;">NOT OWNED</div>`:''}
+  </div>`;
+  wrap.innerHTML = html;
 }
 
 // ══════════════════════════════════════════════════
