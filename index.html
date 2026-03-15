@@ -10798,11 +10798,20 @@ async function fgiLoadHistory() {
   try {
     const res = await fetch('https://elcaro-vip-feed.elcaro-feed.workers.dev/fgi-proxy?limit=0&format=json');
     const data = await res.json();
-    _fgiFullData = data.data.map(d => ({
-      value: parseInt(d.value),
-      label: d.value_classification,
-      ts: isNaN(Number(d.timestamp)) ? new Date(d.timestamp).getTime() : parseInt(d.timestamp) * 1000
-    })).filter(d => !isNaN(d.ts)).reverse(); // oldest first
+    _fgiFullData = data.data.map(d => {
+      let ts;
+      const t = d.timestamp;
+      if (!isNaN(Number(t)) && Number(t) > 1e9) {
+        ts = parseInt(t) * 1000;
+      } else if (typeof t === 'string' && /^\d{2}-\d{2}-\d{4}$/.test(t)) {
+        // MM-DD-YYYY → YYYY-MM-DD for reliable cross-browser parsing
+        const [mm,dd,yyyy] = t.split('-');
+        ts = new Date(`${yyyy}-${mm}-${dd}T00:00:00Z`).getTime();
+      } else {
+        ts = new Date(t).getTime();
+      }
+      return { value: parseInt(d.value), label: d.value_classification, ts };
+    }).filter(d => !isNaN(d.ts) && d.ts > 0).reverse(); // oldest first
     if (loading) loading.style.display = 'none';
     fgiRenderChart();
     fgiRenderStats();
